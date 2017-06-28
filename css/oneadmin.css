@@ -1,0 +1,164 @@
+*{
+	margin: 0;
+	padding: 0;
+	font: normal 10pt Arial,Helvetica,sans-serif;
+}
+.one-header{
+	border-bottom: 2px solid #000;
+    padding-bottom: 10px;
+    margin-bottom: 10px;
+    clear: both;
+    height: 122px;
+}
+.one-header > img {
+	height: 120px;
+    float: left;
+}
+.one-header > div{
+	text-align: right;
+    font-weight: bold;
+    position: absolute;
+    right: 10px;
+}
+.one-sub-header{
+	clear: both;
+    height: 20px;
+}
+.left{
+	flat: left;
+}
+.right{
+	flat: right;
+}
+
+p{
+	margin: 0;
+	clear: both;
+}
+
+.one-table tr,
+.one-table td,
+.one-table th{
+	border: 1px Solid #000;
+	border-collapse: collapse;
+	border-spacing: 0;
+	margin: 0 auto;
+	width: 600px;
+}
+
+@media print{
+	#page{border: none; }
+	#mainmenu, #footer{display: none}
+	.one-table{
+		border: 1px; 
+		border-collapse: collapse;
+		border-color: #000000; 
+	}
+}
+
+
+ul.tab {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    /*border: 1px solid #ccc;*/
+    /*background-color: #f1f1f1;*/
+}
+
+/* Float the list items side by side */
+ul.tab li {float: left;}
+
+/* Style the links inside the list items */
+ul.tab li a {
+    display: inline-block;
+    color: black;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+    transition: 0.3s;
+    font-size: 17px;
+}
+
+/* Change background color of links on hover */
+ul.tab li a:hover {
+    background-color: #ddd;
+}
+
+/* Create an active/current tablink class */
+ul.tab li a:focus, .active {
+    background-color: #ccc;
+}
+
+/* Style the tab content */
+.tabcontent {
+    display: none;
+    padding: 6px 12px;
+    border: 1px solid #ccc;
+    border-top: none;
+	min-height: 1200px;
+}
+
+.pay-schedule-table{
+	table-layout: fixed;
+	width: 100%;
+}
+.pay-schedule-table.small{
+	width: 600px;
+	display: block;
+	margin: 0 auto;
+}
+.pay-schedule-table tr, 
+.pay-schedule-table th, 
+.pay-schedule-table td {
+	text-align: center;
+}
+.pay-schedule-table thead, 
+.pay-schedule-table th{    
+	background: none !important;
+    border-bottom: 1px solid #000;
+    border-top: 1px solid #000;
+	font-weight: bold;
+	background-color: #CCC !important;
+}
+.pay-schedule-table tfoot th{    
+	border-top: none;
+}
+.pay-schedule-table td{    
+    border-bottom: 1px solid #000;
+}
+.pay-schedule-table .right-br{    
+    border-right: 1px solid #000;
+}
+.pay-schedule-table .left-br{    
+    border-left: 1px solid #000;
+}
+.pay-schedule-table .small-xxx{
+	width: 50px;
+}
+.pay-schedule-table .small-xx{
+	width: 100px;
+}
+.pay-schedule-table .small-x{
+	width: 150px;
+}
+.pay-schedule-table .small{
+	width: 200px;
+}
+.action-menu{position: fixed;
+    right: 15px;
+    background: #EFFDFF;
+    top: 40px;
+    overflow-y: auto;
+    height: 768px;} 
+.action-menu p{ padding: 5px 10px;}
+.action-menu p a{ text-decoration: none;color: #0066A4;font-weight: bold;}
+.action-menu > div { background: #B7D6E7;border-left: 5px solid #6FACCF;}
+.small-container{
+	border: 1px solid #ccc;
+    padding: 10px;
+    max-height: 150px;
+    overflow: auto;
+    background: #fdfdfd;
+    width: 375px;
+}
