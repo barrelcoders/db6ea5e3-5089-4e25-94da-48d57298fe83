@@ -1,5 +1,5 @@
 <style>td, th {text-align: center;}</style>
-<link href="/oneadmin/css/oneadmin.css" rel="stylesheet">
+<link href="<?php echo Yii::app()->request->baseUrl; ?>/css/oneadmin.css" rel="stylesheet">
 <?php 
 	$id=0;
 	if(isset($_GET)){

@@ -9,7 +9,7 @@
 ?>
 <style>td {text-align: center;}.one-table.small td, .one-table.small th{font-size: 10px;}</style>
 
-<link href="/oneadmin/css/oneadmin.css" rel="stylesheet">
+<link href="<?php echo Yii::app()->request->baseUrl; ?>/css/oneadmin.css" rel="stylesheet">
 <?php
 	
 	$monthName = array('1'=>'January', '2'=>'February', '3'=>'March', '4'=>'April', '5'=>'May', '6'=>'June', '7'=>'July', '8'=>'August', '9'=>'September', '10'=>'October', '11'=>'November', '12'=>'December');

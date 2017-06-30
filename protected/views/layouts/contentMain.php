@@ -113,7 +113,7 @@
 	                <li><a href="<?php echo Yii::app()->createUrl('Employee/create');?>"><span class="lbl">Create Employee</span></a></li>
 	                <li><a href="<?php echo Yii::app()->createUrl('Employee/admin');?>"><span class="lbl">Manage Employees</span></a></li>
 	                <li><a href="<?php echo Yii::app()->createUrl('Investments/showInvestments');?>"><span class="lbl">Manage Employee Investments</span></a></li>
-	                <li><a href="<?php echo Yii::app()->createUrl('Employee/generateLPC');?>"><span class="lbl">Generate LPC</span></a></li>
+	                <li><a href="<?php echo Yii::app()->createUrl('Employee/generateLPC');?>"><span class="lbl">Last Pay Certificate</span></a></li>
 	            </ul>
 	        </li>
 			<li class="grey with-sub">
