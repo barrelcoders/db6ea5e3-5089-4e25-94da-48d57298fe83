@@ -1,29 +1,23 @@
 <?php
 
 /**
- * This is the model class for table "tbl_pao_expenditure".
+ * This is the model class for table "tbl_employee_lic_policies".
  *
- * The followings are the available columns in table 'tbl_pao_expenditure':
+ * The followings are the available columns in table 'tbl_employee_lic_policies':
  * @property string $ID
- * @property string $SALARY
- * @property string $MEDICAL
- * @property string $DTE
- * @property string $OE
- * @property string $RRT
- * @property string $IT_SAL
- * @property string $IT_ECSS
- * @property string $IT_HCESS
- * @property string $MONTH
- * @property string $YEAR
+ * @property string $EMPLOYEE_ID_FK
+ * @property string $POLICY_NO
+ * @property string $AMOUNT
+ * @property integer $STATUS
  */
-class PAOExpenditure extends CActiveRecord
+class EmployeeLICPolicies extends CActiveRecord
 {
 	/**
 	 * @return string the associated database table name
 	 */
 	public function tableName()
 	{
-		return 'tbl_pao_expenditure';
+		return 'tbl_employee_lic_policies';
 	}
 
 	/**
@@ -34,10 +28,13 @@ class PAOExpenditure extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('SALARY, MEDICAL, DTE, OE, RRT, IT_SAL, IT_ECSS, IT_HCESS, MONTH, YEAR, DATE, IT_NON_SAL, WAGES', 'length', 'max'=>10),
+			array('EMPLOYEE_ID_FK, POLICY_NO, AMOUNT, STATUS', 'required'),
+			array('STATUS', 'numerical', 'integerOnly'=>true),
+			array('EMPLOYEE_ID_FK, AMOUNT', 'length', 'max'=>10),
+			array('POLICY_NO', 'length', 'max'=>45),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('ID, SALARY, MEDICAL, DTE, OE, RRT, IT_SAL, IT_ECSS, IT_HCESS, MONTH, YEAR, DATE, IT_NON_SAL, WAGES', 'safe', 'on'=>'search'),
+			array('ID, EMPLOYEE_ID_FK, POLICY_NO, AMOUNT, STATUS', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -59,19 +56,10 @@ class PAOExpenditure extends CActiveRecord
 	{
 		return array(
 			'ID' => 'ID',
-			'SALARY' => 'SALARY',
-			'MEDICAL' => 'MEDICAL',
-			'DTE' => 'DTE',
-			'OE' => 'OE',
-			'RRT' => 'RRT',
-			'IT_SAL' => 'IT SALARY',
-			'IT_ECSS' => 'IT E. CESS',
-			'IT_HCESS' => 'IT H. CESS',
-			'MONTH' => 'Month',
-			'YEAR' => 'Year',
-			'DATE' => 'DATE',
-			'IT_NON_SAL'=>'IT NON SALARY',
-			'WAGES'=>'WAGES'
+			'EMPLOYEE_ID_FK' => 'Employee Id Fk',
+			'POLICY_NO' => 'Policy No',
+			'AMOUNT' => 'Amount',
+			'STATUS' => 'Status',
 		);
 	}
 
@@ -94,20 +82,10 @@ class PAOExpenditure extends CActiveRecord
 		$criteria=new CDbCriteria;
 
 		$criteria->compare('ID',$this->ID,true);
-		$criteria->compare('SALARY',$this->SALARY,true);
-		$criteria->compare('MEDICAL',$this->MEDICAL,true);
-		$criteria->compare('DTE',$this->DTE,true);
-		$criteria->compare('OE',$this->OE,true);
-		$criteria->compare('RRT',$this->RRT,true);
-		$criteria->compare('IT_SAL',$this->IT_SAL,true);
-		$criteria->compare('IT_ECSS',$this->IT_ECSS,true);
-		$criteria->compare('IT_HCESS',$this->IT_HCESS,true);
-		$criteria->compare('MONTH',$this->MONTH,true);
-		$criteria->compare('YEAR',$this->YEAR,true);
-		$criteria->compare('DATE',$this->DATE,true);
-		$criteria->compare('IT_NON_SAL',$this->IT_NON_SAL,true);
-		$criteria->compare('WAGES',$this->WAGES,true);
-		
+		$criteria->compare('EMPLOYEE_ID_FK',$this->EMPLOYEE_ID_FK,true);
+		$criteria->compare('POLICY_NO',$this->POLICY_NO,true);
+		$criteria->compare('AMOUNT',$this->AMOUNT,true);
+		$criteria->compare('STATUS',$this->STATUS);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
@@ -118,7 +96,7 @@ class PAOExpenditure extends CActiveRecord
 	 * Returns the static model of the specified AR class.
 	 * Please note that you should have this exact method in all your CActiveRecord descendants!
 	 * @param string $className active record class name.
-	 * @return PAOExpenditure the static model class
+	 * @return EmployeeLICPolicies the static model class
 	 */
 	public static function model($className=__CLASS__)
 	{

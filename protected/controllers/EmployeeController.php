@@ -58,6 +58,7 @@ class EmployeeController extends Controller
 	public function actionCreate()
 	{
 		$model=new Employee;
+		$licModel=new EmployeeLICPolicies;
 
 		// Uncomment the following line if AJAX validation is needed
 		// $this->performAjaxValidation($model);
@@ -71,6 +72,16 @@ class EmployeeController extends Controller
 			$model->ORG_RETIRE_DATE = $_POST['Employee']['ORG_RETIRE_DATE'] ? $_POST['Employee']['ORG_RETIRE_DATE'] : NULL;
 			$model->PRESENT_PROMOTION_DATE = $_POST['Employee']['PRESENT_PROMOTION_DATE'] ? $_POST['Employee']['PRESENT_PROMOTION_DATE'] : NULL;
 			if($model->save(false)){
+				$lic_policies = $_POST['Employee']['LIC'];
+				foreach($lic_policies as $policy){
+					$EmployeeLICPolicies = new EmployeeLICPolicies;
+					$EmployeeLICPolicies->EMPLOYEE_ID_FK = $model->ID;
+					$EmployeeLICPolicies->POLICY_NO = $policy['POLICY_NO'];
+					$EmployeeLICPolicies->AMOUNT = $policy['AMOUNT'];
+					$EmployeeLICPolicies->STATUS = $policy['STATUS'];
+					$EmployeeLICPolicies->save(false);
+				}
+				
 				$Users = new Users;
 				$array = explode(" ",$model->NAME);
 				$username = strtolower($array[count($array)-1]);
@@ -79,12 +90,14 @@ class EmployeeController extends Controller
 				$Users->TYPE = $_POST['Employee']['PERMISSION'];
 				$Users->EMPLOYEE_ID = $model->ID;
 				$Users->save(false);
-				$this->redirect(array('admin'));
+				echo "<script type='text/javascript'>alert('Employee created Successfully');</script>";
+				$this->redirect(array('create'));
 			}
 		}
 
 		$this->render('create',array(
 			'model'=>$model,
+			'licModel'=>$licModel,
 		));
 	}
 	
@@ -95,9 +108,11 @@ class EmployeeController extends Controller
 		{
 			$model=$this->loadModel($_POST['Employee']['ID']);
 			$model->IS_TRANSFERRED = 1;
-			$model->DEPT_RELIEF_DATE = $_POST['Employee']['DEPT_RELIEF_DATE'];
+			$model->DEPT_RELIEF_DATE = $_POST['Employee']['DEPT_RELIEF_DATE'] ? $_POST['Employee']['DEPT_RELIEF_DATE'] : NULL;
 			$model->TRANSFERED_TO = $_POST['Employee']['TRANSFERED_TO'];
 			$model->TRANSFER_ORDER = $_POST['Employee']['TRANSFER_ORDER'];
+			
+
 			if($model->save(false)){
 				echo "<script type='text/javascript'>alert('Employee relieved Successfully');</script>";
 			}
@@ -202,8 +217,20 @@ class EmployeeController extends Controller
 			$model->DEPT_RELIEF_DATE = $_POST['Employee']['DEPT_RELIEF_DATE'] ? $_POST['Employee']['DEPT_RELIEF_DATE'] : NULL;
 			$model->ORG_JOIN_DATE = $_POST['Employee']['ORG_JOIN_DATE'] ? $_POST['Employee']['ORG_JOIN_DATE'] : NULL;
 			$model->ORG_RETIRE_DATE = $_POST['Employee']['ORG_RETIRE_DATE'] ? $_POST['Employee']['ORG_RETIRE_DATE'] : NULL;
+			$model->PRESENT_PROMOTION_DATE = $_POST['Employee']['PRESENT_PROMOTION_DATE'] ? $_POST['Employee']['PRESENT_PROMOTION_DATE'] : NULL;
 			if($model->save(false)){
-				$this->redirect(array('admin'));
+				$lic_policies = $_POST['Employee']['LIC'];
+				foreach($lic_policies as $policy){
+					$EmployeeLICPolicies = new EmployeeLICPolicies;
+					$EmployeeLICPolicies->EMPLOYEE_ID_FK = $model->ID;
+					$EmployeeLICPolicies->POLICY_NO = $policy['POLICY_NO'];
+					$EmployeeLICPolicies->AMOUNT = $policy['AMOUNT'];
+					$EmployeeLICPolicies->STATUS = $policy['STATUS'];
+					$EmployeeLICPolicies->save(false);
+				}
+				
+				echo "<script type='text/javascript'>alert('Employee created Successfully');</script>";
+				$this->redirect(Yii::app()->createUrl('Employee/update', array('id'=>$id)));
 			}
 		}
 

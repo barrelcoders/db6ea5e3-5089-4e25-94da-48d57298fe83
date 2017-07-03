@@ -25,7 +25,7 @@ $this->menu=array(
 		</div>
 	</header>
 	<div class="box-typical box-typical-padding">
-		<?php $this->renderPartial('_form', array('model'=>$model)); ?>
+		<?php $this->renderPartial('_form', array('model'=>$model, 'licModel'=>$licModel)); ?>
 	</div>
 </div>
 

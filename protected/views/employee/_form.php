@@ -1,15 +1,63 @@
-<?php $form=$this->beginWidget('CActiveForm', array(
-	'id'=>'employee-form',
-	// Please note: When you enable ajax validation, make sure the corresponding
-	// controller action is handling ajax validation correctly.
-	// There is a call to performAjaxValidation() commented in generated controller code.
-	// See class documentation of CActiveForm for details on this.
-	'enableAjaxValidation'=>false,
-)); 
+	<script>
+	var date = '<?php echo $model->DOB;?>';
+	if(date != ''){
+		dob = moment(date), retire_date = "";
+		if(dob.date() == 1){
+			retire_date = moment(dob.add(60, "years")).subtract(1,'months').endOf('month').format('YYYY-MM-DD');
+		}
+		else{
+			retire_date = dob.add(60, "years").endOf('month').format('YYYY-MM-DD');
+		}
+		$("#Employee_ORG_RETIRE_DATE").val(retire_date);
+	}
+	$(document).ready(function(){
+		$('#Employee_DOB').change(function(){
+			dob = moment($(this).val()), retire_date = "";
+			if(dob.date() == 1){
+				retire_date = moment(dob.add(60, "years")).subtract(1,'months').endOf('month').format('YYYY-MM-DD');
+			}
+			else{
+				retire_date = dob.add(60, "years").endOf('month').format('YYYY-MM-DD');
+			}
+			$("#Employee_ORG_RETIRE_DATE").val(retire_date);
+			
+		});
+	});
+	function deleteRow(row)
+	{
+		var i=row.parentNode.parentNode.rowIndex;
+		document.getElementById('LICTable').deleteRow(i);
+	}
 
 
-?>
+	function insRow()
+	{
+		var x=document.getElementById('LICTable');
+		var new_row = x.rows[1].cloneNode(true);
+		var len = x.rows.length;
+		
+		var inp1 = new_row.cells[0].getElementsByTagName('input')[0];
+		inp1.name = "Employee[LIC]["+len+"][POLICY_NO]";
+		inp1.value = '';
+		var inp2 = new_row.cells[1].getElementsByTagName('input')[0];
+		inp2.name = "Employee[LIC]["+len+"][AMOUNT]";
+		inp2.value = '';
+		var inp3 = new_row.cells[2].getElementsByTagName('select')[0];
+		inp3.name = "Employee[LIC]["+len+"][STATUS]";
+		inp3.value = '';
+		x.appendChild( new_row );
+	}
+	</script>
 
+	<?php $form=$this->beginWidget('CActiveForm', array(
+		'id'=>'employee-form',
+		// Please note: When you enable ajax validation, make sure the corresponding
+		// controller action is handling ajax validation correctly.
+		// There is a call to performAjaxValidation() commented in generated controller code.
+		// See class documentation of CActiveForm for details on this.
+		'enableAjaxValidation'=>false,
+	)); 
+	?>
 	<div class="row">
 		<div class="col-sm-6">
 			<div class="form-group row">
@@ -125,14 +173,6 @@
 					</p>
 				</div>
 			</div>
-			<div class="form-group row">
-				<label class='col-sm-2 form-control-label'></label>
-				<div class="col-sm-10">
-					<p class="form-control-static">
-						<?php echo CHtml::submitButton($model->isNewRecord ? 'Create' : 'Save', array('class'=>'btn btn-inline')); ?>
-					</p>
-				</div>
-			</div>
 		</div>
 		<div class="col-sm-6">
 			<div class="form-group row">
@@ -148,7 +188,6 @@
 									'showAnim'=>'fold',
 								),
 								'htmlOptions'=>array(
-									'style'=>'height:20px;',
 									'disabled'=>Yii::app()->controller->action->id == 'update'
 								),
 							));	?>
@@ -168,7 +207,6 @@
 									'showAnim'=>'fold',
 								),
 								'htmlOptions'=>array(
-									'style'=>'height:20px;',
 									'disabled'=>Yii::app()->controller->action->id == 'update'
 								),
 							));	?>
@@ -196,12 +234,13 @@
 									'showAnim'=>'fold',
 								),
 								'htmlOptions'=>array(
-									'style'=>'height:20px;',
 									'disabled'=>Yii::app()->controller->action->id == 'update'
 								),
 							));	?>
+							<?php echo $form->dropDownList($model,'ORG_JOIN_TIME',array(''=>'', 'F/N'=>'F/N', 'A/N'=>'A/N'), array('options'=>array($model->ORG_JOIN_TIME=>array('selected'=>true)))); ?>
 					</p>
 				</div>
+				
 			</div>
 			<div class="form-group row">
 				<?php echo $form->labelEx($model,'JOIN_DESIGNATION_ID_FK', array('class'=>'col-sm-2 form-control-label')); ?>
@@ -227,7 +266,6 @@
 									'showAnim'=>'fold',
 								),
 								'htmlOptions'=>array(
-									'style'=>'height:20px;',
 									'disabled'=>Yii::app()->controller->action->id == 'update',
 								),
 							));
@@ -248,10 +286,10 @@
 									'showAnim'=>'fold',
 								),
 								'htmlOptions'=>array(
-									'style'=>'height:20px;',
 									'disabled'=>Yii::app()->controller->action->id == 'update'
 								),
 							));	?>
+							<?php echo $form->dropDownList($model,'DEPT_JOIN_TIME',array(''=>'', 'F/N'=>'F/N', 'A/N'=>'A/N'), array('options'=>array($model->DEPT_JOIN_TIME=>array('selected'=>true)))); ?>
 					</p>
 				</div>
 			</div>
@@ -268,10 +306,10 @@
 									'showAnim'=>'fold',
 								),
 								'htmlOptions'=>array(
-									'style'=>'height:20px;',
 									'disabled'=>Yii::app()->controller->action->id == 'update'
 								),
 							));	?>
+							<?php echo $form->dropDownList($model,'DEPT_RELIEF_TIME',array(''=>'', 'F/N'=>'F/N', 'A/N'=>'A/N'), array('options'=>array($model->DEPT_RELIEF_TIME=>array('selected'=>true)))); ?>
 					</p>
 				</div>
 			</div>
@@ -288,7 +326,6 @@
 									'showAnim'=>'fold',
 								),
 								'htmlOptions'=>array(
-									'style'=>'height:20px;',
 									'disabled'=>Yii::app()->controller->action->id == 'update'
 								),
 							));	?>
@@ -329,33 +366,93 @@
 			</div>
 		</div>
 	</div>
+	<?php  if(strtolower(Yii::app()->controller->action->id) == 'update'){ ?>
+	<div class="row">
+		<div class="col-sm-6">
+			<div class="form-group row">
+				<label class="col-sm-2 form-control-label">LIC Policies</label>
+				<style> #LICTable input[type=text] {width: 150px;} </style>
+				<div class="col-sm-10">
+					<table id="LICTable" border="1">
+						<tr>
+							<td>Policy No</td>
+							<td>Amount</td>
+							<td>Status</td>
+							<td></td>
+							<td></td>
+						</tr>
+						<?php
+							
+							$EmployeeLICPolicies = new EmployeeLICPolicies;
+							$policies = $EmployeeLICPolicies->findAllByAttributes(array('EMPLOYEE_ID_FK'=>$model->ID));
+							foreach($policies as $policy){
+								?>
+								<tr>
+									<td><input type="text" size="10" value="<?php echo $policy->POLICY_NO; ?>" disabled /></td>
+									<td><input type="text" size="10" value="<?php echo $policy->AMOUNT; ?>" disabled/></td>
+									<td><select disabled><option value="1" <?php echo ($policy->STATUS == 1) ? "selected" : "";?>>ACTIVE</option><option value="0" <?php echo ($policy->STATUS == 0) ? "selected" : "";?>>IN ACTIVE</option></select></td>
+									<td></td>
+									<td></td>
+								</tr>
+								<?php
+							}
+						?>
+						<tr>
+							<td><input type="text" size="10" name="Employee[LIC][0][POLICY_NO]"/></td>
+							<td><input type="text" size="10" name="Employee[LIC][0][AMOUNT]"/></td>
+							<td><select name="Employee[LIC][0][STATUS]"><option value="1">ACTIVE</option><option value="0">IN ACTIVE</option></select></td>
+							<td><input type="button" id="delSubBillbutton" value="Delete" onclick="deleteRow(this)"/></td>
+							<td><input type="button" id="addSubBillbutton" value="Add Policy" onclick="insRow()"/></td>
+						</tr>
+					</table>
+				</div>
+			</div>
+		</div>
+		<div class="col-sm-6"></div>
+	</div>
+	<?php  } else if(strtolower(Yii::app()->controller->action->id) == 'create'){ ?>	
+		<div class="row">
+			<div class="col-sm-6">
+				<div class="form-group row">
+					<label class="col-sm-2 form-control-label">LIC POLICIES</label>
+					<style> #LICTable input[type=text] {width: 150px;}</style>
+					<div class="col-sm-10">
+						<table id="LICTable" border="1" class="form-control-static">
+							<tr>
+								<td>Policy No</td>
+								<td>Amount</td>
+								<td>Status</td>
+								<td></td>
+								<td></td>
+							</tr>
+							<tr>
+								<td><input type="text" size="10" name="Employee[LIC][0][POLICY_NO]"/></td>
+								<td><input type="text" size="10" name="Employee[LIC][0][AMOUNT]"/></td>
+								<td><select name="Employee[LIC][0][STATUS]"><option value="1">ACTIVE</option><option value="0">IN ACTIVE</option></select></td>
+								<td><input type="button" id="delSubBillbutton" value="Delete" onclick="deleteRow(this)"/></td>
+								<td><input type="button" id="addSubBillbutton" value="Add Policy" onclick="insRow()"/></td>
+							</tr>
+						</table>
+					</div>
+				</div>
+				
+			</div>
+			<div class="col-sm-6"></div>
+		</div>
+	<?php }  ?>
 	
-
-<script>
-	var date = '<?php echo $model->DOB;?>';
-	if(date != ''){
-		dob = moment(date), retire_date = "";
-		if(dob.date() == 1){
-			retire_date = moment(dob.add(60, "years")).subtract(1,'months').endOf('month').format('YYYY-MM-DD');
-		}
-		else{
-			retire_date = dob.add(60, "years").endOf('month').format('YYYY-MM-DD');
-		}
-		$("#Employee_ORG_RETIRE_DATE").val(retire_date);
-	}
-	$(document).ready(function(){
-		$('#Employee_DOB').change(function(){
-			dob = moment($(this).val()), retire_date = "";
-			if(dob.date() == 1){
-				retire_date = moment(dob.add(60, "years")).subtract(1,'months').endOf('month').format('YYYY-MM-DD');
-			}
-			else{
-				retire_date = dob.add(60, "years").endOf('month').format('YYYY-MM-DD');
-			}
-			$("#Employee_ORG_RETIRE_DATE").val(retire_date);
-			
-		});
-	});
+	<div class="row">
+		<div class="col-sm-6">
+			<div class="form-group row">
+				<label class='col-sm-2 form-control-label'></label>
+				<div class="col-sm-10">
+					<p class="form-control-static">
+						<?php echo CHtml::submitButton($model->isNewRecord ? 'Create' : 'Save', array('class'=>'btn btn-inline')); ?>
+					</p>
+				</div>
+			</div>
+		</div>
+		<div class="col-sm-16"></div>
+	</div>
+	<?php $this->endWidget(); ?>
 	
-</script>	
-<?php $this->endWidget(); ?>

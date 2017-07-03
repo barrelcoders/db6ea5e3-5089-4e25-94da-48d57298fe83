@@ -152,12 +152,34 @@ Ministry / Department / Office  <b><?php echo $master->OFFICE_NAME_HINDI;?>/<?ph
 <br>
 <p>1)  GPF Adv ; Rs…….….., drawn in  ………. Rs……….../- recoverable in ……………. Installments of Rs……….. Each.</p>
 <p>2) Transfer TA  advance of ---- has been drawn and paid vide Bill No</p>
-<p>3)Professional Tax at the rate of Rs. 200/- has been recovered upto <?php echo $monthName[$salary['MONTH']]."-".$salary['YEAR'];?>. </p>
+<p>3) Professional Tax at the rate of Rs. 200/- has been recovered upto <?php echo $monthName[$salary['MONTH']]."-".$salary['YEAR'];?>. </p>
+<?php
+	$BILL_TYPE = 1;
+	$BILL_SUB_TYPE = 0;
+	if(Employee::model()->findByPK($id)->PENSION_TYPE == "NPS"){
+		$BILL_TYPE = 2;
+	}
+	
+	if($BILL_TYPE == 1){
+		$BILL_SUB_TYPE = 17;
+	}
+	else{
+		$BILL_SUB_TYPE = 18;
+	}
+	$da_bills = Bill::model()->findAll('BILL_TYPE='.$BILL_TYPE.' AND BILL_SUB_TYPE='.$BILL_SUB_TYPE);
+	$DA_Arrear=0;
+	$DA_Arrear_Bills_Array=array();
+	foreach($da_bills as $bill){
+		$DA_Arrear += SalaryDetails::model()->find('EMPLOYEE_ID_FK='.$employee->ID.' AND BILL_ID_FK='.$bill->ID)->DA;
+		array_push($DA_Arrear_Bills_Array, $bill->BILL_NO);
+	}
+?>
+<p>4) DA Arrear of Rs.<?php echo $DA_Arrear;?>/- has been paid vide Bill No. (<?php echo implode(",", $DA_Arrear_Bills_Array)?>).</p>
 <?php if($salaryDetails->HBA_EMI) { ?>
-<p>4) Out of HBA Interest of Rs.<?php echo $salaryDetails->HBA_TOTAL?>/-, an amount of Rs.<?php echo $salaryDetails->HBA_EMI * intVal($salaryDetails->HBA_TOTAL/$salaryDetails->HBA_EMI)?>/- has been recovered in <?php echo intVal($salaryDetails->HBA_TOTAL/$salaryDetails->HBA_EMI)?> monthly installments of Rs.<?php echo $salaryDetails->HBA_EMI?>/- each. The balance of Rs.<?php echo ($salaryDetails->HBA_TOTAL - ( $salaryDetails->HBA_EMI * intVal($salaryDetails->HBA_TOTAL/$salaryDetails->HBA_EMI)))?>/- may be recovered in <?php echo ($salaryDetails->HBA_TOTAL - ( $salaryDetails->HBA_EMI * intVal($salaryDetails->HBA_TOTAL/$salaryDetails->HBA_EMI))) < $salaryDetails->HBA_EMI ? 1 : 0; ?> monthly installments of Rs.<?php echo ($salaryDetails->HBA_TOTAL - ( $salaryDetails->HBA_EMI * intVal($salaryDetails->HBA_TOTAL/$salaryDetails->HBA_EMI)))?>/- each w.e.f. the salary of May-2016 onwards.</p>
+<p>5) Out of HBA Interest of Rs.<?php echo $salaryDetails->HBA_TOTAL?>/-, an amount of Rs.<?php echo $salaryDetails->HBA_EMI * intVal($salaryDetails->HBA_TOTAL/$salaryDetails->HBA_EMI)?>/- has been recovered in <?php echo intVal($salaryDetails->HBA_TOTAL/$salaryDetails->HBA_EMI)?> monthly installments of Rs.<?php echo $salaryDetails->HBA_EMI?>/- each. The balance of Rs.<?php echo ($salaryDetails->HBA_TOTAL - ( $salaryDetails->HBA_EMI * intVal($salaryDetails->HBA_TOTAL/$salaryDetails->HBA_EMI)))?>/- may be recovered in <?php echo ($salaryDetails->HBA_TOTAL - ( $salaryDetails->HBA_EMI * intVal($salaryDetails->HBA_TOTAL/$salaryDetails->HBA_EMI))) < $salaryDetails->HBA_EMI ? 1 : 0; ?> monthly installments of Rs.<?php echo ($salaryDetails->HBA_TOTAL - ( $salaryDetails->HBA_EMI * intVal($salaryDetails->HBA_TOTAL/$salaryDetails->HBA_EMI)))?>/- each w.e.f. the salary of May-2016 onwards.</p>
 <?php } ?>
 <?php if($salaryDetails->MCA_EMI) { ?>
-<p>4) Out of MCA Interest of Rs.<?php echo $salaryDetails->MCA_TOTAL?>/-, an amount of Rs.<?php echo $salaryDetails->MCA_EMI * intVal($salaryDetails->MCA_TOTAL/$salaryDetails->MCA_EMI)?>/- has to be recovered in <?php echo intVal($salaryDetails->MCA_TOTAL/$salaryDetails->MCA_EMI)?> monthly installments of Rs.<?php echo $salaryDetails->MCA_EMI?>/- each. The balance of Rs.<?php echo ($salaryDetails->MCA_TOTAL - ( $salaryDetails->MCA_EMI * intVal($salaryDetails->MCA_TOTAL/$salaryDetails->MCA_EMI)))?>/- may be recovered in <?php echo ($salaryDetails->MCA_TOTAL - ( $salaryDetails->MCA_EMI * intVal($salaryDetails->MCA_TOTAL/$salaryDetails->MCA_EMI))) < $salaryDetails->MCA_EMI ? 1 : 0; ?> monthly installments of Rs.<?php echo ($salaryDetails->MCA_TOTAL - ( $salaryDetails->MCA_EMI * intVal($salaryDetails->MCA_TOTAL/$salaryDetails->MCA_EMI)))?>/- each w.e.f. the salary of Feb-2017 onwards.</p>
+<p>5) Out of MCA Interest of Rs.<?php echo $salaryDetails->MCA_TOTAL?>/-, an amount of Rs.<?php echo $salaryDetails->MCA_EMI * intVal($salaryDetails->MCA_TOTAL/$salaryDetails->MCA_EMI)?>/- has to be recovered in <?php echo intVal($salaryDetails->MCA_TOTAL/$salaryDetails->MCA_EMI)?> monthly installments of Rs.<?php echo $salaryDetails->MCA_EMI?>/- each. The balance of Rs.<?php echo ($salaryDetails->MCA_TOTAL - ( $salaryDetails->MCA_EMI * intVal($salaryDetails->MCA_TOTAL/$salaryDetails->MCA_EMI)))?>/- may be recovered in <?php echo ($salaryDetails->MCA_TOTAL - ( $salaryDetails->MCA_EMI * intVal($salaryDetails->MCA_TOTAL/$salaryDetails->MCA_EMI))) < $salaryDetails->MCA_EMI ? 1 : 0; ?> monthly installments of Rs.<?php echo ($salaryDetails->MCA_TOTAL - ( $salaryDetails->MCA_EMI * intVal($salaryDetails->MCA_TOTAL/$salaryDetails->MCA_EMI)))?>/- each w.e.f. the salary of Feb-2017 onwards.</p>
 <?php } ?>
 <p style="font-size: 15px;font-weight: bold;">आयकर के लिए वेतन का विवरण /Salary Details for Income Tax</p>
 
@@ -190,7 +212,7 @@ Ministry / Department / Office  <b><?php echo $master->OFFICE_NAME_HINDI;?>/<?ph
 
 	$salaries = YII::app()->db->createCommand("SELECT * FROM tbl_salary_details a, tbl_bill b WHERE b.ID = a.BILL_ID_FK AND a.EMPLOYEE_ID_FK=$id AND
  b.IS_ARREAR_BILL=0 AND b.IS_CEA_BILL=0 AND b.IS_BONUS_BILL=0 AND b.IS_UA_BILL=0 AND b.IS_LTC_HTC_BILL=0
-ORDER BY a.ID DESC LIMIT 3;")->queryAll();
+ORDER BY a.ID DESC LIMIT 4;")->queryAll();
 	foreach ($salaries as $salary) {
 	?>
 	<tr>

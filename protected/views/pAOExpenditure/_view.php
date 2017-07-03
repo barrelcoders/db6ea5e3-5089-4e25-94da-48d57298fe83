@@ -52,6 +52,14 @@
 		</div>
 	</div>
 	<div class="form-group row">
+		<label class='col-sm-2 form-control-label'>WAGES</label>
+		<div class="col-sm-10">
+			<p class="form-control-static">
+				<span><?php echo $model->WAGES;?></span>
+			</p>
+		</div>
+	</div>
+	<div class="form-group row">
 		<label class='col-sm-2 form-control-label'>RRT</label>
 		<div class="col-sm-10">
 			<p class="form-control-static">

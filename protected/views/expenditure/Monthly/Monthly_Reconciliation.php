@@ -42,6 +42,7 @@
 		<tr>
 			<th>Particulars</th>
 			<th>SALARIES(01)</th>
+			<th>WAGES(02)</th>
 			<th>MEDICAL(06)</th>
 			<th>DTE(11)</th>
 			<th>OE(13)</th>
@@ -59,6 +60,7 @@
 			<th>4</th>
 			<th>5</th>
 			<th>6</th>
+			<th>7</th>
 			<th></th>
 			<th>1</th>
 			<th>2</th>
@@ -71,6 +73,7 @@
 		<tr>
 			<th>SANCTION GRANT FOR <?php echo $financialYear->NAME;?></th>
 			<th><?php echo Budget::model()->findByPK(1)->AMOUNT;?></th>
+			<th><?php echo Budget::model()->findByPK(7)->AMOUNT;?></th>
 			<th><?php echo Budget::model()->findByPK(5)->AMOUNT;?></th>
 			<th><?php echo Budget::model()->findByPK(3)->AMOUNT;?></th>
 			<th><?php echo Budget::model()->findByPK(2)->AMOUNT;?></th>
@@ -88,6 +91,7 @@
 		<tr>
 			<th>PAO’s figures</th>
 			<th><?php echo $PAOExpenditures->SALARY; ?></th>
+			<th><?php echo $PAOExpenditures->WAGES; ?></th>
 			<th><?php echo $PAOExpenditures->MEDICAL; ?></th>
 			<th><?php echo $PAOExpenditures->DTE; ?></th>
 			<th><?php echo $PAOExpenditures->OE; ?></th>
@@ -101,6 +105,7 @@
 		<?php } else { ?>
 		<tr>
 			<th>PAO’s figures</th>
+			<th>0</th>
 			<th>0</th>
 			<th>0</th>
 			<th>0</th>
@@ -122,7 +127,8 @@
 		?>
 		<tr>
 			<th>DDO’s figures</th>
-			<th><?php $SALARY = Yii::app()->db->createCommand("SELECT  SUM(GROSS) - SUM(MISC) AS GROSS FROM tbl_salary_details WHERE BILL_ID_FK IN (".implode(",", $BillsIds).")")->queryRow(); echo $SALARY['GROSS']; ?></th>
+			<th><?php $SALARY = Yii::app()->db->createCommand("SELECT SUM(b.GROSS) - SUM(b.MISC) AS GROSS FROM tbl_bill a, tbl_salary_details b WHERE a.ID=b.BILL_ID_FK AND b.BILL_ID_FK IN (".implode(",", $BillsIds).") AND ( a.BILL_TYPE=1 OR a.BILL_TYPE=2)")->queryRow(); echo $SALARY['GROSS']; ?></th>
+			<th><?php $WAGES = Yii::app()->db->createCommand("SELECT IF(SUM(BILL_AMOUNT) IS NULL, 0, SUM(BILL_AMOUNT)) AS BILL_AMOUNT FROM tbl_bill WHERE BILL_TYPE=8 AND ID IN (".implode(",", $BillsIds).")")->queryRow(); echo $WAGES['BILL_AMOUNT']; ?></th>
 			<th><?php $MEDICAL = Yii::app()->db->createCommand("SELECT IF(SUM(BILL_AMOUNT) IS NULL, 0, SUM(BILL_AMOUNT)) AS BILL_AMOUNT FROM tbl_bill WHERE BILL_TYPE=6 AND ID IN (".implode(",", $BillsIds).")")->queryRow(); echo $MEDICAL['BILL_AMOUNT'];?></th>
 			<th><?php $DTE = Yii::app()->db->createCommand("SELECT IF(SUM(BILL_AMOUNT) IS NULL, 0, SUM(BILL_AMOUNT)) AS BILL_AMOUNT FROM tbl_bill WHERE BILL_TYPE=4 AND ID IN (".implode(",", $BillsIds).")")->queryRow(); echo $DTE['BILL_AMOUNT']; ?></th>
 			<th><?php $OE = Yii::app()->db->createCommand("SELECT IF(SUM(BILL_AMOUNT) IS NULL, 0, SUM(BILL_AMOUNT)) AS BILL_AMOUNT FROM tbl_bill WHERE BILL_TYPE=3 AND ID IN (".implode(",", $BillsIds).")")->queryRow(); echo $OE['BILL_AMOUNT']; ?></th>
@@ -143,6 +149,7 @@
 			<th>0</th>
 			<th>0</th>
 			<th>0</th>
+			<th>0</th>
 			<th></th>
 			<th>0</th>
 			<th>0</th>
@@ -154,6 +161,7 @@
 		<tr>
 			<th>DIFFERENCE for <?php echo $this->Month; ?>/<?php echo $this->Year; ?></th>
 			<th><?php echo $PAOExpenditures->SALARY - $SALARY['GROSS'];?></th>
+			<th><?php echo $PAOExpenditures->WAGES - $WAGES['BILL_AMOUNT'];?></th>
 			<th><?php echo $PAOExpenditures->MEDICAL - $MEDICAL['BILL_AMOUNT'];?></th>
 			<th><?php echo $PAOExpenditures->DTE - $DTE['BILL_AMOUNT'];?></th>
 			<th><?php echo $PAOExpenditures->OE - $OE['BILL_AMOUNT'];?></th>
@@ -172,6 +180,7 @@
 			<th>0</th>
 			<th>0</th>
 			<th>0</th>
+			<th>0</th>
 			<th></th>
 			<th>0</th>
 			<th>0</th>
@@ -180,13 +189,14 @@
 		</tr>
 		<?php } ?>
 		<?php
-			$T_PAOExpenditures = Yii::app()->db->createCommand("SELECT SUM(SALARY) AS SALARY, SUM(MEDICAL) AS MEDICAL, SUM(DTE) AS DTE, SUM(OE) AS OE, SUM(RRT) AS RRT, SUM(IT_SAL) AS IT_SAL, SUM(IT_ECSS) AS IT_ECSS,
+			$T_PAOExpenditures = Yii::app()->db->createCommand("SELECT SUM(SALARY) AS SALARY, SUM(WAGES) AS WAGES, SUM(MEDICAL) AS MEDICAL, SUM(DTE) AS DTE, SUM(OE) AS OE, SUM(RRT) AS RRT, SUM(IT_SAL) AS IT_SAL, SUM(IT_ECSS) AS IT_ECSS,
 													  SUM(IT_HCESS) AS IT_HCESS, SUM(IT_NON_SAL) AS IT_NON_SAL  FROM tbl_pao_expenditure WHERE DATE >= '".date('Y-m-d', strtotime($financialYear->START_DATE))."' AND DATE <= '".date_create($this->Year."-".($this->Month+1)." last day of last month")->format('Y-m-d')."'")->queryRow();
 			if(count($T_PAOExpenditures)>0){
 		?>
 		<tr>
 			<th>PAO’s Expenditure UPTO <?php echo $this->Month; ?>/<?php echo $this->Year; ?></th>
 			<th><?php echo $T_PAOExpenditures['SALARY']; ?></th>
+			<th><?php echo $T_PAOExpenditures['WAGES']; ?></th>
 			<th><?php echo $T_PAOExpenditures['MEDICAL']; ?></th>
 			<th><?php echo $T_PAOExpenditures['DTE']; ?></th>
 			<th><?php echo $T_PAOExpenditures['OE']; ?></th>
@@ -200,6 +210,7 @@
 		<?php } else { ?>
 			<tr>
 			<th>PAO’s Expenditure UPTO <?php echo $this->Month; ?>/<?php echo $this->Year; ?></th>
+			<th>0</th>
 			<th>0</th>
 			<th>0</th>
 			<th>0</th>
@@ -225,7 +236,8 @@
 		?>
 		<tr>
 			<th>DDO EXPENDITURE UPTO <?php echo $this->Month; ?>/<?php echo $this->Year; ?></th>
-			<th><?php $T_SALARY = Yii::app()->db->createCommand("SELECT  SUM(GROSS) - SUM(MISC) AS GROSS FROM tbl_salary_details WHERE BILL_ID_FK IN (".implode(",", $BillsIds).")")->queryRow()['GROSS']; echo $T_SALARY; ?></th>
+			<th><?php $T_SALARY = Yii::app()->db->createCommand("SELECT SUM(b.GROSS) - SUM(b.MISC) AS GROSS FROM tbl_bill a, tbl_salary_details b WHERE a.ID=b.BILL_ID_FK AND b.BILL_ID_FK IN (".implode(",", $BillsIds).") AND ( a.BILL_TYPE=1 OR a.BILL_TYPE=2)")->queryRow()['GROSS']; echo $T_SALARY; ?></th>
+			<th><?php $T_WAGES = Yii::app()->db->createCommand("SELECT IF(SUM(BILL_AMOUNT) IS NULL, 0, SUM(BILL_AMOUNT)) AS BILL_AMOUNT FROM tbl_bill WHERE BILL_TYPE=8 AND ID IN (".implode(",", $BillsIds).")")->queryRow()['BILL_AMOUNT']; echo $T_WAGES;?></th>
 			<th><?php $T_MEDICAL = Yii::app()->db->createCommand("SELECT IF(SUM(BILL_AMOUNT) IS NULL, 0, SUM(BILL_AMOUNT)) AS BILL_AMOUNT FROM tbl_bill WHERE BILL_TYPE=6 AND ID IN (".implode(",", $BillsIds).")")->queryRow()['BILL_AMOUNT']; echo $T_MEDICAL;?></th>
 			<th><?php $T_DTE = Yii::app()->db->createCommand("SELECT IF(SUM(BILL_AMOUNT) IS NULL, 0, SUM(BILL_AMOUNT)) AS BILL_AMOUNT FROM tbl_bill WHERE BILL_TYPE=4 AND ID IN (".implode(",", $BillsIds).")")->queryRow()['BILL_AMOUNT']; echo $T_DTE;?></th>
 			<th><?php $T_OE = Yii::app()->db->createCommand("SELECT IF(SUM(BILL_AMOUNT) IS NULL, 0, SUM(BILL_AMOUNT)) AS BILL_AMOUNT FROM tbl_bill WHERE BILL_TYPE=3 AND ID IN (".implode(",", $BillsIds).")")->queryRow()['BILL_AMOUNT']; echo $T_OE; ?></th>
@@ -246,6 +258,7 @@
 				<th>0</th>
 				<th>0</th>
 				<th>0</th>
+				<th>0</th>
 				<th></th>
 				<th>0</th>
 				<th>0</th>
@@ -257,6 +270,7 @@
 		<tr>
 			<th>DIFFERENCE upto <?php echo $this->Month; ?>/<?php echo $this->Year; ?></th>
 			<th><?php echo intVal($T_PAOExpenditures['SALARY']) - intVal($T_SALARY); ?></th>
+			<th><?php echo intVal($T_PAOExpenditures['WAGES']) - intVal($T_WAGES); ?></th>
 			<th><?php echo intVal($T_PAOExpenditures['MEDICAL']) - intVal($T_MEDICAL); ?></th>
 			<th><?php echo intVal($T_PAOExpenditures['DTE']) - intVal($T_DTE); ?></th>
 			<th><?php echo intVal($T_PAOExpenditures['OE']) - intVal($T_OE); ?></th>
@@ -270,6 +284,7 @@
 		<?php } else {?>
 		<tr>
 			<th>DIFFERENCE upto <?php echo $this->Month; ?>/<?php echo $this->Year; ?></th>
+			<th>0</th>
 			<th>0</th>
 			<th>0</th>
 			<th>0</th>

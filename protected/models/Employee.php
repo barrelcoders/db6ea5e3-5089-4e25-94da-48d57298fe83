@@ -28,7 +28,6 @@
  */
 class Employee extends CActiveRecord
 {
-	public $PERMISSION;
 	/**
 	 * @return string the associated database table name
 	 */
@@ -45,17 +44,17 @@ class Employee extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('NAME, DESIGNATION_ID_FK, GRADE_PAY_ID_FK, PENSION_ACC_NO, GROUP_ID_FK, NAME_HINDI', 'required'),
+			array('NAME, DESIGNATION_ID_FK, GRADE_PAY_ID_FK, PENSION_ACC_NO, GROUP_ID_FK, NAME_HINDI, PERMISSION', 'required'),
 			array('NAME, NAME_HINDI', 'length', 'max'=>100),
 			array('DESIGNATION_ID_FK, GRADE_PAY_ID_FK, GROUP_ID_FK, JOIN_DESIGNATION_ID_FK', 'length', 'max'=>10),
 			array('IS_PERMANENT, STATUS, IS_TRANSFERRED, IS_RETIRED', 'length', 'max'=>3),
-			array('PENSION_ACC_NO, PENSION_TYPE, MICR, ACCOUNT_NO, IFSC, PAN, CATEGORY, GENDER', 'length', 'max'=>45),
+			array('PENSION_ACC_NO, PENSION_TYPE, MICR, ACCOUNT_NO, IFSC, PAN, CATEGORY, GENDER, ORG_JOIN_TIME, DEPT_RELIEF_TIME, DEPT_JOIN_TIME, PERMISSION', 'length', 'max'=>45),
 			array('DEPT_JOIN_DATE, DEPT_RELIEF_DATE, ORG_JOIN_DATE, ORG_RETIRE_DATE, PRESENT_PROMOTION_DATE', 'date', 'format'=>'yyyy-MM-dd', 'allowEmpty'=>true),
 			array( 'DEPT_JOIN_DATE, DEPT_RELIEF_DATE, ORG_JOIN_DATE, ORG_RETIRE_DATE', 'default', 'setOnEmpty'=>true, 'value'=>'0000-00-00' ),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
 			array('ID, NAME, DEPT_JOIN_DATE, DEPT_RELIEF_DATE, ORG_JOIN_DATE, ORG_RETIRE_DATE, DESIGNATION_ID_FK, GRADE_PAY_ID_FK, DOI, PENSION_ACC_NO, FOLIO_NO, GROUP_ID_FK, DOB, NAME_HINDI, 
-			PENSION_TYPE, MICR, ACCOUNT_NO, IFSC, PAN, IS_PERMANENT, STATUS, CATEGORY, IS_TRANSFERRED, IS_RETIRED, GENDER', 'safe', 'on'=>'search'),
+			PENSION_TYPE, MICR, ACCOUNT_NO, IFSC, PAN, IS_PERMANENT, STATUS, CATEGORY, IS_TRANSFERRED, IS_RETIRED, GENDER, PERMISSION', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -99,20 +98,23 @@ class Employee extends CActiveRecord
 			'IFSC'=>'IFSC',
 			'PAN'=>'PAN',
 			'DEPT_RELIEF_DATE'=>'Department Relief Date',
-			'DEPT_JOIN_DATE'=>'Department Join Date', 
-			'ORG_JOIN_DATE'=>'Organization Join Date', 
+			'DEPT_JOIN_DATE'=>'Department Joining Date', 
+			'ORG_JOIN_DATE'=>'Organization Joining Date', 
 			'ORG_RETIRE_DATE'=>'Organization Retire Date', 
 			'IS_PERMANENT'=>'Permanent', 
 			'STATUS'=>'Status', 
 			'CATEGORY'=>'Category',
 			'TRANSFERED_TO'=>'Transfered To',
 			'TRANSFER_ORDER'=>'Transfer Order',
-			'JOIN_DESIGNATION_ID_FK'=>'Organization Joined Designation',
+			'JOIN_DESIGNATION_ID_FK'=>'Joined Designation',
 			'PRESENT_PROMOTION_DATE'=>'Present Designation Promotion Date',
 			'GENDER'=>'Gender',
 			'IS_TRANSFERRED'=>'Transfered',
-			'IS_RETIRED'=>'Retired'
-			
+			'IS_RETIRED'=>'Retired',
+			'ORG_JOIN_TIME'=>'Organization Joining Time', 
+			'DEPT_RELIEF_TIME'=>'Department Relief Time', 
+			'DEPT_JOIN_TIME'=>'Department Joining Time',
+			'PERMISSION'=>'Permission'
 		);
 	}
 
@@ -163,6 +165,11 @@ class Employee extends CActiveRecord
 		$criteria->compare('GENDER',$this->GENDER,true);
 		$criteria->compare('IS_TRANSFERRED',$this->IS_TRANSFERRED,true);
 		$criteria->compare('IS_RETIRED',$this->IS_RETIRED,true);
+		$criteria->compare('ORG_JOIN_TIME',$this->ORG_JOIN_TIME,true);
+		$criteria->compare('DEPT_RELIEF_TIME',$this->DEPT_RELIEF_TIME,true);
+		$criteria->compare('DEPT_JOIN_TIME',$this->DEPT_JOIN_TIME,true);
+		$criteria->compare('PERMISSION',$this->PERMISSION,true);
+		
 		$criteria->order = 'DESIGNATION_ID_FK DESC';
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,

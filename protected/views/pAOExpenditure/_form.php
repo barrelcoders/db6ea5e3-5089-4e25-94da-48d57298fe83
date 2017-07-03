@@ -89,6 +89,14 @@
 		</div>
 	</div>
 	<div class="form-group row">
+		<?php echo $form->labelEx($model,'WAGES', array('class'=>'col-sm-2 form-control-label')); ?>
+		<div class="col-sm-10">
+			<p class="form-control-static">
+				<?php echo $form->textField($model,'WAGES',array('size'=>60,'maxlength'=>100, 'value'=>$model->WAGES)); ?>
+			</p>
+		</div>
+	</div>
+	<div class="form-group row">
 		<?php echo $form->labelEx($model,'RRT', array('class'=>'col-sm-2 form-control-label')); ?>
 		<div class="col-sm-10">
 			<p class="form-control-static">
