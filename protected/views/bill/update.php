@@ -85,11 +85,17 @@ if(isset($_REQUEST['id']) && $_REQUEST['id']){
 							<?php } ?>
 								<li><a href="<?php echo Yii::app()->createUrl("Bill/LF",array("id"=>$id))?>" target="_blank"><span class="tbl-row"><span class="tbl-cell tbl-cell-caption">LICENCE FEES</span></span></a></li>
 								<li><a href="<?php echo Yii::app()->createUrl("Bill/HBA",array("id"=>$id))?>" target="_blank"><span class="tbl-row"><span class="tbl-cell tbl-cell-caption">HBA</span></span></a></li>
+								<li><a href="<?php echo Yii::app()->createUrl("Bill/HBA_INTEREST",array("id"=>$id))?>" target="_blank"><span class="tbl-row"><span class="tbl-cell tbl-cell-caption">HBA INTEREST</span></span></a></li>
 								<li><a href="<?php echo Yii::app()->createUrl("Bill/MCA",array("id"=>$id))?>" target="_blank"><span class="tbl-row"><span class="tbl-cell tbl-cell-caption">MCA</span></span></a></li>
+								<li><a href="<?php echo Yii::app()->createUrl("Bill/MCA_INTEREST",array("id"=>$id))?>" target="_blank"><span class="tbl-row"><span class="tbl-cell tbl-cell-caption">MCA INTEREST</span></span></a></li>
 								<li><a href="<?php echo Yii::app()->createUrl("Bill/CYCLE",array("id"=>$id))?>" target="_blank"><span class="tbl-row"><span class="tbl-cell tbl-cell-caption">CYCLE ADV.</span></span></a></li>
+								<li><a href="<?php echo Yii::app()->createUrl("Bill/CYCLE_INTEREST",array("id"=>$id))?>" target="_blank"><span class="tbl-row"><span class="tbl-cell tbl-cell-caption">CYCLE ADV. INTEREST</span></span></a></li>
 								<li><a href="<?php echo Yii::app()->createUrl("Bill/FAN",array("id"=>$id))?>" target="_blank"><span class="tbl-row"><span class="tbl-cell tbl-cell-caption">FAN ADV.</span></span></a></li>
+								<li><a href="<?php echo Yii::app()->createUrl("Bill/FAN_INTEREST",array("id"=>$id))?>" target="_blank"><span class="tbl-row"><span class="tbl-cell tbl-cell-caption">FAN ADV. INTEREST</span></span></a></li>
 								<li><a href="<?php echo Yii::app()->createUrl("Bill/FLOOD",array("id"=>$id))?>" target="_blank"><span class="tbl-row"><span class="tbl-cell tbl-cell-caption">FLOOD ADV.</span></span></a></li>
-								<li><a href="<?php echo Yii::app()->createUrl("Bill/FEST",array("id"=>$id))?>" target="_blank"><span class="tbl-row"><span class="tbl-cell tbl-cell-caption">FEST .</span></span></a></li>
+								<li><a href="<?php echo Yii::app()->createUrl("Bill/FLOOD_INTEREST",array("id"=>$id))?>" target="_blank"><span class="tbl-row"><span class="tbl-cell tbl-cell-caption">FLOOD ADV. INTEREST</span></span></a></li>
+								<li><a href="<?php echo Yii::app()->createUrl("Bill/FEST",array("id"=>$id))?>" target="_blank"><span class="tbl-row"><span class="tbl-cell tbl-cell-caption">FEST</span></span></a></li>
+								<li><a href="<?php echo Yii::app()->createUrl("Bill/FEST_INTEREST",array("id"=>$id))?>" target="_blank"><span class="tbl-row"><span class="tbl-cell tbl-cell-caption">FEST INTEREST</span></span></a></li>
 								<li><a href="<?php echo Yii::app()->createUrl("Bill/MISC",array("id"=>$id))?>" target="_blank"><span class="tbl-row"><span class="tbl-cell tbl-cell-caption">MISC</span></span></a></li>
 								<li><a href="<?php echo Yii::app()->createUrl("Bill/PT",array("id"=>$id))?>" target="_blank"><span class="tbl-row"><span class="tbl-cell tbl-cell-caption">PT</span></span></a></li>
 								<li><a href="<?php echo Yii::app()->createUrl("Bill/CCS",array("id"=>$id))?>" target="_blank"><span class="tbl-row"><span class="tbl-cell tbl-cell-caption">CR. CO. SOCIETY</span></span></a></li>

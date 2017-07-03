@@ -686,6 +686,13 @@ class BillController extends Controller
 	public function actionCasualPayBillSanctionOrder($id){$this->layout='//layouts/column1';$model = $this->loadModel($id);$this->render('PAY/CasualPayBillSanctionOrder',array('model'=>$model,));}
 	public function actionCasualPayBillInner($id){$this->layout='//layouts/column1';$model = $this->loadModel($id);$this->render('PAY/CasualPayBillInner',array('model'=>$model,));}
 	public function actionCasualPayBillPT($id){$this->layout='//layouts/column1';$model = $this->loadModel($id);$this->render('PAY/CasualPayBillPT',array('model'=>$model,));}
+	public function actionHBA_INTEREST($id){$this->layout='//layouts/column1';$model = $this->loadModel($id);$this->render('PAY/HBA_INTEREST',array('model'=>$model,));}
+	public function actionFAN_INTEREST($id){$this->layout='//layouts/column1';$model = $this->loadModel($id);$this->render('PAY/FAN_INTEREST',array('model'=>$model,));}
+	public function actionFLOOD_INTEREST($id){$this->layout='//layouts/column1';$model = $this->loadModel($id);$this->render('PAY/FLOOD_INTEREST',array('model'=>$model,));}
+	public function actionFEST_INTEREST($id){$this->layout='//layouts/column1';$model = $this->loadModel($id);$this->render('PAY/FEST_INTEREST',array('model'=>$model,));}
+	public function actionMCA_INTEREST($id){$this->layout='//layouts/column1';$model = $this->loadModel($id);$this->render('PAY/MCA_INTEREST',array('model'=>$model,));}
+	public function actionCYCLE__INTEREST($id){$this->layout='//layouts/column1';$model = $this->loadModel($id);$this->render('PAY/CYCLE__INTEREST',array('model'=>$model,));}
+	
 	
 	
 }

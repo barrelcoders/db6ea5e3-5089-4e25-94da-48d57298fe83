@@ -1,7 +1,7 @@
 <link href="<?php echo Yii::app()->request->baseUrl; ?>/css/oneadmin.css" rel="stylesheet">
 <script type="text/javascript">window.onload = function() { window.print(); }</script>
 <?php $master = Master::model()->findByPK(1); ?>
-<h3 style="text-transform: uppercase;text-align:center;">SCHEDULE SHOWING THE RECOVERY OF FLOOD IN R/O <?php echo ($model->BILL_TYPE == 1)? "OPS":"NPS"; ?> STAFF OF  <?php echo $master->DEPT_NAME?>FOR THE MONTH OF <?php echo date('M-Y', strtotime($model->CREATION_DATE))?></h3>
+<h3 style="text-transform: uppercase;text-align:center;">SCHEDULE SHOWING THE RECOVERY OF FLOOD INTEREST IN R/O <?php echo ($model->BILL_TYPE == 1)? "OPS":"NPS"; ?> STAFF OF  <?php echo $master->DEPT_NAME?>FOR THE MONTH OF <?php echo date('M-Y', strtotime($model->CREATION_DATE))?></h3>
 <h3 style="text-transform: uppercase;text-align: center">BILL NO: <?php echo $model->BILL_NO; ?></h3>
 <table class="pay-schedule-table small">
 	<thead>
@@ -32,10 +32,10 @@
 			<td class="small-xxx right-br"><?php echo $i; ?></td>
 			<td class="small right-br"><b><?php echo Employee::model()->findByPK($salary->EMPLOYEE_ID_FK)->NAME.'<br/>('.Employee::model()->findByPK($salary->EMPLOYEE_ID_FK)->NAME_HINDI.')';?></b></td>
 			<td class="small right-br"><b><?php echo Designations::model()->findByPK(Employee::model()->findByPK($salary->EMPLOYEE_ID_FK)->DESIGNATION_ID_FK)->DESIGNATION.'<br/>('.Designations::model()->findByPK(Employee::model()->findByPK($salary->EMPLOYEE_ID_FK)->DESIGNATION_ID_FK)->DESIGNATION_HINDI.')';?></b></td>
-			<td class="small-xx"><?php echo !$salary->IS_FLOOD_RECOVERY ?  $salary->FLOOD_EMI : 0; ?></td>
-			<td class="small-xx"><?php echo !$salary->IS_FLOOD_RECOVERY ?  $salary->FLOOD_TOTAL : 0; ?></td>
-			<td class="small-xx"><?php echo !$salary->IS_FLOOD_RECOVERY ?  $salary->FLOOD_INST : 0; ?></td>
-			<td class="small-xx"><?php echo !$salary->IS_FLOOD_RECOVERY ?  $salary->FLOOD_BAL : 0; ?></td>
+			<td class="small-xx"><?php echo $salary->IS_FLOOD_RECOVERY ? $salary->FLOOD_EMI : 0; ?></td>
+			<td class="small-xx"><?php echo $salary->IS_FLOOD_RECOVERY ? $salary->FLOOD_TOTAL : 0; ?></td>
+			<td class="small-xx"><?php echo $salary->IS_FLOOD_RECOVERY ? $salary->FLOOD_INST : 0; ?></td>
+			<td class="small-xx"><?php echo $salary->IS_FLOOD_RECOVERY ? $salary->FLOOD_BAL : 0; ?></td>
 		</tr>
 		<?php 
 			$i++;
@@ -45,10 +45,10 @@
 		<th class="small-xxx right-br"></th>
 		<th class="small right-br"></th>
 		<th class="small right-br"></th>
-		<th class="small-xx"><?php $FLOOD_EMI = Yii::app()->db->createCommand("SELECT SUM(FLOOD_EMI) as FLOOD_EMI FROM tbl_salary_details WHERE BILL_ID_FK = $model->ID AND IS_FLOOD_RECOVERY=0;")->queryRow()['FLOOD_EMI']; echo $FLOOD_EMI;?></th>
-		<th class="small-xx"><?php $FLOOD_TOTAL = Yii::app()->db->createCommand("SELECT SUM(FLOOD_TOTAL) as FLOOD_TOTAL FROM tbl_salary_details WHERE BILL_ID_FK = $model->ID AND IS_FLOOD_RECOVERY = 0;")->queryRow()['FLOOD_TOTAL']; echo $FLOOD_TOTAL;?></th>
+		<th class="small-xx"><?php $FLOOD_EMI = Yii::app()->db->createCommand("SELECT SUM(FLOOD_EMI) as FLOOD_EMI FROM tbl_salary_details WHERE BILL_ID_FK = $model->ID AND IS_FLOOD_RECOVERY=1;")->queryRow()['FLOOD_EMI']; echo $FLOOD_EMI;?></th>
+		<th class="small-xx"><?php $FLOOD_TOTAL = Yii::app()->db->createCommand("SELECT SUM(FLOOD_TOTAL) as FLOOD_TOTAL FROM tbl_salary_details WHERE BILL_ID_FK = $model->ID AND IS_FLOOD_RECOVERY=1;")->queryRow()['FLOOD_TOTAL']; echo $FLOOD_TOTAL;?></th>
 		<th class="small-xx"></th>
-		<th class="small-xx"><?php $FLOOD_BAL = Yii::app()->db->createCommand("SELECT SUM(FLOOD_BAL) as FLOOD_BAL FROM tbl_salary_details WHERE BILL_ID_FK = $model->ID AND IS_FLOOD_RECOVERY = 0;")->queryRow()['FLOOD_BAL']; echo $FLOOD_BAL; ?></th>
+		<th class="small-xx"><?php $FLOOD_BAL = Yii::app()->db->createCommand("SELECT SUM(FLOOD_BAL) as FLOOD_BAL FROM tbl_salary_details WHERE BILL_ID_FK = $model->ID AND IS_FLOOD_RECOVERY=1;")->queryRow()['FLOOD_BAL']; echo $FLOOD_BAL; ?></th>
 	</tfoot>
 </table>
 

@@ -85,7 +85,8 @@ class SalaryDetails extends CActiveRecord
 			// @todo Please remove those attributes that should not be searched.
 			array('ID, BILL_ID_FK, EMPLOYEE_ID_FK, BASIC, SP, PP, CCA, HRA, DA, TA, IT, CGHS, LF, CGEGIS, CPF_TIER_I, CPF_TIER_II, HBA_EMI, MCA_EMI, FAN_EMI, 
 			FLOOD_EMI, CYCLE_EMI, PLI, MISC, PT, FEST_EMI, HBA_TOTAL, MCA_TOTAL, FLOOD_TOTAL, CYCLE_TOTAL, FEST_TOTAL, HBA_INST, MCA_INST, FLOOD_INST, CYCLE_INST, FEST_INST, 
-			HBA_BAL, MCA_BAL, FLOOD_BAL, CYCLE_BAL, FEST_BAL, WA, CCS, LIC, ASSOSC_SUB, REMARKS, FAN_TOTAL, FAN_INST, FAN_BAL, MONTH, YEAR, GP, GROSS, NET, DED, OTHER_DED, AMOUNT_BANK, IS_SALARY_BILL', 'safe', 'on'=>'search'),
+			HBA_BAL, MCA_BAL, FLOOD_BAL, CYCLE_BAL, FEST_BAL, WA, CCS, LIC, ASSOSC_SUB, REMARKS, FAN_TOTAL, FAN_INST, FAN_BAL, MONTH, YEAR, GP, GROSS, NET, DED, OTHER_DED, AMOUNT_BANK, IS_SALARY_BILL,
+			IS_FEST_RECOVERY, IS_HBA_RECOVERY, IS_MCA_RECOVERY, IS_FLOOD_RECOVERY, IS_CYCLE_RECOVERY, IS_FAN_RECOVERY', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -163,7 +164,13 @@ class SalaryDetails extends CActiveRecord
 			'DED'=>'Deduction',
 			'OTHER_DED'=>'Other Deduction',
 			'AMOUNT_BANK'=>'Amount Credit to Bank',
-			'IS_SALARY_BILL'=>'IS SALARY BILL'
+			'IS_SALARY_BILL'=>'IS SALARY BILL',
+			'IS_FEST_RECOVERY'=>'IS_FEST_RECOVERY', 
+			'IS_HBA_RECOVERY'=>'IS_HBA_RECOVERY', 
+			'IS_MCA_RECOVERY'=>'IS_HBA_RECOVERY', 
+			'IS_FLOOD_RECOVERY'=>'IS_FLOOD_RECOVERY', 
+			'IS_CYCLE_RECOVERY'=>'IS_CYCLE_RECOVERY', 
+			'IS_FAN_RECOVERY'=>'IS_FAN_RECOVERY'
 		);
 	}
 
@@ -240,6 +247,12 @@ class SalaryDetails extends CActiveRecord
 		$criteria->compare('NET',$this->NET,true);
 		$criteria->compare('DED',$this->DED,true);
 		$criteria->compare('IS_SALARY_BILL',$this->IS_SALARY_BILL,true);
+		$criteria->compare('IS_FEST_RECOVERY',$this->IS_FEST_RECOVERY,true);
+		$criteria->compare('IS_HBA_RECOVERY',$this->IS_HBA_RECOVERY,true);
+		$criteria->compare('IS_MCA_RECOVERY',$this->IS_MCA_RECOVERY,true);
+		$criteria->compare('IS_FLOOD_RECOVERY',$this->IS_FLOOD_RECOVERY,true);
+		$criteria->compare('IS_CYCLE_RECOVERY',$this->IS_CYCLE_RECOVERY,true);
+		$criteria->compare('IS_FAN_RECOVERY',$this->IS_FAN_RECOVERY,true);
 		
 
 		return new CActiveDataProvider($this, array(

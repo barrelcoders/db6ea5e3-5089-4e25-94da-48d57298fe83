@@ -32,10 +32,10 @@
 			<td class="small-xxx right-br"><?php echo $i; ?></td>
 			<td class="small right-br"><b><?php echo Employee::model()->findByPK($salary->EMPLOYEE_ID_FK)->NAME.'<br/>('.Employee::model()->findByPK($salary->EMPLOYEE_ID_FK)->NAME_HINDI.')';?></b></td>
 			<td class="small right-br"><b><?php echo Designations::model()->findByPK(Employee::model()->findByPK($salary->EMPLOYEE_ID_FK)->DESIGNATION_ID_FK)->DESIGNATION.'<br/>('.Designations::model()->findByPK(Employee::model()->findByPK($salary->EMPLOYEE_ID_FK)->DESIGNATION_ID_FK)->DESIGNATION_HINDI.')';?></b></td>
-			<td class="small-xx"><?php echo $salary->FEST_EMI; ?></td>
-			<td class="small-xx"><?php echo $salary->FEST_TOTAL; ?></td>
-			<td class="small-xx"><?php echo $salary->FEST_INST; ?></td>
-			<td class="small-xx"><?php echo $salary->FEST_BAL; ?></td>
+			<td class="small-xx"><?php echo !$salary->IS_FEST_RECOVERY ? $salary->FEST_EMI : 0; ?></td>
+			<td class="small-xx"><?php echo !$salary->IS_FEST_RECOVERY ? $salary->FEST_TOTAL : 0; ?></td>
+			<td class="small-xx"><?php echo !$salary->IS_FEST_RECOVERY ? $salary->FEST_INST : 0; ?></td>
+			<td class="small-xx"><?php echo !$salary->IS_FEST_RECOVERY ? $salary->FEST_BAL : 0; ?></td>
 		</tr>
 		<?php 
 			$i++;
@@ -45,10 +45,10 @@
 		<th class="small-xxx right-br"></th>
 		<th class="small right-br"></th>
 		<th class="small right-br"></th>
-		<th class="small-xx"><?php $FEST_EMI = Yii::app()->db->createCommand("SELECT SUM(FEST_EMI) as FEST_EMI FROM tbl_salary_details WHERE BILL_ID_FK = $model->ID AND YEAR = $model->YEAR AND MONTH = $model->MONTH;")->queryRow()['FEST_EMI']; echo $FEST_EMI;?></th>
-		<th class="small-xx"><?php echo $salary->FEST_TOTAL; ?></th>
+		<th class="small-xx"><?php $FEST_EMI = Yii::app()->db->createCommand("SELECT SUM(FEST_EMI) as FEST_EMI FROM tbl_salary_details WHERE BILL_ID_FK = $model->ID AND IS_FEST_RECOVERY = 0;")->queryRow()['FEST_EMI']; echo $FEST_EMI;?></th>
+		<th class="small-xx"><?php $FEST_TOTAL = Yii::app()->db->createCommand("SELECT SUM(FEST_TOTAL) as FEST_TOTAL FROM tbl_salary_details WHERE BILL_ID_FK = $model->ID AND IS_FEST_RECOVERY = 0;")->queryRow()['FEST_TOTAL']; echo $FEST_TOTAL;?></th>
 		<th class="small-xx"></th>
-		<th class="small-xx"><?php echo $salary->FEST_BAL; ?></th>
+		<th class="small-xx"><?php $FEST_BAL = Yii::app()->db->createCommand("SELECT SUM(FEST_BAL) as FEST_BAL FROM tbl_salary_details WHERE BILL_ID_FK = $model->ID AND IS_FEST_RECOVERY = 0;")->queryRow()['FEST_BAL']; echo $FEST_BAL; ?></th>
 	</tfoot>
 </table>
 

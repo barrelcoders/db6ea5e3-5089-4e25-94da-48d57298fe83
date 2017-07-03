@@ -32,10 +32,10 @@
 			<td class="small-xxx right-br"><?php echo $i; ?></td>
 			<td class="small right-br"><b><?php echo Employee::model()->findByPK($salary->EMPLOYEE_ID_FK)->NAME.'<br/>('.Employee::model()->findByPK($salary->EMPLOYEE_ID_FK)->NAME_HINDI.')';?></b></td>
 			<td class="small right-br"><b><?php echo Designations::model()->findByPK(Employee::model()->findByPK($salary->EMPLOYEE_ID_FK)->DESIGNATION_ID_FK)->DESIGNATION.'<br/>('.Designations::model()->findByPK(Employee::model()->findByPK($salary->EMPLOYEE_ID_FK)->DESIGNATION_ID_FK)->DESIGNATION_HINDI.')';?></b></td>
-			<td class="small-xx"><?php echo $salary->HBA_EMI; ?></td>
-			<td class="small-xx"><?php echo $salary->HBA_TOTAL; ?></td>
-			<td class="small-xx"><?php echo $salary->HBA_INST; ?></td>
-			<td class="small-xx"><?php echo $salary->HBA_BAL; ?></td>
+			<td class="small-xx"><?php echo !$salary->IS_HBA_RECOVERY ? $salary->HBA_EMI : 0; ?></td>
+			<td class="small-xx"><?php echo !$salary->IS_HBA_RECOVERY ? $salary->HBA_TOTAL : 0; ?></td>
+			<td class="small-xx"><?php echo !$salary->IS_HBA_RECOVERY ? $salary->HBA_INST : 0; ?></td>
+			<td class="small-xx"><?php echo !$salary->IS_HBA_RECOVERY ? $salary->HBA_BAL : 0; ?></td>
 		</tr>
 		<?php 
 			$i++;
@@ -45,10 +45,10 @@
 		<th class="small-xxx right-br"></th>
 		<th class="small right-br"></th>
 		<th class="small right-br"></th>
-		<th class="small-xx"><?php $HBA_EMI = Yii::app()->db->createCommand("SELECT SUM(HBA_EMI) as HBA_EMI FROM tbl_salary_details WHERE BILL_ID_FK = $model->ID;")->queryRow()['HBA_EMI']; echo $HBA_EMI;?></th>
-		<th class="small-xx"><?php $HBA_TOTAL = Yii::app()->db->createCommand("SELECT SUM(HBA_TOTAL) as HBA_TOTAL FROM tbl_salary_details WHERE BILL_ID_FK = $model->ID;")->queryRow()['HBA_TOTAL']; echo $HBA_TOTAL;?></th>
+		<th class="small-xx"><?php $HBA_EMI = Yii::app()->db->createCommand("SELECT SUM(HBA_EMI) as HBA_EMI FROM tbl_salary_details WHERE BILL_ID_FK = $model->ID AND IS_HBA_RECOVERY = 0;")->queryRow()['HBA_EMI']; echo $HBA_EMI;?></th>
+		<th class="small-xx"><?php $HBA_TOTAL = Yii::app()->db->createCommand("SELECT SUM(HBA_TOTAL) as HBA_TOTAL FROM tbl_salary_details WHERE BILL_ID_FK = $model->ID AND IS_HBA_RECOVERY = 0;")->queryRow()['HBA_TOTAL']; echo $HBA_TOTAL;?></th>
 		<th class="small-xx"></th>
-		<th class="small-xx"><?php $HBA_BAL = Yii::app()->db->createCommand("SELECT SUM(HBA_BAL) as HBA_BAL FROM tbl_salary_details WHERE BILL_ID_FK = $model->ID;")->queryRow()['HBA_BAL']; echo $HBA_BAL; ?></th>
+		<th class="small-xx"><?php $HBA_BAL = Yii::app()->db->createCommand("SELECT SUM(HBA_BAL) as HBA_BAL FROM tbl_salary_details WHERE BILL_ID_FK = $model->ID AND IS_HBA_RECOVERY = 0;")->queryRow()['HBA_BAL']; echo $HBA_BAL; ?></th>
 	</tfoot>
 </table>
 

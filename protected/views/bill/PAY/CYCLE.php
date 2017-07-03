@@ -32,10 +32,10 @@
 			<td class="small-xxx right-br"><?php echo $i; ?></td>
 			<td class="small right-br"><b><?php echo Employee::model()->findByPK($salary->EMPLOYEE_ID_FK)->NAME.'<br/>('.Employee::model()->findByPK($salary->EMPLOYEE_ID_FK)->NAME_HINDI.')';?></b></td>
 			<td class="small right-br"><b><?php echo Designations::model()->findByPK(Employee::model()->findByPK($salary->EMPLOYEE_ID_FK)->DESIGNATION_ID_FK)->DESIGNATION.'<br/>('.Designations::model()->findByPK(Employee::model()->findByPK($salary->EMPLOYEE_ID_FK)->DESIGNATION_ID_FK)->DESIGNATION_HINDI.')';?></b></td>
-			<td class="small-xx"><?php echo $salary->CYCLE_EMI; ?></td>
-			<td class="small-xx"><?php echo $salary->CYCLE_TOTAL; ?></td>
-			<td class="small-xx"><?php echo $salary->CYCLE_INST; ?></td>
-			<td class="small-xx"><?php echo $salary->CYCLE_BAL; ?></td>
+			<td class="small-xx"><?php echo !$salary->IS_CYCLE_RECOVERY ? $salary->CYCLE_EMI : 0; ?></td>
+			<td class="small-xx"><?php echo !$salary->IS_CYCLE_RECOVERY ? $salary->CYCLE_TOTAL : 0; ?></td>
+			<td class="small-xx"><?php echo !$salary->IS_CYCLE_RECOVERY ? $salary->CYCLE_INST : 0; ?></td>
+			<td class="small-xx"><?php echo !$salary->IS_CYCLE_RECOVERY ? $salary->CYCLE_BAL : 0; ?></td>
 		</tr>
 		<?php 
 			$i++;
@@ -45,10 +45,10 @@
 		<th class="small-xxx right-br"></th>
 		<th class="small right-br"></th>
 		<th class="small right-br"></th>
-		<th class="small-xx"><?php $CYCLE_EMI = Yii::app()->db->createCommand("SELECT SUM(CYCLE_EMI) as CYCLE_EMI FROM tbl_salary_details WHERE BILL_ID_FK = $model->ID AND YEAR = $model->YEAR AND MONTH = $model->MONTH;")->queryRow()['CYCLE_EMI']; echo $CYCLE_EMI;?></th>
-		<th class="small-xx"><?php echo $salary->CYCLE_TOTAL; ?></th>
+		<th class="small-xx"><?php $CYCLE_EMI = Yii::app()->db->createCommand("SELECT SUM(CYCLE_EMI) as CYCLE_EMI FROM tbl_salary_details WHERE BILL_ID_FK = $model->ID AND IS_CYCLE_RECOVERY=0;")->queryRow()['CYCLE_EMI']; echo $CYCLE_EMI;?></th>
+		<th class="small-xx><?php $CYCLE_TOTAL = Yii::app()->db->createCommand("SELECT SUM(CYCLE_TOTAL) as CYCLE_TOTAL FROM tbl_salary_details WHERE BILL_ID_FK = $model->ID AND IS_CYCLE_RECOVERY = 0;")->queryRow()['CYCLE_TOTAL']; echo $CYCLE_TOTAL;?></th>
 		<th class="small-xx"></th>
-		<th class="small-xx"><?php echo $salary->CYCLE_BAL; ?></th>
+		<th class="small-xx"><?php $CYCLE_BAL = Yii::app()->db->createCommand("SELECT SUM(CYCLE_BAL) as CYCLE_BAL FROM tbl_salary_details WHERE BILL_ID_FK = $model->ID AND IS_CYCLE_RECOVERY = 0;")->queryRow()['CYCLE_BAL']; echo $CYCLE_BAL; ?></th>
 	</tfoot>
 </table>
 

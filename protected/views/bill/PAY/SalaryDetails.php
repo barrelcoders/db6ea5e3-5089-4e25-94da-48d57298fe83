@@ -209,6 +209,7 @@
 					<div>
 						<table class="table small-table">
 							<tr><th style="text-align:center;">HOUSE BUILDING ADVANCE</th></tr>
+							<tr><td><b class="one-label">INTEREST: </b><select name="SalaryDetails[<?php echo $employee->ID?>][HBA_RECOVERY]" ><option value="0" <?php echo ($salary->IS_HBA_RECOVERY == 0) ? "selected" : "";?>>NO</option><option value="1" <?php echo ($salary->IS_HBA_RECOVERY == 1) ? "selected" : "";?>>YES</option></select></td></tr>
 							<tr><td><b class="one-label">TOTAL: </b><input type='text' name="SalaryDetails[<?php echo $employee->ID?>][HBA_TOTAL]" value='<?php echo $salary->HBA_TOTAL ? $salary->HBA_TOTAL : 0?>' placeholder='TOTAL'></td></tr>
 							<tr><td><b class="one-label">INSTALLMENT NO: </b><input type='text' name="SalaryDetails[<?php echo $employee->ID?>][HBA_INST]" value='<?php echo $salary->HBA_INST ? $salary->HBA_INST : 0?>' placeholder='INSTALLMENT NO'></td></tr>
 							<tr><td><b class="one-label">EMI: </b><input type='text' class="ded-inc-amount-dwn" name="SalaryDetails[<?php echo $employee->ID?>][HBA_EMI]" value='<?php echo $salary->HBA_EMI ? $salary->HBA_EMI : 0?>' placeholder='EMI'></td></tr>
@@ -216,6 +217,7 @@
 						</table>
 						<table class="table small-table">
 							<tr><th style="text-align:center;">MOTOR CYCLE ADVANCE</th></tr>
+							<tr><td><b class="one-label">INTEREST: </b><select name="SalaryDetails[<?php echo $employee->ID?>][MCA_RECOVERY]" ><option value="0" <?php echo ($salary->IS_MCA_RECOVERY == 0) ? "selected" : "";?>>NO</option><option value="1" <?php echo ($salary->IS_MCA_RECOVERY == 1) ? "selected" : "";?>>YES</option></select></td></tr>
 							<tr><td><b class="one-label">TOTAL: </b><input type='text' name="SalaryDetails[<?php echo $employee->ID?>][MCA_TOTAL]" value='<?php echo $salary->MCA_TOTAL ? $salary->MCA_TOTAL: 0?>' placeholder='TOTAL'></td></tr>
 							<tr><td><b class="one-label">INSTALLMENT NO: </b><input name="SalaryDetails[<?php echo $employee->ID?>][MCA_INST]" type='text' value='<?php echo $salary->MCA_INST ? $salary->MCA_INST : 0?>' placeholder='INSTALLMENT NO'></td></tr>
 							<tr><td><b class="one-label">EMI: </b><input type='text' class="ded-inc-amount-dwn" name="SalaryDetails[<?php echo $employee->ID?>][MCA_EMI]" value='<?php echo $salary->MCA_EMI ? $salary->MCA_EMI : 0?>' placeholder='EMI'></td></tr>
@@ -223,6 +225,7 @@
 						</table>
 						<table class="table small-table">
 							<tr><th style="text-align:center;">FESTIVAL ADVANCE</th></tr>
+							<tr><td><b class="one-label">INTEREST: </b><select name="SalaryDetails[<?php echo $employee->ID?>][FEST_RECOVERY]" ><option value="0" <?php echo ($salary->IS_FEST_RECOVERY == 0) ? "selected" : "";?>>NO</option><option value="1" <?php echo ($salary->IS_FEST_RECOVERY == 1) ? "selected" : "";?>>YES</option></select></td></tr>
 							<tr><td><b class="one-label">TOTAL: </b><input type='text' name="SalaryDetails[<?php echo $employee->ID?>][FEST_TOTAL]" value='<?php echo $salary->FEST_TOTAL ? $salary->FEST_TOTAL : 0?>' placeholder='TOTAL'></td></tr>
 							<tr><td><b class="one-label">INSTALLMENT NO: </b><input type='text' name="SalaryDetails[<?php echo $employee->ID?>][FEST_INST]" value='<?php echo $salary->FEST_INST ? $salary->FEST_INST : 0?>' placeholder='INSTALLMENT NO'></td></tr>
 							<tr><td><b class="one-label">EMI: </b><input type='text' class="ded-inc-amount-dwn" name="SalaryDetails[<?php echo $employee->ID?>][FEST_EMI]" value='<?php echo $salary->FEST_EMI ? $salary->FEST_EMI : 0?>' placeholder='EMI'></td></tr>
@@ -230,6 +233,7 @@
 						</table>
 						<table class="table small-table">
 							<tr><th style="text-align:center;">CYCLE ADVANCE</th></tr>
+							<tr><td><b class="one-label">INTEREST: </b><select name="SalaryDetails[<?php echo $employee->ID?>][CYCLE_RECOVERY]" ><option value="0" <?php echo ($salary->IS_CYCLE_RECOVERY == 0) ? "selected" : "";?>>NO</option><option value="1" <?php echo ($salary->IS_CYCLE_RECOVERY == 1) ? "selected" : "";?>>YES</option></select></td></tr>
 							<tr><td><b class="one-label">TOTAL: </b><input type='text' name="SalaryDetails[<?php echo $employee->ID?>][CYCLE_TOTAL]" value='<?php echo $salary->CYCLE_TOTAL ? $salary->CYCLE_TOTAL :0?>' placeholder='TOTAL'></td></tr>
 							<tr><td><b class="one-label">INSTALLMENT NO: </b><input type='text' name="SalaryDetails[<?php echo $employee->ID?>][CYCLE_INST]" value='<?php echo $salary->CYCLE_INST ? $salary->CYCLE_INST :0?>' placeholder='INSTALLMENT NO'></td></tr>
 							<tr><td><b class="one-label">EMI: </b><input type='text' class="ded-inc-amount-dwn" name="SalaryDetails[<?php echo $employee->ID?>][CYCLE_EMI]" value='<?php echo $salary->CYCLE_EMI ? $salary->CYCLE_EMI : 0?>' placeholder='EMI'></td></tr>
@@ -237,6 +241,7 @@
 						</table>
 						<table class="table small-table">
 							<tr><th style="text-align:center;">FLOOD ADVANCE</th></tr>
+							<tr><td><b class="one-label">INTEREST: </b><select name="SalaryDetails[<?php echo $employee->ID?>][FLOOD_RECOVERY]" ><option value="0" <?php echo ($salary->IS_FLOOD_RECOVERY == 0) ? "selected" : "";?>>NO</option><option value="1" <?php echo ($salary->IS_FLOOD_RECOVERY == 1) ? "selected" : "";?>>YES</option></select></td></tr>
 							<tr><td><b class="one-label">TOTAL: </b><input type='text' name="SalaryDetails[<?php echo $employee->ID?>][FLOOD_TOTAL]" value='<?php echo $salary->FLOOD_TOTAL ? $salary->FLOOD_TOTAL : 0?>' placeholder='TOTAL'></td></tr>
 							<tr><td><b class="one-label">INSTALLMENT NO: </b><input type='text' name="SalaryDetails[<?php echo $employee->ID?>][FLOOD_INST]" value='<?php echo $salary->FLOOD_INST ? $salary->FLOOD_INST :0?>' placeholder='INSTALLMENT NO'></td></tr>
 							<tr><td><b class="one-label">EMI: </b><input type='text' class="ded-inc-amount-dwn" name="SalaryDetails[<?php echo $employee->ID?>][FLOOD_EMI]" value='<?php echo $salary->FLOOD_EMI ? $salary->FLOOD_EMI : 0?>' placeholder='EMI'></td></tr>
@@ -244,6 +249,7 @@
 						</table>
 						<table class="table small-table">
 							<tr><th style="text-align:center;">FAN ADVANCE</th></tr>
+							<tr><td><b class="one-label">INTEREST: </b><select name="SalaryDetails[<?php echo $employee->ID?>][FAN_RECOVERY]" ><option value="0" <?php echo ($salary->IS_FAN_RECOVERY == 0) ? "selected" : "";?>>NO</option><option value="1" <?php echo ($salary->IS_FAN_RECOVERY == 1) ? "selected" : "";?>>YES</option></select></td></tr>
 							<tr><td><b class="one-label">TOTAL: </b><input type='text' name="SalaryDetails[<?php echo $employee->ID?>][FAN_TOTAL]" value='<?php echo $salary->FAN_TOTAL ? $salary->FAN_TOTAL : 0?>' placeholder='TOTAL'></td></tr>
 							<tr><td><b class="one-label">INSTALLMENT NO: </b><input type='text' name="SalaryDetails[<?php echo $employee->ID?>][FAN_INST]" value='<?php echo $salary->FAN_INST ? $salary->FAN_INST :0?>' placeholder='INSTALLMENT NO'></td></tr>
 							<tr><td><b class="one-label">EMI: </b><input type='text' class="ded-inc-amount-dwn" name="SalaryDetails[<?php echo $employee->ID?>][FAN_EMI]" value='<?php echo $salary->FAN_EMI ? $salary->FAN_EMI : 0?>' placeholder='EMI'></td></tr>

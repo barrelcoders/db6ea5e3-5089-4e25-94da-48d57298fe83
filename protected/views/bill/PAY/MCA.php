@@ -32,10 +32,10 @@
 			<td class="small-xxx right-br"><?php echo $i; ?></td>
 			<td class="small right-br"><b><?php echo Employee::model()->findByPK($salary->EMPLOYEE_ID_FK)->NAME.'<br/>('.Employee::model()->findByPK($salary->EMPLOYEE_ID_FK)->NAME_HINDI.')';?></b></td>
 			<td class="small right-br"><b><?php echo Designations::model()->findByPK(Employee::model()->findByPK($salary->EMPLOYEE_ID_FK)->DESIGNATION_ID_FK)->DESIGNATION.'<br/>('.Designations::model()->findByPK(Employee::model()->findByPK($salary->EMPLOYEE_ID_FK)->DESIGNATION_ID_FK)->DESIGNATION_HINDI.')';?></b></td>
-			<td class="small-xx"><?php echo $salary->MCA_EMI; ?></td>
-			<td class="small-xx"><?php echo $salary->MCA_TOTAL; ?></td>
-			<td class="small-xx"><?php echo $salary->MCA_INST; ?></td>
-			<td class="small-xx"><?php echo $salary->MCA_BAL; ?></td>
+			<td class="small-xx"><?php echo !$salary->IS_MCA_RECOVERY ? $salary->MCA_EMI : 0; ?></td>
+			<td class="small-xx"><?php echo !$salary->IS_MCA_RECOVERY ? $salary->MCA_TOTAL : 0; ?></td>
+			<td class="small-xx"><?php echo !$salary->IS_MCA_RECOVERY ? $salary->MCA_INST : 0; ?></td>
+			<td class="small-xx"><?php echo !$salary->IS_MCA_RECOVERY ? $salary->MCA_BAL : 0; ?></td>
 		</tr>
 		<?php 
 			$i++;
@@ -45,10 +45,10 @@
 		<th class="small-xxx right-br"></th>
 		<th class="small right-br"></th>
 		<th class="small right-br"></th>
-		<th class="small-xx"><?php $MCA_EMI = Yii::app()->db->createCommand("SELECT SUM(MCA_EMI) as MCA_EMI FROM tbl_salary_details WHERE BILL_ID_FK = $model->ID AND YEAR = $model->YEAR AND MONTH = $model->MONTH;")->queryRow()['MCA_EMI']; echo $MCA_EMI;?></th>
-		<th class="small-xx"><?php echo $salary->MCA_TOTAL; ?></th>
+		<th class="small-xx"><?php $MCA_EMI = Yii::app()->db->createCommand("SELECT SUM(MCA_EMI) as MCA_EMI FROM tbl_salary_details WHERE BILL_ID_FK = $model->ID AND IS_MCA_RECOVERY = 0;")->queryRow()['MCA_EMI']; echo $MCA_EMI;?></th>
+		<th class="small-xx"><?php $MCA_TOTAL = Yii::app()->db->createCommand("SELECT SUM(MCA_TOTAL) as MCA_TOTAL FROM tbl_salary_details WHERE BILL_ID_FK = $model->ID AND IS_MCA_RECOVERY = 0;")->queryRow()['MCA_TOTAL']; echo $MCA_TOTAL;?></th>
 		<th class="small-xx"></th>
-		<th class="small-xx"><?php echo $salary->MCA_BAL; ?></th>
+		<th class="small-xx"><?php $MCA_BAL = Yii::app()->db->createCommand("SELECT SUM(MCA_BAL) as MCA_BAL FROM tbl_salary_details WHERE BILL_ID_FK = $model->ID AND IS_MCA_RECOVERY = 0;")->queryRow()['MCA_BAL']; echo $MCA_BAL; ?></th>
 	</tfoot>
 </table>
 
