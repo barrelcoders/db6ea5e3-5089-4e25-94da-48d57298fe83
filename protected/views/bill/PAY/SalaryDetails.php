@@ -1,3 +1,4 @@
+
 <link href="<?php echo Yii::app()->request->baseUrl; ?>/css/oneadmin.css" rel="stylesheet">
 <div class="container-fluid">
 	<div class="box-typical box-typical-padding" style="min-height:800px;">
@@ -7,6 +8,20 @@
 	if(isset($_REQUEST['id'])){
 		$bill = Bill::model()->findByPK($_REQUEST['id']);
 		?>
+		<script type="text/javascript">
+		$(document).ready(function(){
+			$('.tabcontent .basic-amount').change(function(){
+				$tabContent = $(this).parents('.tabcontent'); 
+				var IS_NPS_BILL = <?php echo ($bill->BILL_TYPE == 2) ? 1 : 0; ?>;
+				$tabContent.find('.hra-amount').val(Math.round(parseInt($(this).val())*0.24));
+				$tabContent.find('.da-amount').val(Math.round(parseInt($(this).val())*0.04));
+				if(IS_NPS_BILL){
+					$tabContent.find('.cpf-1-amount').val(Math.round(($tabContent.find('.da-amount').val() + $(this).val())*0.1));
+				}
+			});
+			
+		});
+	</script>
 			<table class="table">
 				<tr>
 					<td><b class="one-label">BILL No: </b><input type='text' style="width:80%;" readonly value='<?php echo $bill->BILL_NO; ?>' placeholder='BILL NO'></td>
@@ -168,8 +183,8 @@
 						</tr>
 						<tr>
 							<td><b class="one-label">C.C.A.: </b><input type='text' class="gross-inc-amount" name="SalaryDetails[<?php echo $employee->ID?>][CCA]" value='<?php echo $salary->CCA ? $salary->CCA : 0?>' placeholder='C.C.A.'></td>
-							<td><b class="one-label">H.R.A.: </b><input type='text' class="gross-inc-amount" name="SalaryDetails[<?php echo $employee->ID?>][HRA]" value='<?php echo $salary->HRA ? $salary->HRA : 0?>' placeholder='H.R.A'></td>
-							<td><b class="one-label">D.A.: </b><input type='text'   class="gross-inc-amount" name="SalaryDetails[<?php echo $employee->ID?>][DA]" value='<?php echo $salary->DA ? $salary->DA : 0?>' placeholder='D.A.'></td>
+							<td><b class="one-label">H.R.A.: </b><input type='text' class="gross-inc-amount hra-amount" name="SalaryDetails[<?php echo $employee->ID?>][HRA]" value='<?php echo $salary->HRA ? $salary->HRA : 0?>' placeholder='H.R.A'></td>
+							<td><b class="one-label">D.A.: </b><input type='text'   class="gross-inc-amount da-amount" name="SalaryDetails[<?php echo $employee->ID?>][DA]" value='<?php echo $salary->DA ? $salary->DA : 0?>' placeholder='D.A.'></td>
 							<td><b class="one-label">T.A.: </b><input type='text'   class="gross-inc-amount" name="SalaryDetails[<?php echo $employee->ID?>][TA]" value='<?php echo $salary->TA ? $salary->TA : 0?>' placeholder='T.A.'></td>
 							<td><b class="one-label">W.A.: </b><input type='text'   class="gross-inc-amount" name="SalaryDetails[<?php echo $employee->ID?>][WA]" value='<?php echo $salary->WA ? $salary->WA : 0?>' placeholder='W.A.'></td>
 						</tr>
@@ -180,7 +195,7 @@
 							<td><b class="one-label">C.G.H.S.: </b><input type='text' class="ded-inc-amount" name="SalaryDetails[<?php echo $employee->ID?>][CGHS]" value='<?php echo $salary->CGHS ? $salary->CGHS : 0?>' placeholder='C.G.H.S'></td>
 							<td><b class="one-label">L.F.: </b><input type='text' class="ded-inc-amount" name="SalaryDetails[<?php echo $employee->ID?>][LF]" value='<?php echo $salary->LF ? $salary->LF : 0?>' placeholder='L.F.'></td>
 							<td><b class="one-label">C.G.E.I.S.: </b><input type='text' class="ded-inc-amount" name="SalaryDetails[<?php echo $employee->ID?>][CGEGIS]" value='<?php echo $salary->CGEGIS ? $salary->CGEGIS : 0?>' placeholder='C.G.E.I.S.'></td>
-							<td><b class="one-label">C.P.F. Tier I: </b><input type='text' class="ded-inc-amount" name="SalaryDetails[<?php echo $employee->ID?>][CPF_TIER_I]" value='<?php echo $salary->CPF_TIER_I ? $salary->CPF_TIER_I : 0?>' placeholder='C.P.F. Tier I'></td>
+							<td><b class="one-label">C.P.F. Tier I: </b><input type='text' class="ded-inc-amount cpf-1-amount" name="SalaryDetails[<?php echo $employee->ID?>][CPF_TIER_I]" value='<?php echo $salary->CPF_TIER_I ? $salary->CPF_TIER_I : 0?>' placeholder='C.P.F. Tier I'></td>
 						</tr>
 						<tr>
 							<td><b class="one-label">C.P.F. Tier II: </b><input type='text' class="ded-inc-amount" name="SalaryDetails[<?php echo $employee->ID?>][CPF_TIER_II]" value='<?php echo $salary->CPF_TIER_II ? $salary->CPF_TIER_II : 0?>' placeholder='C.P.F. Tier II'></td>
