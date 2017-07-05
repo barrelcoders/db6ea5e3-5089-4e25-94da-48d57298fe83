@@ -14,7 +14,7 @@
 				$tabContent = $(this).parents('.tabcontent'); 
 				var IS_NPS_BILL = <?php echo ($bill->BILL_TYPE == 2) ? 1 : 0; ?>;
 				$tabContent.find('.hra-amount').val(Math.round(parseInt($(this).val())*0.24));
-				$tabContent.find('.da-amount').val(Math.round(parseInt($(this).val())*0.04));
+				$tabContent.find('.da-amount').val(Math.round(parseInt($(this).val())*0.06));
 				if(IS_NPS_BILL){
 					$tabContent.find('.cpf-1-amount').val(Math.round(($tabContent.find('.da-amount').val() + $(this).val())*0.1));
 				}

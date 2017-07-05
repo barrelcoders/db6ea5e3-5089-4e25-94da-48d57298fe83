@@ -1,4 +1,8 @@
-<?php require_once "/../../../../include/PayBillsFrontSheetInclude.php";?>
+<link href="<?php echo Yii::app()->request->baseUrl; ?>/css/oneadmin.css" rel="stylesheet">
+<style>*{font-size:10px;}</style>
+<style>@media print{*{margin:0; padding:0;}}</style>
+<script type="text/javascript">window.onload = function() { window.print(); }</script>
+<?php $master = Master::model()->findByPK(1); ?>
 <div style="display: block;border-bottom: 1px solid #000;min-height: 70px;margin-bottom: 5px;">
 	<div style="display: inline-block;float: left;width: 50%;">
 		<p style="margin-bottom:5px;font-size: 10px;"><b><?php echo $model->BILL_TITLE; ?></b></p>
