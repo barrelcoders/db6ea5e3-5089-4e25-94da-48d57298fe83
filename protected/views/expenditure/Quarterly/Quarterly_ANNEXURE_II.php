@@ -57,6 +57,16 @@
 				$QuraterlySalaryBillsArray = array();
 				foreach($bills as $bill)
 					array_push($QuraterlySalaryBillsArray, $bill->ID);
+					
+				$criteria=new CDbCriteria;
+				$criteria->condition = "MONTH(PASSED_DATE) >= ".$this->QuarterStart." AND MONTH(PASSED_DATE) <= ".$this->QuarterEnd;
+				$criteria->condition = "YEAR(PASSED_DATE)=".$this->Year;
+				$criteria->compare("PFMS_STATUS",'Passed');
+				$criteria->addInCondition("BILL_TYPE",array(8));
+				$bills = Bill::model()-> findAll($criteria);
+				$QuraterlyWagesBillsArray = array();
+				foreach($bills as $bill)
+					array_push($QuraterlyWagesBillsArray, $bill->ID);
 				
 				$criteria=new CDbCriteria;
 				$criteria->condition = "MONTH(PASSED_DATE) >= ".$this->QuarterStart." AND MONTH(PASSED_DATE) <= ".$this->QuarterEnd;
@@ -96,6 +106,15 @@
 				$YearlySalaryBillsArray = array();
 				foreach($bills as $bill)
 					array_push($YearlySalaryBillsArray, $bill->ID);
+					
+				$criteria=new CDbCriteria;
+				$criteria->condition = "PASSED_DATE >= '".date('Y-m-d', strtotime($financialYear->START_DATE))."' AND PASSED_DATE <= '".date('Y-m-d', strtotime($financialYear->END_DATE))."'";
+				$criteria->compare("PFMS_STATUS",'Passed');
+				$criteria->addInCondition("BILL_TYPE",array(8));
+				$bills = Bill::model()-> findAll($criteria);
+				$YearlyWagesBillsArray = array();
+				foreach($bills as $bill)
+					array_push($YearlyWagesBillsArray, $bill->ID);
 				
 				$criteria=new CDbCriteria;
 				$criteria->condition = "PASSED_DATE >= '".date('Y-m-d', strtotime($financialYear->START_DATE))."' AND PASSED_DATE <= '".date('Y-m-d', strtotime($financialYear->END_DATE))."'";
@@ -163,42 +182,42 @@
 			<td></td>
 			<td colspan="2"><b>Sub Total (1 to 3)</b></td>
 			<td><?php 							
-				$salary = Yii::app()->db->createCommand("SELECT SUM(BASIC) AS BASIC FROM tbl_salary_details WHERE BILL_ID_FK IN (".implode(",", $QuraterlySalaryBillsArray).")")->queryRow();							
-				if(!isset($salary['BASIC']))$salary['BASIC'] = 0;
-				echo $salary['BASIC'];
+				$Q_BASIC = Yii::app()->db->createCommand("SELECT SUM(BASIC) AS BASIC FROM tbl_salary_details WHERE BILL_ID_FK IN (".implode(",", $QuraterlySalaryBillsArray).")")->queryRow();							
+				if(!isset($Q_BASIC['BASIC']))$Q_BASIC['BASIC'] = 0;
+				echo $Q_BASIC['BASIC'];
 			?></td>
 			<td><?php 							
-				$salary = Yii::app()->db->createCommand("SELECT SUM(BASIC) AS BASIC FROM tbl_salary_details WHERE BILL_ID_FK IN (".implode(",", $YearlySalaryBillsArray).")")->queryRow();							
-				if(!isset($salary['BASIC']))$salary['BASIC'] = 0;
-				echo $salary['BASIC'];
+				$Y_BASIC = Yii::app()->db->createCommand("SELECT SUM(BASIC) AS BASIC FROM tbl_salary_details WHERE BILL_ID_FK IN (".implode(",", $YearlySalaryBillsArray).")")->queryRow();							
+				if(!isset($Y_BASIC['BASIC']))$Y_BASIC['BASIC'] = 0;
+				echo $Y_BASIC['BASIC'];
 			?></td>
 		</tr>
 		<tr>
 			<td>4</td>
 			<td colspan="2">Dearness Allowance</td>
 			<td><?php 							
-				$salary = Yii::app()->db->createCommand("SELECT SUM(DA) AS DA FROM tbl_salary_details WHERE BILL_ID_FK IN (".implode(",", $QuraterlySalaryBillsArray).")")->queryRow();							
-				if(!isset($salary['DA']))$salary['DA'] = 0;
-				echo $salary['DA'];
+				$Q_DA = Yii::app()->db->createCommand("SELECT SUM(DA) AS DA FROM tbl_salary_details WHERE BILL_ID_FK IN (".implode(",", $QuraterlySalaryBillsArray).")")->queryRow();							
+				if(!isset($Q_DA['DA']))$Q_DA['DA'] = 0;
+				echo $Q_DA['DA'];
 			?></td>
 			<td><?php 							
-				$salary = Yii::app()->db->createCommand("SELECT SUM(DA) AS DA FROM tbl_salary_details WHERE BILL_ID_FK IN (".implode(",", $YearlySalaryBillsArray).")")->queryRow();							
-				if(!isset($salary['DA']))$salary['DA'] = 0;
-				echo $salary['DA'];
+				$Y_DA = Yii::app()->db->createCommand("SELECT SUM(DA) AS DA FROM tbl_salary_details WHERE BILL_ID_FK IN (".implode(",", $YearlySalaryBillsArray).")")->queryRow();							
+				if(!isset($Y_DA['DA']))$Y_DA['DA'] = 0;
+				echo $Y_DA['DA'];
 			?></td>
 		</tr>
 		<tr>
 			<td>5</td>
 			<td colspan="2">House Rent Allowance</td>
 			<td><?php 							
-				$salary = Yii::app()->db->createCommand("SELECT SUM(HRA) AS HRA FROM tbl_salary_details WHERE BILL_ID_FK IN (".implode(",", $QuraterlySalaryBillsArray).")")->queryRow();							
-				if(!isset($salary['HRA']))$salary['HRA'] = 0;
-				echo $salary['HRA'];
+				$Q_HRA = Yii::app()->db->createCommand("SELECT SUM(HRA) AS HRA FROM tbl_salary_details WHERE BILL_ID_FK IN (".implode(",", $QuraterlySalaryBillsArray).")")->queryRow();							
+				if(!isset($Q_HRA['HRA']))$Q_HRA['HRA'] = 0;
+				echo $Q_HRA['HRA'];
 			?></td>
 			<td><?php 							
-				$salary = Yii::app()->db->createCommand("SELECT SUM(HRA) AS HRA FROM tbl_salary_details WHERE BILL_ID_FK IN (".implode(",", $YearlySalaryBillsArray).")")->queryRow();							
-				if(!isset($salary['HRA']))$salary['HRA'] = 0;
-				echo $salary['HRA'];
+				$Y_HRA = Yii::app()->db->createCommand("SELECT SUM(HRA) AS HRA FROM tbl_salary_details WHERE BILL_ID_FK IN (".implode(",", $YearlySalaryBillsArray).")")->queryRow();							
+				if(!isset($Y_HRA['HRA']))$Y_HRA['HRA'] = 0;
+				echo $Y_HRA['HRA'];
 			?></td>
 		</tr>
 		<tr>
@@ -217,14 +236,14 @@
 			<td>8</td>
 			<td colspan="2">(a) Special Pay</td>
 			<td><?php 							
-				$salary = Yii::app()->db->createCommand("SELECT SUM(SP) AS SP FROM tbl_salary_details WHERE BILL_ID_FK IN (".implode(",", $QuraterlySalaryBillsArray).")")->queryRow();							
-				if(!isset($salary['SP']))$salary['SP'] = 0;
-				echo $salary['SP'];
+				$Q_SP = Yii::app()->db->createCommand("SELECT SUM(SP) AS SP FROM tbl_salary_details WHERE BILL_ID_FK IN (".implode(",", $QuraterlySalaryBillsArray).")")->queryRow();							
+				if(!isset($Q_SP['SP']))$Q_SP['SP'] = 0;
+				echo $Q_SP['SP'];
 			?></td>
 			<td><?php 							
-				$salary = Yii::app()->db->createCommand("SELECT SUM(SP) AS SP FROM tbl_salary_details WHERE BILL_ID_FK IN (".implode(",", $YearlySalaryBillsArray).")")->queryRow();							
-				if(!isset($salary['SP']))$salary['SP'] = 0;
-				echo $salary['SP'];
+				$Y_SP = Yii::app()->db->createCommand("SELECT SUM(SP) AS SP FROM tbl_salary_details WHERE BILL_ID_FK IN (".implode(",", $YearlySalaryBillsArray).")")->queryRow();							
+				if(!isset($Y_SP['SP']))$Y_SP['SP'] = 0;
+				echo $Y_SP['SP'];
 			?></td>
 		</tr>
 		<tr>
@@ -237,14 +256,14 @@
 			<td>9</td>
 			<td colspan="2">Transport Allowance</td>
 			<td><?php 							
-				$salary = Yii::app()->db->createCommand("SELECT SUM(TA) AS TA FROM tbl_salary_details WHERE BILL_ID_FK IN (".implode(",", $QuraterlySalaryBillsArray).")")->queryRow();							
-				if(!isset($salary['TA']))$salary['TA'] = 0;
-				echo $salary['TA'];
+				$Q_TA = Yii::app()->db->createCommand("SELECT SUM(TA) AS TA FROM tbl_salary_details WHERE BILL_ID_FK IN (".implode(",", $QuraterlySalaryBillsArray).")")->queryRow();							
+				if(!isset($Q_TA['TA']))$Q_TA['TA'] = 0;
+				echo $Q_TA['TA'];
 			?></td>
 			<td><?php 							
-				$salary = Yii::app()->db->createCommand("SELECT SUM(TA) AS TA FROM tbl_salary_details WHERE BILL_ID_FK IN (".implode(",", $YearlySalaryBillsArray).")")->queryRow();							
-				if(!isset($salary['TA']))$salary['TA'] = 0;
-				echo $salary['TA'];
+				$Y_TA = Yii::app()->db->createCommand("SELECT SUM(TA) AS TA FROM tbl_salary_details WHERE BILL_ID_FK IN (".implode(",", $YearlySalaryBillsArray).")")->queryRow();							
+				if(!isset($Y_TA['TA']))$Y_TA['TA'] = 0;
+				echo $Y_TA['TA'];
 			?></td>
 		</tr>
 		<tr>
@@ -257,14 +276,14 @@
 			<td>11</td>
 			<td colspan="2">(a) Children Education Allowance (CEA)</td>
 			<td><?php 							
-				$salary = Yii::app()->db->createCommand("SELECT SUM(CEA) AS CEA FROM tbl_salary_details WHERE BILL_ID_FK IN (".implode(",", $QuraterlySalaryBillsArray).")")->queryRow();							
-				if(!isset($salary['CEA']))$salary['CEA'] = 0;
-				echo $salary['CEA'];
+				$Q_CEA = Yii::app()->db->createCommand("SELECT SUM(CEA) AS CEA FROM tbl_salary_details WHERE BILL_ID_FK IN (".implode(",", $QuraterlySalaryBillsArray).")")->queryRow();							
+				if(!isset($Q_CEA['CEA']))$Q_CEA['CEA'] = 0;
+				echo $Q_CEA['CEA'];
 			?></td>
 			<td><?php 							
-				$salary = Yii::app()->db->createCommand("SELECT SUM(CEA) AS CEA FROM tbl_salary_details WHERE BILL_ID_FK IN (".implode(",", $YearlySalaryBillsArray).")")->queryRow();							
-				if(!isset($salary['CEA']))$salary['CEA'] = 0;
-				echo $salary['CEA'];
+				$Y_CEA = Yii::app()->db->createCommand("SELECT SUM(CEA) AS CEA FROM tbl_salary_details WHERE BILL_ID_FK IN (".implode(",", $YearlySalaryBillsArray).")")->queryRow();							
+				if(!isset($Y_CEA['CEA']))$Y_CEA['CEA'] = 0;
+				echo $Y_CEA['CEA'];
 			?></td>
 		</tr>
 		<tr>
@@ -277,14 +296,14 @@
 			<td>12</td>
 			<td colspan="2">Leave Travel Concession (LTC)</td>
 			<td><?php 							
-				$salary = Yii::app()->db->createCommand("SELECT SUM(LTC_HTC) AS LTC_HTC FROM tbl_salary_details WHERE BILL_ID_FK IN (".implode(",", $QuraterlySalaryBillsArray).")")->queryRow();							
-				if(!isset($salary['LTC_HTC']))$salary['LTC_HTC'] = 0;
-				echo $salary['LTC_HTC'];
+				$Q_LTC_HTC = Yii::app()->db->createCommand("SELECT SUM(LTC_HTC) AS LTC_HTC FROM tbl_salary_details WHERE BILL_ID_FK IN (".implode(",", $QuraterlySalaryBillsArray).")")->queryRow();							
+				if(!isset($Q_LTC_HTC['LTC_HTC']))$Q_LTC_HTC['LTC_HTC'] = 0;
+				echo $Q_LTC_HTC['LTC_HTC'];
 			?></td>
 			<td><?php 							
-				$salary = Yii::app()->db->createCommand("SELECT SUM(LTC_HTC) AS LTC_HTC FROM tbl_salary_details WHERE BILL_ID_FK IN (".implode(",", $YearlySalaryBillsArray).")")->queryRow();							
-				if(!isset($salary['LTC_HTC']))$salary['LTC_HTC'] = 0;
-				echo $salary['LTC_HTC'];
+				$Y_LTC_HTC = Yii::app()->db->createCommand("SELECT SUM(LTC_HTC) AS LTC_HTC FROM tbl_salary_details WHERE BILL_ID_FK IN (".implode(",", $YearlySalaryBillsArray).")")->queryRow();							
+				if(!isset($Y_LTC_HTC['LTC_HTC']))$Y_LTC_HTC['LTC_HTC'] = 0;
+				echo $Y_LTC_HTC['LTC_HTC'];
 			?></td>
 		</tr>
 		<tr>
@@ -296,19 +315,19 @@
 		<tr>
 			<td>14</td>
 			<td colspan="2">Reimbursemnt of Medical Charges</td>
-			<td><?php
+			<td><?php $Q_MEDICAL = 0;
 				if(count($QuraterlyMedicalBillsArray) > 0){
-					$bill = Yii::app()->db->createCommand("SELECT SUM(BILL_AMOUNT) AS BILL_AMOUNT FROM tbl_bill WHERE ID IN (".implode(",", $QuraterlyMedicalBillsArray).")")->queryRow();							
-					if(!isset($bill['BILL_AMOUNT']))$bill['BILL_AMOUNT'] = 0;
-					echo $bill['BILL_AMOUNT'];
+					$Q_MEDICAL = Yii::app()->db->createCommand("SELECT SUM(BILL_AMOUNT) AS BILL_AMOUNT FROM tbl_bill WHERE ID IN (".implode(",", $QuraterlyMedicalBillsArray).")")->queryRow();							
+					if(!isset($Q_MEDICAL['BILL_AMOUNT']))$Q_MEDICAL['BILL_AMOUNT'] = 0;
+					echo $Q_MEDICAL['BILL_AMOUNT'];
 				}
 				
 			?></td>
-			<td><?php 					
+			<td><?php $Y_MEDICAL = 0;			
 				if(count($YearlyMedicalBillsArray) > 0){
-					$bill = Yii::app()->db->createCommand("SELECT SUM(BILL_AMOUNT) AS BILL_AMOUNT FROM tbl_bill WHERE ID IN (".implode(",", $YearlyMedicalBillsArray).")")->queryRow();							
-					if(!isset($bill['BILL_AMOUNT']))$bill['BILL_AMOUNT'] = 0;
-					echo $bill['BILL_AMOUNT'];
+					$Y_MEDICAL = Yii::app()->db->createCommand("SELECT SUM(BILL_AMOUNT) AS BILL_AMOUNT FROM tbl_bill WHERE ID IN (".implode(",", $YearlyMedicalBillsArray).")")->queryRow();							
+					if(!isset($Y_MEDICAL['BILL_AMOUNT']))$Y_MEDICAL['BILL_AMOUNT'] = 0;
+					echo $Y_MEDICAL['BILL_AMOUNT'];
 				}
 			?></td>
 		</tr>
@@ -340,14 +359,14 @@
 			<td></td>
 			<td colspan="2">(f) Washing Allowance</td>
 			<td><?php 							
-				$salary = Yii::app()->db->createCommand("SELECT SUM(WA) AS WA FROM tbl_salary_details WHERE BILL_ID_FK IN (".implode(",", $QuraterlySalaryBillsArray).")")->queryRow();							
-				if(!isset($salary['WA']))$salary['WA'] = 0;
-				echo $salary['WA'];
+				$Q_WA = Yii::app()->db->createCommand("SELECT SUM(WA) AS WA FROM tbl_salary_details WHERE BILL_ID_FK IN (".implode(",", $QuraterlySalaryBillsArray).")")->queryRow();							
+				if(!isset($Q_WA['WA']))$Q_WA['WA'] = 0;
+				echo $Q_WA['WA'];
 			?></td>
 			<td><?php 							
-				$salary = Yii::app()->db->createCommand("SELECT SUM(WA) AS WA FROM tbl_salary_details WHERE BILL_ID_FK IN (".implode(",", $YearlySalaryBillsArray).")")->queryRow();							
-				if(!isset($salary['WA']))$salary['WA'] = 0;
-				echo $salary['WA'];
+				$Y_WA = Yii::app()->db->createCommand("SELECT SUM(WA) AS WA FROM tbl_salary_details WHERE BILL_ID_FK IN (".implode(",", $YearlySalaryBillsArray).")")->queryRow();							
+				if(!isset($Y_WA['WA']))$Y_WA['WA'] = 0;
+				echo $Y_WA['WA'];
 			?></td>
 		</tr>
 		<tr>
@@ -360,14 +379,14 @@
 			<td></td>
 			<td colspan="2">(v) Uniform Allowance</td>
 			<td><?php 							
-				$salary = Yii::app()->db->createCommand("SELECT SUM(UA) AS UA FROM tbl_salary_details WHERE BILL_ID_FK IN (".implode(",", $QuraterlySalaryBillsArray).")")->queryRow();							
-				if(!isset($salary['UA']))$salary['UA'] = 0;
-				echo $salary['UA'];
+				$Q_UA = Yii::app()->db->createCommand("SELECT SUM(UA) AS UA FROM tbl_salary_details WHERE BILL_ID_FK IN (".implode(",", $QuraterlySalaryBillsArray).")")->queryRow();							
+				if(!isset($Q_UA['UA']))$Q_UA['UA'] = 0;
+				echo $Q_UA['UA'];
 			?></td>
 			<td><?php 							
-				$salary = Yii::app()->db->createCommand("SELECT SUM(UA) AS UA FROM tbl_salary_details WHERE BILL_ID_FK IN (".implode(",", $YearlySalaryBillsArray).")")->queryRow();							
-				if(!isset($salary['UA']))$salary['UA'] = 0;
-				echo $salary['UA'];
+				$Y_UA = Yii::app()->db->createCommand("SELECT SUM(UA) AS UA FROM tbl_salary_details WHERE BILL_ID_FK IN (".implode(",", $YearlySalaryBillsArray).")")->queryRow();							
+				if(!isset($Y_UA['UA']))$Y_UA['UA'] = 0;
+				echo $Y_UA['UA'];
 			?></td>
 		</tr>
 		<tr>
@@ -378,6 +397,20 @@
 		</tr>
 		<tr>
 			<td>18</td>
+			<td colspan="2">WAGES</td>
+			<td><?php 							
+				$Q_WAGES = Yii::app()->db->createCommand("SELECT SUM(GROSS) AS GROSS FROM tbl_salary_details WHERE BILL_ID_FK IN (".implode(",", $QuraterlyWagesBillsArray).")")->queryRow();							
+				if(!isset($Q_WAGES['GROSS']))$Q_WAGES['GROSS'] = 0;
+				echo $Q_WAGES['GROSS'];
+			?></td>
+			<td><?php 							
+				$Y_WAGES = Yii::app()->db->createCommand("SELECT SUM(GROSS) AS GROSS FROM tbl_salary_details WHERE BILL_ID_FK IN (".implode(",", $YearlyWagesBillsArray).")")->queryRow();							
+				if(!isset($Y_WAGES['GROSS']))$Y_WAGES['GROSS'] = 0;
+				echo $Y_WAGES['GROSS'];
+			?></td>
+		</tr>
+		<tr>
+			<td>19</td>
 			<td colspan="2">LTC Advance</td>
 			<td>0</td>
 			<td>0</td>
@@ -385,17 +418,17 @@
 		<tr>
 			<td>(ii)</td>
 			<td colspan="2"><b style="display: block;text-align: center;font-weight: bold;">Subtotal</b></td>
-			<td>0</td>
-			<td>0</td>
+			<td><?php echo $Q_DA['DA']+$Q_HRA['HRA']+ $Q_SP['SP']+$Q_TA['TA']+$Q_CEA['CEA']+$Q_LTC_HTC['LTC_HTC']+$Q_MEDICAL['BILL_AMOUNT']+$Q_WA['WA']+$Q_UA['UA']+$Q_WAGES['GROSS'];?></td>
+			<td><?php echo $Y_DA['DA']+$Y_HRA['HRA']+ $Y_SP['SP']+$Y_TA['TA']+$Y_CEA['CEA']+$Y_LTC_HTC['LTC_HTC']+$Y_MEDICAL['BILL_AMOUNT']+$Y_WA['WA']+$Y_UA['UA']+$Y_WAGES['GROSS'];?></td>
 		</tr>
 		<tr>
 			<td>(iii)</td>
 			<td colspan="2"><b style="display: block;text-align: center;font-weight: bold;">Grand Total</b></td>
-			<td>0</td>
-			<td>0</td>
+			<td><?php echo $Q_BASIC['BASIC']+$Q_DA['DA']+$Q_HRA['HRA']+ $Q_SP['SP']+$Q_TA['TA']+$Q_CEA['CEA']+$Q_LTC_HTC['LTC_HTC']+$Q_MEDICAL['BILL_AMOUNT']+$Q_WA['WA']+$Q_UA['UA']+$Q_WAGES['GROSS'];?></td>
+			<td><?php echo $Y_BASIC['BASIC']+$Y_DA['DA']+$Y_HRA['HRA']+ $Y_SP['SP']+$Y_TA['TA']+$Y_CEA['CEA']+$Y_LTC_HTC['LTC_HTC']+$Y_MEDICAL['BILL_AMOUNT']+$Y_WA['WA']+$Y_UA['UA']+$Y_WAGES['GROSS'];?></td>
 		</tr>
 		<tr>
-			<td>18</td>
+			<td>20</td>
 			<td colspan="2">Travel Expenses</td>
 			<td>0</td>
 			<td>0</td>
@@ -404,13 +437,13 @@
 			<td>(a)</td>
 			<td colspan="2">(i) Domestic Travel Expenses (DTE)</td>
 			<td><?php 							
-				$salary = Yii::app()->db->createCommand("SELECT SUM(BILL_AMOUNT) AS BILL_AMOUNT FROM tbl_bill WHERE ID IN (".implode(",", $QuraterlyDomesticTravalBillsArray).") AND BILL_TYPE=4")->queryRow();							
-				$Q_DTE = $salary['BILL_AMOUNT'] ? $salary['BILL_AMOUNT'] : 0;
+				$Q_DTE = Yii::app()->db->createCommand("SELECT SUM(BILL_AMOUNT) AS BILL_AMOUNT FROM tbl_bill WHERE ID IN (".implode(",", $QuraterlyDomesticTravalBillsArray).") AND BILL_TYPE=4")->queryRow();							
+				$Q_DTE = $Q_DTE['BILL_AMOUNT'] ? $Q_DTE['BILL_AMOUNT'] : 0;
 				echo $Q_DTE;
 			?></td>
 			<td><?php 							
-				$salary = Yii::app()->db->createCommand("SELECT SUM(BILL_AMOUNT) AS BILL_AMOUNT FROM tbl_bill WHERE ID IN (".implode(",", $QuraterlyDomesticTravalBillsArray).") AND BILL_TYPE=4")->queryRow();							
-				$Y_DTE = $salary['BILL_AMOUNT'] ? $salary['BILL_AMOUNT'] : 0;
+				$Y_DTE = Yii::app()->db->createCommand("SELECT SUM(BILL_AMOUNT) AS BILL_AMOUNT FROM tbl_bill WHERE ID IN (".implode(",", $QuraterlyDomesticTravalBillsArray).") AND BILL_TYPE=4")->queryRow();							
+				$Y_DTE = $Y_DTE['BILL_AMOUNT'] ? $Y_DTE['BILL_AMOUNT'] : 0;
 				echo $Y_DTE;
 			?></td>
 		</tr>
@@ -436,14 +469,14 @@
 			<td>19</td>
 			<td colspan="2">BONUS(ADHOC BONUS)</td>
 			<td><?php 							
-				$salary = Yii::app()->db->createCommand("SELECT SUM(BONUS) AS BONUS FROM tbl_salary_details WHERE BILL_ID_FK IN (".implode(",", $QuraterlySalaryBillsArray).")")->queryRow();							
-				if(!isset($salary['BONUS']))$salary['BONUS'] = 0;
-				echo $salary['BONUS'];
+				$Q_BONUS = Yii::app()->db->createCommand("SELECT SUM(BONUS) AS BONUS FROM tbl_salary_details WHERE BILL_ID_FK IN (".implode(",", $QuraterlySalaryBillsArray).")")->queryRow();							
+				if(!isset($Q_BONUS['BONUS']))$Q_BONUS['BONUS'] = 0;
+				echo $Q_BONUS['BONUS'];
 			?></td>
 			<td><?php 							
-				$salary = Yii::app()->db->createCommand("SELECT SUM(BONUS) AS BONUS FROM tbl_salary_details WHERE BILL_ID_FK IN (".implode(",", $YearlySalaryBillsArray).")")->queryRow();							
-				if(!isset($salary['BONUS']))$salary['BONUS'] = 0;
-				echo $salary['BONUS'];
+				$Y_BONUS = Yii::app()->db->createCommand("SELECT SUM(BONUS) AS BONUS FROM tbl_salary_details WHERE BILL_ID_FK IN (".implode(",", $YearlySalaryBillsArray).")")->queryRow();							
+				if(!isset($Y_BONUS['BONUS']))$Y_BONUS['BONUS'] = 0;
+				echo $Y_BONUS['BONUS'];
 			?></td>
 		</tr>
 		<tr>
@@ -476,14 +509,14 @@
 			<td>X</td>
 			<td>1</td>
 			<td><?php 							
-				$salary = Yii::app()->db->createCommand("SELECT SUM(HRA) AS HRA FROM tbl_salary_details WHERE BILL_ID_FK IN (".implode(",", $QuraterlySalaryBillsArray).")")->queryRow();							
-				if(!isset($salary['HRA']))$salary['HRA'] = 0;
-				echo $salary['HRA'];
+				$Q_HRA = Yii::app()->db->createCommand("SELECT SUM(HRA) AS HRA FROM tbl_salary_details WHERE BILL_ID_FK IN (".implode(",", $QuraterlySalaryBillsArray).")")->queryRow();							
+				if(!isset($Q_HRA['HRA']))$Q_HRA['HRA'] = 0;
+				echo $Q_HRA['HRA'];
 			?></td>
 			<td><?php 							
-				$salary = Yii::app()->db->createCommand("SELECT SUM(HRA) AS HRA FROM tbl_salary_details WHERE BILL_ID_FK IN (".implode(",", $YearlySalaryBillsArray).")")->queryRow();							
-				if(!isset($salary['HRA']))$salary['HRA'] = 0;
-				echo $salary['HRA'];
+				$Y_HRA = Yii::app()->db->createCommand("SELECT SUM(HRA) AS HRA FROM tbl_salary_details WHERE BILL_ID_FK IN (".implode(",", $YearlySalaryBillsArray).")")->queryRow();							
+				if(!isset($Y_HRA['HRA']))$Y_HRA['HRA'] = 0;
+				echo $Y_HRA['HRA'];
 			?></td>
 		</tr>
 		<tr>
@@ -504,14 +537,14 @@
 			<td></td>
 			<td>TOTAL</td>
 			<td>1</td><td><?php 							
-				$salary = Yii::app()->db->createCommand("SELECT SUM(HRA) AS HRA FROM tbl_salary_details WHERE BILL_ID_FK IN (".implode(",", $QuraterlySalaryBillsArray).")")->queryRow();							
-				if(!isset($salary['HRA']))$salary['HRA'] = 0;
-				echo $salary['HRA'];
+				$Q_HRA = Yii::app()->db->createCommand("SELECT SUM(HRA) AS HRA FROM tbl_salary_details WHERE BILL_ID_FK IN (".implode(",", $QuraterlySalaryBillsArray).")")->queryRow();							
+				if(!isset($Q_HRA['HRA']))$Q_HRA['HRA'] = 0;
+				echo $Q_HRA['HRA'];
 			?></td>
 			<td><?php 							
-				$salary = Yii::app()->db->createCommand("SELECT SUM(HRA) AS HRA FROM tbl_salary_details WHERE BILL_ID_FK IN (".implode(",", $YearlySalaryBillsArray).")")->queryRow();							
-				if(!isset($salary['HRA']))$salary['HRA'] = 0;
-				echo $salary['HRA'];
+				$Y_HRA = Yii::app()->db->createCommand("SELECT SUM(HRA) AS HRA FROM tbl_salary_details WHERE BILL_ID_FK IN (".implode(",", $YearlySalaryBillsArray).")")->queryRow();							
+				if(!isset($Y_HRA['HRA']))$Y_HRA['HRA'] = 0;
+				echo $Y_HRA['HRA'];
 			?></td>
 		</tr>
 	</tbody>

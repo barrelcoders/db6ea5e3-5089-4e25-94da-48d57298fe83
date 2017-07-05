@@ -15,7 +15,15 @@
 				<?php } ?>
 		</tr>
 	</thead>
-	<?php $employees = Yii::app()->db->createCommand("SELECT * FROM tbl_employee WHERE IS_TRANSFERRED=0 AND IS_RETIRED=0 ORDER BY DESIGNATION_ID_FK DESC ")->queryAll(); ?>
+	<?php 
+		$employees = null;
+		if(count($designations) > 0){
+			$employees = Yii::app()->db->createCommand("SELECT * FROM tbl_employee WHERE IS_TRANSFERRED=0 AND IS_RETIRED=0 AND DESIGNATION_ID_FK IN (".implode(",", $designations).") ORDER BY DESIGNATION_ID_FK DESC ")->queryAll();
+		}
+		else{
+			$employees = Yii::app()->db->createCommand("SELECT * FROM tbl_employee WHERE IS_TRANSFERRED=0 AND IS_RETIRED=0 ORDER BY DESIGNATION_ID_FK DESC ")->queryAll();
+		}
+	 ?>
 	<tbody>
 		<?php 
 			$i=1;

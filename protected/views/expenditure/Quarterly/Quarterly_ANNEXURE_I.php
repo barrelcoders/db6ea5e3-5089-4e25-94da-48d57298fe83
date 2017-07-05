@@ -69,8 +69,8 @@
 			<td>
 					<span style="display: inline-block;margin-right: 5px;float: left;">A<br/><?php echo Employee::model()->count('t.IS_TRANSFERRED=0 AND t.IS_RETIRED=0 AND t.DESIGNATION_ID_FK>=19')?></span>
 					<span style="display: inline-block;margin-right: 5px;float: left;">B<br/><?php echo Employee::model()->count('t.IS_TRANSFERRED=0 AND t.IS_RETIRED=0 AND t.DESIGNATION_ID_FK<=18 AND t.DESIGNATION_ID_FK>=10')?></span>
-					<span style="display: inline-block;margin-right: 5px;float: left;">C<br/><?php echo Employee::model()->count('t.IS_TRANSFERRED=0 AND t.IS_RETIRED=0 AND t.DESIGNATION_ID_FK<=9 AND t.DESIGNATION_ID_FK>=8')?></span>
-					<span style="display: inline-block;margin-right: 5px;float: left;">D<br/><?php echo Employee::model()->count('t.IS_TRANSFERRED=0 AND t.IS_RETIRED=0 AND t.DESIGNATION_ID_FK<=7')?></span>
+					<span style="display: inline-block;margin-right: 5px;float: left;">C<br/><?php echo Employee::model()->count('t.IS_TRANSFERRED=0 AND t.IS_RETIRED=0 AND t.DESIGNATION_ID_FK<=9 AND t.DESIGNATION_ID_FK>=7')?></span>
+					<span style="display: inline-block;margin-right: 5px;float: left;">D<br/><?php echo Employee::model()->count('t.IS_TRANSFERRED=0 AND t.IS_RETIRED=0 AND t.DESIGNATION_ID_FK<=6')?></span>
 			</td>
 		</tr>
 	</tbody>
