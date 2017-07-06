@@ -36,7 +36,7 @@ class EmployeeController extends Controller
 		
 	public function actionView($id)
 	{
-		if(Yii::app()->User->EMPLOYEE_ID != $id){
+		if(Yii::app()->User->EMPLOYEE_ID != $id && Yii::app()->User->TYPE !='ADMINISTRATION'){
 			$this->redirect(Yii::app()->createUrl('Employee/view', array('id'=>Yii::app()->User->EMPLOYEE_ID)));
 		}
 		
@@ -187,7 +187,7 @@ class EmployeeController extends Controller
 				'custom_1'=>$_POST['Employee']['Custom_attr_1'],
 				'custom_2'=>$_POST['Employee']['Custom_attr_2'],
 				'custom_3'=>$_POST['Employee']['Custom_attr_3'],
-				'designations'=>$_POST['Employee']['Designations']
+				'designations'=>isset($_POST['Employee']['Designations']) ? $_POST['Employee']['Designations'] : array()
 			));
 		}
 		else{
