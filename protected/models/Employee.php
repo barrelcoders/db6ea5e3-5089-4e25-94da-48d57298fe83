@@ -48,9 +48,9 @@ class Employee extends CActiveRecord
 			array('NAME, NAME_HINDI', 'length', 'max'=>100),
 			array('DESIGNATION_ID_FK, GRADE_PAY_ID_FK, GROUP_ID_FK, JOIN_DESIGNATION_ID_FK', 'length', 'max'=>10),
 			array('IS_PERMANENT, STATUS, IS_TRANSFERRED, IS_RETIRED', 'length', 'max'=>3),
-			array('PENSION_ACC_NO, PENSION_TYPE, MICR, ACCOUNT_NO, IFSC, PAN, CATEGORY, GENDER, ORG_JOIN_TIME, DEPT_RELIEF_TIME, DEPT_JOIN_TIME, PERMISSION', 'length', 'max'=>45),
-			array('DEPT_JOIN_DATE, DEPT_RELIEF_DATE, ORG_JOIN_DATE, ORG_RETIRE_DATE, PRESENT_PROMOTION_DATE', 'date', 'format'=>'yyyy-MM-dd', 'allowEmpty'=>true),
-			array( 'DEPT_JOIN_DATE, DEPT_RELIEF_DATE, ORG_JOIN_DATE, ORG_RETIRE_DATE', 'default', 'setOnEmpty'=>true, 'value'=>'0000-00-00' ),
+			array('PENSION_ACC_NO, PENSION_TYPE, MICR, ACCOUNT_NO, IFSC, PAN, CATEGORY, GENDER, ORG_JOIN_TIME, DEPT_RELIEF_TIME, DEPT_JOIN_TIME, PERMISSION, SERVICE_BOOK_VOL', 'length', 'max'=>45),
+			array('DEPT_JOIN_DATE, DEPT_RELIEF_DATE, ORG_JOIN_DATE, PRESENT_PROMOTION_DATE', 'date', 'format'=>'yyyy-MM-dd', 'allowEmpty'=>true),
+			array('DEPT_JOIN_DATE, DEPT_RELIEF_DATE, ORG_JOIN_DATE', 'default', 'setOnEmpty'=>true, 'value'=>'' ),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
 			array('ID, NAME, DEPT_JOIN_DATE, DEPT_RELIEF_DATE, ORG_JOIN_DATE, ORG_RETIRE_DATE, DESIGNATION_ID_FK, GRADE_PAY_ID_FK, DOI, PENSION_ACC_NO, FOLIO_NO, GROUP_ID_FK, DOB, NAME_HINDI, 
@@ -114,7 +114,8 @@ class Employee extends CActiveRecord
 			'ORG_JOIN_TIME'=>'Organization Joining Time', 
 			'DEPT_RELIEF_TIME'=>'Department Relief Time', 
 			'DEPT_JOIN_TIME'=>'Department Joining Time',
-			'PERMISSION'=>'Permission'
+			'PERMISSION'=>'Permission',
+			'SERVICE_BOOK_VOL'=>'Service Book Volumn'
 		);
 	}
 
@@ -169,6 +170,8 @@ class Employee extends CActiveRecord
 		$criteria->compare('DEPT_RELIEF_TIME',$this->DEPT_RELIEF_TIME,true);
 		$criteria->compare('DEPT_JOIN_TIME',$this->DEPT_JOIN_TIME,true);
 		$criteria->compare('PERMISSION',$this->PERMISSION,true);
+		$criteria->compare('SERVICE_BOOK_VOL',$this->SERVICE_BOOK_VOL,true);
+		
 		
 		$criteria->order = 'DESIGNATION_ID_FK DESC';
 		return new CActiveDataProvider($this, array(

@@ -11,7 +11,7 @@
 				<?php echo $form->labelEx($model,'BILL_NO', array('class'=>'col-sm-2 form-control-label')); ?>
 				<div class="col-sm-10">
 					<p class="form-control-static">
-						<?php echo $form->textField($model,'BILL_NO',array('size'=>60,'maxlength'=>100, 'value'=>$model->BILL_NO));?>
+						<?php echo $form->textField($model,'BILL_NO',array('size'=>40,'maxlength'=>100, 'value'=>$model->BILL_NO));?>
 					</p>
 				</div>
 			</div>
@@ -47,7 +47,7 @@
 				<?php echo $form->labelEx($model,'CER_NO', array('class'=>'col-sm-2 form-control-label')); ?>
 				<div class="col-sm-10">
 					<p class="form-control-static">
-						<?php echo $form->textField($model,'CER_NO',array('size'=>60,'maxlength'=>100, 'value'=>$model->CER_NO)); ?>
+						<?php echo $form->textField($model,'CER_NO',array('size'=>40,'maxlength'=>100, 'value'=>$model->CER_NO)); ?>
 					</p>
 				</div>
 			</div>
@@ -138,7 +138,7 @@
 				<?php echo $form->labelEx($model,'BILL_AMOUNT', array('class'=>'col-sm-2 form-control-label')); ?>
 				<div class="col-sm-10">
 					<p class="form-control-static">
-						<?php echo $form->textField($model,'BILL_AMOUNT',array('size'=>60,'maxlength'=>100, 'value'=>$model->BILL_AMOUNT)); ?>
+						<?php echo $form->textField($model,'BILL_AMOUNT',array('size'=>40,'maxlength'=>100, 'value'=>$model->BILL_AMOUNT)); ?>
 					</p>
 				</div>
 			</div>
@@ -147,7 +147,7 @@
 				<?php echo $form->labelEx($model,'PFMS_BILL_NO', array('class'=>'col-sm-2 form-control-label')); ?>
 				<div class="col-sm-10">
 					<p class="form-control-static">
-						<?php echo $form->textField($model,'PFMS_BILL_NO',array('size'=>60,'maxlength'=>100, 'value'=>$model->PFMS_BILL_NO)); ?>
+						<?php echo $form->textField($model,'PFMS_BILL_NO',array('size'=>40,'maxlength'=>100, 'value'=>$model->PFMS_BILL_NO)); ?>
 					</p>
 				</div>
 			</div>

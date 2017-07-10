@@ -57,41 +57,52 @@ class EmployeeController extends Controller
 	 */
 	public function actionCreate()
 	{
+		//echo Yii::app()->Security->Encrypt("umang");exit;
 		$model=new Employee;
 		$licModel=new EmployeeLICPolicies;
 
 		// Uncomment the following line if AJAX validation is needed
 		// $this->performAjaxValidation($model);
-
 		if(isset($_POST['Employee']))
 		{
+			//echo "<pre>";print_r($_POST);echo "</pre>";exit;
 			$model->attributes=$_POST['Employee'];
-			$model->DEPT_JOIN_DATE = $_POST['Employee']['DEPT_JOIN_DATE'] ? $_POST['Employee']['DEPT_JOIN_DATE'] : NULL;
-			$model->DEPT_RELIEF_DATE = $_POST['Employee']['DEPT_RELIEF_DATE'] ? $_POST['Employee']['DEPT_RELIEF_DATE'] : NULL;
-			$model->ORG_JOIN_DATE = $_POST['Employee']['ORG_JOIN_DATE'] ? $_POST['Employee']['ORG_JOIN_DATE'] : NULL;
-			$model->ORG_RETIRE_DATE = $_POST['Employee']['ORG_RETIRE_DATE'] ? $_POST['Employee']['ORG_RETIRE_DATE'] : NULL;
-			$model->PRESENT_PROMOTION_DATE = $_POST['Employee']['PRESENT_PROMOTION_DATE'] ? $_POST['Employee']['PRESENT_PROMOTION_DATE'] : NULL;
-			if($model->save(false)){
-				$lic_policies = $_POST['Employee']['LIC'];
-				foreach($lic_policies as $policy){
-					$EmployeeLICPolicies = new EmployeeLICPolicies;
-					$EmployeeLICPolicies->EMPLOYEE_ID_FK = $model->ID;
-					$EmployeeLICPolicies->POLICY_NO = $policy['POLICY_NO'];
-					$EmployeeLICPolicies->AMOUNT = $policy['AMOUNT'];
-					$EmployeeLICPolicies->STATUS = $policy['STATUS'];
-					$EmployeeLICPolicies->save(false);
+			$model->DEPT_JOIN_DATE = ($_POST['Employee']['DEPT_JOIN_DATE'] != "") ? $_POST['Employee']['DEPT_JOIN_DATE'] : NULL;
+			$model->DEPT_RELIEF_DATE = ($_POST['Employee']['DEPT_RELIEF_DATE'] != "") ? $_POST['Employee']['DEPT_RELIEF_DATE'] : NULL;
+			$model->ORG_JOIN_DATE = ($_POST['Employee']['ORG_JOIN_DATE'] != "") ? $_POST['Employee']['ORG_JOIN_DATE'] : NULL;
+			$model->ORG_RETIRE_DATE = ($_POST['Employee']['ORG_RETIRE_DATE'] != "") ? $_POST['Employee']['ORG_RETIRE_DATE'] : NULL;
+			$model->PRESENT_PROMOTION_DATE = ($_POST['Employee']['PRESENT_PROMOTION_DATE'] != "") ? $_POST['Employee']['PRESENT_PROMOTION_DATE'] : NULL;
+			$model->DOB = ($_POST['Employee']['DOB'] != "") ? $_POST['Employee']['DOB'] : NULL;
+			$model->DOI = ($_POST['Employee']['DOI'] != "") ? $_POST['Employee']['DOI'] : NULL;
+			
+			if(!Employee::model()->exists("NAME='".$model->NAME."'")){
+				if($model->save(false)){
+					$lic_policies = $_POST['Employee']['LIC'];
+					foreach($lic_policies as $policy){
+						if($policy['POLICY_NO'] != ""){
+							$EmployeeLICPolicies = new EmployeeLICPolicies;
+							$EmployeeLICPolicies->EMPLOYEE_ID_FK = $model->ID;
+							$EmployeeLICPolicies->POLICY_NO = $policy['POLICY_NO'];
+							$EmployeeLICPolicies->AMOUNT = $policy['AMOUNT'];
+							$EmployeeLICPolicies->STATUS = $policy['STATUS'];
+							$EmployeeLICPolicies->save(false);
+						}
+					}
+					
+					$Users = new Users;
+					$array = explode(" ",$model->NAME);
+					$username = strtolower($array[count($array)-1]);
+					$Users->USERNAME = $username;
+					$Users->PASSWORD = Yii::app()->Security->Encrypt($username);
+					$Users->TYPE = $_POST['Employee']['PERMISSION'];
+					$Users->EMPLOYEE_ID = $model->ID;
+					$Users->save(false);
+					echo "<script type='text/javascript'>alert('".$model->NAME.", ".Designations::model()->findByPk($model->DESIGNATION_ID_FK)->DESIGNATION." details added Successfully');</script>";
+					//$this->redirect(array('create'));
 				}
-				
-				$Users = new Users;
-				$array = explode(" ",$model->NAME);
-				$username = strtolower($array[count($array)-1]);
-				$Users->USERNMAE = $username;
-				$Users->PASSWORD = Yii::app()->Security->Encrypt($username);
-				$Users->TYPE = $_POST['Employee']['PERMISSION'];
-				$Users->EMPLOYEE_ID = $model->ID;
-				$Users->save(false);
-				echo "<script type='text/javascript'>alert('Employee created Successfully');</script>";
-				$this->redirect(array('create'));
+			}
+			else{
+				echo "<script type='text/javascript'>alert('".$model->NAME.", ".Designations::model()->findByPk($model->DESIGNATION_ID_FK)->DESIGNATION." details already exists');</script>";
 			}
 		}
 
@@ -210,28 +221,22 @@ class EmployeeController extends Controller
 
 		// Uncomment the following line if AJAX validation is needed
 		// $this->performAjaxValidation($model);
-
+	
+			
 		if(isset($_POST['Employee']))
 		{
+			//echo "<pre>";print_r($_POST);echo "</pre>";exit;/
 			$model->attributes=$_POST['Employee'];
 			$model->DEPT_JOIN_DATE = $_POST['Employee']['DEPT_JOIN_DATE'] ? $_POST['Employee']['DEPT_JOIN_DATE'] : NULL;
 			$model->DEPT_RELIEF_DATE = $_POST['Employee']['DEPT_RELIEF_DATE'] ? $_POST['Employee']['DEPT_RELIEF_DATE'] : NULL;
 			$model->ORG_JOIN_DATE = $_POST['Employee']['ORG_JOIN_DATE'] ? $_POST['Employee']['ORG_JOIN_DATE'] : NULL;
 			$model->ORG_RETIRE_DATE = $_POST['Employee']['ORG_RETIRE_DATE'] ? $_POST['Employee']['ORG_RETIRE_DATE'] : NULL;
 			$model->PRESENT_PROMOTION_DATE = $_POST['Employee']['PRESENT_PROMOTION_DATE'] ? $_POST['Employee']['PRESENT_PROMOTION_DATE'] : NULL;
+			$model->DOB = $_POST['Employee']['DOB'] ? $_POST['Employee']['DOB'] : NULL;
+			$model->DOI = $_POST['Employee']['DOI'] ? $_POST['Employee']['DOI'] : NULL;
 			if($model->save(false)){
-				$lic_policies = $_POST['Employee']['LIC'];
-				foreach($lic_policies as $policy){
-					$EmployeeLICPolicies = new EmployeeLICPolicies;
-					$EmployeeLICPolicies->EMPLOYEE_ID_FK = $model->ID;
-					$EmployeeLICPolicies->POLICY_NO = $policy['POLICY_NO'];
-					$EmployeeLICPolicies->AMOUNT = $policy['AMOUNT'];
-					$EmployeeLICPolicies->STATUS = $policy['STATUS'];
-					$EmployeeLICPolicies->save(false);
-				}
-				
-				echo "<script type='text/javascript'>alert('Employee created Successfully');</script>";
-				$this->redirect(Yii::app()->createUrl('Employee/update', array('id'=>$id)));
+				echo "<script type='text/javascript'>alert('".$model->NAME.", ".Designations::model()->findByPk($model->DESIGNATION_ID_FK)->DESIGNATION." details updated Successfully');</script>";
+				//$this->redirect(Yii::app()->createUrl('Employee/update', array('id'=>$id)));
 			}
 		}
 
