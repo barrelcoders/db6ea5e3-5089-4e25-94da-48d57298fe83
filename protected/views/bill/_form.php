@@ -172,7 +172,7 @@
 						<?php echo $form->labelEx($model,'UA_PERIOD', array('class'=>'col-sm-2 form-control-label')); ?>
 						<div class="col-sm-10">
 							<p class="form-control-static">
-								<?php echo $form->textField($model,'UA_PERIOD',array('size'=>60,'maxlength'=>100, 'disabled'=>Yii::app()->controller->action->id == 'update', 'value'=>$model->UA_PERIOD)); ?>
+								<?php echo $form->textField($model,'UA_PERIOD',array('size'=>40,'maxlength'=>100, 'disabled'=>Yii::app()->controller->action->id == 'update', 'value'=>$model->UA_PERIOD)); ?>
 							</p>
 						</div>
 					</div>
@@ -181,7 +181,7 @@
 					<?php echo $form->labelEx($model,'UA_PERIOD', array('class'=>'col-sm-2 form-control-label')); ?>
 					<div class="col-sm-10">
 						<p class="form-control-static">
-							<?php echo $form->textField($model,'UA_PERIOD',array('size'=>60,'maxlength'=>100, 'disabled'=>Yii::app()->controller->action->id == 'update')); ?>
+							<?php echo $form->textField($model,'UA_PERIOD',array('size'=>40,'maxlength'=>100, 'disabled'=>Yii::app()->controller->action->id == 'update')); ?>
 						</p>
 					</div>
 				</div>
@@ -193,7 +193,7 @@
 			<?php echo $form->labelEx($model,'BILL_NO', array('class'=>'col-sm-2 form-control-label')); ?>
 			<div class="col-sm-10">
 				<p class="form-control-static">
-					<?php echo $form->textField($model,'BILL_NO',array('size'=>60,'maxlength'=>100, 'disabled'=>Yii::app()->controller->action->id == 'update')); ?>
+					<?php echo $form->textField($model,'BILL_NO',array('size'=>40,'maxlength'=>100, 'disabled'=>Yii::app()->controller->action->id == 'update')); ?>
 				</p>
 			</div>
 		</div>
@@ -202,7 +202,7 @@
 				<?php echo $form->labelEx($model,'NILL_BILL_NO', array('class'=>'col-sm-2 form-control-label')); ?>
 				<div class="col-sm-10">
 					<p class="form-control-static">
-						<?php echo $form->textField($model,'NILL_BILL_NO',array('size'=>60,'maxlength'=>100)); ?>
+						<?php echo $form->textField($model,'NILL_BILL_NO',array('size'=>40,'maxlength'=>100)); ?>
 					</p>
 				</div>
 			</div>
@@ -212,7 +212,7 @@
 				<?php echo $form->labelEx($model,'LIC_DED_BILL_NO', array('class'=>'col-sm-2 form-control-label')); ?>
 				<div class="col-sm-10">
 					<p class="form-control-static">
-						<?php echo $form->textField($model,'LIC_DED_BILL_NO',array('size'=>60,'maxlength'=>100)); ?>
+						<?php echo $form->textField($model,'LIC_DED_BILL_NO',array('size'=>40,'maxlength'=>100)); ?>
 					</p>
 				</div>
 			</div>
@@ -220,7 +220,7 @@
 				<?php echo $form->labelEx($model,'PT_DED_BILL_NO', array('class'=>'col-sm-2 form-control-label')); ?>
 				<div class="col-sm-10">
 					<p class="form-control-static">
-						<?php echo $form->textField($model,'PT_DED_BILL_NO',array('size'=>60,'maxlength'=>100)); ?>
+						<?php echo $form->textField($model,'PT_DED_BILL_NO',array('size'=>40,'maxlength'=>100)); ?>
 					</p>
 				</div>
 			</div>
@@ -245,7 +245,7 @@
 			<?php echo $form->labelEx($model,'FILE_NO', array('class'=>'col-sm-2 form-control-label')); ?>
 			<div class="col-sm-10">
 				<p class="form-control-static">
-					<?php echo $form->textField($model,'FILE_NO',array('size'=>60,'maxlength'=>100, 'disabled'=>Yii::app()->controller->action->id == 'update')); ?>
+					<?php echo $form->textField($model,'FILE_NO',array('size'=>40,'maxlength'=>100, 'disabled'=>Yii::app()->controller->action->id == 'update')); ?>
 				</p>
 			</div>
 		</div>
@@ -263,7 +263,7 @@
 					<?php echo $form->labelEx($model,'OE_IT_DED', array('class'=>'col-sm-2 form-control-label')); ?>
 					<div class="col-sm-10">
 						<p class="form-control-static">
-							<?php echo $form->textField($model,'OE_IT_DED',array('size'=>60,'maxlength'=>100, 'value'=>OEBillDetails::model()->find('BILL_ID_FK='.$model->ID)->IT_DED, 'disabled'=>true)); ?>
+							<?php echo $form->textField($model,'OE_IT_DED',array('size'=>40,'maxlength'=>100, 'value'=>OEBillDetails::model()->find('BILL_ID_FK='.$model->ID)->IT_DED, 'disabled'=>true)); ?>
 						</p>
 					</div>
 				</div>
@@ -271,7 +271,7 @@
 					<?php echo $form->labelEx($model,'OE_NET_AMOUNT', array('class'=>'col-sm-2 form-control-label')); ?>
 					<div class="col-sm-10">
 						<p class="form-control-static">
-							<?php echo $form->textField($model,'OE_NET_AMOUNT',array('size'=>60,'maxlength'=>100, 'value'=>OEBillDetails::model()->find('BILL_ID_FK='.$model->ID)->NET_AMOUNT, 'disabled'=>true)); ?>
+							<?php echo $form->textField($model,'OE_NET_AMOUNT',array('size'=>40,'maxlength'=>100, 'value'=>OEBillDetails::model()->find('BILL_ID_FK='.$model->ID)->NET_AMOUNT, 'disabled'=>true)); ?>
 						</p>
 					</div>
 				</div>
@@ -319,7 +319,7 @@
 					<?php echo $form->labelEx($model,'OE_IT_DED', array('class'=>'col-sm-2 form-control-label')); ?>
 					<div class="col-sm-10">
 						<p class="form-control-static">
-							<?php echo $form->textField($model,'OE_IT_DED',array('size'=>60,'maxlength'=>100)); ?>
+							<?php echo $form->textField($model,'OE_IT_DED',array('size'=>40,'maxlength'=>100)); ?>
 						</p>
 					</div>
 				</div>
@@ -327,7 +327,7 @@
 					<?php echo $form->labelEx($model,'OE_NET_AMOUNT', array('class'=>'col-sm-2 form-control-label')); ?>
 					<div class="col-sm-10">
 						<p class="form-control-static">
-							<?php echo $form->textField($model,'OE_NET_AMOUNT',array('size'=>60,'maxlength'=>100)); ?>
+							<?php echo $form->textField($model,'OE_NET_AMOUNT',array('size'=>40,'maxlength'=>100)); ?>
 						</p>
 					</div>
 				</div>
@@ -527,7 +527,7 @@
 			<?php echo $form->labelEx($model,'PFMS_BILL_NO', array('class'=>'col-sm-2 form-control-label')); ?>
 			<div class="col-sm-10">
 				<p class="form-control-static">
-					<?php echo $form->textField($model,'PFMS_BILL_NO',array('size'=>60,'maxlength'=>100)); ?>
+					<?php echo $form->textField($model,'PFMS_BILL_NO',array('size'=>40,'maxlength'=>100)); ?>
 				</p>
 			</div>
 		</div>

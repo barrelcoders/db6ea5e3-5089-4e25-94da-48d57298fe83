@@ -57,6 +57,7 @@
 		// See class documentation of CActiveForm for details on this.
 		'enableAjaxValidation'=>false,
 	)); 
+	//'disabled'=>Yii::app()->controller->action->id == 'update',
 	?>
 	<div class="row">
 		<div class="col-sm-6">
@@ -64,7 +65,7 @@
 				<?php echo $form->labelEx($model,'NAME', array('class'=>'col-sm-2 form-control-label')); ?>
 				<div class="col-sm-10">
 					<p class="form-control-static">
-						<?php echo $form->textField($model,'NAME',array('size'=>60,'maxlength'=>100, 'value'=>$model->NAME, 'style'=>'text-transform: uppercase;')); ?>
+						<?php echo $form->textField($model,'NAME',array('size'=>40,'maxlength'=>100, 'value'=>$model->NAME, 'style'=>'text-transform: uppercase;')); ?>
 					</p>
 				</div>
 			</div>
@@ -72,7 +73,7 @@
 				<?php echo $form->labelEx($model,'NAME_HINDI', array('class'=>'col-sm-2 form-control-label')); ?>
 				<div class="col-sm-10">
 					<p class="form-control-static">
-						<?php echo $form->textField($model,'NAME_HINDI',array('size'=>60,'maxlength'=>100, 'value'=>$model->NAME_HINDI)); ?>
+						<?php echo $form->textField($model,'NAME_HINDI',array('size'=>40,'maxlength'=>100, 'value'=>$model->NAME_HINDI)); ?>
 					</p>
 				</div>
 			</div>
@@ -80,7 +81,7 @@
 				<?php echo $form->labelEx($model,'GENDER', array('class'=>'col-sm-2 form-control-label')); ?>
 				<div class="col-sm-10">
 					<p class="form-control-static">
-						<?php echo $form->dropDownList($model,'IS_PERMANENT',array('Male'=>'Male', 'Female'=>'Female'), array('options'=>array($model->GENDER=>array('selected'=>true)))); ?>
+						<?php echo $form->dropDownList($model,'GENDER',array('Male'=>'Male', 'Female'=>'Female'), array('options'=>array($model->GENDER=>array('selected'=>true)))); ?>
 					</p>
 				</div>
 			</div>
@@ -179,7 +180,7 @@
 				<?php echo $form->labelEx($model,'DOB', array('class'=>'col-sm-2 form-control-label')); ?>
 				<div class="col-sm-10">
 					<p class="form-control-static">
-						<?php 
+						<?php  
 							$this->widget('zii.widgets.jui.CJuiDatePicker',array(
 								'model'=>$model,
 								'attribute'=>'DOB',
@@ -188,7 +189,7 @@
 									'showAnim'=>'fold',
 								),
 								'htmlOptions'=>array(
-									'disabled'=>Yii::app()->controller->action->id == 'update'
+									'value'=> ($model->DOB == "") ? "" : date('Y-m-d', strtotime($model->DOB))
 								),
 							));	?>
 					</p>
@@ -207,7 +208,7 @@
 									'showAnim'=>'fold',
 								),
 								'htmlOptions'=>array(
-									'disabled'=>Yii::app()->controller->action->id == 'update'
+									'value'=> ($model->DOI == "") ? "" : date('Y-m-d', strtotime($model->DOI))
 								),
 							));	?>
 					</p>
@@ -234,7 +235,7 @@
 									'showAnim'=>'fold',
 								),
 								'htmlOptions'=>array(
-									'disabled'=>Yii::app()->controller->action->id == 'update'
+									'value'=> ($model->ORG_JOIN_DATE == "") ? "" : date('Y-m-d', strtotime($model->ORG_JOIN_DATE))
 								),
 							));	?>
 							<?php echo $form->dropDownList($model,'ORG_JOIN_TIME',array(''=>'', 'F/N'=>'F/N', 'A/N'=>'A/N'), array('options'=>array($model->ORG_JOIN_TIME=>array('selected'=>true)))); ?>
@@ -266,7 +267,7 @@
 									'showAnim'=>'fold',
 								),
 								'htmlOptions'=>array(
-									'disabled'=>Yii::app()->controller->action->id == 'update',
+									'value'=> ($model->ORG_RETIRE_DATE == "") ? "" : $model->ORG_RETIRE_DATE
 								),
 							));
 							?>
@@ -286,7 +287,7 @@
 									'showAnim'=>'fold',
 								),
 								'htmlOptions'=>array(
-									'disabled'=>Yii::app()->controller->action->id == 'update'
+									'value'=> ($model->DEPT_JOIN_DATE == "") ? "" : date('Y-m-d', strtotime($model->DEPT_JOIN_DATE))
 								),
 							));	?>
 							<?php echo $form->dropDownList($model,'DEPT_JOIN_TIME',array(''=>'', 'F/N'=>'F/N', 'A/N'=>'A/N'), array('options'=>array($model->DEPT_JOIN_TIME=>array('selected'=>true)))); ?>
@@ -306,7 +307,7 @@
 									'showAnim'=>'fold',
 								),
 								'htmlOptions'=>array(
-									'disabled'=>Yii::app()->controller->action->id == 'update'
+									'value'=> ($model->DEPT_RELIEF_DATE == "") ? "" : date('Y-m-d', strtotime($model->DEPT_RELIEF_DATE))
 								),
 							));	?>
 							<?php echo $form->dropDownList($model,'DEPT_RELIEF_TIME',array(''=>'', 'F/N'=>'F/N', 'A/N'=>'A/N'), array('options'=>array($model->DEPT_RELIEF_TIME=>array('selected'=>true)))); ?>
@@ -326,7 +327,7 @@
 									'showAnim'=>'fold',
 								),
 								'htmlOptions'=>array(
-									'disabled'=>Yii::app()->controller->action->id == 'update'
+									'value'=> ($model->PRESENT_PROMOTION_DATE == "") ? "" : date('Y-m-d', strtotime($model->PRESENT_PROMOTION_DATE))
 								),
 							));	?>
 					</p>
@@ -360,9 +361,17 @@
 				<?php echo $form->labelEx($model,'PERMISSION', array('class'=>'col-sm-2 form-control-label')); ?>
 				<div class="col-sm-10">
 					<p class="form-control-static">
-						<?php echo $form->dropDownList($model,'PERMISSION',array('EMPLOYEE'=>'EMPLOYEE', 'ADMINISTRATION'=>'ADMINISTRATION'), array('options'=>array($model->IS_PERMANENT=>array('selected'=>true)))); ?>
+						<?php echo $form->dropDownList($model,'PERMISSION',array('EMPLOYEE'=>'EMPLOYEE', 'ADMINISTRATION'=>'ADMINISTRATION'), array('options'=>array($model->PERMISSION=>array('selected'=>true)))); ?>
 					</p>
 				</div>
+			</div>
+		</div>
+		<div class="form-group row">
+			<?php echo $form->labelEx($model,'SERVICE_BOOK_VOL', array('class'=>'col-sm-2 form-control-label')); ?>
+			<div class="col-sm-10">
+				<p class="form-control-static">
+					<?php echo $form->textField($model,'SERVICE_BOOK_VOL',array('size'=>10,'maxlength'=>10, 'value'=>$model->SERVICE_BOOK_VOL)); ?>
+				</p>
 			</div>
 		</div>
 	</div>

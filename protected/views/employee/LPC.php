@@ -170,8 +170,10 @@ Ministry / Department / Office  <b><?php echo $master->OFFICE_NAME_HINDI;?>/<?ph
 	$DA_Arrear=0;
 	$DA_Arrear_Bills_Array=array();
 	foreach($da_bills as $bill){
-		$DA_Arrear += SalaryDetails::model()->find('EMPLOYEE_ID_FK='.$employee->ID.' AND BILL_ID_FK='.$bill->ID)->DA;
-		array_push($DA_Arrear_Bills_Array, $bill->BILL_NO);
+		if(SalaryDetails::model()->exists('EMPLOYEE_ID_FK='.$employee->ID.' AND BILL_ID_FK='.$bill->ID)){			
+			$DA_Arrear += SalaryDetails::model()->find('EMPLOYEE_ID_FK='.$employee->ID.' AND BILL_ID_FK='.$bill->ID)->DA;
+			array_push($DA_Arrear_Bills_Array, $bill->BILL_NO);	
+		}
 	}
 ?>
 <p>4) DA Arrear of Rs.<?php echo $DA_Arrear;?>/- has been paid vide Bill No. (<?php echo implode(",", $DA_Arrear_Bills_Array)?>).</p>
