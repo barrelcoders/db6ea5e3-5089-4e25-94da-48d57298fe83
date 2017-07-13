@@ -22,6 +22,7 @@
 			$("#Employee_ORG_RETIRE_DATE").val(retire_date);
 			
 		});
+		
 	});
 	function deleteRow(row)
 	{
@@ -177,75 +178,42 @@
 		</div>
 		<div class="col-sm-6">
 			<div class="form-group row">
-				<?php echo $form->labelEx($model,'DOB', array('class'=>'col-sm-2 form-control-label')); ?>
-				<div class="col-sm-10">
+				<?php echo $form->labelEx($model,'DOB', array('class'=>'col-sm-3 form-control-label')); ?>
+				<div class="col-sm-9">
 					<p class="form-control-static">
-						<?php  
-							$this->widget('zii.widgets.jui.CJuiDatePicker',array(
-								'model'=>$model,
-								'attribute'=>'DOB',
-								'options'=>array(
-									'dateFormat'=>'yy-mm-dd',
-									'showAnim'=>'fold',
-								),
-								'htmlOptions'=>array(
-									'value'=> ($model->DOB == "") ? "" : date('Y-m-d', strtotime($model->DOB))
-								),
-							));	?>
+						<input value="<?php echo ($model->DOB == "") ? "" : date('Y-m-d', strtotime($model->DOB))?>" id="Employee_DOB" name="Employee[DOB]" type="date">
 					</p>
 				</div>
 			</div>
 			<div class="form-group row">
-				<?php echo $form->labelEx($model,'DOI', array('class'=>'col-sm-2 form-control-label')); ?>
-				<div class="col-sm-10">
+				<?php echo $form->labelEx($model,'DOI', array('class'=>'col-sm-3 form-control-label')); ?>
+				<div class="col-sm-9">
 					<p class="form-control-static">
-						<?php 
-							$this->widget('zii.widgets.jui.CJuiDatePicker',array(
-								'model'=>$model,
-								'attribute'=>'DOI',
-								'options'=>array(
-									'dateFormat'=>'yy-mm-dd',
-									'showAnim'=>'fold',
-								),
-								'htmlOptions'=>array(
-									'value'=> ($model->DOI == "") ? "" : date('Y-m-d', strtotime($model->DOI))
-								),
-							));	?>
+						<input value="<?php echo ($model->DOI == "") ? "" : date('Y-m-d', strtotime($model->DOI))?>" id="Employee_DOI" name="Employee[DOI]" type="date">
 					</p>
 				</div>
 			</div>
 			<div class="form-group row">
-				<?php echo $form->labelEx($model,'IS_PERMANENT', array('class'=>'col-sm-2 form-control-label')); ?>
-				<div class="col-sm-10">
+				<?php echo $form->labelEx($model,'IS_PERMANENT', array('class'=>'col-sm-3 form-control-label')); ?>
+				<div class="col-sm-9">
 					<p class="form-control-static">
 						<?php echo $form->dropDownList($model,'IS_PERMANENT',array(1=>'Permanent', 0=>'Contractor'), array('options'=>array($model->IS_PERMANENT=>array('selected'=>true)))); ?>
 					</p>
 				</div>
 			</div>
 			<div class="form-group row">
-				<?php echo $form->labelEx($model,'ORG_JOIN_DATE', array('class'=>'col-sm-2 form-control-label')); ?>
-				<div class="col-sm-10">
+				<?php echo $form->labelEx($model,'ORG_JOIN_DATE', array('class'=>'col-sm-3 form-control-label')); ?>
+				<div class="col-sm-9">
 					<p class="form-control-static">
-						<?php 
-							$this->widget('zii.widgets.jui.CJuiDatePicker',array(
-								'model'=>$model,
-								'attribute'=>'ORG_JOIN_DATE',
-								'options'=>array(
-									'dateFormat'=>'yy-mm-dd',
-									'showAnim'=>'fold',
-								),
-								'htmlOptions'=>array(
-									'value'=> ($model->ORG_JOIN_DATE == "") ? "" : date('Y-m-d', strtotime($model->ORG_JOIN_DATE))
-								),
-							));	?>
-							<?php echo $form->dropDownList($model,'ORG_JOIN_TIME',array(''=>'', 'F/N'=>'F/N', 'A/N'=>'A/N'), array('options'=>array($model->ORG_JOIN_TIME=>array('selected'=>true)))); ?>
+						<input value="<?php echo ($model->ORG_JOIN_DATE == "") ? "" : date('Y-m-d', strtotime($model->ORG_JOIN_DATE))?>" id="Employee_ORG_JOIN_DATE" name="Employee[ORG_JOIN_DATE]" type="date">
+						<?php echo $form->dropDownList($model,'ORG_JOIN_TIME',array(''=>'', 'F/N'=>'F/N', 'A/N'=>'A/N'), array('options'=>array($model->ORG_JOIN_TIME=>array('selected'=>true)))); ?>
 					</p>
 				</div>
 				
 			</div>
 			<div class="form-group row">
-				<?php echo $form->labelEx($model,'JOIN_DESIGNATION_ID_FK', array('class'=>'col-sm-2 form-control-label')); ?>
-				<div class="col-sm-10">
+				<?php echo $form->labelEx($model,'JOIN_DESIGNATION_ID_FK', array('class'=>'col-sm-3 form-control-label')); ?>
+				<div class="col-sm-9">
 					<p class="form-control-static">
 						<?php echo $form->dropDownList($model,'JOIN_DESIGNATION_ID_FK',CHtml::listData(Designations::model()->findAll(), 'ID', 'DESIGNATION'), array(
 					'empty'=>array('0'=>'Select Designation'),
@@ -255,111 +223,66 @@
 				</div>
 			</div>
 			<div class="form-group row">
-				<?php echo $form->labelEx($model,'ORG_RETIRE_DATE', array('class'=>'col-sm-2 form-control-label')); ?>
-				<div class="col-sm-10">
+				<?php echo $form->labelEx($model,'ORG_RETIRE_DATE', array('class'=>'col-sm-3 form-control-label')); ?>
+				<div class="col-sm-9">
 					<p class="form-control-static">
-						<?php 
-							$this->widget('zii.widgets.jui.CJuiDatePicker',array(
-								'model'=>$model,
-								'attribute'=>'ORG_RETIRE_DATE',
-								'options'=>array(
-									'dateFormat'=>'yy-mm-dd',
-									'showAnim'=>'fold',
-								),
-								'htmlOptions'=>array(
-									'value'=> ($model->ORG_RETIRE_DATE == "") ? "" : $model->ORG_RETIRE_DATE
-								),
-							));
-							?>
+						<input value="<?php echo ($model->ORG_RETIRE_DATE == "") ? "" : date('Y-m-d', strtotime($model->ORG_RETIRE_DATE))?>" id="Employee_ORG_RETIRE_DATE" name="Employee[ORG_RETIRE_DATE]" type="date">
 					</p>
 				</div>
 			</div>
 			<div class="form-group row">
-				<?php echo $form->labelEx($model,'DEPT_JOIN_DATE', array('class'=>'col-sm-2 form-control-label')); ?>
-				<div class="col-sm-10">
+				<?php echo $form->labelEx($model,'DEPT_JOIN_DATE', array('class'=>'col-sm-3 form-control-label')); ?>
+				<div class="col-sm-9">
 					<p class="form-control-static">
-						<?php 
-							$this->widget('zii.widgets.jui.CJuiDatePicker',array(
-								'model'=>$model,
-								'attribute'=>'DEPT_JOIN_DATE',
-								'options'=>array(
-									'dateFormat'=>'yy-mm-dd',
-									'showAnim'=>'fold',
-								),
-								'htmlOptions'=>array(
-									'value'=> ($model->DEPT_JOIN_DATE == "") ? "" : date('Y-m-d', strtotime($model->DEPT_JOIN_DATE))
-								),
-							));	?>
-							<?php echo $form->dropDownList($model,'DEPT_JOIN_TIME',array(''=>'', 'F/N'=>'F/N', 'A/N'=>'A/N'), array('options'=>array($model->DEPT_JOIN_TIME=>array('selected'=>true)))); ?>
+						<input value="<?php echo ($model->DEPT_JOIN_DATE == "") ? "" : date('Y-m-d', strtotime($model->DEPT_JOIN_DATE))?>" id="Employee_DEPT_JOIN_DATE" name="Employee[DEPT_JOIN_DATE]" type="date">
+						<?php echo $form->dropDownList($model,'DEPT_JOIN_TIME',array(''=>'', 'F/N'=>'F/N', 'A/N'=>'A/N'), array('options'=>array($model->DEPT_JOIN_TIME=>array('selected'=>true)))); ?>
 					</p>
 				</div>
 			</div>
 			<div class="form-group row">
-				<?php echo $form->labelEx($model,'DEPT_RELIEF_DATE', array('class'=>'col-sm-2 form-control-label')); ?>
-				<div class="col-sm-10">
+				<?php echo $form->labelEx($model,'DEPT_RELIEF_DATE', array('class'=>'col-sm-3 form-control-label')); ?>
+				<div class="col-sm-9">
 					<p class="form-control-static">
-						<?php 
-							$this->widget('zii.widgets.jui.CJuiDatePicker',array(
-								'model'=>$model,
-								'attribute'=>'DEPT_RELIEF_DATE',
-								'options'=>array(
-									'dateFormat'=>'yy-mm-dd',
-									'showAnim'=>'fold',
-								),
-								'htmlOptions'=>array(
-									'value'=> ($model->DEPT_RELIEF_DATE == "") ? "" : date('Y-m-d', strtotime($model->DEPT_RELIEF_DATE))
-								),
-							));	?>
-							<?php echo $form->dropDownList($model,'DEPT_RELIEF_TIME',array(''=>'', 'F/N'=>'F/N', 'A/N'=>'A/N'), array('options'=>array($model->DEPT_RELIEF_TIME=>array('selected'=>true)))); ?>
+						<input value="<?php echo ($model->DEPT_RELIEF_DATE == "") ? "" : date('Y-m-d', strtotime($model->DEPT_RELIEF_DATE))?>" id="Employee_DEPT_RELIEF_DATE" name="Employee[DEPT_RELIEF_DATE]" type="date">
+						<?php echo $form->dropDownList($model,'DEPT_RELIEF_TIME',array(''=>'', 'F/N'=>'F/N', 'A/N'=>'A/N'), array('options'=>array($model->DEPT_RELIEF_TIME=>array('selected'=>true)))); ?>
 					</p>
 				</div>
 			</div>
 			<div class="form-group row">
-				<?php echo $form->labelEx($model,'PRESENT_PROMOTION_DATE', array('class'=>'col-sm-2 form-control-label')); ?>
-				<div class="col-sm-10">
+				<?php echo $form->labelEx($model,'PRESENT_PROMOTION_DATE', array('class'=>'col-sm-3 form-control-label')); ?>
+				<div class="col-sm-9">
 					<p class="form-control-static">
-						<?php 
-							$this->widget('zii.widgets.jui.CJuiDatePicker',array(
-								'model'=>$model,
-								'attribute'=>'PRESENT_PROMOTION_DATE',
-								'options'=>array(
-									'dateFormat'=>'yy-mm-dd',
-									'showAnim'=>'fold',
-								),
-								'htmlOptions'=>array(
-									'value'=> ($model->PRESENT_PROMOTION_DATE == "") ? "" : date('Y-m-d', strtotime($model->PRESENT_PROMOTION_DATE))
-								),
-							));	?>
+						<input value="<?php echo ($model->PRESENT_PROMOTION_DATE == "") ? "" : date('Y-m-d', strtotime($model->PRESENT_PROMOTION_DATE))?>" id="Employee_PRESENT_PROMOTION_DATE" name="Employee[PRESENT_PROMOTION_DATE]" type="date">
 					</p>
 				</div>
 			</div>
 			<div class="form-group row">
-				<?php echo $form->labelEx($model,'FOLIO_NO', array('class'=>'col-sm-2 form-control-label')); ?>
-				<div class="col-sm-10">
+				<?php echo $form->labelEx($model,'FOLIO_NO', array('class'=>'col-sm-3 form-control-label')); ?>
+				<div class="col-sm-9">
 					<p class="form-control-static">
 						<?php echo $form->textField($model,'FOLIO_NO',array('size'=>10,'maxlength'=>10, 'value'=>$model->FOLIO_NO)); ?>
 					</p>
 				</div>
 			</div>
 			<div class="form-group row">
-				<?php echo $form->labelEx($model,'IS_TRANSFERRED', array('class'=>'col-sm-2 form-control-label')); ?>
-				<div class="col-sm-10">
+				<?php echo $form->labelEx($model,'IS_TRANSFERRED', array('class'=>'col-sm-3 form-control-label')); ?>
+				<div class="col-sm-9">
 					<p class="form-control-static">
 						<?php echo $form->dropDownList($model,'IS_TRANSFERRED',array(0=>'No', 1=>'Yes'), array('options'=>array($model->IS_TRANSFERRED=>array('selected'=>true)))); ?>
 					</p>
 				</div>
 			</div>
 			<div class="form-group row">
-				<?php echo $form->labelEx($model,'IS_RETIRED', array('class'=>'col-sm-2 form-control-label')); ?>
-				<div class="col-sm-10">
+				<?php echo $form->labelEx($model,'IS_RETIRED', array('class'=>'col-sm-3 form-control-label')); ?>
+				<div class="col-sm-9">
 					<p class="form-control-static">
 						<?php echo $form->dropDownList($model,'IS_RETIRED',array(0=>'No', 1=>'Yes'), array('options'=>array($model->IS_RETIRED=>array('selected'=>true)))); ?>
 					</p>
 				</div>
 			</div>
 			<div class="form-group row">
-				<?php echo $form->labelEx($model,'PERMISSION', array('class'=>'col-sm-2 form-control-label')); ?>
-				<div class="col-sm-10">
+				<?php echo $form->labelEx($model,'PERMISSION', array('class'=>'col-sm-3 form-control-label')); ?>
+				<div class="col-sm-9">
 					<p class="form-control-static">
 						<?php echo $form->dropDownList($model,'PERMISSION',array('EMPLOYEE'=>'EMPLOYEE', 'ADMINISTRATION'=>'ADMINISTRATION'), array('options'=>array($model->PERMISSION=>array('selected'=>true)))); ?>
 					</p>
@@ -367,8 +290,8 @@
 			</div>
 		</div>
 		<div class="form-group row">
-			<?php echo $form->labelEx($model,'SERVICE_BOOK_VOL', array('class'=>'col-sm-2 form-control-label')); ?>
-			<div class="col-sm-10">
+			<?php echo $form->labelEx($model,'SERVICE_BOOK_VOL', array('class'=>'col-sm-3 form-control-label')); ?>
+			<div class="col-sm-9">
 				<p class="form-control-static">
 					<?php echo $form->textField($model,'SERVICE_BOOK_VOL',array('size'=>10,'maxlength'=>10, 'value'=>$model->SERVICE_BOOK_VOL)); ?>
 				</p>
