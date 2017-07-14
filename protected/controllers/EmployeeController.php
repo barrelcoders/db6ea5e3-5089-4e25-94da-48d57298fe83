@@ -28,7 +28,7 @@ class EmployeeController extends Controller
 	{
 		return array(
 			array('allow',  // allow all users to perform 'index' and 'view' actions
-				'actions'=>array('index','view','create','update','admin','delete','Generic', 'generateLPC', 'LPC'),
+				'actions'=>array('index','view','create','update','admin','delete','Generic', 'generateLPC', 'LPC', 'LICPolicyStatusChange'),
 				'users'=>array('*'),
 			),
 		);
@@ -235,7 +235,18 @@ class EmployeeController extends Controller
 			$model->DOB = $_POST['Employee']['DOB'] ? $_POST['Employee']['DOB'] : NULL;
 			$model->DOI = $_POST['Employee']['DOI'] ? $_POST['Employee']['DOI'] : NULL;
 			if($model->save(false)){
-				echo "<script type='text/javascript'>alert('".$model->NAME.", ".Designations::model()->findByPk($model->DESIGNATION_ID_FK)->DESIGNATION." details updated Successfully');</script>";
+				$lic_policies = $_POST['Employee']['LIC'];
+					foreach($lic_policies as $policy){
+						if($policy['POLICY_NO'] != ""){
+							$EmployeeLICPolicies = new EmployeeLICPolicies;
+							$EmployeeLICPolicies->EMPLOYEE_ID_FK = $model->ID;
+							$EmployeeLICPolicies->POLICY_NO = $policy['POLICY_NO'];
+							$EmployeeLICPolicies->AMOUNT = $policy['AMOUNT'];
+							$EmployeeLICPolicies->STATUS = $policy['STATUS'];
+							$EmployeeLICPolicies->save(false);
+						}
+					}
+					echo "<script type='text/javascript'>alert('".$model->NAME.", ".Designations::model()->findByPk($model->DESIGNATION_ID_FK)->DESIGNATION." details updated Successfully');</script>";
 				//$this->redirect(Yii::app()->createUrl('Employee/update', array('id'=>$id)));
 			}
 		}
@@ -250,6 +261,21 @@ class EmployeeController extends Controller
 	 * If deletion is successful, the browser will be redirected to the 'admin' page.
 	 * @param integer $id the ID of the model to be deleted
 	 */
+	
+	public function actionLICPolicyStatusChange($id, $status)
+	{
+		$EmployeeLICPolicies = EmployeeLICPolicies::model()->findByPk($id);
+		$EmployeeLICPolicies->STATUS = $status;
+		if($EmployeeLICPolicies->save(false)){
+			echo "SUCCESS";exit;
+		}
+		else{
+			echo "FAIL";exit;
+		}
+		
+
+	}
+
 	public function actionDelete($id)
 	{
 		$this->loadModel($id)->delete();

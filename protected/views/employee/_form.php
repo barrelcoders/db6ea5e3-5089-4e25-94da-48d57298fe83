@@ -24,6 +24,18 @@
 		});
 		
 	});
+	
+	function changeLICPolicyStatus(id, select){
+		var status = select.options[select.options.selectedIndex].value;
+		$.post( '<?php echo Yii::app()->createUrl('Employee/LICPolicyStatusChange')?>&id='+id+'&status='+status, {}, function(result) {
+			if(result == 'SUCCESS'){
+				alert('Policy status changed successfully');
+			}
+			else{
+				alert('Problem in updating policy status, Please try again later');
+			}
+		});
+	}
 	function deleteRow(row)
 	{
 		var i=row.parentNode.parentNode.rowIndex;
@@ -52,10 +64,6 @@
 
 	<?php $form=$this->beginWidget('CActiveForm', array(
 		'id'=>'employee-form',
-		// Please note: When you enable ajax validation, make sure the corresponding
-		// controller action is handling ajax validation correctly.
-		// There is a call to performAjaxValidation() commented in generated controller code.
-		// See class documentation of CActiveForm for details on this.
 		'enableAjaxValidation'=>false,
 	)); 
 	//'disabled'=>Yii::app()->controller->action->id == 'update',
@@ -175,6 +183,14 @@
 					</p>
 				</div>
 			</div>
+			<div class="form-group row">
+				<?php echo $form->labelEx($model,'SERVICE_BOOK_VOL', array('class'=>'col-sm-2 form-control-label')); ?>
+				<div class="col-sm-10">
+					<p class="form-control-static">
+						<?php echo $form->textField($model,'SERVICE_BOOK_VOL',array('size'=>10,'maxlength'=>10, 'value'=>$model->SERVICE_BOOK_VOL)); ?>
+					</p>
+				</div>
+			</div>
 		</div>
 		<div class="col-sm-6">
 			<div class="form-group row">
@@ -289,14 +305,6 @@
 				</div>
 			</div>
 		</div>
-		<div class="form-group row">
-			<?php echo $form->labelEx($model,'SERVICE_BOOK_VOL', array('class'=>'col-sm-3 form-control-label')); ?>
-			<div class="col-sm-9">
-				<p class="form-control-static">
-					<?php echo $form->textField($model,'SERVICE_BOOK_VOL',array('size'=>10,'maxlength'=>10, 'value'=>$model->SERVICE_BOOK_VOL)); ?>
-				</p>
-			</div>
-		</div>
 	</div>
 	<?php  if(strtolower(Yii::app()->controller->action->id) == 'update'){ ?>
 	<div class="row">
@@ -305,7 +313,7 @@
 				<label class="col-sm-2 form-control-label">LIC Policies</label>
 				<style> #LICTable input[type=text] {width: 150px;} </style>
 				<div class="col-sm-10">
-					<table id="LICTable" border="1">
+					<table id="LICTable" class="table table-bordered table-hover">
 						<tr>
 							<td>Policy No</td>
 							<td>Amount</td>
@@ -322,7 +330,7 @@
 								<tr>
 									<td><input type="text" size="10" value="<?php echo $policy->POLICY_NO; ?>" disabled /></td>
 									<td><input type="text" size="10" value="<?php echo $policy->AMOUNT; ?>" disabled/></td>
-									<td><select disabled><option value="1" <?php echo ($policy->STATUS == 1) ? "selected" : "";?>>ACTIVE</option><option value="0" <?php echo ($policy->STATUS == 0) ? "selected" : "";?>>IN ACTIVE</option></select></td>
+									<td><select  onchange="changeLICPolicyStatus(<?php echo $policy->ID;?>, this)" ><option value="1" <?php echo ($policy->STATUS == 1) ? "selected" : "";?>>ACTIVE</option><option value="0" <?php echo ($policy->STATUS == 0) ? "selected" : "";?>>IN ACTIVE</option></select></td>
 									<td></td>
 									<td></td>
 								</tr>
@@ -333,8 +341,8 @@
 							<td><input type="text" size="10" name="Employee[LIC][0][POLICY_NO]"/></td>
 							<td><input type="text" size="10" name="Employee[LIC][0][AMOUNT]"/></td>
 							<td><select name="Employee[LIC][0][STATUS]"><option value="1">ACTIVE</option><option value="0">IN ACTIVE</option></select></td>
-							<td><input type="button" id="delSubBillbutton" value="Delete" onclick="deleteRow(this)"/></td>
-							<td><input type="button" id="addSubBillbutton" value="Add Policy" onclick="insRow()"/></td>
+							<td><input type="button" id="delSubBillbutton" class="btn btn-inline" value="Delete" onclick="deleteRow(this)"/></td>
+							<td><input type="button" id="addSubBillbutton" class="btn btn-inline" value="Add Policy" onclick="insRow()"/></td>
 						</tr>
 					</table>
 				</div>
@@ -349,7 +357,7 @@
 					<label class="col-sm-2 form-control-label">LIC POLICIES</label>
 					<style> #LICTable input[type=text] {width: 150px;}</style>
 					<div class="col-sm-10">
-						<table id="LICTable" border="1" class="form-control-static">
+						<table id="LICTable" class="table table-bordered table-hover">
 							<tr>
 								<td>Policy No</td>
 								<td>Amount</td>
@@ -361,8 +369,8 @@
 								<td><input type="text" size="10" name="Employee[LIC][0][POLICY_NO]"/></td>
 								<td><input type="text" size="10" name="Employee[LIC][0][AMOUNT]"/></td>
 								<td><select name="Employee[LIC][0][STATUS]"><option value="1">ACTIVE</option><option value="0">IN ACTIVE</option></select></td>
-								<td><input type="button" id="delSubBillbutton" value="Delete" onclick="deleteRow(this)"/></td>
-								<td><input type="button" id="addSubBillbutton" value="Add Policy" onclick="insRow()"/></td>
+								<td><input type="button" class="btn btn-inline" id="delSubBillbutton" value="Delete" onclick="deleteRow(this)"/></td>
+								<td><input type="button" class="btn btn-inline" id="addSubBillbutton" value="Add Policy" onclick="insRow()"/></td>
 							</tr>
 						</table>
 					</div>
