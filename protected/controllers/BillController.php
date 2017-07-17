@@ -673,6 +673,7 @@ class BillController extends Controller
 	public function actionPT($id){$this->layout='//layouts/column1';$model = $this->loadModel($id);$this->render('PAY/PT',array('model'=>$model,));}
 	public function actionCCS($id){$this->layout='//layouts/column1';$model = $this->loadModel($id);$this->render('PAY/CCS',array('model'=>$model,));}
 	public function actionLIC($id){$this->layout='//layouts/column1';$model = $this->loadModel($id);$this->render('PAY/LIC',array('model'=>$model,));}
+	public function actionPLI($id){$this->layout='//layouts/column1';$model = $this->loadModel($id);$this->render('PAY/PLI',array('model'=>$model,));}
 	public function actionPTCCSLIC($id){$this->layout='//layouts/column1';$model = $this->loadModel($id);$this->render('PAY/PTCCSLIC',array('model'=>$model,));}
 	public function actionEPAY($id){$this->layout='//layouts/column1';$model = $this->loadModel($id);$this->render('PAY/EPAY',array('model'=>$model,));}
 	public function actionReconsilationLICCCS($id){$this->layout='//layouts/column1';$model = $this->loadModel($id);$this->render('PAY/ReconsilationLICCCS',array('model'=>$model,));}

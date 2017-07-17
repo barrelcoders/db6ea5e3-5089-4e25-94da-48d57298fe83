@@ -22,7 +22,7 @@ if(isset($_REQUEST['id']) && $_REQUEST['id']){
 	<nav class="side-menu-additional" style="overflow-y: auto; padding: 0px; width: 250px;margin-left: 141px;">
 		<div style="width: 219px; height: 700px;">
 			<div class="" style="padding: 0px;    margin-top: 100px; width: 219px;padding-top: 0px!important;">
-				<ul class="side-menu-additional-list">
+				<ul class="side-menu-additional-list" style="padding-bottom: 30px;">
 					<?php if( $model->BILL_TYPE == 2 || $model->BILL_TYPE == 1 ) { ?>
 						<li><a href="<?php echo Yii::app()->createUrl("Bill/SalaryDetails",array("id"=>$id))?>"><span class="tbl-row"><span class="tbl-cell tbl-cell-caption">Salary Details</span></span></a></li>
 						<?php if(!$model->IS_CEA_BILL && !$model->IS_BONUS_BILL && !$model->IS_UA_BILL && !$model->IS_LTC_HTC_BILL) {?>
@@ -104,6 +104,7 @@ if(isset($_REQUEST['id']) && $_REQUEST['id']){
 								<li><a href="<?php echo Yii::app()->createUrl("Bill/PT",array("id"=>$id))?>" target="_blank"><span class="tbl-row"><span class="tbl-cell tbl-cell-caption">PT</span></span></a></li>
 								<li><a href="<?php echo Yii::app()->createUrl("Bill/CCS",array("id"=>$id))?>" target="_blank"><span class="tbl-row"><span class="tbl-cell tbl-cell-caption">CR. CO. SOCIETY</span></span></a></li>
 								<li><a href="<?php echo Yii::app()->createUrl("Bill/LIC",array("id"=>$id))?>" target="_blank"><span class="tbl-row"><span class="tbl-cell tbl-cell-caption">LIC</span></span></a></li>
+								<li><a href="<?php echo Yii::app()->createUrl("Bill/PLI",array("id"=>$id))?>" target="_blank"><span class="tbl-row"><span class="tbl-cell tbl-cell-caption">PLI</span></span></a></li>
 								<li><a href="<?php echo Yii::app()->createUrl("Bill/PTCCSLIC",array("id"=>$id))?>" target="_blank"><span class="tbl-row"><span class="tbl-cell tbl-cell-caption">PT, CCS & LIC</span></span></a></li>
 						<?php } ?>
 						<li><a href="<?php echo Yii::app()->createUrl("Bill/EPAY",array("id"=>$id))?>" target="_blank"><span class="tbl-row"><span class="tbl-cell tbl-cell-caption">E PAYMENT</span></span></a></li>

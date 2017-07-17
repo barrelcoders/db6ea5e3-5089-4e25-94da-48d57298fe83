@@ -38,22 +38,34 @@
 				if($employee[$value] !='') {
 					
 					if($value == 'DESIGNATION_ID_FK'){
-						echo Designations::model()->findByPK($employee[$value])->DESIGNATION."<br/>".Designations::model()->findByPK($employee[$value])->DESIGNATION_HINDI;
+						echo ($employee[$value] == 0) ? "": Designations::model()->findByPK($employee[$value])->DESIGNATION."<br/>".Designations::model()->findByPK($employee[$value])->DESIGNATION_HINDI;
 					}
 					else if($value == 'GRADE_PAY_ID_FK'){
-						echo PayBands::model()->findByPK($employee[$value])->GRADE_PAY;
+						echo ($employee[$value] == 0) ? "": PayBands::model()->findByPK($employee[$value])->GRADE_PAY;
 					}
 					else if($value == 'GROUP_ID_FK'){
-						echo Groups::model()->findByPK($employee[$value])->GROUP_NAME;
+						echo ($employee[$value] == 0) ? "": Groups::model()->findByPK($employee[$value])->GROUP_NAME;
 					}
 					else if($value == 'NAME'){
 						echo $employee['NAME']."<br>".$employee['NAME_HINDI'];
 					}
 					else if($value == 'DOB'){
-						echo date('d-m-Y', strtotime($employee['DOB']));
+						echo ($employee[$value] == "") ? "": date('d-m-Y', strtotime($employee['DOB']));
+					}
+					else if($value == 'DOI'){
+						echo ($employee[$value] == "") ? "": date('d-m-Y', strtotime($employee['DOI']));
 					}
 					else if($value == 'ORG_JOIN_DATE'){
-						echo date('d-m-Y', strtotime($employee['ORG_JOIN_DATE']));
+						echo ($employee[$value] == "") ? "": date('d-m-Y', strtotime($employee['ORG_JOIN_DATE']));
+					}
+					else if($value == 'DEPT_JOIN_DATE'){
+						echo ($employee[$value] == "") ? "": date('d-m-Y', strtotime($employee['DEPT_JOIN_DATE']));
+					}
+					else if($value == 'DEPT_RELIEF_DATE'){
+						echo ($employee[$value] == "") ? "": date('d-m-Y', strtotime($employee['DEPT_RELIEF_DATE']));
+					}
+					else if($value == 'PRESENT_PROMOTION_DATE'){
+						echo ($employee[$value] == "") ? "": date('d-m-Y', strtotime($employee['PRESENT_PROMOTION_DATE']));
 					}
 					else{
 						echo $employee[$value];

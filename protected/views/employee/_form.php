@@ -36,14 +36,30 @@
 			}
 		});
 	}
-	function deleteRow(row)
+	
+	function changePLIPolicyStatus(id, select){
+		var status = select.options[select.options.selectedIndex].value;
+		$.post( '<?php echo Yii::app()->createUrl('Employee/PLIPolicyStatusChange')?>&id='+id+'&status='+status, {}, function(result) {
+			if(result == 'SUCCESS'){
+				alert('Policy status changed successfully');
+			}
+			else{
+				alert('Problem in updating policy status, Please try again later');
+			}
+		});
+	}
+	
+	
+	
+	
+	function deleteLICRow(row)
 	{
 		var i=row.parentNode.parentNode.rowIndex;
 		document.getElementById('LICTable').deleteRow(i);
 	}
 
 
-	function insRow()
+	function insLICRow()
 	{
 		var x=document.getElementById('LICTable');
 		var new_row = x.rows[1].cloneNode(true);
@@ -57,6 +73,31 @@
 		inp2.value = '';
 		var inp3 = new_row.cells[2].getElementsByTagName('select')[0];
 		inp3.name = "Employee[LIC]["+len+"][STATUS]";
+		inp3.value = '';
+		x.appendChild( new_row );
+	}
+	
+	function deletePLIRow(row)
+	{
+		var i=row.parentNode.parentNode.rowIndex;
+		document.getElementById('PLITable').deleteRow(i);
+	}
+
+
+	function insPLIRow()
+	{
+		var x=document.getElementById('PLITable');
+		var new_row = x.rows[1].cloneNode(true);
+		var len = x.rows.length;
+		
+		var inp1 = new_row.cells[0].getElementsByTagName('input')[0];
+		inp1.name = "Employee[PLI]["+len+"][POLICY_NO]";
+		inp1.value = '';
+		var inp2 = new_row.cells[1].getElementsByTagName('input')[0];
+		inp2.name = "Employee[PLI]["+len+"][AMOUNT]";
+		inp2.value = '';
+		var inp3 = new_row.cells[2].getElementsByTagName('select')[0];
+		inp3.name = "Employee[PLI]["+len+"][STATUS]";
 		inp3.value = '';
 		x.appendChild( new_row );
 	}
@@ -107,7 +148,6 @@
 				<div class="col-sm-10">
 					<p class="form-control-static">
 						<?php echo $form->dropDownList($model,'GROUP_ID_FK',CHtml::listData(Groups::model()->findAll(), 'ID', 'GROUP_NAME'), array(
-					'empty'=>array('0'=>'Select Group'),
 					'options' => array("'".$model->GROUP_ID_FK."'" => array('selected'=>true)),
 					'disabled'=>Yii::app()->controller->action->id == 'update')); ?>
 					</p>
@@ -118,7 +158,6 @@
 				<div class="col-sm-10">
 					<p class="form-control-static">
 						<?php echo $form->dropDownList($model,'DESIGNATION_ID_FK',CHtml::listData(Designations::model()->findAll(), 'ID', 'DESIGNATION'), array(
-					'empty'=>array('0'=>'Select Designation'),
 					'options' => array("'".$model->DESIGNATION_ID_FK."'" => array('selected'=>true)),
 					'disabled'=>Yii::app()->controller->action->id == 'update')); ?>
 					</p>
@@ -129,7 +168,6 @@
 				<div class="col-sm-10">
 					<p class="form-control-static">
 						<?php echo $form->dropDownList($model,'GRADE_PAY_ID_FK',CHtml::listData(Paybands::model()->findAll(), 'ID', 'DESCRIPTION'), array(
-					'empty'=>array('0'=>'Select Grade Pay'),
 					'options' => array("'".$model->GRADE_PAY_ID_FK."'" => array('selected'=>true)),
 					'disabled'=>Yii::app()->controller->action->id == 'update')); ?>
 					</p>
@@ -232,7 +270,6 @@
 				<div class="col-sm-9">
 					<p class="form-control-static">
 						<?php echo $form->dropDownList($model,'JOIN_DESIGNATION_ID_FK',CHtml::listData(Designations::model()->findAll(), 'ID', 'DESIGNATION'), array(
-					'empty'=>array('0'=>'Select Designation'),
 					'options' => array("'".$model->JOIN_DESIGNATION_ID_FK."'" => array('selected'=>true)),
 					'disabled'=>Yii::app()->controller->action->id == 'update')); ?>
 					</p>
@@ -341,8 +378,51 @@
 							<td><input type="text" size="10" name="Employee[LIC][0][POLICY_NO]"/></td>
 							<td><input type="text" size="10" name="Employee[LIC][0][AMOUNT]"/></td>
 							<td><select name="Employee[LIC][0][STATUS]"><option value="1">ACTIVE</option><option value="0">IN ACTIVE</option></select></td>
-							<td><input type="button" id="delSubBillbutton" class="btn btn-inline" value="Delete" onclick="deleteRow(this)"/></td>
-							<td><input type="button" id="addSubBillbutton" class="btn btn-inline" value="Add Policy" onclick="insRow()"/></td>
+							<td><input type="button" id="delSubBillbutton" class="btn btn-inline" value="Delete" onclick="deleteLICRow(this)"/></td>
+							<td><input type="button" id="addSubBillbutton" class="btn btn-inline" value="Add Policy" onclick="insLICRow()"/></td>
+						</tr>
+					</table>
+				</div>
+			</div>
+		</div>
+		<div class="col-sm-6"></div>
+	</div>
+	<div class="row" style="display:none;">
+		<div class="col-sm-6">
+			<div class="form-group row">
+				<label class="col-sm-2 form-control-label">PLI Policies</label>
+				<style> #PLITable input[type=text] {width: 150px;} </style>
+				<div class="col-sm-10">
+					<table id="PLITable" class="table table-bordered table-hover">
+						<tr>
+							<td>Policy No</td>
+							<td>Amount</td>
+							<td>Status</td>
+							<td></td>
+							<td></td>
+						</tr>
+						<?php
+							
+							$EmployeePLIPolicies = new EmployeePLIPolicies;
+							$policies = $EmployeePLIPolicies->findAllByAttributes(array('EMPLOYEE_ID_FK'=>$model->ID));
+							foreach($policies as $policy){
+								?>
+								<tr>
+									<td><input type="text" size="10" value="<?php echo $policy->POLICY_NO; ?>" disabled /></td>
+									<td><input type="text" size="10" value="<?php echo $policy->AMOUNT; ?>" disabled/></td>
+									<td><select  onchange="changePLIPolicyStatus(<?php echo $policy->ID;?>, this)" ><option value="1" <?php echo ($policy->STATUS == 1) ? "selected" : "";?>>ACTIVE</option><option value="0" <?php echo ($policy->STATUS == 0) ? "selected" : "";?>>IN ACTIVE</option></select></td>
+									<td></td>
+									<td></td>
+								</tr>
+								<?php
+							}
+						?>
+						<tr>
+							<td><input type="text" size="10" name="Employee[PLI][0][POLICY_NO]"/></td>
+							<td><input type="text" size="10" name="Employee[PLI][0][AMOUNT]"/></td>
+							<td><select name="Employee[PLI][0][STATUS]"><option value="1">ACTIVE</option><option value="0">IN ACTIVE</option></select></td>
+							<td><input type="button" id="delSubBillbutton" class="btn btn-inline" value="Delete" onclick="deletePLIRow(this)"/></td>
+							<td><input type="button" id="addSubBillbutton" class="btn btn-inline" value="Add Policy" onclick="insPLIRow()"/></td>
 						</tr>
 					</table>
 				</div>
@@ -369,8 +449,36 @@
 								<td><input type="text" size="10" name="Employee[LIC][0][POLICY_NO]"/></td>
 								<td><input type="text" size="10" name="Employee[LIC][0][AMOUNT]"/></td>
 								<td><select name="Employee[LIC][0][STATUS]"><option value="1">ACTIVE</option><option value="0">IN ACTIVE</option></select></td>
-								<td><input type="button" class="btn btn-inline" id="delSubBillbutton" value="Delete" onclick="deleteRow(this)"/></td>
-								<td><input type="button" class="btn btn-inline" id="addSubBillbutton" value="Add Policy" onclick="insRow()"/></td>
+								<td><input type="button" class="btn btn-inline" id="delSubBillbutton" value="Delete" onclick="deleteLICRow(this)"/></td>
+								<td><input type="button" class="btn btn-inline" id="addSubBillbutton" value="Add Policy" onclick="insLICRow()"/></td>
+							</tr>
+						</table>
+					</div>
+				</div>
+				
+			</div>
+			<div class="col-sm-6"></div>
+		</div>
+		<div class="row" style="display:none;">
+			<div class="col-sm-6">
+				<div class="form-group row">
+					<label class="col-sm-2 form-control-label">PLI POLICIES</label>
+					<style> #PLITable input[type=text] {width: 150px;}</style>
+					<div class="col-sm-10">
+						<table id="LICTable" class="table table-bordered table-hover">
+							<tr>
+								<td>Policy No</td>
+								<td>Amount</td>
+								<td>Status</td>
+								<td></td>
+								<td></td>
+							</tr>
+							<tr>
+								<td><input type="text" size="10" name="Employee[PLI][0][POLICY_NO]"/></td>
+								<td><input type="text" size="10" name="Employee[PLI][0][AMOUNT]"/></td>
+								<td><select name="Employee[PLI][0][STATUS]"><option value="1">ACTIVE</option><option value="0">IN ACTIVE</option></select></td>
+								<td><input type="button" class="btn btn-inline" id="delSubBillbutton" value="Delete" onclick="deletePLIRow(this)"/></td>
+								<td><input type="button" class="btn btn-inline" id="addSubBillbutton" value="Add Policy" onclick="insPLIRow()"/></td>
 							</tr>
 						</table>
 					</div>

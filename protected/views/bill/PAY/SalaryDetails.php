@@ -14,7 +14,7 @@
 				$tabContent = $(this).parents('.tabcontent'); 
 				var IS_NPS_BILL = <?php echo ($bill->BILL_TYPE == 2) ? 1 : 0; ?>;
 				$tabContent.find('.hra-amount').val(Math.round(parseInt($(this).val())*0.24));
-				$tabContent.find('.da-amount').val(Math.round(parseInt($(this).val())*0.06));
+				$tabContent.find('.da-amount').val(Math.round(parseInt($(this).val())*0.04));
 				if(IS_NPS_BILL){
 					$tabContent.find('.cpf-1-amount').val(Math.round(($tabContent.find('.da-amount').val() + $(this).val())*0.1));
 				}
@@ -197,15 +197,25 @@
 							<td><b class="one-label">C.G.E.I.S.: </b><input type='text' class="ded-inc-amount" name="SalaryDetails[<?php echo $employee->ID?>][CGEGIS]" value='<?php echo $salary->CGEGIS ? $salary->CGEGIS : 0?>' placeholder='C.G.E.I.S.'></td>
 							<td><b class="one-label">C.P.F. Tier I: </b><input type='text' class="ded-inc-amount cpf-1-amount" name="SalaryDetails[<?php echo $employee->ID?>][CPF_TIER_I]" value='<?php echo $salary->CPF_TIER_I ? $salary->CPF_TIER_I : 0?>' placeholder='C.P.F. Tier I'></td>
 						</tr>
+						<?php 
+							$pli = 0;
+							if($salary->BILL_ID_FK == $model->ID){									
+								$pli = $salary->PLI;
+							}
+							else{
+								$data = EmployeePLIPolicies::model()->findBySql('SELECT SUM(AMOUNT) as AMOUNT FROM tbl_employee_pli_policies WHERE STATUS=1 AND EMPLOYEE_ID_FK='.$employee->ID, array());
+								$pli  = $data['AMOUNT'];
+							}
+						?>
 						<tr>
 							<td><b class="one-label">C.P.F. Tier II: </b><input type='text' class="ded-inc-amount" name="SalaryDetails[<?php echo $employee->ID?>][CPF_TIER_II]" value='<?php echo $salary->CPF_TIER_II ? $salary->CPF_TIER_II : 0?>' placeholder='C.P.F. Tier II'></td>
-							<td><b class="one-label">P.L.I.: </b><input type='text' class="ded-inc-amount" name="SalaryDetails[<?php echo $employee->ID?>][PLI]" value='<?php echo $salary->PLI ? $salary->PLI :0 ?>' placeholder='P.L.I.'></td>
+							<td><b class="one-label">P.L.I.: </b><input type='text' class="ded-inc-amount" name="SalaryDetails[<?php echo $employee->ID?>][PLI]" value='<?php echo $pli; ?>' placeholder='P.L.I.'></td>
 							<td><b class="one-label">MISC.: </b><input type='text' class="ded-inc-amount" name="SalaryDetails[<?php echo $employee->ID?>][MISC]" value='<?php echo $salary->MISC ? $salary->MISC:0 ?>' placeholder='MISC.'></td>
 							<td><b class="one-label">P.T.: </b><input type='text' id="pt-ded-inc-amount" name="SalaryDetails[<?php echo $employee->ID?>][PT]" value='<?php echo $salary->PT ? $salary->PT : 0?>' placeholder='P.T.'></td>
 						</tr>
 						<?php 
 							$lic = 0;
-							if($salary->LIC){
+							if($salary->BILL_ID_FK == $model->ID){
 								$lic = $salary->LIC;
 							} else {
 								$data = EmployeeLICPolicies::model()->findBySql('SELECT SUM(AMOUNT) as AMOUNT FROM tbl_employee_lic_policies WHERE STATUS=1 AND EMPLOYEE_ID_FK='.$employee->ID, array());
@@ -216,7 +226,7 @@
 							<td><b class="one-label">L.I.C: </b><input type='text' class="other-ded-inc-amount" name="SalaryDetails[<?php echo $employee->ID?>][LIC]" value='<?php echo $lic; ?>' placeholder='L.I.C.'></td>
 							<td><b class="one-label">C.C.S: </b><input type='text'  class="other-ded-inc-amount" name="SalaryDetails[<?php echo $employee->ID?>][CCS]" value='<?php echo $salary->CCS ? $salary->CCS : 0?>' placeholder='C.C.S.'></td>
 							<td><b class="one-label">ASSOC SUB: </b><input type='text' class="other-ded-inc-amount" name="SalaryDetails[<?php echo $employee->ID?>][ASSOSC_SUB]" value='<?php echo $salary->ASSOSC_SUB ? $salary->ASSOSC_SUB : 0?>' placeholder='Association Subscription'></td>
-							<td><b class="one-label">REMARKS: </b><input type='text' name="SalaryDetails[<?php echo $employee->ID?>][REMARKS]" value='<?php echo $salary->REMARKS ? $salary->REMARKS : 0?>' placeholder='REMARKS'></td>
+							<td><b class="one-label">REMARKS: </b><textarea name="SalaryDetails[<?php echo $employee->ID?>][REMARKS]" value='<?php echo $salary->REMARKS ? $salary->REMARKS : 0?>' placeholder='REMARKS'></textarea></td>
 						</tr>
 					</table>
 					<table class="table">

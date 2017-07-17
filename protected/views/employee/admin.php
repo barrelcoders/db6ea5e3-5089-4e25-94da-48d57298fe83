@@ -19,6 +19,11 @@ $this->breadcrumbs=array(
 		</div>
 	</header>
 	<div class="box-typical box-typical-padding">
+		<?php $this->renderPartial('_search',array(
+			'model'=>$model,
+		)); ?>
+	</div>
+	<div class="box-typical box-typical-padding">
 		<?php $this->widget('zii.widgets.grid.CGridView', array(
 			'id'=>'employee-grid',
 			'itemsCssClass' => 'table table-bordered table-hover',

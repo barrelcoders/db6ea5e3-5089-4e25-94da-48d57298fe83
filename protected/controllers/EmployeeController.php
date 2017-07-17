@@ -28,7 +28,7 @@ class EmployeeController extends Controller
 	{
 		return array(
 			array('allow',  // allow all users to perform 'index' and 'view' actions
-				'actions'=>array('index','view','create','update','admin','delete','Generic', 'generateLPC', 'LPC', 'LICPolicyStatusChange'),
+				'actions'=>array('index','view','create','update','admin','delete','Generic', 'generateLPC', 'LPC', 'LICPolicyStatusChange', 'PLIPolicyStatusChange'),
 				'users'=>array('*'),
 			),
 		);
@@ -86,6 +86,18 @@ class EmployeeController extends Controller
 							$EmployeeLICPolicies->AMOUNT = $policy['AMOUNT'];
 							$EmployeeLICPolicies->STATUS = $policy['STATUS'];
 							$EmployeeLICPolicies->save(false);
+						}
+					}
+					
+					$pli_policies = $_POST['Employee']['PLI'];
+					foreach($pli_policies as $policy){
+						if($policy['POLICY_NO'] != ""){
+							$EmployeePLIPolicies = new EmployeePLIPolicies;
+							$EmployeePLIPolicies->EMPLOYEE_ID_FK = $model->ID;
+							$EmployeePLIPolicies->POLICY_NO = $policy['POLICY_NO'];
+							$EmployeePLIPolicies->AMOUNT = $policy['AMOUNT'];
+							$EmployeePLIPolicies->STATUS = $policy['STATUS'];
+							$EmployeePLIPolicies->save(false);
 						}
 					}
 					
@@ -236,17 +248,30 @@ class EmployeeController extends Controller
 			$model->DOI = $_POST['Employee']['DOI'] ? $_POST['Employee']['DOI'] : NULL;
 			if($model->save(false)){
 				$lic_policies = $_POST['Employee']['LIC'];
-					foreach($lic_policies as $policy){
-						if($policy['POLICY_NO'] != ""){
-							$EmployeeLICPolicies = new EmployeeLICPolicies;
-							$EmployeeLICPolicies->EMPLOYEE_ID_FK = $model->ID;
-							$EmployeeLICPolicies->POLICY_NO = $policy['POLICY_NO'];
-							$EmployeeLICPolicies->AMOUNT = $policy['AMOUNT'];
-							$EmployeeLICPolicies->STATUS = $policy['STATUS'];
-							$EmployeeLICPolicies->save(false);
-						}
+				foreach($lic_policies as $policy){
+					if($policy['POLICY_NO'] != ""){
+						$EmployeeLICPolicies = new EmployeeLICPolicies;
+						$EmployeeLICPolicies->EMPLOYEE_ID_FK = $model->ID;
+						$EmployeeLICPolicies->POLICY_NO = $policy['POLICY_NO'];
+						$EmployeeLICPolicies->AMOUNT = $policy['AMOUNT'];
+						$EmployeeLICPolicies->STATUS = $policy['STATUS'];
+						$EmployeeLICPolicies->save(false);
 					}
-					echo "<script type='text/javascript'>alert('".$model->NAME.", ".Designations::model()->findByPk($model->DESIGNATION_ID_FK)->DESIGNATION." details updated Successfully');</script>";
+				}
+				
+				$pli_policies = $_POST['Employee']['PLI'];
+				foreach($pli_policies as $policy){
+					if($policy['POLICY_NO'] != ""){
+						$EmployeePLIPolicies = new EmployeePLIPolicies;
+						$EmployeePLIPolicies->EMPLOYEE_ID_FK = $model->ID;
+						$EmployeePLIPolicies->POLICY_NO = $policy['POLICY_NO'];
+						$EmployeePLIPolicies->AMOUNT = $policy['AMOUNT'];
+						$EmployeePLIPolicies->STATUS = $policy['STATUS'];
+						$EmployeePLIPolicies->save(false);
+					}
+				}
+					
+				echo "<script type='text/javascript'>alert('".$model->NAME.", ".Designations::model()->findByPk($model->DESIGNATION_ID_FK)->DESIGNATION." details updated Successfully');</script>";
 				//$this->redirect(Yii::app()->createUrl('Employee/update', array('id'=>$id)));
 			}
 		}
@@ -267,6 +292,20 @@ class EmployeeController extends Controller
 		$EmployeeLICPolicies = EmployeeLICPolicies::model()->findByPk($id);
 		$EmployeeLICPolicies->STATUS = $status;
 		if($EmployeeLICPolicies->save(false)){
+			echo "SUCCESS";exit;
+		}
+		else{
+			echo "FAIL";exit;
+		}
+		
+
+	}
+	
+	public function actionPLIPolicyStatusChange($id, $status)
+	{
+		$EmployeePLIPolicies = EmployeePLIPolicies::model()->findByPk($id);
+		$EmployeePLIPolicies->STATUS = $status;
+		if($EmployeePLIPolicies->save(false)){
 			echo "SUCCESS";exit;
 		}
 		else{
