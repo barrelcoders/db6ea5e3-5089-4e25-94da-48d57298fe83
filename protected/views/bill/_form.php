@@ -2,7 +2,7 @@
 <style> input[type=text], select { width: 400px; line-height:20px; line-height:20px;} input[type=checkbox]{margin-right: 5px;}</style>
 
 	<?php $form=$this->beginWidget('CActiveForm', array('id'=>'bill-form','enableAjaxValidation'=>false,)); ?>
-		<input type="hidden" id="BILL_REGISTER_COUNT" value="<?php $RESULT = Yii::app()->db->createCommand("SELECT ID FROM tbl_bill_register ORDER BY ID DESC LIMIT 1")->queryRow(); echo $RESULT['ID'];?>">
+		<input type="hidden" id="BILL_REGISTER_COUNT" value="<?php $RESULT = Yii::app()->db->createCommand("SELECT ID FROM tbl_bill_register ORDER BY ID DESC LIMIT 1")->queryRow(); echo $RESULT['ID'] ? $RESULT['ID'] : 0 ;?>">
 		<input type="hidden" id="BILL_ENTRY_COUNT" name="Bill[BILL_ENTRY_COUNT]" value="0">
 		<div class="form-group row">
 			<?php echo $form->labelEx($model,'BILL_TYPE', array('class'=>'col-sm-2 form-control-label')); ?>
@@ -71,7 +71,7 @@
 						<span><?php echo $form->checkBox($model,'IS_UA_BILL', array('id'=>'chkIsUABill')); ?> Uniform Allowance Bill</span>
 						<span><?php echo $form->checkBox($model,'IS_LTC_HTC_BILL', array('id'=>'chkIsLTCHTCBill')); ?> LTC/HTC Advances & Claims Bill</span>
 					</div>
-					<div id="nps-emp" class="small-container"  style="display:none;background: #CCC;padding: 10px;">
+					<div id="nps-emp" class="small-container"  style="display:none;background: #CCC;padding: 10px;height: 300px;overflow-y: scroll;">
 						<?php
 							$employees = Employee::model()->findAllByAttributes(array('PENSION_TYPE'=>'NPS', 'IS_PERMANENT'=>1, 'IS_TRANSFERRED'=>0, 'IS_RETIRED'=>0));
 							foreach($employees as $employee){
@@ -81,7 +81,7 @@
 							}
 						?>
 					</div>
-					<div id="ops-emp"  class="small-container"  style="display:none;background: #CCC;padding: 10px;">
+					<div id="ops-emp"  class="small-container"  style="display:none;background: #CCC;padding: 10px;height: 300px;overflow-y: scroll;">
 						<?php
 							$employees = Employee::model()->findAllByAttributes(array('PENSION_TYPE'=>'OPS', 'IS_PERMANENT'=>1, 'IS_TRANSFERRED'=>0, 'IS_RETIRED'=>0));
 							foreach($employees as $employee){
@@ -91,7 +91,7 @@
 							}
 						?>
 					</div>
-					<div id="cea-emp" class="small-container"  style="display:none;background: #CCC;padding: 10px;">
+					<div id="cea-emp" class="small-container"  style="display:none;background: #CCC;padding: 10px;height: 300px;overflow-y: scroll;">
 						<?php
 							$employees = Employee::model()->findAllByAttributes(array('IS_PERMANENT'=>1, 'IS_TRANSFERRED'=>0, 'IS_RETIRED'=>0));
 							foreach($employees as $employee){
@@ -101,7 +101,7 @@
 							}
 						?>
 					</div>
-					<div id="bonus-emp" class="small-container"  style="display:none;background: #CCC;padding: 10px;">
+					<div id="bonus-emp" class="small-container"  style="display:none;background: #CCC;padding: 10px;height: 300px;overflow-y: scroll;">
 						<?php
 							$employees = Employee::model()->findAllByAttributes(array('IS_PERMANENT'=>1, 'BONUS_ELIGIBLE'=>1, 'IS_TRANSFERRED'=>0, 'IS_RETIRED'=>0));
 							foreach($employees as $employee){
@@ -111,7 +111,7 @@
 							}
 						?>
 					</div>
-					<div id="ua-emp" class="small-container"  style="display:none;background: #CCC;padding: 10px;">
+					<div id="ua-emp" class="small-container"  style="display:none;background: #CCC;padding: 10px;height: 300px;overflow-y: scroll;">
 						<?php
 							$employees = Employee::model()->findAllByAttributes(array('IS_PERMANENT'=>1, 'IS_TRANSFERRED'=>0, 'IS_RETIRED'=>0, 'UA_ELIGIBLE'=>1));
 							foreach($employees as $employee){
@@ -121,7 +121,7 @@
 							}
 						?>
 					</div>
-					<div id="medical-emp" class="small-container"  style="display:none;background: #CCC;padding: 10px;">
+					<div id="medical-emp" class="small-container"  style="display:none;background: #CCC;padding: 10px;height: 300px;overflow-y: scroll;">
 						<?php
 							$employees = Employee::model()->findAllByAttributes(array('IS_PERMANENT'=>1, 'IS_TRANSFERRED'=>0, 'IS_RETIRED'=>0));
 							foreach($employees as $employee){
@@ -131,7 +131,7 @@
 							}
 						?>
 					</div>
-					<div id="ltc-htc-emp" class="small-container"  style="display:none;background: #CCC;padding: 10px;">
+					<div id="ltc-htc-emp" class="small-container"  style="display:none;background: #CCC;padding: 10px;height: 300px;overflow-y: scroll;">
 						<?php
 							$employees = Employee::model()->findAllByAttributes(array('IS_PERMANENT'=>1, 'IS_TRANSFERRED'=>0, 'IS_RETIRED'=>0));
 							foreach($employees as $employee){
@@ -141,7 +141,7 @@
 							}
 						?>
 					</div>
-					<div id="dte-emp" class="small-container"  style="display:none;background: #CCC;padding: 10px;">
+					<div id="dte-emp" class="small-container"  style="display:none;background: #CCC;padding: 10px;height: 300px;overflow-y: scroll;">
 						<?php
 							$employees = Employee::model()->findAllByAttributes(array('IS_PERMANENT'=>1, 'IS_TRANSFERRED'=>0, 'IS_RETIRED'=>0));
 							foreach($employees as $employee){
@@ -151,7 +151,7 @@
 							}
 						?>
 					</div>
-					<div id="wages-emp" class="small-container"  style="display:none;background: #CCC;padding: 10px;">
+					<div id="wages-emp" class="small-container"  style="display:none;background: #CCC;padding: 10px;height: 300px;overflow-y: scroll;">
 						<?php
 							$employees = Employee::model()->findAllByAttributes(array('IS_PERMANENT'=>0, 'IS_TRANSFERRED'=>0, 'IS_RETIRED'=>0));
 							foreach($employees as $employee){
