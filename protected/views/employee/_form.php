@@ -387,7 +387,7 @@
 		</div>
 		<div class="col-sm-6"></div>
 	</div>
-	<div class="row" style="display:none;">
+	<div class="row">
 		<div class="col-sm-6">
 			<div class="form-group row">
 				<label class="col-sm-2 form-control-label">PLI Policies</label>
@@ -459,7 +459,7 @@
 			</div>
 			<div class="col-sm-6"></div>
 		</div>
-		<div class="row" style="display:none;">
+		<div class="row">
 			<div class="col-sm-6">
 				<div class="form-group row">
 					<label class="col-sm-2 form-control-label">PLI POLICIES</label>

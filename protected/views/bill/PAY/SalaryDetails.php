@@ -35,21 +35,27 @@
 			</table>
 			<form name="SalaryDetails" action="<?php echo Yii::app()->createUrl('Bill/SalaryDetails', array('id'=>$bill->ID))?>" method="post">
 			<table >
-			<tr>
-				<td>
-				<div>
-					<div class="form-group row">
-						<label class="col-sm-2 form-control-label"></label>
-						<div class="col-sm-10">
-							<p class="form-control-static">
-								<input type="submit" name="SalaryDetails[submit]" class="btn btn-inline" value="Save">
-							</p>
+				<tr>
+					<td>
+						<div class="form-group row">
+							<div class="col-sm-12">
+								<p class="form-control-static">
+									<input type="submit" name="SalaryDetails[save]" class="btn btn-inline" value="Save">
+								</p>
+							</div>
 						</div>
-					</div>
-				</td>
-				<td></td>
-				<td></td>
-			</tr>
+					</td>
+					<td>
+						<div class="form-group row">
+							<div class="col-sm-12">
+								<p class="form-control-static">
+									<input type="submit" name="SalaryDetails[submit]" class="btn btn-inline" value="Submit" onsubmit="return confirm('Are you sure wants to submit the bill, This will change the Appropiation Register');"
+									onclick="return confirm('Are you sure wants to submit the bill, This will change the Appropiation Register');">
+								</p>
+							</div>
+						</div>
+					</td>
+				</tr>
 			</table>
 			<?php
 			$employees = array();
@@ -72,7 +78,7 @@
 				<input type="hidden" name="SalaryDetails[IS_SALARY_BILL]" value="1"/>
 				<?php
 				if($bill->BILL_TYPE == 1){
-					$salaries = SalaryDetails::model()->findAllByAttributes(array('BILL_ID_FK'=>$model->ID));
+					/*$salaries = SalaryDetails::model()->findAllByAttributes(array('BILL_ID_FK'=>$model->ID));
 					if($salaries){
 						$salaryBillEmployees = array();foreach($salaries as $salary){array_push($salaryBillEmployees, $salary->EMPLOYEE_ID_FK);}
 						$criteria=new CDbCriteria;
@@ -80,12 +86,12 @@
 						$criteria->addInCondition('ID', $salaryBillEmployees);
 						$employees = Employee::model()->findAll($criteria);
 					}
-					else{
+					else{*/
 						$employees = Employee::model()->findAllByAttributes(array('PENSION_TYPE'=>'OPS', 'IS_TRANSFERRED'=>0, 'IS_RETIRED'=>0, 'IS_PERMANENT'=>1));
-					}
+					/*}*/
 				}
 				if($bill->BILL_TYPE == 2){
-					$salaries = SalaryDetails::model()->findAllByAttributes(array('BILL_ID_FK'=>$model->ID));
+					/*$salaries = SalaryDetails::model()->findAllByAttributes(array('BILL_ID_FK'=>$model->ID));
 					if($salaries){
 						$salaryBillEmployees = array();foreach($salaries as $salary){array_push($salaryBillEmployees, $salary->EMPLOYEE_ID_FK);}
 						$criteria=new CDbCriteria;
@@ -93,9 +99,9 @@
 						$criteria->addInCondition('ID', $salaryBillEmployees);
 						$employees = Employee::model()->findAll($criteria);
 					}
-					else{
+					else{*/
 						$employees = Employee::model()->findAllByAttributes(array('PENSION_TYPE'=>'NPS', 'IS_TRANSFERRED'=>0, 'IS_RETIRED'=>0, 'IS_PERMANENT'=>1));
-					}
+					/*}*/
 				}
 			}
 			?>
@@ -209,7 +215,7 @@
 						?>
 						<tr>
 							<td><b class="one-label">C.P.F. Tier II: </b><input type='text' class="ded-inc-amount" name="SalaryDetails[<?php echo $employee->ID?>][CPF_TIER_II]" value='<?php echo $salary->CPF_TIER_II ? $salary->CPF_TIER_II : 0?>' placeholder='C.P.F. Tier II'></td>
-							<td><b class="one-label">P.L.I.: </b><input type='text' class="ded-inc-amount" name="SalaryDetails[<?php echo $employee->ID?>][PLI]" value='<?php echo $pli; ?>' placeholder='P.L.I.'></td>
+							<td><b class="one-label">P.L.I.: </b><input type='text' class="ded-inc-amount" name="SalaryDetails[<?php echo $employee->ID?>][PLI]" value='<?php echo $pli ? $pli : 0; ?>' placeholder='P.L.I.'></td>
 							<td><b class="one-label">MISC.: </b><input type='text' class="ded-inc-amount" name="SalaryDetails[<?php echo $employee->ID?>][MISC]" value='<?php echo $salary->MISC ? $salary->MISC:0 ?>' placeholder='MISC.'></td>
 							<td><b class="one-label">P.T.: </b><input type='text' id="pt-ded-inc-amount" name="SalaryDetails[<?php echo $employee->ID?>][PT]" value='<?php echo $salary->PT ? $salary->PT : 0?>' placeholder='P.T.'></td>
 						</tr>
@@ -223,7 +229,7 @@
 							}
 						?>
 						<tr>
-							<td><b class="one-label">L.I.C: </b><input type='text' class="other-ded-inc-amount" name="SalaryDetails[<?php echo $employee->ID?>][LIC]" value='<?php echo $lic; ?>' placeholder='L.I.C.'></td>
+							<td><b class="one-label">L.I.C: </b><input type='text' class="other-ded-inc-amount" name="SalaryDetails[<?php echo $employee->ID?>][LIC]" value='<?php echo $lic ? $lic : 0; ?>' placeholder='L.I.C.'></td>
 							<td><b class="one-label">C.C.S: </b><input type='text'  class="other-ded-inc-amount" name="SalaryDetails[<?php echo $employee->ID?>][CCS]" value='<?php echo $salary->CCS ? $salary->CCS : 0?>' placeholder='C.C.S.'></td>
 							<td><b class="one-label">ASSOC SUB: </b><input type='text' class="other-ded-inc-amount" name="SalaryDetails[<?php echo $employee->ID?>][ASSOSC_SUB]" value='<?php echo $salary->ASSOSC_SUB ? $salary->ASSOSC_SUB : 0?>' placeholder='Association Subscription'></td>
 							<td><b class="one-label">REMARKS: </b><textarea name="SalaryDetails[<?php echo $employee->ID?>][REMARKS]" value='<?php echo $salary->REMARKS ? $salary->REMARKS : 0?>' placeholder='REMARKS'></textarea></td>

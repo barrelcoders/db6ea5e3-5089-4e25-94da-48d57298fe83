@@ -151,7 +151,7 @@ class BillController extends Controller
 	{
 		$model = $this->loadModel($id);
 		
-		if(isset($_POST['SalaryDetails']) && isset($_POST['SalaryInfo'])){
+		if(isset($_POST['SalaryDetails']['save']) && isset($_POST['SalaryDetails']) && isset($_POST['SalaryInfo'])){
 			$month = $_POST['SalaryInfo']['MONTH'];
 			$year = $_POST['SalaryInfo']['YEAR'];
 			$bill_id = $_POST['SalaryInfo']['BILL_ID'];
@@ -194,6 +194,14 @@ class BillController extends Controller
 				}
 			}
 			
+			$this->redirect(array('SalaryDetails','id'=> $bill_id));
+		}
+		
+		if(isset($_POST['SalaryDetails']['submit']) && isset($_POST['SalaryDetails']) && isset($_POST['SalaryInfo'])){
+			$month = $_POST['SalaryInfo']['MONTH'];
+			$year = $_POST['SalaryInfo']['YEAR'];
+			$bill_id = $_POST['SalaryInfo']['BILL_ID'];
+			$salaries = $_POST['SalaryDetails'];
 			if(Bill::model()->findByPK(SalaryDetails::model()->find('BILL_ID_FK='.$bill_id)->BILL_ID_FK)->BILL_TYPE == 8){
 				$BUDGET_ID = 7;
 			}
