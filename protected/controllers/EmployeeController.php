@@ -28,7 +28,8 @@ class EmployeeController extends Controller
 	{
 		return array(
 			array('allow',  // allow all users to perform 'index' and 'view' actions
-				'actions'=>array('index','view','create','update','admin','delete','Generic', 'generateLPC', 'LPC', 'LICPolicyStatusChange', 'PLIPolicyStatusChange'),
+				'actions'=>array('index','view','create','update','admin','delete','Generic', 'generateLPC', 'LPC', 'LICPolicyStatusChange', 'PLIPolicyStatusChange',
+				'OPSSalaryBillEmployees', 'NPSSalaryBillEmployees', 'OtherBillEmployees', 'WagesBillEmployees'),
 				'users'=>array('*'),
 			),
 		);
@@ -43,6 +44,44 @@ class EmployeeController extends Controller
 		$this->render('view',array(
 			'model'=>$this->loadModel($id),
 		));
+	}
+	
+	public function actionOtherBillEmployees($BILL_ID){
+		$OtherBillEmployeesIDs = explode(",", OtherBillEmployees::model()->findByAttributes(array('BILL_ID'=>$BILL_ID))->EMPLOYEE_ID);
+		$result = array();
+		foreach($OtherBillEmployeesIDs as $id){
+			$employee = Employee::model()->findByPk($id);
+			array_push($result, array('id'=>$employee->ID, 'value'=>$employee->ID, 'label'=>$employee->NAME));
+		}
+		echo json_encode($result);exit;
+	}
+	
+	public function actionWagesBillEmployees($BILL_ID){
+		$OtherBillEmployeesIDs = explode(",", OtherBillEmployees::model()->findByAttributes(array('BILL_ID'=>$BILL_ID))->EMPLOYEE_ID);
+		$result = array();
+		foreach($OtherBillEmployeesIDs as $id){
+			$employee = Employee::model()->findByPk($id);
+			array_push($result, array('id'=>$employee->ID, 'value'=>$employee->ID, 'label'=>$employee->NAME));
+		}
+		echo json_encode($result);exit;
+	}
+	
+	public function actionOPSSalaryBillEmployees(){
+		$employees = Employee::model()->findAllByAttributes(array('PENSION_TYPE'=>'OPS', 'IS_TRANSFERRED'=>0, 'IS_RETIRED'=>0, 'IS_PERMANENT'=>1));
+		$result = array();
+		foreach($employees as $employee){
+			array_push($result, array('id'=>$employee->ID, 'value'=>$employee->ID, 'label'=>$employee->NAME));
+		}
+		echo json_encode($result);exit;
+	}
+	
+	public function actionNPSSalaryBillEmployees(){
+		$employees = Employee::model()->findAllByAttributes(array('PENSION_TYPE'=>'NPS', 'IS_TRANSFERRED'=>0, 'IS_RETIRED'=>0, 'IS_PERMANENT'=>1));
+		$result = array();
+		foreach($employees as $employee){
+			array_push($result, array('id'=>$employee->ID, 'value'=>$employee->ID, 'label'=>$employee->NAME));
+		}
+		echo json_encode($result);exit;
 	}
 
 	/**

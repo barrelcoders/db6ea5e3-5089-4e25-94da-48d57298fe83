@@ -8,20 +8,6 @@
 	if(isset($_REQUEST['id'])){
 		$bill = Bill::model()->findByPK($_REQUEST['id']);
 		?>
-		<script type="text/javascript">
-		$(document).ready(function(){
-			$('.tabcontent .basic-amount').change(function(){
-				$tabContent = $(this).parents('.tabcontent'); 
-				var IS_NPS_BILL = <?php echo ($bill->BILL_TYPE == 2) ? 1 : 0; ?>;
-				$tabContent.find('.hra-amount').val(Math.round(parseInt($(this).val())*0.24));
-				$tabContent.find('.da-amount').val(Math.round(parseInt($(this).val())*0.04));
-				if(IS_NPS_BILL){
-					$tabContent.find('.cpf-1-amount').val(Math.round(($tabContent.find('.da-amount').val() + $(this).val())*0.1));
-				}
-			});
-			
-		});
-	</script>
 			<table class="table">
 				<tr>
 					<td><b class="one-label">BILL No: </b><input type='text' style="width:80%;" readonly value='<?php echo $bill->BILL_NO; ?>' placeholder='BILL NO'></td>
@@ -34,34 +20,30 @@
 				</tr>
 			</table>
 			<form name="SalaryDetails" action="<?php echo Yii::app()->createUrl('Bill/SalaryDetails', array('id'=>$bill->ID))?>" method="post">
-			<table >
-				<tr>
-					<td>
-						<div class="form-group row">
-							<div class="col-sm-12">
-								<p class="form-control-static">
-									<input type="submit" name="SalaryDetails[save]" class="btn btn-inline" value="Save">
-								</p>
-							</div>
-						</div>
-					</td>
-					<td>
-						<div class="form-group row">
-							<div class="col-sm-12">
-								<p class="form-control-static">
-									<input type="submit" name="SalaryDetails[submit]" class="btn btn-inline" value="Submit" onsubmit="return confirm('Are you sure wants to submit the bill, This will change the Appropiation Register');"
-									onclick="return confirm('Are you sure wants to submit the bill, This will change the Appropiation Register');">
-								</p>
-							</div>
-						</div>
-					</td>
-				</tr>
-			</table>
+			<div class="row">
+				<div class="col-sm-2">
+					<p class="form-control-static">
+						<input type="submit" name="SalaryDetails[save]" class="btn btn-inline" value="Save" style="float:left;">
+					</p>
+				</div>
+				<div class="col-sm-8">
+					<p class="form-control-static">
+						<input type="text" id="textSearch"  style="line-height:30px;font-size: 20px;width: 80%;" onkeyup="search();">
+					</p>
+				</div>
+				<div class="col-sm-2">
+					<p class="form-control-static">
+						<input type="submit" name="SalaryDetails[submit]" class="btn btn-inline" style="float: right;" value="Submit" onsubmit="return confirm('Are you sure wants to submit the bill, This will change the Appropiation Register');"
+						onclick="return confirm('Are you sure wants to submit the bill, This will change the Appropiation Register');">
+					</p>
+				</div>
+			</div>
 			<?php
 			$employees = array();
 			if($bill->IS_ARREAR_BILL == 1 || $bill->IS_CEA_BILL == 1 || $bill->IS_BONUS_BILL == 1 || $bill->IS_UA_BILL == 1 || $bill->IS_LTC_HTC_BILL == 1){
 				$OtherBillEmployees = explode(",", OtherBillEmployees::model()->findByAttributes(array('BILL_ID'=>$model->ID))->EMPLOYEE_ID);
 				$employees = Employee::model()->findAllByAttributes(array('ID'=>$OtherBillEmployees));
+				$DATA_URL = Yii::app()->createUrl('Employee/OtherBillEmployees', array('BILL_ID'=>$model->ID));
 				?>
 				<input type="hidden" name="SalaryDetails[IS_SALARY_BILL]" value="0"/>
 				<?php
@@ -69,6 +51,7 @@
 			else if($bill->BILL_TYPE == 8){
 				$OtherBillEmployees = explode(",", OtherBillEmployees::model()->findByAttributes(array('BILL_ID'=>$model->ID))->EMPLOYEE_ID);
 				$employees = Employee::model()->findAllByAttributes(array('ID'=>$OtherBillEmployees));
+				$DATA_URL = Yii::app()->createUrl('Employee/WagesBillEmployees', array('BILL_ID'=>$model->ID));
 				?>
 				<input type="hidden" name="SalaryDetails[IS_SALARY_BILL]" value="1"/>
 				<?php
@@ -88,6 +71,7 @@
 					}
 					else{*/
 						$employees = Employee::model()->findAllByAttributes(array('PENSION_TYPE'=>'OPS', 'IS_TRANSFERRED'=>0, 'IS_RETIRED'=>0, 'IS_PERMANENT'=>1));
+						$DATA_URL = Yii::app()->createUrl('Employee/OPSSalaryBillEmployees');
 					/*}*/
 				}
 				if($bill->BILL_TYPE == 2){
@@ -101,6 +85,7 @@
 					}
 					else{*/
 						$employees = Employee::model()->findAllByAttributes(array('PENSION_TYPE'=>'NPS', 'IS_TRANSFERRED'=>0, 'IS_RETIRED'=>0, 'IS_PERMANENT'=>1));
+						$DATA_URL = Yii::app()->createUrl('Employee/NPSSalaryBillEmployees');
 					/*}*/
 				}
 			}
@@ -134,8 +119,8 @@
 				  <table class="table">
 					<tr>
 						<td><b class="one-label">Designation: </b><input type='text' readonly value='<?php echo Designations::model()->findByPK($employee->DESIGNATION_ID_FK)->DESIGNATION; ?>' placeholder='DESIGNATION'></td>
-						<td><b class="one-label">Group: </b><input type='text' readonly value='<?php echo Groups::model()->findByPK($employee->GROUP_ID_FK)->GROUP_NAME; ?>' placeholder='GROUP_NAME'></td>
-						<td><b class="one-label">Grade Pay: </b><input type='text' readonly value='<?php echo PayBands::model()->findByPK($employee->GRADE_PAY_ID_FK)->DESCRIPTION; ?>' placeholder='GRADE PAY'></td>
+						<td><b class="one-label">Group: </b><input type='text' readonly value='<?php echo ""; //echo Groups::model()->findByPK($employee->GROUP_ID_FK)->GROUP_NAME; ?>' placeholder='GROUP_NAME'></td>
+						<td><b class="one-label">Grade Pay: </b><input type='text' readonly value='<?php echo 0; //echo PayBands::model()->findByPK($employee->GRADE_PAY_ID_FK)->DESCRIPTION; ?>' placeholder='GRADE PAY'></td>
 					</tr>
 					<tr>
 						<td><b class="one-label">MICR: </b><input type='text' readonly value='<?php echo $employee->MICR?>' placeholder='MICR'></td>
@@ -496,7 +481,38 @@
 			creditComponentElement.val(grossComponentElement.val() - getElementValue(ptDeductionComponentElement) - getElementValue(deductionComponentElement) - getElementValue(otherDeductionComponentElement));
 		});
 		
+		$('.tabcontent .basic-amount').change(function(){
+			$tabContent = $(this).parents('.tabcontent'); 
+			var IS_NPS_BILL = <?php echo ($bill->BILL_TYPE == 2) ? 1 : 0; ?>;
+			$tabContent.find('.hra-amount').val(Math.round(parseInt($(this).val())*0.24));
+			$tabContent.find('.da-amount').val(Math.round(parseInt($(this).val())*0.04));
+			if(IS_NPS_BILL){
+				$tabContent.find('.cpf-1-amount').val(Math.round(($tabContent.find('.da-amount').val() + $(this).val())*0.1));
+			}
+		});
+			
+		
 	});
+	
+	function search(){
+		var input, filter, ul, li, a, i;
+		input = document.getElementById('textSearch');
+		filter = input.value.toUpperCase();
+		ul = document.getElementById("tab");
+		li = ul.getElementsByTagName('li');
+
+		// Loop through all list items, and hide those who don't match the search query
+		for (i = 0; i < li.length; i++) {
+			a = li[i].getElementsByTagName("a")[0];
+			if (a.innerHTML.toUpperCase().indexOf(filter) > -1) {
+				li[i].style.display = "";
+			} else {
+				li[i].style.display = "none";
+			}
+		}
+	}
+
+	
 	function getElementValue(element){
 		if(element.length > 0){
 			return element.val();
