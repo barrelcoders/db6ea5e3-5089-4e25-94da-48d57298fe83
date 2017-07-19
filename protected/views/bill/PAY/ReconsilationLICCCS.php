@@ -28,7 +28,7 @@
 			<td class="small-xx right-br"><?php $CCS = Yii::app()->db->createCommand("SELECT SUM(CCS) as CCS FROM tbl_salary_details WHERE BILL_ID_FK = $model->ID AND YEAR = $model->YEAR AND MONTH = $model->MONTH;")->queryRow()['CCS']; echo $CCS;?></td>
 			<td class="small-xx right-br"><?php $LIC = Yii::app()->db->createCommand("SELECT SUM(LIC) as LIC FROM tbl_salary_details WHERE BILL_ID_FK = $model->ID AND YEAR = $model->YEAR AND MONTH = $model->MONTH;")->queryRow()['LIC']; echo $LIC;?></td>
 			<td class="small-xx right-br">0</td>
-			<td class="small-xx right-br">0</td>
+			<td class="small-xx right-br"></td>
 			<td class="small-xx right-br">0</td>
 			<td class="small-xx right-br">0</td>
 			<td class="small-xx right-br"><?php $ASSOSC_SUB = Yii::app()->db->createCommand("SELECT SUM(ASSOSC_SUB) as ASSOSC_SUB FROM tbl_salary_details WHERE BILL_ID_FK = $model->ID AND YEAR = $model->YEAR AND MONTH = $model->MONTH;")->queryRow()['ASSOSC_SUB']; echo $ASSOSC_SUB;?></td>

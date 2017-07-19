@@ -115,7 +115,7 @@ class Employee extends CActiveRecord
 			'DEPT_RELIEF_TIME'=>'Commissionerate Relief Time', 
 			'DEPT_JOIN_TIME'=>'Commissionerate Joining Time',
 			'PERMISSION'=>'Permission',
-			'SERVICE_BOOK_VOL'=>'Service Book Volumn'
+			'SERVICE_BOOK_VOL'=>'Service Book Volumn',
 		);
 	}
 

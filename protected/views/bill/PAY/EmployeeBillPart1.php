@@ -13,7 +13,7 @@
 			<th class="small right-br">NAME</th>
 			<th class="small right-br">DESIGNATION</th>
 			<th class="small-xx">Pay in PB</th>
-			<th class="small-xx">GP</th>
+			<th class="small-xxx">GP</th>
 			<th class="small-xx right-br left-br">BASIC</th>
 			<th class="small-xx">SP</th>
 			<th class="small-xx">PP</th>
@@ -22,7 +22,7 @@
 			<th class="small-xxx">DA</th>
 			<th class="small-xxx">TA</th>
 			<th class="small-xxx">WA</th>
-			<th class="small-xxx right-br left-br">GROSS</th>
+			<th class="small-xx right-br left-br">GROSS</th>
 			<th class="small-xxx">IT</th>
 		</tr>
 	</thead>
@@ -44,7 +44,7 @@
 			<td class="small right-br"><b><?php echo Employee::model()->findByPK($salary->EMPLOYEE_ID_FK)->NAME.'<br/>('.Employee::model()->findByPK($salary->EMPLOYEE_ID_FK)->NAME_HINDI.')';?></b></td>
 			<td class="small right-br"><b><?php echo Designations::model()->findByPK(Employee::model()->findByPK($salary->EMPLOYEE_ID_FK)->DESIGNATION_ID_FK)->DESIGNATION.'<br/>('.Designations::model()->findByPK(Employee::model()->findByPK($salary->EMPLOYEE_ID_FK)->DESIGNATION_ID_FK)->DESIGNATION_HINDI.')';?></b></td>
 			<td class="small-xx"><?php echo $salary->BASIC; ?></td>
-			<td class="small-xx"><?php echo $salary->GP; ?></td>
+			<td class="small-xxx"><?php echo $salary->GP; ?></td>
 			<td class="small-xx right-br left-br"><?php echo $salary->BASIC + $salary->GP; ?></td>
 			<td class="small-xx"><?php echo $salary->SP; ?></td>
 			<td class="small-xx"><?php echo $salary->PP; ?></td>
@@ -53,7 +53,7 @@
 			<td class="small-xxx"><?php echo $salary->DA; ?></td>
 			<td class="small-xxx"><?php echo $salary->TA; ?></td>
 			<td class="small-xxx"><?php echo $salary->WA; ?></td>
-			<td class="small-xxx right-br left-br"><?php echo $salary->GROSS; ?></td>
+			<td class="small-xx right-br left-br"><?php echo $salary->GROSS; ?></td>
 			<td class="small-xxx"><?php echo $salary->IT; ?></td>
 		</tr>
 		<?php 
@@ -65,7 +65,7 @@
 		<th class="small right-br"></th>
 		<th class="small right-br"></th>
 		<th class="small-xx"><?php $BASIC = Yii::app()->db->createCommand("SELECT SUM(BASIC) as BASIC FROM tbl_salary_details WHERE BILL_ID_FK = $model->ID;")->queryRow()['BASIC'];echo $BASIC;?></th>
-		<th class="small-xx"><?php $GP = Yii::app()->db->createCommand("SELECT SUM(GP) as GP FROM tbl_salary_details WHERE BILL_ID_FK = $model->ID;")->queryRow()['GP'];echo $GP;?></th>
+		<th class="small-xxx"><?php $GP = Yii::app()->db->createCommand("SELECT SUM(GP) as GP FROM tbl_salary_details WHERE BILL_ID_FK = $model->ID;")->queryRow()['GP'];echo $GP;?></th>
 		<th class="small-xx right-br left-br"><?php echo $BASIC + $GP;?></th>
 		<th class="small-xx"><?php echo Yii::app()->db->createCommand("SELECT SUM(SP) as SP FROM tbl_salary_details WHERE BILL_ID_FK = $model->ID;")->queryRow()['SP'];?></th>
 		<th class="small-xx"><?php echo Yii::app()->db->createCommand("SELECT SUM(PP) as PP FROM tbl_salary_details WHERE BILL_ID_FK = $model->ID;")->queryRow()['PP'];?></th>
@@ -74,7 +74,7 @@
 		<th class="small-xxx"><?php echo Yii::app()->db->createCommand("SELECT SUM(DA) as DA FROM tbl_salary_details WHERE BILL_ID_FK = $model->ID;")->queryRow()['DA'];?></th>
 		<th class="small-xxx"><?php echo Yii::app()->db->createCommand("SELECT SUM(TA) as TA FROM tbl_salary_details WHERE BILL_ID_FK = $model->ID;")->queryRow()['TA'];?></th>
 		<th class="small-xxx"><?php echo Yii::app()->db->createCommand("SELECT SUM(WA) as WA FROM tbl_salary_details WHERE BILL_ID_FK = $model->ID;")->queryRow()['WA'];?></th>
-		<th class="small-xxx right-br left-br"><?php echo Yii::app()->db->createCommand("SELECT SUM(GROSS) as GROSS FROM tbl_salary_details WHERE BILL_ID_FK = $model->ID;")->queryRow()['GROSS'];?></th>
+		<th class="small-xx right-br left-br"><?php echo Yii::app()->db->createCommand("SELECT SUM(GROSS) as GROSS FROM tbl_salary_details WHERE BILL_ID_FK = $model->ID;")->queryRow()['GROSS'];?></th>
 		<th class="small-xxx"><?php echo Yii::app()->db->createCommand("SELECT SUM(IT) as IT FROM tbl_salary_details WHERE BILL_ID_FK = $model->ID;")->queryRow()['IT'];?></th>
 	</tfoot>
 </table>

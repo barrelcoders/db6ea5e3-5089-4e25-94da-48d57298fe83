@@ -119,7 +119,7 @@
 				  <table class="table">
 					<tr>
 						<td><b class="one-label">Designation: </b><input type='text' readonly value='<?php echo Designations::model()->findByPK($employee->DESIGNATION_ID_FK)->DESIGNATION; ?>' placeholder='DESIGNATION'></td>
-						<td><b class="one-label">Group: </b><input type='text' readonly value='<?php echo ""; //echo Groups::model()->findByPK($employee->GROUP_ID_FK)->GROUP_NAME; ?>' placeholder='GROUP_NAME'></td>
+						<td><b class="one-label">Group: </b><input type='text' readonly value='<?php echo Groups::model()->findByPK($employee->GROUP_ID_FK)->GROUP_NAME; ?>' placeholder='GROUP_NAME'></td>
 						<td><b class="one-label">Grade Pay: </b><input type='text' readonly value='<?php echo 0; //echo PayBands::model()->findByPK($employee->GRADE_PAY_ID_FK)->DESCRIPTION; ?>' placeholder='GRADE PAY'></td>
 					</tr>
 					<tr>
@@ -193,31 +193,34 @@
 							if($salary->BILL_ID_FK == $model->ID){									
 								$pli = $salary->PLI;
 							}
-							else{
+							if($pli == 0){
 								$data = EmployeePLIPolicies::model()->findBySql('SELECT SUM(AMOUNT) as AMOUNT FROM tbl_employee_pli_policies WHERE STATUS=1 AND EMPLOYEE_ID_FK='.$employee->ID, array());
-								$pli  = $data['AMOUNT'];
+								$pli  = intVal($data['AMOUNT']);
 							}
 						?>
 						<tr>
 							<td><b class="one-label">C.P.F. Tier II: </b><input type='text' class="ded-inc-amount" name="SalaryDetails[<?php echo $employee->ID?>][CPF_TIER_II]" value='<?php echo $salary->CPF_TIER_II ? $salary->CPF_TIER_II : 0?>' placeholder='C.P.F. Tier II'></td>
-							<td><b class="one-label">P.L.I.: </b><input type='text' class="ded-inc-amount" name="SalaryDetails[<?php echo $employee->ID?>][PLI]" value='<?php echo $pli ? $pli : 0; ?>' placeholder='P.L.I.'></td>
+							<td><b class="one-label">P.L.I.: </b><input type='text' class="ded-inc-amount" name="SalaryDetails[<?php echo $employee->ID?>][PLI]" value='<?php echo $pli; ?>' placeholder='P.L.I.'></td>
 							<td><b class="one-label">MISC.: </b><input type='text' class="ded-inc-amount" name="SalaryDetails[<?php echo $employee->ID?>][MISC]" value='<?php echo $salary->MISC ? $salary->MISC:0 ?>' placeholder='MISC.'></td>
 							<td><b class="one-label">P.T.: </b><input type='text' id="pt-ded-inc-amount" name="SalaryDetails[<?php echo $employee->ID?>][PT]" value='<?php echo $salary->PT ? $salary->PT : 0?>' placeholder='P.T.'></td>
+							<td><b class="one-label">MAINT. (MADIWALA): </b><input type='text' class="other-ded-inc-amount" name="SalaryDetails[<?php echo $employee->ID?>][MAINT_MADIWALA]" value='<?php echo $salary->MAINT_MADIWALA ? $salary->MAINT_MADIWALA : 0?>' placeholder='MAINT. (MADIWALA)'></td>
 						</tr>
 						<?php 
 							$lic = 0;
 							if($salary->BILL_ID_FK == $model->ID){
 								$lic = $salary->LIC;
-							} else {
+							} 
+							if($lic == 0){
 								$data = EmployeeLICPolicies::model()->findBySql('SELECT SUM(AMOUNT) as AMOUNT FROM tbl_employee_lic_policies WHERE STATUS=1 AND EMPLOYEE_ID_FK='.$employee->ID, array());
-								$lic  = $data['AMOUNT'];
+								$lic  = intVal($data['AMOUNT']);
 							}
 						?>
 						<tr>
-							<td><b class="one-label">L.I.C: </b><input type='text' class="other-ded-inc-amount" name="SalaryDetails[<?php echo $employee->ID?>][LIC]" value='<?php echo $lic ? $lic : 0; ?>' placeholder='L.I.C.'></td>
+							<td><b class="one-label">L.I.C: </b><input type='text' class="other-ded-inc-amount" name="SalaryDetails[<?php echo $employee->ID?>][LIC]" value='<?php echo $lic; ?>' placeholder='L.I.C.'></td>
 							<td><b class="one-label">C.C.S: </b><input type='text'  class="other-ded-inc-amount" name="SalaryDetails[<?php echo $employee->ID?>][CCS]" value='<?php echo $salary->CCS ? $salary->CCS : 0?>' placeholder='C.C.S.'></td>
 							<td><b class="one-label">ASSOC SUB: </b><input type='text' class="other-ded-inc-amount" name="SalaryDetails[<?php echo $employee->ID?>][ASSOSC_SUB]" value='<?php echo $salary->ASSOSC_SUB ? $salary->ASSOSC_SUB : 0?>' placeholder='Association Subscription'></td>
 							<td><b class="one-label">REMARKS: </b><textarea name="SalaryDetails[<?php echo $employee->ID?>][REMARKS]" value='<?php echo $salary->REMARKS ? $salary->REMARKS : 0?>' placeholder='REMARKS'></textarea></td>
+							<td><b class="one-label">MAINT. (JAYAMAHAL): </b><input type='text' class="other-ded-inc-amount" name="SalaryDetails[<?php echo $employee->ID?>][MAINT_JAYAMAHAL]" value='<?php echo $salary->MAINT_JAYAMAHAL ? $salary->MAINT_JAYAMAHAL : 0?>' placeholder='MAINT. (MADIWALA)'></td>
 						</tr>
 					</table>
 					<table class="table">
@@ -234,7 +237,7 @@
 					<div>
 						<table class="table small-table">
 							<tr><th style="text-align:center;">HOUSE BUILDING ADVANCE</th></tr>
-							<tr><td><b class="one-label">INTEREST: </b><select name="SalaryDetails[<?php echo $employee->ID?>][HBA_RECOVERY]" ><option value="0" <?php echo ($salary->IS_HBA_RECOVERY == 0) ? "selected" : "";?>>NO</option><option value="1" <?php echo ($salary->IS_HBA_RECOVERY == 1) ? "selected" : "";?>>YES</option></select></td></tr>
+							<tr><td><b class="one-label">INTEREST: </b><select name="SalaryDetails[<?php echo $employee->ID?>][IS_HBA_RECOVERY]" ><option value="0" <?php echo ($salary->IS_HBA_RECOVERY == 0) ? "selected" : "";?>>NO</option><option value="1" <?php echo ($salary->IS_HBA_RECOVERY == 1) ? "selected" : "";?>>YES</option></select></td></tr>
 							<tr><td><b class="one-label">TOTAL: </b><input type='text' name="SalaryDetails[<?php echo $employee->ID?>][HBA_TOTAL]" value='<?php echo $salary->HBA_TOTAL ? $salary->HBA_TOTAL : 0?>' placeholder='TOTAL'></td></tr>
 							<tr><td><b class="one-label">INSTALLMENT NO: </b><input type='text' name="SalaryDetails[<?php echo $employee->ID?>][HBA_INST]" value='<?php echo $salary->HBA_INST ? $salary->HBA_INST : 0?>' placeholder='INSTALLMENT NO'></td></tr>
 							<tr><td><b class="one-label">EMI: </b><input type='text' class="ded-inc-amount-dwn" name="SalaryDetails[<?php echo $employee->ID?>][HBA_EMI]" value='<?php echo $salary->HBA_EMI ? $salary->HBA_EMI : 0?>' placeholder='EMI'></td></tr>
@@ -242,7 +245,7 @@
 						</table>
 						<table class="table small-table">
 							<tr><th style="text-align:center;">MOTOR CYCLE ADVANCE</th></tr>
-							<tr><td><b class="one-label">INTEREST: </b><select name="SalaryDetails[<?php echo $employee->ID?>][MCA_RECOVERY]" ><option value="0" <?php echo ($salary->IS_MCA_RECOVERY == 0) ? "selected" : "";?>>NO</option><option value="1" <?php echo ($salary->IS_MCA_RECOVERY == 1) ? "selected" : "";?>>YES</option></select></td></tr>
+							<tr><td><b class="one-label">INTEREST: </b><select name="SalaryDetails[<?php echo $employee->ID?>][IS_MCA_RECOVERY]" ><option value="0" <?php echo ($salary->IS_MCA_RECOVERY == 0) ? "selected" : "";?>>NO</option><option value="1" <?php echo ($salary->IS_MCA_RECOVERY == 1) ? "selected" : "";?>>YES</option></select></td></tr>
 							<tr><td><b class="one-label">TOTAL: </b><input type='text' name="SalaryDetails[<?php echo $employee->ID?>][MCA_TOTAL]" value='<?php echo $salary->MCA_TOTAL ? $salary->MCA_TOTAL: 0?>' placeholder='TOTAL'></td></tr>
 							<tr><td><b class="one-label">INSTALLMENT NO: </b><input name="SalaryDetails[<?php echo $employee->ID?>][MCA_INST]" type='text' value='<?php echo $salary->MCA_INST ? $salary->MCA_INST : 0?>' placeholder='INSTALLMENT NO'></td></tr>
 							<tr><td><b class="one-label">EMI: </b><input type='text' class="ded-inc-amount-dwn" name="SalaryDetails[<?php echo $employee->ID?>][MCA_EMI]" value='<?php echo $salary->MCA_EMI ? $salary->MCA_EMI : 0?>' placeholder='EMI'></td></tr>
@@ -250,7 +253,7 @@
 						</table>
 						<table class="table small-table">
 							<tr><th style="text-align:center;">FESTIVAL ADVANCE</th></tr>
-							<tr><td><b class="one-label">INTEREST: </b><select name="SalaryDetails[<?php echo $employee->ID?>][FEST_RECOVERY]" ><option value="0" <?php echo ($salary->IS_FEST_RECOVERY == 0) ? "selected" : "";?>>NO</option><option value="1" <?php echo ($salary->IS_FEST_RECOVERY == 1) ? "selected" : "";?>>YES</option></select></td></tr>
+							<tr><td><b class="one-label">INTEREST: </b><select name="SalaryDetails[<?php echo $employee->ID?>][IS_FEST_RECOVERY]" ><option value="0" <?php echo ($salary->IS_FEST_RECOVERY == 0) ? "selected" : "";?>>NO</option><option value="1" <?php echo ($salary->IS_FEST_RECOVERY == 1) ? "selected" : "";?>>YES</option></select></td></tr>
 							<tr><td><b class="one-label">TOTAL: </b><input type='text' name="SalaryDetails[<?php echo $employee->ID?>][FEST_TOTAL]" value='<?php echo $salary->FEST_TOTAL ? $salary->FEST_TOTAL : 0?>' placeholder='TOTAL'></td></tr>
 							<tr><td><b class="one-label">INSTALLMENT NO: </b><input type='text' name="SalaryDetails[<?php echo $employee->ID?>][FEST_INST]" value='<?php echo $salary->FEST_INST ? $salary->FEST_INST : 0?>' placeholder='INSTALLMENT NO'></td></tr>
 							<tr><td><b class="one-label">EMI: </b><input type='text' class="ded-inc-amount-dwn" name="SalaryDetails[<?php echo $employee->ID?>][FEST_EMI]" value='<?php echo $salary->FEST_EMI ? $salary->FEST_EMI : 0?>' placeholder='EMI'></td></tr>
@@ -258,7 +261,7 @@
 						</table>
 						<table class="table small-table">
 							<tr><th style="text-align:center;">CYCLE ADVANCE</th></tr>
-							<tr><td><b class="one-label">INTEREST: </b><select name="SalaryDetails[<?php echo $employee->ID?>][CYCLE_RECOVERY]" ><option value="0" <?php echo ($salary->IS_CYCLE_RECOVERY == 0) ? "selected" : "";?>>NO</option><option value="1" <?php echo ($salary->IS_CYCLE_RECOVERY == 1) ? "selected" : "";?>>YES</option></select></td></tr>
+							<tr><td><b class="one-label">INTEREST: </b><select name="SalaryDetails[<?php echo $employee->ID?>][IS_CYCLE_RECOVERY]" ><option value="0" <?php echo ($salary->IS_CYCLE_RECOVERY == 0) ? "selected" : "";?>>NO</option><option value="1" <?php echo ($salary->IS_CYCLE_RECOVERY == 1) ? "selected" : "";?>>YES</option></select></td></tr>
 							<tr><td><b class="one-label">TOTAL: </b><input type='text' name="SalaryDetails[<?php echo $employee->ID?>][CYCLE_TOTAL]" value='<?php echo $salary->CYCLE_TOTAL ? $salary->CYCLE_TOTAL :0?>' placeholder='TOTAL'></td></tr>
 							<tr><td><b class="one-label">INSTALLMENT NO: </b><input type='text' name="SalaryDetails[<?php echo $employee->ID?>][CYCLE_INST]" value='<?php echo $salary->CYCLE_INST ? $salary->CYCLE_INST :0?>' placeholder='INSTALLMENT NO'></td></tr>
 							<tr><td><b class="one-label">EMI: </b><input type='text' class="ded-inc-amount-dwn" name="SalaryDetails[<?php echo $employee->ID?>][CYCLE_EMI]" value='<?php echo $salary->CYCLE_EMI ? $salary->CYCLE_EMI : 0?>' placeholder='EMI'></td></tr>
@@ -266,7 +269,7 @@
 						</table>
 						<table class="table small-table">
 							<tr><th style="text-align:center;">FLOOD ADVANCE</th></tr>
-							<tr><td><b class="one-label">INTEREST: </b><select name="SalaryDetails[<?php echo $employee->ID?>][FLOOD_RECOVERY]" ><option value="0" <?php echo ($salary->IS_FLOOD_RECOVERY == 0) ? "selected" : "";?>>NO</option><option value="1" <?php echo ($salary->IS_FLOOD_RECOVERY == 1) ? "selected" : "";?>>YES</option></select></td></tr>
+							<tr><td><b class="one-label">INTEREST: </b><select name="SalaryDetails[<?php echo $employee->ID?>][IS_FLOOD_RECOVERY]" ><option value="0" <?php echo ($salary->IS_FLOOD_RECOVERY == 0) ? "selected" : "";?>>NO</option><option value="1" <?php echo ($salary->IS_FLOOD_RECOVERY == 1) ? "selected" : "";?>>YES</option></select></td></tr>
 							<tr><td><b class="one-label">TOTAL: </b><input type='text' name="SalaryDetails[<?php echo $employee->ID?>][FLOOD_TOTAL]" value='<?php echo $salary->FLOOD_TOTAL ? $salary->FLOOD_TOTAL : 0?>' placeholder='TOTAL'></td></tr>
 							<tr><td><b class="one-label">INSTALLMENT NO: </b><input type='text' name="SalaryDetails[<?php echo $employee->ID?>][FLOOD_INST]" value='<?php echo $salary->FLOOD_INST ? $salary->FLOOD_INST :0?>' placeholder='INSTALLMENT NO'></td></tr>
 							<tr><td><b class="one-label">EMI: </b><input type='text' class="ded-inc-amount-dwn" name="SalaryDetails[<?php echo $employee->ID?>][FLOOD_EMI]" value='<?php echo $salary->FLOOD_EMI ? $salary->FLOOD_EMI : 0?>' placeholder='EMI'></td></tr>
@@ -274,7 +277,7 @@
 						</table>
 						<table class="table small-table">
 							<tr><th style="text-align:center;">FAN ADVANCE</th></tr>
-							<tr><td><b class="one-label">INTEREST: </b><select name="SalaryDetails[<?php echo $employee->ID?>][FAN_RECOVERY]" ><option value="0" <?php echo ($salary->IS_FAN_RECOVERY == 0) ? "selected" : "";?>>NO</option><option value="1" <?php echo ($salary->IS_FAN_RECOVERY == 1) ? "selected" : "";?>>YES</option></select></td></tr>
+							<tr><td><b class="one-label">INTEREST: </b><select name="SalaryDetails[<?php echo $employee->ID?>][IS_FAN_RECOVERY]" ><option value="0" <?php echo ($salary->IS_FAN_RECOVERY == 0) ? "selected" : "";?>>NO</option><option value="1" <?php echo ($salary->IS_FAN_RECOVERY == 1) ? "selected" : "";?>>YES</option></select></td></tr>
 							<tr><td><b class="one-label">TOTAL: </b><input type='text' name="SalaryDetails[<?php echo $employee->ID?>][FAN_TOTAL]" value='<?php echo $salary->FAN_TOTAL ? $salary->FAN_TOTAL : 0?>' placeholder='TOTAL'></td></tr>
 							<tr><td><b class="one-label">INSTALLMENT NO: </b><input type='text' name="SalaryDetails[<?php echo $employee->ID?>][FAN_INST]" value='<?php echo $salary->FAN_INST ? $salary->FAN_INST :0?>' placeholder='INSTALLMENT NO'></td></tr>
 							<tr><td><b class="one-label">EMI: </b><input type='text' class="ded-inc-amount-dwn" name="SalaryDetails[<?php echo $employee->ID?>][FAN_EMI]" value='<?php echo $salary->FAN_EMI ? $salary->FAN_EMI : 0?>' placeholder='EMI'></td></tr>
@@ -391,13 +394,13 @@
 				document.getElementById('tab').style.marginLeft = (left - 100) + "px";
 			//}
 		});
-		$('.basic-amount').change(function(){
+		$('.basic-amount').keyup(function(){
 			var container = $(this).parents('table'), basic = 0;
 			basic = parseInt($(container).find('.basic-amount').val());
 			$(container).parent().find('#total-amount').val(basic);
 		});
 		
-		$('.ded-components').change(function(){debugger;
+		$('.ded-components').keyup(function(){
 			var container = $(this).parents('table'), total = 0,
 				grossComponentElement = $(container).parent().find('#gross-components'),
 				deductionComponentElement = $(this),
@@ -410,7 +413,7 @@
 			creditComponentElement.val(grossComponentElement.val() - getElementValue(ptDeductionComponentElement) - getElementValue(deductionComponentElement) - getElementValue(otherDeductionComponentElement));
 		});
 		
-		$('.gross-inc-amount').change(function(){
+		$('.gross-inc-amount').keyup(function(){
 			var container = $(this).parents('table'), total = 0,
 				grossComponentElement = $(container).parent().find('#gross-components'),
 				deductionComponentElement = $(container).parent().find('#ded-components'),
@@ -428,7 +431,7 @@
 			creditComponentElement.val(grossComponentElement.val() - getElementValue(ptDeductionComponentElement) - getElementValue(deductionComponentElement) - getElementValue(otherDeductionComponentElement));
 		});
 		
-		$('.ded-inc-amount').change(function(){
+		$('.ded-inc-amount').keyup(function(){
 			var container = $(this).parents('table'), total = 0,
 				grossComponentElement = $(container).parent().find('#gross-components'),
 				deductionComponentElement = $(container).parent().find('#ded-components'),
@@ -446,7 +449,7 @@
 			creditComponentElement.val(grossComponentElement.val() - getElementValue(ptDeductionComponentElement) - getElementValue(deductionComponentElement) - getElementValue(otherDeductionComponentElement));
 		});
 
-		$('.other-ded-inc-amount').change(function(){
+		$('.other-ded-inc-amount').keyup(function(){
 			var container = $(this).parents('table'), total = 0,
 				grossComponentElement = $(container).parent().find('#gross-components'),
 				deductionComponentElement = $(container).parent().find('#ded-components'),
@@ -463,7 +466,7 @@
 			creditComponentElement.val(grossComponentElement.val() - getElementValue(ptDeductionComponentElement) - getElementValue(deductionComponentElement) - getElementValue(otherDeductionComponentElement));
 		});	
 		
-		$('.ded-inc-amount-dwn').change(function(){
+		$('.ded-inc-amount-dwn').keyup(function(){
 			var tabContainer = $(this).parents('.tabcontent'), total = 0,
 				grossComponentElement = $(tabContainer).find('#gross-components'),
 				deductionComponentElement = $(tabContainer).find('#ded-components'),
@@ -481,13 +484,13 @@
 			creditComponentElement.val(grossComponentElement.val() - getElementValue(ptDeductionComponentElement) - getElementValue(deductionComponentElement) - getElementValue(otherDeductionComponentElement));
 		});
 		
-		$('.tabcontent .basic-amount').change(function(){
+		$('.tabcontent .basic-amount').keyup(function(){
 			$tabContent = $(this).parents('.tabcontent'); 
 			var IS_NPS_BILL = <?php echo ($bill->BILL_TYPE == 2) ? 1 : 0; ?>;
 			$tabContent.find('.hra-amount').val(Math.round(parseInt($(this).val())*0.24));
 			$tabContent.find('.da-amount').val(Math.round(parseInt($(this).val())*0.04));
 			if(IS_NPS_BILL){
-				$tabContent.find('.cpf-1-amount').val(Math.round(($tabContent.find('.da-amount').val() + $(this).val())*0.1));
+				$tabContent.find('.cpf-1-amount').val(Math.round((parseInt($tabContent.find('.da-amount').val()) + parseInt($(this).val()))*0.1));
 			}
 		});
 			

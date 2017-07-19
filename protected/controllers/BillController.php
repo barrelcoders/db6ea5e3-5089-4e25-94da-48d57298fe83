@@ -152,6 +152,7 @@ class BillController extends Controller
 		$model = $this->loadModel($id);
 		
 		if(isset($_POST['SalaryDetails']['save']) && isset($_POST['SalaryDetails']) && isset($_POST['SalaryInfo'])){
+			//echo "<pre>";print_r($_POST['SalaryDetails']);echo "</pre>";exit;
 			$month = $_POST['SalaryInfo']['MONTH'];
 			$year = $_POST['SalaryInfo']['YEAR'];
 			$bill_id = $_POST['SalaryInfo']['BILL_ID'];
@@ -175,6 +176,13 @@ class BillController extends Controller
 					$SalaryDetails->NET = $salary['NET'];
 					$SalaryDetails->DED = $salary['DED'];
 					$SalaryDetails->IS_SALARY_BILL = $_POST['SalaryDetails']['IS_SALARY_BILL'];
+					$SalaryDetails->IS_HBA_RECOVERY = $salary['IS_HBA_RECOVERY'];
+					$SalaryDetails->IS_MCA_RECOVERY = $salary['IS_MCA_RECOVERY'];
+					$SalaryDetails->IS_FEST_RECOVERY = $salary['IS_FEST_RECOVERY'];
+					$SalaryDetails->IS_CYCLE_RECOVERY = $salary['IS_CYCLE_RECOVERY'];
+					$SalaryDetails->IS_FLOOD_RECOVERY = $salary['IS_FLOOD_RECOVERY'];
+					$SalaryDetails->IS_FAN_RECOVERY = $salary['IS_FAN_RECOVERY'];
+					//echo $SalaryDetails->IS_HBA_RECOVERY;exit;
 					if(isset($_POST['SalaryDetails'][$salary['EMP_ID']]['UA'])){
 						$SalaryDetails->UA = $_POST['SalaryDetails'][$salary['EMP_ID']]['UA'];
 					}
@@ -703,8 +711,6 @@ class BillController extends Controller
 	public function actionCYCLE__INTEREST($id){$this->layout='//layouts/column1';$model = $this->loadModel($id);$this->render('PAY/CYCLE__INTEREST',array('model'=>$model,));}
 	public function actionLIC_PREMIUM($id){$this->layout='//layouts/column1';$model = $this->loadModel($id);$this->render('PAY/LIC_PREMIUM',array('model'=>$model,));}
 	public function actionLIC_PREMIUM_COVER($id){$this->layout='//layouts/column1';$model = $this->loadModel($id);$this->render('PAY/LIC_PREMIUM_COVER',array('model'=>$model,));}
-	
-	
-	
-	
+	public function actionMADIWALA($id){$this->layout='//layouts/column1';$model = $this->loadModel($id);$this->render('PAY/MADIWALA',array('model'=>$model,));}
+	public function actionJAYAMAHAL($id){$this->layout='//layouts/column1';$model = $this->loadModel($id);$this->render('PAY/JAYAMAHAL',array('model'=>$model,));}
 }

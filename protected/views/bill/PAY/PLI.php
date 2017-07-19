@@ -19,7 +19,7 @@
 		foreach($employees as $employee) array_push($employeesIds, $employee['ID']);
 		$criteria=new CDbCriteria;
 		$criteria->order="FIELD(EMPLOYEE_ID_FK, ".implode( ", ", $employeesIds ).")";
-		$criteria->condition = "BILL_ID_FK=$model->ID AND YEAR=$model->YEAR AND $model->MONTH";
+		$criteria->condition = "BILL_ID_FK=$model->ID AND PLI > 0";
 		$criteria->addInCondition('EMPLOYEE_ID_FK', $employeesIds);
 		$salaries = SalaryDetails::model()->findAll($criteria);
 	?>
