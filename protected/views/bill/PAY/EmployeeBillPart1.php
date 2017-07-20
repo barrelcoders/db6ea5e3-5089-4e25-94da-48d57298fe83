@@ -1,11 +1,12 @@
 <link href="<?php echo Yii::app()->request->baseUrl; ?>/css/oneadmin.css" rel="stylesheet">
-<style>*{font-size: 15px;}</style>
+<style>*{font-size: 15px;}.pay-schedule-table tr, .pay-schedule-table th, .pay-schedule-table td {	text-align: center;height: 60px; page-break-inside: avoid;}
+.pay-schedule-table thead th{font-size: 14px;}</style>
 <script type="text/javascript">window.onload = function() { window.print(); }</script>
 <?php
 	$master = Master::model()->findByPK(1);
 ?>
-<h2 style="text-transform: uppercase;text-align:center;"><?php echo $model->BILL_TITLE; ?></h2>
-<h2 style="text-transform: uppercase;text-align: center">BILL NO: <?php echo $model->BILL_NO; ?></h2>
+<h2 style="text-transform: uppercase;text-align:center;"><?php echo $model->BILL_TITLE; ?></h2><br>
+<!--<h2 style="text-transform: uppercase;text-align: center">BILL NO: <?php echo $model->BILL_NO; ?></h2>-->
 <table class="pay-schedule-table">
 	<thead>
 		<tr>

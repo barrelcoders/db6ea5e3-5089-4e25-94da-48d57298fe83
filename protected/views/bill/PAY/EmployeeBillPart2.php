@@ -1,11 +1,11 @@
 <link href="<?php echo Yii::app()->request->baseUrl; ?>/css/oneadmin.css" rel="stylesheet">
-<style>*{font-size: 15px;}.pay-schedule-table tr, .pay-schedule-table th, .pay-schedule-table td {	text-align: center;line-height: 35px;}</style>
+<style>*{font-size: 15px;}.pay-schedule-table tr, .pay-schedule-table th, .pay-schedule-table td {	text-align: center;height: 58px; page-break-inside: avoid;}</style>
 <script type="text/javascript">window.onload = function() { window.print(); }</script>
 <?php
 	$master = Master::model()->findByPK(1);
 ?>
-<h2 style="text-transform: uppercase;text-align:center;"><?php echo $model->BILL_TITLE;?></h2>
-<h2 style="text-transform: uppercase;text-align: center">BILL NO: <?php echo $model->BILL_NO; ?></h2>
+<!--<h3 style="text-transform: uppercase;text-align:center;"><?php echo $model->BILL_TITLE;?></h3>-->
+<h2 style="text-transform: uppercase;text-align: center">BILL NO: <?php echo $model->BILL_NO; ?></h2><br>
 <table class="pay-schedule-table">
 	<thead>
 		<tr>
@@ -25,8 +25,8 @@
 			<th class="small-xx right-br left-br">DEDUCTION</th>
 			<th class="small-xx right-br">NET</th>
 			<th class="small-xxx">PT</th>
-			<th class="small-xx">OTHER DEDUCTION</th>
-			<th class="small-xx left-br">AMOUNT CREDIT TO BANK</th>
+			<th class="small-xx">OTHER DED.</th>
+			<th class="small-x left-br">AMOUNT BANK</th>
 		</tr>
 	</thead>
 	<?php 
@@ -60,7 +60,7 @@
 			<td class="small-xx right-br"><?php echo $salary->NET; ?></td>
 			<td class="small-xxx"><?php echo $salary->PT; ?></td>
 			<td class="small-xx"><?php echo $salary->OTHER_DED; ?></td>
-			<td class="small-xx left-br"><?php echo $salary->AMOUNT_BANK; ?></td>
+			<td class="small-x left-br"><?php echo $salary->AMOUNT_BANK; ?></td>
 		</tr>
 		<?php 
 			$i++;
@@ -84,7 +84,7 @@
 		<th class="small-xx right-br"><?php echo Yii::app()->db->createCommand("SELECT SUM(NET) as NET FROM tbl_salary_details WHERE BILL_ID_FK = $model->ID;")->queryRow()['NET'];?></th>
 		<th class="small-xxx"><?php echo Yii::app()->db->createCommand("SELECT SUM(PT) as PT FROM tbl_salary_details WHERE BILL_ID_FK = $model->ID;")->queryRow()['PT'];?></th>
 		<th class="small-xx"><?php echo Yii::app()->db->createCommand("SELECT SUM(OTHER_DED) as OTHER_DED FROM tbl_salary_details WHERE BILL_ID_FK = $model->ID;")->queryRow()['OTHER_DED'];?></th>
-		<th class="small-xx left-br"><?php $AMOUNT_BANK = Yii::app()->db->createCommand("SELECT SUM(AMOUNT_BANK) as AMOUNT_BANK FROM tbl_salary_details WHERE BILL_ID_FK = $model->ID;")->queryRow()['AMOUNT_BANK']; echo $AMOUNT_BANK; ?></th>
+		<th class="small-x left-br"><?php $AMOUNT_BANK = Yii::app()->db->createCommand("SELECT SUM(AMOUNT_BANK) as AMOUNT_BANK FROM tbl_salary_details WHERE BILL_ID_FK = $model->ID;")->queryRow()['AMOUNT_BANK']; echo $AMOUNT_BANK; ?></th>
 	</tfoot>
 </table>
 <div style="width:900px;margin:10px auto 0 auto;">

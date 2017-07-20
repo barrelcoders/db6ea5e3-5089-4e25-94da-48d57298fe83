@@ -1,10 +1,11 @@
 <link href="<?php echo Yii::app()->request->baseUrl; ?>/css/oneadmin.css" rel="stylesheet">
 <script type="text/javascript">window.onload = function() { window.print(); }</script>
+<style>.pay-schedule-table tr, .pay-schedule-table th, .pay-schedule-table td {	text-align: center;height: 60px;}</style>
 <?php
 	$master = Master::model()->findByPK(1);
 ?>
-<h2 style="text-transform: uppercase;text-align:center;">PAY BILL IN RESPECT OF <?php echo ($model->BILL_TYPE == 1)? "OPS":"NPS"; ?> STAFF OF  <?php echo $master->DEPT_NAME?>FOR THE MONTH OF <?php echo date('M-Y', strtotime($model->CREATION_DATE))?></h2>
-<h2 style="text-transform: uppercase;text-align: center">BILL NO: <?php echo $model->BILL_NO; ?></h2>
+<!--<h2 style="text-transform: uppercase;text-align:center;">PAY BILL IN RESPECT OF <?php echo ($model->BILL_TYPE == 1)? "OPS":"NPS"; ?> STAFF OF  <?php echo $master->DEPT_NAME?>FOR THE MONTH OF <?php echo date('M-Y', strtotime($model->CREATION_DATE))?></h2>-->
+<h2 style="text-transform: uppercase;text-align: center">BILL NO: <?php echo $model->BILL_NO; ?></h2><br/>
 <table class="pay-schedule-table">
 	<thead>
 		<tr>
@@ -81,8 +82,8 @@
 	</tfoot>
 </table>
 
-<h4 style="text-align:center;margin-top: 50px;">(RUPEES NIL ONLY)</h4>
-<div style="text-align:center; font-weight: bold; width:400px; margin:0 auto;">"Certified that monthly Contribution under Central Government Employees Insurance Scheme has been recovered from persons who are covered under the Scheme"</div>
+<h4 style="text-align:center;margin-top: 50px;">(RUPEES NIL ONLY)</h4><br>
+<div style="text-align:center; font-weight: bold; width:400px; margin:0 auto;">"Certified that monthly Contribution under Central Government Employees Insurance Scheme has been recovered from persons who are covered under the Scheme"</div><br>
 <div style="font-weight: bold; width:400px; float: right;text-align:center; margin-top:100px;margin-right:-10px;">
 	<p><?php echo Employee::model()->findByPK($master['DEPT_ADMIN_EMPLOYEE'])->NAME;?></p>
 	<p><?php echo Designations::model()->findByPK(Employee::model()->findByPK($master['DEPT_ADMIN_EMPLOYEE'])->DESIGNATION_ID_FK)->DESIGNATION;?></p>

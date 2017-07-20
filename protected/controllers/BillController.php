@@ -656,6 +656,7 @@ class BillController extends Controller
 	}
 	
 	public function actionEmployeeBillFront($id){$this->layout='//layouts/column1';$model = $this->loadModel($id);$this->render('PAY/EmployeeBillFront',array('model'=>$model,));}
+	public function actionEmployeeBillInner($id){$this->layout='//layouts/column1';$model = $this->loadModel($id);$this->amountInWords = $this->amountToWord($model->BILL_AMOUNT);$this->render('PAY/EmployeeBillInner',array('model'=>$model,));}
 	public function actionEmployeeBillPart1($id){$this->layout='//layouts/column1';$model = $this->loadModel($id);$this->amountInWords = $this->amountToWord($model->BILL_AMOUNT);$this->render('PAY/EmployeeBillPart1',array('model'=>$model,));}
 	public function actionCEAEmployeeBillPart1($id){$this->layout='//layouts/column1';$model = $this->loadModel($id);$this->amountInWords = $this->amountToWord($model->BILL_AMOUNT);$this->render('PAY/CEABillPart1',array('model'=>$model,));}
 	public function actionCEASanctionOrder($id){$this->layout='//layouts/column1';$model = $this->loadModel($id);$this->amountInWords = $this->amountToWord($model->BILL_AMOUNT);$this->render('PAY/CEASanctionOrder',array('model'=>$model,));}
@@ -667,6 +668,7 @@ class BillController extends Controller
 	public function actionUASanctionOrder($id){$this->layout='//layouts/column1';$model = $this->loadModel($id);$this->amountInWords = $this->amountToWord($model->BILL_AMOUNT);$this->render('PAY/UASanctionOrder',array('model'=>$model,));}
 	public function actionNillBillFront($id){$this->layout='//layouts/column1';$model = $this->loadModel($id);$this->render('PAY/NillBillFront',array('model'=>$model,));}
 	public function actionNillBillCPF($id){$this->layout='//layouts/column1';$model = $this->loadModel($id);$this->render('PAY/NillBillCPF',array('model'=>$model,));}
+	public function actionNillBillInner($id){$this->layout='//layouts/column1';$model = $this->loadModel($id);$this->render('PAY/NillBillInner',array('model'=>$model,));}
 	public function actionNillBillPart1($id){$this->layout='//layouts/column1';$model = $this->loadModel($id);$this->render('PAY/NillBillPart1',array('model'=>$model,));}
 	public function actionNillBillPart2($id){$this->layout='//layouts/column1';$model = $this->loadModel($id);$this->render('PAY/NillBillPart2',array('model'=>$model,));}
 	public function actionPTBillFront($id){$this->layout='//layouts/column1';$model = $this->loadModel($id);$this->render('PAY/PTBillFront',array('model'=>$model,));}

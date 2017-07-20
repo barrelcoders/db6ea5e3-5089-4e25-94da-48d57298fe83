@@ -1,5 +1,6 @@
 <link href="<?php echo Yii::app()->request->baseUrl; ?>/css/oneadmin.css" rel="stylesheet">
 <script type="text/javascript">window.onload = function() { window.print(); }</script>
+<style>.pay-schedule-table tr, .pay-schedule-table th, .pay-schedule-table td {	text-align: center;height: 60px;}</style>
 <?php
 	$master = Master::model()->findByPK(1);
 ?>
@@ -55,7 +56,6 @@
 			<td class="small-xx"><?php echo $salary->CPF_TIER_I; ?></td>
 			<td class="small-xxx"></td>
 			<td class="small-xxx"></td>
-			<td class="small-xxx"></td>
 		</tr>
 		<?php 
 			$i++;
@@ -75,7 +75,6 @@
 		<th class="small-xxx"></th>
 		<th class="small-xxx"></th>
 		<th class="small-xx"><?php echo Yii::app()->db->createCommand("SELECT SUM(CPF_TIER_I) as CPF_TIER_I FROM tbl_salary_details WHERE BILL_ID_FK = $model->ID AND YEAR = $model->YEAR AND MONTH = $model->MONTH;")->queryRow()['CPF_TIER_I'];?></th>
-		<th class="small-xxx"></th>
 		<th class="small-xxx"></th>
 		<th class="small-xxx"></th>
 	</tfoot>

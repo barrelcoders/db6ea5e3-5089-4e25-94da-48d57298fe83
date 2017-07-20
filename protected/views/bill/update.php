@@ -30,6 +30,7 @@ if(isset($_REQUEST['id']) && $_REQUEST['id']){
 								<hr>
 								<h4 style="padding-left:10px;">NILL BILL</h4>
 								<li><a href="<?php echo Yii::app()->createUrl("Bill/NillBillFront",array("id"=>$id))?>" target="_blank"><span class="tbl-row"><span class="tbl-cell tbl-cell-caption">NILL BILL FRONT SHEET</span></span></a></li>
+								<li><a href="<?php echo Yii::app()->createUrl("Bill/NillBillInner",array("id"=>$id))?>" target="_blank"><span class="tbl-row"><span class="tbl-cell tbl-cell-caption">NILL BILL INNER</span></span></a></li>
 								<li><a href="<?php echo Yii::app()->createUrl("Bill/NillBillPart1",array("id"=>$id))?>" target="_blank"><span class="tbl-row"><span class="tbl-cell tbl-cell-caption">NILL BILL PART 1</span></span></a></li>
 								<li><a href="<?php echo Yii::app()->createUrl("Bill/NillBillPart2",array("id"=>$id))?>" target="_blank"><span class="tbl-row"><span class="tbl-cell tbl-cell-caption">NILL BILL PART 2</span></span></a></li>
 								<li><a href="<?php echo Yii::app()->createUrl("Bill/NillBillCPF",array("id"=>$id))?>" target="_blank"><span class="tbl-row"><span class="tbl-cell tbl-cell-caption">NILL BILL CPF</span></span></a></li>
@@ -58,6 +59,7 @@ if(isset($_REQUEST['id']) && $_REQUEST['id']){
 						<h4 style="padding-left:10px;">EMPLOYEE BILL</h4>
 						<li><a href="<?php echo Yii::app()->createUrl("Bill/EmployeeBillFront",array("id"=>$id))?>" target="_blank"><span class="tbl-row"><span class="tbl-cell tbl-cell-caption">EMPLOYEE BILL FRONT SHEET</span></span></a></li>
 						<?php if(!$model->IS_CEA_BILL && !$model->IS_BONUS_BILL && !$model->IS_UA_BILL && !$model->IS_LTC_HTC_BILL) {?>
+							<li><a href="<?php echo Yii::app()->createUrl("Bill/EmployeeBillInner",array("id"=>$id))?>" target="_blank"><span class="tbl-row"><span class="tbl-cell tbl-cell-caption">INNER SHEET</span></span></a></li>
 							<li><a href="<?php echo Yii::app()->createUrl("Bill/EmployeeBillPart1",array("id"=>$id))?>" target="_blank"><span class="tbl-row"><span class="tbl-cell tbl-cell-caption">INNER SHEET PART 1</span></span></a></li>
 							<li><a href="<?php echo Yii::app()->createUrl("Bill/EmployeeBillPart2",array("id"=>$id))?>" target="_blank"><span class="tbl-row"><span class="tbl-cell tbl-cell-caption">INNER SHEET PART 2</span></span></a></li>
 							<li><a href="<?php echo Yii::app()->createUrl("Bill/DAArrearBillPart1",array("id"=>$id))?>" target="_blank"><span class="tbl-row"><span class="tbl-cell tbl-cell-caption">DA ARREAR PART 1</span></span></a></li>
