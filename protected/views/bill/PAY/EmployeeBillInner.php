@@ -13,12 +13,12 @@
 			<th class="small-xxx right-br">S.No.</th>
 			<th class="small right-br">NAME</th>
 			<th class="small right-br">DESIGNATION</th>
-			<th class="small-xx">Pay in PB</th>
-			<th class="small-xxx">GP</th>
-			<th class="small-xx right-br left-br">BASIC</th>
-			<th class="small-xx">SP</th>
+			<!--<th class="small-xx">Pay in PB</th>
+			<th class="small-xxx">GP</th>-->
+			<th class="small-xx right-br">BASIC</th>
+			<!--<th class="small-xx">SP</th>
 			<th class="small-xx">PP</th>
-			<th class="small-xx">CCA</th>
+			<th class="small-xx">CCA</th>-->
 			<th class="small-xxx">HRA</th>
 			<th class="small-xxx">DA</th>
 			<th class="small-xxx">TA</th>
@@ -32,9 +32,9 @@
 			<th class="small-xx"><?php echo ($model->BILL_TYPE == 1) ? "GPF<br>Sub" : "CPF TIER II"?></th>
 			<th class="small-xxx">HBA</th>
 			<th class="small-xxx">MCA</th>
-			<th class="small-xxx">FAN</th>
+			<!--<th class="small-xxx">FAN</th>
 			<th class="small-xxx">FLOOD</th>
-			<th class="small-xxx">FEST</th>
+			<th class="small-xxx">FEST</th>-->
 			<th class="small-xxx">MISC</th>
 			<th class="small-xxx">PLI</th>
 			<th class="small-xx right-br left-br">DEDUCTION</th>
@@ -61,12 +61,12 @@
 			<td class="small-xxx right-br"><?php echo $i; ?></td>
 			<td class="small right-br"><b><?php echo Employee::model()->findByPK($salary->EMPLOYEE_ID_FK)->NAME.'<br/>('.Employee::model()->findByPK($salary->EMPLOYEE_ID_FK)->NAME_HINDI.')';?></b></td>
 			<td class="small right-br"><b><?php echo Designations::model()->findByPK(Employee::model()->findByPK($salary->EMPLOYEE_ID_FK)->DESIGNATION_ID_FK)->DESIGNATION.'<br/>('.Designations::model()->findByPK(Employee::model()->findByPK($salary->EMPLOYEE_ID_FK)->DESIGNATION_ID_FK)->DESIGNATION_HINDI.')';?></b></td>
-			<td class="small-xx"><?php echo $salary->BASIC; ?></td>
-			<td class="small-xxx"><?php echo $salary->GP; ?></td>
+			<td class="small-xx right-br"><?php echo $salary->BASIC; ?></td>
+			<!--<td class="small-xxx"><?php echo $salary->GP; ?></td>
 			<td class="small-xx right-br left-br"><?php echo $salary->BASIC + $salary->GP; ?></td>
 			<td class="small-xx"><?php echo $salary->SP; ?></td>
 			<td class="small-xx"><?php echo $salary->PP; ?></td>
-			<td class="small-xx"><?php echo $salary->CCA; ?></td>
+			<td class="small-xx"><?php echo $salary->CCA; ?></td>-->
 			<td class="small-xxx"><?php echo $salary->HRA; ?></td>
 			<td class="small-xxx"><?php echo $salary->DA; ?></td>
 			<td class="small-xxx"><?php echo $salary->TA; ?></td>
@@ -80,9 +80,9 @@
 			<td class="small-xx"><?php echo $salary->CPF_TIER_II; ?></td>
 			<td class="small-xxx"><?php echo $salary->HBA_EMI; ?></td>
 			<td class="small-xxx"><?php echo $salary->MCA_EMI; ?></td>
-			<td class="small-xxx"><?php echo $salary->FAN_EMI; ?></td>
+			<!--<td class="small-xxx"><?php echo $salary->FAN_EMI; ?></td>
 			<td class="small-xxx"><?php echo $salary->FLOOD_EMI; ?></td>
-			<td class="small-xxx"><?php echo $salary->FEST_EMI; ?></td>
+			<td class="small-xxx"><?php echo $salary->FEST_EMI; ?></td>-->
 			<td class="small-xxx"><?php echo $salary->MISC; ?></td>
 			<td class="small-xxx"><?php echo $salary->PLI; ?></td>
 			<td class="small-xx right-br left-br"><?php echo $salary->DED; ?></td>
@@ -99,12 +99,14 @@
 		<th class="small-xxx right-br"></th>
 		<th class="small right-br"></th>
 		<th class="small right-br"></th>
-		<th class="small-xx"><?php $BASIC = Yii::app()->db->createCommand("SELECT SUM(BASIC) as BASIC FROM tbl_salary_details WHERE BILL_ID_FK = $model->ID;")->queryRow()['BASIC'];echo $BASIC;?></th>
-		<th class="small-xxx"><?php $GP = Yii::app()->db->createCommand("SELECT SUM(GP) as GP FROM tbl_salary_details WHERE BILL_ID_FK = $model->ID;")->queryRow()['GP'];echo $GP;?></th>
+		<?php $BASIC = Yii::app()->db->createCommand("SELECT SUM(BASIC) as BASIC FROM tbl_salary_details WHERE BILL_ID_FK = $model->ID;")->queryRow()['BASIC'];?>
+		<?php $GP = Yii::app()->db->createCommand("SELECT SUM(GP) as GP FROM tbl_salary_details WHERE BILL_ID_FK = $model->ID;")->queryRow()['GP'];?>
+		<th class="small-xx right-br"><?php $BASIC = Yii::app()->db->createCommand("SELECT SUM(BASIC) as BASIC FROM tbl_salary_details WHERE BILL_ID_FK = $model->ID;")->queryRow()['BASIC'];echo $BASIC;?></th>
+		<!--<th class="small-xxx"><?php $GP = Yii::app()->db->createCommand("SELECT SUM(GP) as GP FROM tbl_salary_details WHERE BILL_ID_FK = $model->ID;")->queryRow()['GP'];echo $GP;?></th>
 		<th class="small-xx right-br left-br"><?php echo $BASIC + $GP;?></th>
 		<th class="small-xx"><?php echo Yii::app()->db->createCommand("SELECT SUM(SP) as SP FROM tbl_salary_details WHERE BILL_ID_FK = $model->ID;")->queryRow()['SP'];?></th>
 		<th class="small-xx"><?php echo Yii::app()->db->createCommand("SELECT SUM(PP) as PP FROM tbl_salary_details WHERE BILL_ID_FK = $model->ID;")->queryRow()['PP'];?></th>
-		<th class="small-xx"><?php echo Yii::app()->db->createCommand("SELECT SUM(CCA) as CCA FROM tbl_salary_details WHERE BILL_ID_FK = $model->ID;")->queryRow()['CCA'];?></th>
+		<th class="small-xx"><?php echo Yii::app()->db->createCommand("SELECT SUM(CCA) as CCA FROM tbl_salary_details WHERE BILL_ID_FK = $model->ID;")->queryRow()['CCA'];?></th>-->
 		<th class="small-xxx"><?php echo Yii::app()->db->createCommand("SELECT SUM(HRA) as HRA FROM tbl_salary_details WHERE BILL_ID_FK = $model->ID;")->queryRow()['HRA'];?></th>
 		<th class="small-xxx"><?php echo Yii::app()->db->createCommand("SELECT SUM(DA) as DA FROM tbl_salary_details WHERE BILL_ID_FK = $model->ID;")->queryRow()['DA'];?></th>
 		<th class="small-xxx"><?php echo Yii::app()->db->createCommand("SELECT SUM(TA) as TA FROM tbl_salary_details WHERE BILL_ID_FK = $model->ID;")->queryRow()['TA'];?></th>
@@ -118,9 +120,9 @@
 		<th class="small-xx"><?php echo Yii::app()->db->createCommand("SELECT SUM(CPF_TIER_II) as CPF_TIER_II FROM tbl_salary_details WHERE BILL_ID_FK = $model->ID;")->queryRow()['CPF_TIER_II'];?></th>
 		<th class="small-xxx"><?php echo Yii::app()->db->createCommand("SELECT SUM(HBA_EMI) as HBA_EMI FROM tbl_salary_details WHERE BILL_ID_FK = $model->ID;")->queryRow()['HBA_EMI'];?></th>
 		<th class="small-xxx"><?php echo Yii::app()->db->createCommand("SELECT SUM(MCA_EMI) as MCA_EMI FROM tbl_salary_details WHERE BILL_ID_FK = $model->ID;")->queryRow()['MCA_EMI'];?></th>
-		<th class="small-xxx"><?php echo Yii::app()->db->createCommand("SELECT SUM(FAN_EMI) as FAN_EMI FROM tbl_salary_details WHERE BILL_ID_FK = $model->ID;")->queryRow()['FAN_EMI'];?></th>
+		<!--<th class="small-xxx"><?php echo Yii::app()->db->createCommand("SELECT SUM(FAN_EMI) as FAN_EMI FROM tbl_salary_details WHERE BILL_ID_FK = $model->ID;")->queryRow()['FAN_EMI'];?></th>
 		<th class="small-xxx"><?php echo Yii::app()->db->createCommand("SELECT SUM(FLOOD_EMI) as FLOOD_EMI FROM tbl_salary_details WHERE BILL_ID_FK = $model->ID;")->queryRow()['FLOOD_EMI'];?></th>
-		<th class="small-xxx"><?php echo Yii::app()->db->createCommand("SELECT SUM(FEST_EMI) as FEST_EMI FROM tbl_salary_details WHERE BILL_ID_FK = $model->ID;")->queryRow()['FEST_EMI'];?></th>
+		<th class="small-xxx"><?php echo Yii::app()->db->createCommand("SELECT SUM(FEST_EMI) as FEST_EMI FROM tbl_salary_details WHERE BILL_ID_FK = $model->ID;")->queryRow()['FEST_EMI'];?></th>-->
 		<th class="small-xxx"><?php echo Yii::app()->db->createCommand("SELECT SUM(MISC) as MISC FROM tbl_salary_details WHERE BILL_ID_FK = $model->ID;")->queryRow()['MISC'];?></th>
 		<th class="small-xxx"><?php echo Yii::app()->db->createCommand("SELECT SUM(PLI) as PLI FROM tbl_salary_details WHERE BILL_ID_FK = $model->ID;")->queryRow()['PLI'];?></th>
 		<th class="small-xx right-br left-br"><?php echo Yii::app()->db->createCommand("SELECT SUM(DED) as DED FROM tbl_salary_details WHERE BILL_ID_FK = $model->ID;")->queryRow()['DED'];?></th>

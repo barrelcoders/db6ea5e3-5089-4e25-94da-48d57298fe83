@@ -39,7 +39,7 @@
 		display: block;
 		width: 656px;
 		margin: 0 auto;
-		margin-bottom: 80px;
+		margin-bottom: 40px;
 		border-spacing: 0;
 	}
 	td{
@@ -50,7 +50,7 @@
 		border: none;
 	}
 	.one-header > img {
-		height: 110px;
+		height: 90px;
 		margin-top: 1px;
 	}
 	.one-header > div {

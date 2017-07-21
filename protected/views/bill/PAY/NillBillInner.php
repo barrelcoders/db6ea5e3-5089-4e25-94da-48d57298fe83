@@ -15,33 +15,33 @@
 			<th class="small-xxx right-br">S.No.</th>
 			<th class="small right-br">NAME</th>
 			<th class="small right-br">DESIGNATION</th>
-			<th class="small-xx">Pay in PB</th>
-			<th class="small-xx">GP</th>
-			<th class="small-xx right-br left-br">BASIC</th>
+			<!--<th class="small-xx">Pay in PB</th>
+			<th class="small-xx">GP</th>-->
+			<th class="small-xx right-br">BASIC</th>
 			<th class="small-xxx">DA</th>
-			<th class="small-xx">SP</th>
+			<!--<th class="small-xx">SP</th>
 			<th class="small-xx">PP</th>
 			<th class="small-xx">CCA</th>
 			<th class="small-xxx">HRA</th>
-			<th class="small-xxx">TA</th>
-			<th class="small-xxx">Expenditure Awaiting Transfer</th>
-			<th class="small-xxx">WA</th>
+			<th class="small-xxx">TA</th>-->
+			<th class="small-x">Expenditure Awaiting Transfer</th>
+			<!--<th class="small-xxx">WA</th>
 			<th class="small-xxx">GROSS</th>
 			<th class="small-xx">IT</th>
 			<th class="small-xx">CGHS</th>
 			<th class="small-xx">LF</th>
-			<th class="small-xx">CGEGIS</th>
+			<th class="small-xx">CGEGIS</th>-->
 			<th class="small-xx">Govt. Contrib. TIER I</th>
-			<th class="small-xx">HBA</th>
+			<!--<th class="small-xx">HBA</th>
 			<th class="small-xx">MCA</th>
 			<th class="small-xx">FAN</th>
 			<th class="small-xx">FLOOD</th>
 			<th class="small-xx">CYCLE</th>
 			<th class="small-xx">FEST</th>
 			<th class="small-xx">MISC</th>
-			<th class="small-xx">PLI</th>
+			<th class="small-xx">PLI</th>-->
 			<th class="small-xx right-br left-br">DEDUCTION</th>
-			<th class="small-xx right-br">NET</th>
+			<!--<th class="small-xx right-br">NET</th>-->
 		</tr>
 	</thead>
 	<?php 
@@ -62,32 +62,32 @@
 			<td class="small right-br"><b><?php echo Employee::model()->findByPK($salary->EMPLOYEE_ID_FK)->NAME.'<br/>('.Employee::model()->findByPK($salary->EMPLOYEE_ID_FK)->NAME_HINDI.')';?></b></td>
 			<td class="small right-br"><b><?php echo Designations::model()->findByPK(Employee::model()->findByPK($salary->EMPLOYEE_ID_FK)->DESIGNATION_ID_FK)->DESIGNATION.'<br/>('.Designations::model()->findByPK(Employee::model()->findByPK($salary->EMPLOYEE_ID_FK)->DESIGNATION_ID_FK)->DESIGNATION_HINDI.')';?></b></td>
 			<td class="small-xx"><?php echo $salary->BASIC; ?></td>
-			<td class="small-xx"><?php echo $salary->GP; ?></td>
-			<td class="small-xx right-br left-br"><?php echo $salary->BASIC + $salary->GP; ?></td>
+			<!--<td class="small-xx"><?php echo $salary->GP; ?></td>
+			<td class="small-xx right-br left-br"><?php echo $salary->BASIC + $salary->GP; ?></td>-->
 			<td class="small-xxx"><?php echo $salary->DA; ?></td>
-			<td class="small-xx"></td>
+			<!--<td class="small-xx"></td>
 			<td class="small-xx"></td>
 			<td class="small-xx"></td>
 			<td class="small-xxx"></td>
-			<td class="small-xxx"></td>
+			<td class="small-xxx"></td>-->
 			<td class="small-xx"><?php echo $salary->CPF_TIER_I; ?></td>
+			<!--<td class="small-xxx"></td>
 			<td class="small-xxx"></td>
-			<td class="small-xxx"></td>
 			<td class="small-xx"></td>
 			<td class="small-xx"></td>
 			<td class="small-xx"></td>
-			<td class="small-xx"></td>
+			<td class="small-xx"></td>-->
 			<td class="small-xx"><?php echo $salary->CPF_TIER_I; ?></td>
+			<!--<td class="small-xx"></td>
 			<td class="small-xx"></td>
 			<td class="small-xx"></td>
 			<td class="small-xx"></td>
 			<td class="small-xx"></td>
 			<td class="small-xx"></td>
 			<td class="small-xx"></td>
-			<td class="small-xx"></td>
-			<td class="small-xx"></td>
+			<td class="small-xx"></td>-->
 			<td class="small-xx right-br left-br"><?php echo $salary->CPF_TIER_I; ?></td>
-			<td class="small-xx right-br">0</td>
+			<!--<td class="small-xx right-br">0</td>-->
 		</tr>
 		<?php 
 			$i++;
@@ -98,32 +98,32 @@
 		<th class="small right-br"></th>
 		<th class="small right-br"></th>
 		<th class="small-xx"><?php $BASIC = Yii::app()->db->createCommand("SELECT SUM(BASIC) as BASIC FROM tbl_salary_details WHERE BILL_ID_FK = $model->ID AND YEAR = $model->YEAR AND MONTH = $model->MONTH;")->queryRow()['BASIC'];echo $BASIC;?></th>
-		<th class="small-xx"><?php $GP = Yii::app()->db->createCommand("SELECT SUM(GP) as GP FROM tbl_salary_details WHERE BILL_ID_FK = $model->ID AND YEAR = $model->YEAR AND MONTH = $model->MONTH;")->queryRow()['GP'];echo $GP;?></th>
-		<th class="small-xx right-br left-br"><?php echo $BASIC + $GP;?></th>
+		<!--<th class="small-xx"><?php $GP = Yii::app()->db->createCommand("SELECT SUM(GP) as GP FROM tbl_salary_details WHERE BILL_ID_FK = $model->ID AND YEAR = $model->YEAR AND MONTH = $model->MONTH;")->queryRow()['GP'];echo $GP;?></th>
+		<th class="small-xx right-br left-br"><?php echo $BASIC + $GP;?></th>-->
 		<th class="small-xxx"><?php echo Yii::app()->db->createCommand("SELECT SUM(DA) as DA FROM tbl_salary_details WHERE BILL_ID_FK = $model->ID AND YEAR = $model->YEAR AND MONTH = $model->MONTH;")->queryRow()['DA'];?></th>
-		<th class="small-xx"></th>
+		<!--<th class="small-xx"></th>
 		<th class="small-xx"></th>
 		<th class="small-xx"></th>
 		<th class="small-xxx"></th>
-		<th class="small-xxx"></th>
+		<th class="small-xxx"></th>-->
 		<th class="small-xx"><?php echo Yii::app()->db->createCommand("SELECT SUM(CPF_TIER_I) as CPF_TIER_I FROM tbl_salary_details WHERE BILL_ID_FK = $model->ID AND YEAR = $model->YEAR AND MONTH = $model->MONTH;")->queryRow()['CPF_TIER_I'];?></th>
+		<!--<th class="small-xxx"></th>
 		<th class="small-xxx"></th>
-		<th class="small-xxx"></th>
 		<th class="small-xx"></th>
 		<th class="small-xx"></th>
 		<th class="small-xx"></th>
-		<th class="small-xx"></th>
+		<th class="small-xx"></th>-->
 		<th class="small-xx"><?php echo Yii::app()->db->createCommand("SELECT SUM(CPF_TIER_I) as CPF_TIER_I FROM tbl_salary_details WHERE BILL_ID_FK = $model->ID AND YEAR = $model->YEAR AND MONTH = $model->MONTH;")->queryRow()['CPF_TIER_I'];?></th>
+		<!--<th class="small-xx"></th>
 		<th class="small-xx"></th>
 		<th class="small-xx"></th>
 		<th class="small-xx"></th>
 		<th class="small-xx"></th>
 		<th class="small-xx"></th>
 		<th class="small-xx"></th>
-		<th class="small-xx"></th>
-		<th class="small-xx"></th>
+		<th class="small-xx"></th>-->
 		<th class="small-xx right-br left-br"><?php echo Yii::app()->db->createCommand("SELECT SUM(CPF_TIER_I) as CPF_TIER_I FROM tbl_salary_details WHERE BILL_ID_FK = $model->ID AND YEAR = $model->YEAR AND MONTH = $model->MONTH;")->queryRow()['CPF_TIER_I'];?></th>
-		<th class="small-xx right-br "></th>
+		<!--<th class="small-xx right-br "></th>-->
 	</tfoot>
 </table>
 
