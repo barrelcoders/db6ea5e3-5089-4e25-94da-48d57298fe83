@@ -200,7 +200,7 @@
 						?>
 						<tr>
 							<td><b class="one-label">C.P.F. Tier II: </b><input type='text' class="ded-inc-amount" name="SalaryDetails[<?php echo $employee->ID?>][CPF_TIER_II]" value='<?php echo $salary->CPF_TIER_II ? $salary->CPF_TIER_II : 0?>' placeholder='C.P.F. Tier II'></td>
-							<td><b class="one-label">P.L.I.: </b><input type='text' class="ded-inc-amount" name="SalaryDetails[<?php echo $employee->ID?>][PLI]" value='<?php echo $pli; ?>' placeholder='P.L.I.'></td>
+							<td><b class="one-label">P.L.I.: </b><input type='text' class="other-ded-inc-amount" name="SalaryDetails[<?php echo $employee->ID?>][PLI]" value='<?php echo $pli; ?>' placeholder='P.L.I.'></td>
 							<td><b class="one-label">MISC.: </b><input type='text' class="ded-inc-amount" name="SalaryDetails[<?php echo $employee->ID?>][MISC]" value='<?php echo $salary->MISC ? $salary->MISC:0 ?>' placeholder='MISC.'></td>
 							<td><b class="one-label">P.T.: </b><input type='text' id="pt-ded-inc-amount" name="SalaryDetails[<?php echo $employee->ID?>][PT]" value='<?php echo $salary->PT ? $salary->PT : 0?>' placeholder='P.T.'></td>
 							<td><b class="one-label">MAINT. (MADIWALA): </b><input type='text' class="other-ded-inc-amount" name="SalaryDetails[<?php echo $employee->ID?>][MAINT_MADIWALA]" value='<?php echo $salary->MAINT_MADIWALA ? $salary->MAINT_MADIWALA : 0?>' placeholder='MAINT. (MADIWALA)'></td>

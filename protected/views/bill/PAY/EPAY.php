@@ -7,7 +7,7 @@
 	<thead>
 		<tr>
 			<th class="small-xxx right-br">S.No.</th>
-			<th class="small-xx right-br">MICR</th>
+			<!--<th class="small-xx right-br">MICR</th>-->
 			<th class="small right-br">NAME</th>
 			<th class="small-xx right-br">IFSC CODE</th>
 			<th class="small-xx right-br">ACCOUNT NUMBER</th>
@@ -29,7 +29,7 @@
 		<?php foreach ($salaries as $salary) { ?>
 		<tr>
 			<td class="small-xxx right-br"><?php echo $i; ?></td>
-			<td class="small-xx right-br"><b><?php echo Employee::model()->findByPK($salary->EMPLOYEE_ID_FK)->MICR;?></b></td>
+			<!--<td class="small-xx right-br"><b><?php echo Employee::model()->findByPK($salary->EMPLOYEE_ID_FK)->MICR;?></b></td>-->
 			<td class="small right-br"><b><?php echo Employee::model()->findByPK($salary->EMPLOYEE_ID_FK)->NAME;?></b></td>
 			<td class="small-xx right-br"><b><?php echo Employee::model()->findByPK($salary->EMPLOYEE_ID_FK)->IFSC;?></b></td>
 			<td class="small-xx right-br"><?php echo Employee::model()->findByPK($salary->EMPLOYEE_ID_FK)->ACCOUNT_NO; ?></td>
@@ -41,7 +41,7 @@
 	</tbody>
 	<tfoot>
 		<th class="small-xxx right-br"></th>
-		<th class="small-xx right-br"></th>
+		<!--<th class="small-xx right-br"></th>-->
 		<th class="small right-br"></th>
 		<th class="small-xx right-br"></th>
 		<th class="small-xx right-br"></th>

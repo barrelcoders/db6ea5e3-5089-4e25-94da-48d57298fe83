@@ -51,7 +51,6 @@
 			<td>
 				<table>
 					<?php 
-						$i=1;
 						foreach($policies as $policy){ 
 							if($i==count($policies)){
 								?>
@@ -62,7 +61,6 @@
 								<tr style="border: none;"><td style="border: none;border-bottom: 1px solid #000;text-align: center;"><?php echo $policy->POLICY_NO; ?></td></tr>
 								<?php
 							}
-							$i++;
 						} 
 					?>
 				</table>
@@ -70,7 +68,6 @@
 			<td>
 				<table>
 					<?php 
-						$i=1;
 						foreach($policies as $policy){ 
 							if($i==count($policies)){
 								?>
@@ -81,7 +78,6 @@
 								<tr style="border: none;"><td style="border: none;border-bottom: 1px solid #000;text-align: center;"><?php echo $policy->AMOUNT; ?></td></tr>
 								<?php
 							}
-							$i++;
 						} 
 					?>
 				</table>
@@ -92,6 +88,7 @@
 			<td></td>
 		</tr>
 		<?php 
+				$i++;
 			}
 		}
 		?>
