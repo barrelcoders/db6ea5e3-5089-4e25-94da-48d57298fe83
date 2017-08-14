@@ -4257,10 +4257,6 @@ pre.code {
     padding: 1.375rem;
     margin: 2rem 0
 }
-[placeholder],
-input[placeholder] {
-    color: #8e9fa7
-}
 ::-webkit-input-placeholder {
     color: #8e9fa7!important
 }

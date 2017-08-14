@@ -10,13 +10,11 @@
 		?>
 			<table class="table">
 				<tr>
-					<td><b class="one-label">BILL No: </b><input type='text' style="width:80%;" readonly value='<?php echo $bill->BILL_NO; ?>' placeholder='BILL NO'></td>
+					<td><b class="one-label">BILL No: </b><span><?php echo $bill->BILL_NO; ?></span></td>
+					<td><b class="one-label">BILL TYPE: </b><span><?php echo BillType::model()->findByPK($bill->BILL_TYPE)->TYPE; ?></span></td>
 				</tr>
 				<tr>
-					<td><b class="one-label">BILL Title: </b><input type='text' readonly value='<?php echo $bill->BILL_TITLE; ?>' placeholder='Bill TITLE' style="width:80%;"></td>
-				</tr>
-				<tr>
-					<td><b class="one-label">BILL TYPE: </b><input type='text' readonly value='<?php echo BillType::model()->findByPK($bill->BILL_TYPE)->TYPE; ?>' placeholder='BILL TYPE' style="width:80%;"></td>
+					<td colspan="2"><b class="one-label">BILL Title: </b><a href="<?php echo Yii::app()->createUrl('bill/update', array('id'=>$bill->ID))?>"><?php echo $bill->BILL_TITLE; ?></a></td>
 				</tr>
 			</table>
 			<form name="SalaryDetails" action="<?php echo Yii::app()->createUrl('Bill/SalaryDetails', array('id'=>$bill->ID))?>" method="post">
@@ -202,8 +200,8 @@
 							<td><b class="one-label">C.P.F. Tier II: </b><input type='text' class="ded-inc-amount" name="SalaryDetails[<?php echo $employee->ID?>][CPF_TIER_II]" value='<?php echo $salary->CPF_TIER_II ? $salary->CPF_TIER_II : 0?>' placeholder='C.P.F. Tier II'></td>
 							<td><b class="one-label">P.L.I.: </b><input type='text' class="other-ded-inc-amount" name="SalaryDetails[<?php echo $employee->ID?>][PLI]" value='<?php echo $pli; ?>' placeholder='P.L.I.'></td>
 							<td><b class="one-label">MISC.: </b><input type='text' class="ded-inc-amount" name="SalaryDetails[<?php echo $employee->ID?>][MISC]" value='<?php echo $salary->MISC ? $salary->MISC:0 ?>' placeholder='MISC.'></td>
+							<td><b class="one-label">COURT: </b><input type='text' class="ded-inc-amount" name="SalaryDetails[<?php echo $employee->ID?>][COURT_ATTACHMENT]" value='<?php echo $salary->COURT_ATTACHMENT ? $salary->COURT_ATTACHMENT : 0?>' placeholder='COURT'></td>
 							<td><b class="one-label">P.T.: </b><input type='text' id="pt-ded-inc-amount" name="SalaryDetails[<?php echo $employee->ID?>][PT]" value='<?php echo $salary->PT ? $salary->PT : 0?>' placeholder='P.T.'></td>
-							<td><b class="one-label">MAINT. (MADIWALA): </b><input type='text' class="other-ded-inc-amount" name="SalaryDetails[<?php echo $employee->ID?>][MAINT_MADIWALA]" value='<?php echo $salary->MAINT_MADIWALA ? $salary->MAINT_MADIWALA : 0?>' placeholder='MAINT. (MADIWALA)'></td>
 						</tr>
 						<?php 
 							$lic = 0;
@@ -219,8 +217,11 @@
 							<td><b class="one-label">L.I.C: </b><input type='text' class="other-ded-inc-amount" name="SalaryDetails[<?php echo $employee->ID?>][LIC]" value='<?php echo $lic; ?>' placeholder='L.I.C.'></td>
 							<td><b class="one-label">C.C.S: </b><input type='text'  class="other-ded-inc-amount" name="SalaryDetails[<?php echo $employee->ID?>][CCS]" value='<?php echo $salary->CCS ? $salary->CCS : 0?>' placeholder='C.C.S.'></td>
 							<td><b class="one-label">ASSOC SUB: </b><input type='text' class="other-ded-inc-amount" name="SalaryDetails[<?php echo $employee->ID?>][ASSOSC_SUB]" value='<?php echo $salary->ASSOSC_SUB ? $salary->ASSOSC_SUB : 0?>' placeholder='Association Subscription'></td>
-							<td><b class="one-label">REMARKS: </b><textarea name="SalaryDetails[<?php echo $employee->ID?>][REMARKS]" value='<?php echo $salary->REMARKS ? $salary->REMARKS : 0?>' placeholder='REMARKS'></textarea></td>
 							<td><b class="one-label">MAINT. (JAYAMAHAL): </b><input type='text' class="other-ded-inc-amount" name="SalaryDetails[<?php echo $employee->ID?>][MAINT_JAYAMAHAL]" value='<?php echo $salary->MAINT_JAYAMAHAL ? $salary->MAINT_JAYAMAHAL : 0?>' placeholder='MAINT. (MADIWALA)'></td>
+							<td><b class="one-label">MAINT. (MADIWALA): </b><input type='text' class="other-ded-inc-amount" name="SalaryDetails[<?php echo $employee->ID?>][MAINT_MADIWALA]" value='<?php echo $salary->MAINT_MADIWALA ? $salary->MAINT_MADIWALA : 0?>' placeholder='MAINT. (MADIWALA)'></td>
+						</tr>
+						<tr>
+							<td colspan="5"><b class="one-label">REMARKS: </b><textarea style="width:100%;" name="SalaryDetails[<?php echo $employee->ID?>][REMARKS]" value='<?php echo $salary->REMARKS ? $salary->REMARKS : 0?>' placeholder='REMARKS'></textarea></td>
 						</tr>
 					</table>
 					<table class="table">
