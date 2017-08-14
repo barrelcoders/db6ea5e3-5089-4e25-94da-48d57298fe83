@@ -51,16 +51,18 @@
 			<td>
 				<table>
 					<?php 
+						$j=1;
 						foreach($policies as $policy){ 
-							if($i==count($policies)){
+							if($j==count($policies)){
 								?>
-								<tr style="border: none;"><td style="border: none;text-align: center;"><?php echo $policy->POLICY_NO; ?></td></tr>
+								<tr><td style="border: none;text-align: center;"><?php echo $policy->POLICY_NO; ?></td></tr>
 								<?php
 							} else {
 								?>
-								<tr style="border: none;"><td style="border: none;border-bottom: 1px solid #000;text-align: center;"><?php echo $policy->POLICY_NO; ?></td></tr>
+								<tr><td style="border: none;border-bottom: 1px solid #000;text-align: center;"><?php echo $policy->POLICY_NO; ?></td></tr>
 								<?php
 							}
+							$j++;
 						} 
 					?>
 				</table>
@@ -68,16 +70,18 @@
 			<td>
 				<table>
 					<?php 
+						$j=1;
 						foreach($policies as $policy){ 
-							if($i==count($policies)){
+							if($j==count($policies)){
 								?>
-								<tr style="border: none;"><td style="border: none;text-align: center;"><?php echo $policy->AMOUNT; ?></td></tr>
+								<tr><td style="border: none;text-align: center;"><?php echo $policy->AMOUNT; ?></td></tr>
 								<?php
 							} else {
 								?>
-								<tr style="border: none;"><td style="border: none;border-bottom: 1px solid #000;text-align: center;"><?php echo $policy->AMOUNT; ?></td></tr>
+								<tr><td style="border: none;border-bottom: 1px solid #000;text-align: center;"><?php echo $policy->AMOUNT; ?></td></tr>
 								<?php
 							}
+							$j++;
 						} 
 					?>
 				</table>
