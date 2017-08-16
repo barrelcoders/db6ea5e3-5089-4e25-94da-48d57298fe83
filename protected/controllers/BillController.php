@@ -355,8 +355,9 @@ class BillController extends Controller
 				}
 			}
 			if(isset($_POST['Bill']['BILL_TYPE']) && $_POST['Bill']['BILL_TYPE'] == 3){
-				if(Bill::model()->exists('BILL_TITLE='.$model->BILL_TITLE.' AND BILL_AMOUNT='.$model->BILL_AMOUNT)){
-					echo "<script>alert('This bill has already been created. Navigate Bill->Manage to Search Bill');</script>";exit;
+				if(Bill::model()->exists('BILL_TITLE LIKE "%'.$model->BILL_TITLE.'%" AND BILL_AMOUNT='.$model->BILL_AMOUNT)){
+					echo "<script>alert('This bill has already been created. Navigate Bill->Manage to Search Bill');</script>";
+					
 				}
 				else{
 					if($model->save(false)){
