@@ -28,14 +28,14 @@
 	<h4><b>मंजुरी आदेश./SANCTION ORDER</b></h4>
 </div>
 <br><br><br>
-<p style="margin-bottom: 4px;">In exercise of the power vested under Schedule V of the Delegation of Financial Power Rules, 1978, the Commissioner, Central Excise, Banaglore - IV Commissionerate, Bangalore, is
-please to sanction an expenditure of Rs. <?php echo $model->BILL_AMOUNT;?>/- <?php echo $this->amountToWord($model->BILL_AMOUNT);?> towards the Wages for <?php echo Employee::model()->findByPK(OtherBillEmployees::model()->find('BILL_ID='.$model->ID)->EMPLOYEE_ID)->NAME;?>, <?php echo Designations::model()->findByPK(Employee::model()->findByPK(OtherBillEmployees::model()->find('BILL_ID='.$model->ID)->EMPLOYEE_ID)->DESIGNATION_ID_FK)->DESIGNATION; ?>
+<p style="margin-bottom: 4px;font-size: 20px;">In exercise of the power vested under Schedule V of the Delegation of Financial Power Rules, 1978, the Joint Commissioner, Central Tax, Banaglore - North Commissionerate, Bangalore, is
+pleased to sanction an expenditure of Rs. <?php echo $model->BILL_AMOUNT;?>/- <?php echo $this->amountToWord($model->BILL_AMOUNT);?> towards the Wages for <?php echo Employee::model()->findByPK(OtherBillEmployees::model()->find('BILL_ID='.$model->ID)->EMPLOYEE_ID)->NAME;?>, <?php echo Designations::model()->findByPK(Employee::model()->findByPK(OtherBillEmployees::model()->find('BILL_ID='.$model->ID)->EMPLOYEE_ID)->DESIGNATION_ID_FK)->DESIGNATION; ?>
  for the month of <?php echo $monthName[$model->MONTH];?>-<?php echo $model->YEAR;?></p><br>
-<p style="margin-bottom: 4px;">The above expenditure is debitable to the main head Wages Office Expenses and the expenditure should be met from within the Budget Grant for the year </p>
+<p style="margin-bottom: 4px;font-size: 20px;">The above expenditure is debitable to the main head Wages and the expenditure should be met from within the Budget Grant for the year <?php $financialYear = FinancialYears::model()->find('STATUS=1'); echo $financialYear->NAME;?></p>
 <br><br>
 <table class="pay-schedule-table">
 	<thead>
-		<tr>
+		<!--<tr>
 			<td  colspan="13" style=" border-top:1px solid #000; border-bottom: none;"><?php echo $model->BILL_TITLE; ?></td>
 		</tr>
 		<tr>
@@ -46,7 +46,7 @@ please to sanction an expenditure of Rs. <?php echo $model->BILL_AMOUNT;?>/- <?p
 		</tr>
 		<tr>
 			<td  colspan="13" style=" border-top:1px solid #000; border-bottom: none;text-align: left;">Pay Rs. 18500/- as on 15.03.2017</td>
-		</tr>
+		</tr>-->
 		<tr style="">
 			<th class="small-xxx right-br">Month</th>
 			<th class="small-xx right-br">BASIC</th>

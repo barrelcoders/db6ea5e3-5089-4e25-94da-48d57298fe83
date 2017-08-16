@@ -1,3 +1,12 @@
+<?php
+
+	Yii::app()->clientScript->registerScript('search', "
+	$('.search-button').click(function(){
+		$('.search-form').toggle();
+		return false;
+	});
+");
+?>
 <style>
 .pending {background: #bfe0ba;}
 .passed {background: #ffdaa2;}
@@ -10,12 +19,12 @@ tr.selected{background: #FFF;}
 			<div class="tbl-row">
 				<div class="tbl-cell">
 					<h2>Manage Bills</h2>
-					<div class="subtitle"></div>
+					<div class="subtitle"><?php echo CHtml::link('Search Bills','#',array('class'=>'search-button')); ?></div>
 				</div>
 			</div>
 		</div>
 	</header>
-	<div class="box-typical box-typical-padding">
+	<div class="box-typical box-typical-padding search-form" style="display:none">
 		<?php $this->renderPartial('_search',array(
 			'model'=>$model,
 		)); ?>
@@ -48,7 +57,7 @@ tr.selected{background: #FFF;}
 					'name'=>'BILL_TITLE',
 					'type'=>'raw',
 					'value'=>function ($data){ 
-							return '<a href='.Yii::app()->createUrl('bill/update', array('id'=>$data->ID)).'>'.$data->BILL_TITLE.'</a>';
+							return '<a href='.Yii::app()->createUrl('bill/update', array('id'=>$data->ID)).' target="_blank">'.$data->BILL_TITLE.'</a>';
 					}
 				), 
 				array(
@@ -76,30 +85,7 @@ tr.selected{background: #FFF;}
 							return BillType::model()->findByPK($data->BILL_TYPE)->TYPE;
 					}
 				), 
-				array(
-					'header'=>'BILL SUB TYPE',
-					'name'=>'BILL_SUB_TYPE',
-					'type'=>'raw',
-					'value'=>function ($data){ 
-						if(isset($data->BILL_SUB_TYPE)){
-							return BillSubType::model()->findByPK($data->BILL_SUB_TYPE)->SUB_TYPE;
-						}
-						else{
-							return '';	
-						}
-						
-					}
-				), 
 				'BILL_AMOUNT',
-				array(
-					'header'=>'DATE',
-					'name'=>'CREATION_DATE',
-					'type'=>'raw',
-					'value'=>function ($data){ 
-						return date("F j, Y", strtotime($data->CREATION_DATE));
-					}
-				),
-				'CER_NO',
 			),
 		)); ?>
 	</div>

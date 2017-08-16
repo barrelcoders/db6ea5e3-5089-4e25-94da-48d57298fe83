@@ -72,6 +72,7 @@
 		<p><span style="font-size: 11px;">(vii)</p><br>
 		<p><span style="font-weight: bold;font-size: 11px;">MISCELLANEOUS RECOVERIES</span></p>
 		<p style="font-size: 11px;">Overpayments made during the previous financial year(s)<span style="float: right;font-weight: bold;margin-right: 10px;">Rs.<?php $MISC = Yii::app()->db->createCommand("SELECT SUM(MISC) as MISC FROM tbl_salary_details WHERE BILL_ID_FK = $model->ID;")->queryRow()['MISC']; echo $MISC;?></span></p><br>
+		<p style="font-size: 11px;">Court Attachment<span style="float: right;font-weight: bold;margin-right: 10px;">Rs.<?php $COURT_ATTACHMENT = Yii::app()->db->createCommand("SELECT SUM(COURT_ATTACHMENT) as COURT_ATTACHMENT FROM tbl_salary_details WHERE BILL_ID_FK = $model->ID;")->queryRow()['COURT_ATTACHMENT']; echo $COURT_ATTACHMENT;?></span></p><br>
 		<p><span style="font-weight: bold;font-size: 11px;">Classification of Expenditure.</span></p>
 		<p style="font-size: 11px;">(To be filled in by the Drawing and Disbursing Officer)</p>
 		<p style="font-size: 11px;">Demand No .</p>
@@ -79,7 +80,7 @@
 		<p><span style="font-size: 11px;">Group Head.</span><span style="font-size: 11px;float: right;margin-right: 10px;display: inline-block;width: 75%;">(iv) Pay & Allowances of Staff/Officers</span></p>
 		<p style="font-size: 11px;">Minor Head</p>
 		<p><span style="font-size: 11px;">Sub - Head.</span><span style="font-size: 11px;float: right;margin-right: 10px;display: inline-block;width: 60%;text-align: center;">Salaries</span></p><br>
-		<p><span style="font-weight: bold;font-size: 11px;">(A)</span> <span style="font-weight: bold;font-size: 11px;"> -- Total	</span><span style="float: right;margin-right: 10px;font-weight: bold;">Rs.<?php echo $HBA_INTEREST+$OMCA_INTEREST+$IT+$CGHS+$LF+$CGEGIS+$CPF_TIER_I+$CPF_TIER_II+$HBA_EMI+$MCA_EMI+$CYCLE_EMI+$FAN_EMI+$FLOOD_EMI+$MISC;?></span></p>
+		<p><span style="font-weight: bold;font-size: 11px;">(A)</span> <span style="font-weight: bold;font-size: 11px;"> -- Total	</span><span style="float: right;margin-right: 10px;font-weight: bold;">Rs.<?php echo $HBA_INTEREST+$OMCA_INTEREST+$IT+$CGHS+$LF+$CGEGIS+$CPF_TIER_I+$CPF_TIER_II+$HBA_EMI+$MCA_EMI+$CYCLE_EMI+$FAN_EMI+$FLOOD_EMI+$MISC+$COURT_ATTACHMENT;?></span></p>
 		
 	</div>
 	<div style="width: 33%;min-height: 425px;display: inline-block;float: left;position: relative;">
@@ -107,17 +108,21 @@
 		<p style="font-size: 11px;">Total          ........                .........               .........      </p>
 		<p style="font-size: 11px;">*	(c) DEDUCT - Undisbursed amount(s)     ...................................</p>
 		<p style="font-size: 10px;font-weight: bold;">II. Total deductions / recoveries <span style="float: right;font-weight: bold;margin-right: 10px;">Rs.<?php $DED = Yii::app()->db->createCommand("SELECT SUM(DED) as DED FROM tbl_salary_details WHERE BILL_ID_FK = $model->ID;")->queryRow()['DED']; echo $DED;?></span></p>
-		<p style="font-size: 10px;font-weight: bold;">III. NET amount required for payment <span style="float: right;font-weight: bold;margin-right: 10px;">Rs.<?php echo $GROSS - $FEST_EMI-$DED;?></span></p>
+		<p style="font-size: 10px;font-weight: bold;">III. NET amount required for payment (including PT)<span style="float: right;font-weight: bold;margin-right: 10px;">Rs.<?php echo $GROSS - $FEST_EMI-$DED;?> </span></p>
 		<p style="">Other Deductions (E-payment)</p>
-		<p style="margin-bottom: 10px;"><span style="font-size: 11px;"></span><span style="float: right;margin-right: 10px;display: inline-block;width: 70%;">Credit Society :-<span style="float: right;font-style: italic;">Rs.<?php $CCS = Yii::app()->db->createCommand("SELECT SUM(CCS) as CCS FROM tbl_salary_details WHERE BILL_ID_FK = $model->ID;")->queryRow()['CCS']; echo $CCS;?></span></span></p>
-		<p style="margin-bottom: 10px;"><span style="font-size: 11px;"></span><span style="float: right;margin-right: 10px;display: inline-block;width: 70%;">L.I.C. :-<span style="float: right;font-style: italic;">Rs.<?php $LIC = Yii::app()->db->createCommand("SELECT SUM(LIC) as LIC FROM tbl_salary_details WHERE BILL_ID_FK = $model->ID;")->queryRow()['LIC']; echo $LIC;?></span></span></p>
-		<p style="margin-bottom: 5px;"><span style="font-size: 11px;"></span><span style="float: right;margin-right: 10px;display: inline-block;width: 70%;">Other Deductions - (DDO) :-<span style="float: right;font-style: italic;">Rs.<?php $MAINT = Yii::app()->db->createCommand("SELECT SUM(MAINT_JAYAMAHAL) + SUM(MAINT_MADIWALA) as MAINT FROM tbl_salary_details WHERE BILL_ID_FK = $model->ID;")->queryRow()['MAINT']; echo $MAINT;?></span></span></p><br>
-		<p style="margin-bottom: 10px;"><span style="font-size: 11px;"></span><span style="float: right;margin-right: 10px;display: inline-block;width: 70%;">Total :-<span style="float: right;font-style: italic;">Rs.<?php echo $CCS + $LIC + $MAINT;?></span></span></p><br>
-		<p style="margin-bottom: 35px;"><span style="font-size: 11px;">(i) Other deductions (CHEQUE PAYMENT) :-</span><span style="font-size: 12px;float: right;margin-right: 10px;display: inline-block;width: 70%;">P.T. :-<span style="float: right;font-style: italic;">Rs.<?php $PT = Yii::app()->db->createCommand("SELECT SUM(PT) as PT FROM tbl_salary_details WHERE BILL_ID_FK = $model->ID;")->queryRow()['PT']; echo $PT;?></span></span></p>
-		<p><span style="font-weight: bold;font-size: 11px;"></span><span style="font-size: 13px;float: right;margin-right: 10px;display: inline-block;font-weight: bold;">Credit to Bank (Total E-Payment) :-<span style="font-weight: bold;font-size:12px;float: right;">Rs.<?php $AMOUNT_BANK = Yii::app()->db->createCommand("SELECT SUM(AMOUNT_BANK) + SUM(OTHER_DED) as TOTAL FROM tbl_salary_details WHERE BILL_ID_FK = $model->ID;")->queryRow()['TOTAL']; echo $AMOUNT_BANK;?></span></p>
+		<div style="margin-right: 100px;">
+			<p style="margin-bottom: 10px;"><span style="font-size: 11px;"></span><span style="float: right;margin-right: 10px;display: inline-block;width: 70%;">Credit Society :-<span style="float: right;font-style: italic;">Rs.<?php $CCS = Yii::app()->db->createCommand("SELECT SUM(CCS) as CCS FROM tbl_salary_details WHERE BILL_ID_FK = $model->ID;")->queryRow()['CCS']; echo $CCS;?></span></span></p>
+			<p style="margin-bottom: 10px;"><span style="font-size: 11px;"></span><span style="float: right;margin-right: 10px;display: inline-block;width: 70%;">L.I.C. :-<span style="float: right;font-style: italic;">Rs.<?php $LIC = Yii::app()->db->createCommand("SELECT SUM(LIC) as LIC FROM tbl_salary_details WHERE BILL_ID_FK = $model->ID;")->queryRow()['LIC']; echo $LIC;?></span></span></p>
+			<p style="margin-bottom: 5px;"><span style="font-size: 11px;"></span><span style="float: right;margin-right: 10px;display: inline-block;width: 70%;">Other Deductions - (DDO) :-<span style="float: right;font-style: italic;">Rs.<?php $MAINT = Yii::app()->db->createCommand("SELECT SUM(MAINT_JAYAMAHAL) + SUM(MAINT_MADIWALA) as MAINT FROM tbl_salary_details WHERE BILL_ID_FK = $model->ID;")->queryRow()['MAINT']; echo $MAINT;?></span></span></p><br>
+			<p style="margin-bottom: 10px;"><span style="font-size: 11px;"></span><span style="float: right;margin-right: 10px;display: inline-block;width: 70%;">Total :-<span style="float: right;font-style: italic;">Rs.<?php echo $CCS + $LIC + $MAINT;?></span></span></p><br>
+			
+		</div>
+		<p style="margin-bottom: 5px;"><span style="font-size: 11px;">(i) Other deduction (CHEQUE PAYMENT) (PT).:-</span><span style="font-size: 12px;float: right;margin-right: 10px;display: inline-block;"><span style="float: right;font-style: italic;">Rs.<?php $PT = Yii::app()->db->createCommand("SELECT SUM(PT) as PT FROM tbl_salary_details WHERE BILL_ID_FK = $model->ID;")->queryRow()['PT']; echo $PT;?></span></span></p>
+		<p style="margin-bottom: 5px;"><span style="font-size: 11px;">(ii) Credit to Bank (Salary E-Payment).:-</span><span style="font-size: 12px;float: right;margin-right: 10px;display: inline-block;"><span style="float: right;font-style: italic;">Rs.<?php echo $GROSS - $FEST_EMI- $DED- $CCS - $LIC - $MAINT - $PT;?></span></span></p>
+		<p><span style="font-weight: bold;font-size: 11px;"></span><span style="font-size: 13px;float: right;margin-right: 10px;display: inline-block;font-weight: bold;">TOTAL :-<span style="font-weight: bold;font-size:12px;float: right;">Rs.<?php echo $GROSS - $FEST_EMI- $DED - $PT;?></span></p>
 	</div>
 </div>
-<p style="text-align: center;font-weight: bold;font-size:11px;"><?php echo $this->amountToWord($AMOUNT_BANK);?></p>
+<p style="text-align: center;font-weight: bold;font-size:11px;"><?php echo $this->amountToWord($GROSS - $FEST_EMI- $DED - $PT);?></p>
 <div style="font-size: 10px;">
 	<p>CERTIFIED THAT I HAVE SATISFIED MYSELF THAT --</p>
 	<p>(a) the amounts claimed in the Bill are actually due to the persons concerned and the conditions attached to the payment of various allowances have been duly complied with in all cases ;</p>
@@ -133,7 +138,7 @@
 <div>
 	<div style="font-weight: bold; width:400px; float: left;font-size: 10px;"><p><span>Station :</span> Bangalore</p><p><span>Date :</span> <?php echo date('d/m/Y', strtotime($model->CREATION_DATE));?></p></div>
 	<div style="font-weight: bold; width:400px; float: right;text-align:center;font-size: 10px;">
-		<p><?php echo Employee::model()->findByPK($master['DEPT_ADMIN_EMPLOYEE'])->NAME;?></p>
+		<p>(<?php echo Employee::model()->findByPK($master['DEPT_ADMIN_EMPLOYEE'])->NAME;?>)</p>
 		<p><?php echo Designations::model()->findByPK(Employee::model()->findByPK($master['DEPT_ADMIN_EMPLOYEE'])->DESIGNATION_ID_FK)->DESIGNATION;?></p>
 		<p><?php echo $master['DEPT_NAME']?></p>
 	</div>

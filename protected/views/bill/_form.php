@@ -43,7 +43,16 @@
 							}'
 						),
 						'empty'=>array('0'=>'Select Bill Type'),
-						'options' => array("'".$model->ID."'" => array('selected'=>true)),
+						'options' => array("'".$model->ID."'" => array('selected'=>true), 
+							5=>array('disabled'=>'disabled' ),
+							7=>array('disabled'=>'disabled' ),
+							9=>array('disabled'=>'disabled' ),
+							10=>array('disabled'=>'disabled' ),
+							11=>array('disabled'=>'disabled' ),
+							12=>array('disabled'=>'disabled' ),
+							13=>array('disabled'=>'disabled' ),
+							14=>array('disabled'=>'disabled' ),
+							15=>array('disabled'=>'disabled' )),
 						'disabled'=>Yii::app()->controller->action->id == 'update')); ?>
 				</p>
 			</div>
@@ -73,7 +82,7 @@
 					</div>
 					<div id="nps-emp" class="small-container"  style="display:none;background: #CCC;padding: 10px;height: 300px;overflow-y: scroll;">
 						<?php
-							$employees = Employee::model()->findAllByAttributes(array('PENSION_TYPE'=>'NPS', 'IS_PERMANENT'=>1, 'IS_TRANSFERRED'=>0, 'IS_RETIRED'=>0));
+							$employees = Employee::model()->findAllByAttributes(array('PENSION_TYPE'=>'NPS', 'IS_PERMANENT'=>1, 'IS_TRANSFERRED'=>0));
 							foreach($employees as $employee){
 								?>
 									<input type="checkBox" name="Bill[Employee][NPS][]" value="<?php echo $employee->ID;?>"><span><?php echo $employee->NAME.", ".Designations::model()->findByPK($employee->DESIGNATION_ID_FK)->DESIGNATION;?></span><br/>
@@ -83,7 +92,7 @@
 					</div>
 					<div id="ops-emp"  class="small-container"  style="display:none;background: #CCC;padding: 10px;height: 300px;overflow-y: scroll;">
 						<?php
-							$employees = Employee::model()->findAllByAttributes(array('PENSION_TYPE'=>'OPS', 'IS_PERMANENT'=>1, 'IS_TRANSFERRED'=>0, 'IS_RETIRED'=>0));
+							$employees = Employee::model()->findAllByAttributes(array('PENSION_TYPE'=>'OPS', 'IS_PERMANENT'=>1, 'IS_TRANSFERRED'=>0));
 							foreach($employees as $employee){
 								?>
 									<input type="checkBox" name="Bill[Employee][OPS][]" value="<?php echo $employee->ID;?>"><span><?php echo $employee->NAME.", ".Designations::model()->findByPK($employee->DESIGNATION_ID_FK)->DESIGNATION;?></span><br/>
@@ -103,7 +112,7 @@
 					</div>
 					<div id="bonus-emp" class="small-container"  style="display:none;background: #CCC;padding: 10px;height: 300px;overflow-y: scroll;">
 						<?php
-							$employees = Employee::model()->findAllByAttributes(array('IS_PERMANENT'=>1, 'BONUS_ELIGIBLE'=>1, 'IS_TRANSFERRED'=>0, 'IS_RETIRED'=>0));
+							$employees = Employee::model()->findAllByAttributes(array('IS_PERMANENT'=>1, 'BONUS_ELIGIBLE'=>1, 'IS_TRANSFERRED'=>0));
 							foreach($employees as $employee){
 								?>
 									<input type="checkBox" name="Bill[Employee][BONUS][]" value="<?php echo $employee->ID;?>" checked><span><?php echo $employee->NAME.", ".Designations::model()->findByPK($employee->DESIGNATION_ID_FK)->DESIGNATION;?></span><br/>
@@ -301,7 +310,7 @@
 									foreach($bills as $bill){
 										?>
 										<tr>
-											<td><input type="text" size="10" value="<?php echo $bill->NUMBER; ?>" disabled="disabled"/></td>
+											<td><input type="text" size="10" class="bills_number" value="<?php echo $bill->NUMBER; ?>" disabled="disabled"/></td>
 											<td><input type="text" size="10" value="<?php echo date('Y-m-d', strtotime($bill->DATE)); ?>" disabled="disabled"/></td>
 											<td><input type="text" size="10" class="bills_amount" value="<?php echo $bill->AMOUNT; ?>" disabled="disabled"/></td>
 										</tr>
@@ -351,7 +360,7 @@
 									<td>Amount</td>
 								</tr>
 								<tr>
-									<td><input type="text" size="10" name="Bill[OE_BILL][0][BILL_NO]"/></td>
+									<td><input type="text" size="10" class="bills_number" name="Bill[OE_BILL][0][BILL_NO]"/></td>
 									<td><input type="date" size="10" name="Bill[OE_BILL][0][BILL_DATE]"/></td>
 									<td><input type="text" size="10" class="bills_amount" name="Bill[OE_BILL][0][BILL_AMOUNT]"/></td>
 									<td><input type="button" id="delSubBillbutton" value="Delete" onclick="deleteRow(this)"/></td>
@@ -551,7 +560,8 @@
 			<label class="col-sm-2 form-control-label"></label>
 			<div class="col-sm-10">
 				<p class="form-control-static">
-					<?php echo CHtml::submitButton($model->isNewRecord ? 'Create' : 'Save', array('class'=>'btn btn-inline')); ?>
+					<?php echo CHtml::submitButton($model->isNewRecord ? 'Create' : 'Save', array('class'=>'btn btn-success', 'onsubmit'=>'return validateBillForm();', 'onclick'=>'return validateBillForm();')); ?>
+					<?php echo CHtml::resetButton('Cancel', array('class'=>'btn btn-danger')); ?>
 				</p>
 			</div>
 		</div>

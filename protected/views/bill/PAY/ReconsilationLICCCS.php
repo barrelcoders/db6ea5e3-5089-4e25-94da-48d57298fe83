@@ -57,8 +57,8 @@
 <p style="width: 80%;"><span style="font-size: 11px;float: right;margin-right: 10px;display: inline-block;width: 80%;">	1. E-Payment may be issued in the name of LIC of India (IFSC Code: IOBA0000268 and Account No: 026802000001098 ) for <span style="float: right;font-style: italic;">Rs.<?php echo $LIC;?></span></span></p>
 <p style="width: 80%;"><span style="font-size: 11px;float: right;margin-right: 10px;display: inline-block;width: 80%;">	2. E-Payment may be issued in r/o Central Excise Credit Co-Operative Society Ltd (IFSC Code: CNRB0000431 and  Account No: 8415101000515) for Rs <span style="float: right;font-style: italic;">Rs.<?php echo $CCS;?></span></span></p>
 
-<div style="font-weight: bold; width:400px; float: right;text-align:center; margin-top:50px;margin-right:-10px;">
-	<p><?php echo Employee::model()->findByPK($master['DEPT_ADMIN_EMPLOYEE'])->NAME;?></p>
+<div style="font-weight: bold; width:400px; float: right;text-align:center; margin-top:100px;margin-right:-10px;">
+	<p>(<?php echo Employee::model()->findByPK($master['DEPT_ADMIN_EMPLOYEE'])->NAME;?>)</p>
 	<p><?php echo Designations::model()->findByPK(Employee::model()->findByPK($master['DEPT_ADMIN_EMPLOYEE'])->DESIGNATION_ID_FK)->DESIGNATION;?></p>
 	<p><?php echo $master['DEPT_NAME']?></p>
 </div>

@@ -45,8 +45,8 @@
 
 <p style="text-align: center; margin-top: 50px;"><b><?php echo $this->amountToWord($CGEGIS);?><b></p>
 
-<div style="font-weight: bold; width:400px; float: right;text-align:center; margin-top:40px;margin-right:-10px;">
-	<p><?php echo Employee::model()->findByPK($master['DEPT_ADMIN_EMPLOYEE'])->NAME;?></p>
+<div style="font-weight: bold; width:400px; float: right;text-align:center; margin-top:100px;margin-right:-10px;">
+	<p>(<?php echo Employee::model()->findByPK($master['DEPT_ADMIN_EMPLOYEE'])->NAME;?>)</p>
 	<p><?php echo Designations::model()->findByPK(Employee::model()->findByPK($master['DEPT_ADMIN_EMPLOYEE'])->DESIGNATION_ID_FK)->DESIGNATION;?></p>
 	<p><?php echo $master['DEPT_NAME']?></p>
 </div>

@@ -24,7 +24,7 @@
 			<th class="small-xx">CCA</th>
 			<th class="small-xxx">HRA</th>
 			<th class="small-xxx">TA</th>-->
-			<th class="small-x">Expenditure Awaiting Transfer</th>
+			<th class="small-x">Govt. Servant Contrib.</th>
 			<!--<th class="small-xxx">WA</th>
 			<th class="small-xxx">GROSS</th>
 			<th class="small-xx">IT</th>
@@ -140,7 +140,7 @@
 <h4 style="text-align:center;margin-top: 50px;">(RUPEES NIL ONLY)</h4><br>
 <div style="text-align:center; font-weight: bold; width:400px; margin:0 auto;">"Certified that monthly Contribution under Central Government Employees Insurance Scheme has been recovered from persons who are covered under the Scheme"</div>
 <div style="font-weight: bold; width:400px; float: right;text-align:center; margin-top:100px;margin-right:-10px;">
-	<p><?php echo Employee::model()->findByPK($master['DEPT_ADMIN_EMPLOYEE'])->NAME;?></p>
+	<p>(<?php echo Employee::model()->findByPK($master['DEPT_ADMIN_EMPLOYEE'])->NAME;?>)</p>
 	<p><?php echo Designations::model()->findByPK(Employee::model()->findByPK($master['DEPT_ADMIN_EMPLOYEE'])->DESIGNATION_ID_FK)->DESIGNATION;?></p>
 	<p><?php echo $master['DEPT_NAME']?></p>
 </div>

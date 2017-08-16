@@ -150,7 +150,7 @@ class BillController extends Controller
 	public function actionSalaryDetails($id)
 	{
 		$model = $this->loadModel($id);
-		
+		//echo "<pre>";print_r($_POST['SalaryDetails']);echo "</pre>";exit;
 		if(isset($_POST['SalaryDetails']['save']) && isset($_POST['SalaryDetails']) && isset($_POST['SalaryInfo'])){
 			//echo "<pre>";print_r($_POST['SalaryDetails']);echo "</pre>";exit;
 			$month = $_POST['SalaryInfo']['MONTH'];
@@ -281,7 +281,7 @@ class BillController extends Controller
 	 * If creation is successful, the browser will be redirected to the 'view' page.
 	 */
 	public function actionCreate()
-	{
+	{	
 		//echo Yii::app()->Security->Decrypt('UFr8iYAGinDhJL7UX2kEbC1izza4cup6PfVBoZ2nTjI=');exit;
 		$model=new Bill;
 		
@@ -343,63 +343,68 @@ class BillController extends Controller
 						$OtherBillEmployees->EMPLOYEE_ID = implode(",", $_POST['Bill']['Employee']['WAGES']);
 						$OtherBillEmployees->save(false);
 					}
-					if(isset($_POST['Bill']['BILL_ENTRY_COUNT'])){
+					/*if(isset($_POST['Bill']['BILL_ENTRY_COUNT'])){
 						$entry_count = intVal($_POST['Bill']['BILL_ENTRY_COUNT']);
 						for($i=1; $i<=$entry_count; $i++){
 							$BillRegister = new BillRegister;
 							$BillRegister->BILL_ID = $model->ID;
 							$BillRegister->save(false);
 						}
-					}
+					}*/
 					$this->redirect(array('SalaryDetails','id'=> $model->ID));
 				}
 			}
 			if(isset($_POST['Bill']['BILL_TYPE']) && $_POST['Bill']['BILL_TYPE'] == 3){
-				if($model->save(false)){
-					$OEBills = $_POST['Bill']['OE_BILL'];
-					foreach($OEBills as $OEBill){
-						$OEBillsModel = new OEBills;
-						$OEBillsModel->NUMBER = $OEBill['BILL_NO'];
-						$OEBillsModel->AMOUNT = $OEBill['BILL_AMOUNT'];
-						$OEBillsModel->DATE = date('Y-m-d', strtotime($OEBill['BILL_DATE']));
-						$OEBillsModel->BILL_ID = $model->ID;
-						$OEBillsModel->save(false);
-					}
-					
-					$OEBillsDetailsModel = new OEBillDetails;
-					$OEBillsDetailsModel->BILL_ID_FK = $model->ID;
-					$OEBillsDetailsModel->IT_DED = $_POST['Bill']['OE_IT_DED'];
-					$OEBillsDetailsModel->NET_AMOUNT = $_POST['Bill']['OE_NET_AMOUNT'];
-					$OEBillsDetailsModel->save(false);
-					
-					$BUDGET_ID = 2;
-					$attribs = array('BUDGET_ID'=>$BUDGET_ID);
-					$criteria = new CDbCriteria(array('order'=>'ID DESC','limit'=>1));
-					$appropiation = AppropiationRegister::model()->findByAttributes($attribs, $criteria);
-					
-					$BILL_NO = $model->ID;
-					$BILL_AMOUNT = $model->BILL_AMOUNT;
-					$EXPENDITURE_INC_BILL = $appropiation->EXPENDITURE_INC_BILL + $model->BILL_AMOUNT;
-					$BALANCE = $appropiation->BALANCE - $model->BILL_AMOUNT;
-					
-					$AppropiationRegister = new AppropiationRegister;
-					$AppropiationRegister->BILL_NO = $BILL_NO;
-					$AppropiationRegister->BILL_AMOUNT = $BILL_AMOUNT;
-					$AppropiationRegister->EXPENDITURE_INC_BILL = $EXPENDITURE_INC_BILL;
-					$AppropiationRegister->BALANCE = $BALANCE;
-					$AppropiationRegister->BUDGET_ID = $BUDGET_ID;
-					if($AppropiationRegister->save(false)){
-						$model->EXPENDITURE_INC_BILL = $EXPENDITURE_INC_BILL;
-						$model->APPROPIATION_BALANCE = $BALANCE;
-						$model->save(false);
+				if(Bill::model()->exists('BILL_TITLE='.$model->BILL_TITLE.' AND BILL_AMOUNT='.$model->BILL_AMOUNT)){
+					echo "<script>alert('This bill has already been created. Navigate Bill->Manage to Search Bill');</script>";exit;
+				}
+				else{
+					if($model->save(false)){
+						$OEBills = $_POST['Bill']['OE_BILL'];
+						foreach($OEBills as $OEBill){
+							$OEBillsModel = new OEBills;
+							$OEBillsModel->NUMBER = $OEBill['BILL_NO'];
+							$OEBillsModel->AMOUNT = $OEBill['BILL_AMOUNT'];
+							$OEBillsModel->DATE = date('Y-m-d', strtotime($OEBill['BILL_DATE']));
+							$OEBillsModel->BILL_ID = $model->ID;
+							$OEBillsModel->save(false);
+						}
 						
-						if(isset($_POST['Bill']['BILL_ENTRY_COUNT'])){
-							$entry_count = intVal($_POST['Bill']['BILL_ENTRY_COUNT']);
-							for($i=1; $i<=$entry_count; $i++){
-								$BillRegister = new BillRegister;
-								$BillRegister->BILL_ID = $model->ID;
-								$BillRegister->save(false);
-							}
+						$OEBillsDetailsModel = new OEBillDetails;
+						$OEBillsDetailsModel->BILL_ID_FK = $model->ID;
+						$OEBillsDetailsModel->IT_DED = $_POST['Bill']['OE_IT_DED'];
+						$OEBillsDetailsModel->NET_AMOUNT = $_POST['Bill']['OE_NET_AMOUNT'];
+						$OEBillsDetailsModel->save(false);
+						
+						$BUDGET_ID = 2;
+						$attribs = array('BUDGET_ID'=>$BUDGET_ID);
+						$criteria = new CDbCriteria(array('order'=>'ID DESC','limit'=>1));
+						$appropiation = AppropiationRegister::model()->findByAttributes($attribs, $criteria);
+						
+						$BILL_NO = $model->ID;
+						$BILL_AMOUNT = $model->BILL_AMOUNT;
+						$EXPENDITURE_INC_BILL = $appropiation->EXPENDITURE_INC_BILL + $model->BILL_AMOUNT;
+						$BALANCE = $appropiation->BALANCE - $model->BILL_AMOUNT;
+						
+						$AppropiationRegister = new AppropiationRegister;
+						$AppropiationRegister->BILL_NO = $BILL_NO;
+						$AppropiationRegister->BILL_AMOUNT = $BILL_AMOUNT;
+						$AppropiationRegister->EXPENDITURE_INC_BILL = $EXPENDITURE_INC_BILL;
+						$AppropiationRegister->BALANCE = $BALANCE;
+						$AppropiationRegister->BUDGET_ID = $BUDGET_ID;
+						if($AppropiationRegister->save(false)){
+							$model->EXPENDITURE_INC_BILL = $EXPENDITURE_INC_BILL;
+							$model->APPROPIATION_BALANCE = $BALANCE;
+							$model->save(false);
+							
+							/*if(isset($_POST['Bill']['BILL_ENTRY_COUNT'])){
+								$entry_count = intVal($_POST['Bill']['BILL_ENTRY_COUNT']);
+								for($i=1; $i<=$entry_count; $i++){
+									$BillRegister = new BillRegister;
+									$BillRegister->BILL_ID = $model->ID;
+									$BillRegister->save(false);
+								}
+							}*/
 							$this->redirect(array('update','id'=> $BILL_NO));
 						}
 					}
@@ -433,7 +438,7 @@ class BillController extends Controller
 						$model->APPROPIATION_BALANCE = $BALANCE;
 						$model->save(false);
 						
-						if(isset($_POST['Bill']['BILL_ENTRY_COUNT'])){
+						/*if(isset($_POST['Bill']['BILL_ENTRY_COUNT'])){
 							$entry_count = intVal($_POST['Bill']['BILL_ENTRY_COUNT']);
 							for($i=1; $i<=$entry_count; $i++){
 								$BillRegister = new BillRegister;
@@ -441,7 +446,8 @@ class BillController extends Controller
 								$BillRegister->save(false);
 							}
 							$this->redirect(array('update','id'=> $BILL_NO));
-						}
+						}*/
+						$this->redirect(array('update','id'=> $BILL_NO));
 					}
 				}
 			}
@@ -472,15 +478,15 @@ class BillController extends Controller
 						$model->EXPENDITURE_INC_BILL = $EXPENDITURE_INC_BILL;
 						$model->APPROPIATION_BALANCE = $BALANCE;
 						$model->save(false);
-						if(isset($_POST['Bill']['BILL_ENTRY_COUNT'])){
+						/*if(isset($_POST['Bill']['BILL_ENTRY_COUNT'])){
 							$entry_count = intVal($_POST['Bill']['BILL_ENTRY_COUNT']);
 							for($i=1; $i<=$entry_count; $i++){
 								$BillRegister = new BillRegister;
 								$BillRegister->BILL_ID = $model->ID;
 								$BillRegister->save(false);
 							}
-							$this->redirect(array('update','id'=> $BILL_NO));
-						}
+						}*/
+						$this->redirect(array('update','id'=> $BILL_NO));
 					}
 					
 				}
@@ -715,4 +721,6 @@ class BillController extends Controller
 	public function actionLIC_PREMIUM_COVER($id){$this->layout='//layouts/column1';$model = $this->loadModel($id);$this->render('PAY/LIC_PREMIUM_COVER',array('model'=>$model,));}
 	public function actionMADIWALA($id){$this->layout='//layouts/column1';$model = $this->loadModel($id);$this->render('PAY/MADIWALA',array('model'=>$model,));}
 	public function actionJAYAMAHAL($id){$this->layout='//layouts/column1';$model = $this->loadModel($id);$this->render('PAY/JAYAMAHAL',array('model'=>$model,));}
+	public function actionCOURT($id){$this->layout='//layouts/column1';$model = $this->loadModel($id);$this->render('PAY/COURT',array('model'=>$model,));}
+
 }

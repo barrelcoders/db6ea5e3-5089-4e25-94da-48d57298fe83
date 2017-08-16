@@ -43,7 +43,7 @@ if(isset($_REQUEST['id']) && $_REQUEST['id']){
 							<li><a href="<?php echo Yii::app()->createUrl("Bill/ReconsilationPT",array("id"=>$id))?>" target="_blank"><span class="tbl-row"><span class="tbl-cell tbl-cell-caption">RECONSILATION PT</span></span></a></li>
 							<li><a href="<?php echo Yii::app()->createUrl("Bill/BackSheet",array("id"=>$id))?>" target="_blank"><span class="tbl-row"><span class="tbl-cell tbl-cell-caption">BACK SHEET</span></span></a></li>
 							<hr>
-							<h4 style="padding-left:10px;">CCS & LIC </h4>
+							<!--<h4 style="padding-left:10px;">CCS & LIC </h4>
 							<li><a href="<?php echo Yii::app()->createUrl("Bill/CCSLICBillFront",array("id"=>$id))?>" target="_blank"><span class="tbl-row"><span class="tbl-cell tbl-cell-caption">CCS & LIC FRONT SHEET</span></span></a></li>
 							<li><a href="<?php echo Yii::app()->createUrl("Bill/CCS",array("id"=>$id))?>" target="_blank"><span class="tbl-row"><span class="tbl-cell tbl-cell-caption">CREDIT CO. SOCIETY SCHEDULE</span></span></a></li>
 							<li><a href="<?php echo Yii::app()->createUrl("Bill/LIC",array("id"=>$id))?>" target="_blank"><span class="tbl-row"><span class="tbl-cell tbl-cell-caption">LIC SCHEDULE</span></span></a></li>
@@ -51,7 +51,7 @@ if(isset($_REQUEST['id']) && $_REQUEST['id']){
 								<li><a href="<?php echo Yii::app()->createUrl("Bill/JAYAMAHAL",array("id"=>$id))?>" target="_blank"><span class="tbl-row"><span class="tbl-cell tbl-cell-caption">JAYAMAHAL MAINT. SCHEDULE</span></span></a></li>
 							<li><a href="<?php echo Yii::app()->createUrl("Bill/ReconsilationLICCCS",array("id"=>$id))?>" target="_blank"><span class="tbl-row"><span class="tbl-cell tbl-cell-caption">RECONSILATION LIC & CCS</span></span></a></li>
 							<li><a href="<?php echo Yii::app()->createUrl("Bill/BackSheet",array("id"=>$id))?>" target="_blank"><span class="tbl-row"><span class="tbl-cell tbl-cell-caption">BACK SHEET</span></span></a></li>
-							<hr>
+							<hr>-->
 							<li><a href="<?php echo Yii::app()->createUrl("Bill/LIC_PREMIUM",array("id"=>$id))?>" target="_blank"><span class="tbl-row"><span class="tbl-cell tbl-cell-caption">LIC PREMIUM</span></span></a></li>
 							<li><a href="<?php echo Yii::app()->createUrl("Bill/LIC_PREMIUM_COVER",array("id"=>$id))?>" target="_blank"><span class="tbl-row"><span class="tbl-cell tbl-cell-caption">LIC PREMIUM COVER</span></span></a></li>
 						<?php } ?>
@@ -60,9 +60,9 @@ if(isset($_REQUEST['id']) && $_REQUEST['id']){
 						<li><a href="<?php echo Yii::app()->createUrl("Bill/EmployeeBillFront",array("id"=>$id))?>" target="_blank"><span class="tbl-row"><span class="tbl-cell tbl-cell-caption">EMPLOYEE BILL FRONT SHEET</span></span></a></li>
 						<?php if(!$model->IS_CEA_BILL && !$model->IS_BONUS_BILL && !$model->IS_UA_BILL && !$model->IS_LTC_HTC_BILL) {?>
 							<li><a href="<?php echo Yii::app()->createUrl("Bill/EmployeeBillInner",array("id"=>$id))?>" target="_blank"><span class="tbl-row"><span class="tbl-cell tbl-cell-caption">INNER SHEET</span></span></a></li>
-							<li><a href="<?php echo Yii::app()->createUrl("Bill/EmployeeBillPart1",array("id"=>$id))?>" target="_blank"><span class="tbl-row"><span class="tbl-cell tbl-cell-caption">INNER SHEET PART 1</span></span></a></li>
+							<!--<li><a href="<?php echo Yii::app()->createUrl("Bill/EmployeeBillPart1",array("id"=>$id))?>" target="_blank"><span class="tbl-row"><span class="tbl-cell tbl-cell-caption">INNER SHEET PART 1</span></span></a></li>
 							<li><a href="<?php echo Yii::app()->createUrl("Bill/EmployeeBillPart2",array("id"=>$id))?>" target="_blank"><span class="tbl-row"><span class="tbl-cell tbl-cell-caption">INNER SHEET PART 2</span></span></a></li>
-							<li><a href="<?php echo Yii::app()->createUrl("Bill/DAArrearBillPart1",array("id"=>$id))?>" target="_blank"><span class="tbl-row"><span class="tbl-cell tbl-cell-caption">DA ARREAR PART 1</span></span></a></li>
+							<li><a href="<?php echo Yii::app()->createUrl("Bill/DAArrearBillPart1",array("id"=>$id))?>" target="_blank"><span class="tbl-row"><span class="tbl-cell tbl-cell-caption">DA ARREAR PART 1</span></span></a></li>-->
 						<?php } ?>
 						<?php if($model->IS_BONUS_BILL) {?>
 							<li><a href="<?php echo Yii::app()->createUrl("Bill/BonusEmployeeBillPart1",array("id"=>$id))?>" target="_blank"><span class="tbl-row"><span class="tbl-cell tbl-cell-caption">INNER SHEET PART 1</span></span></a></li>
@@ -111,6 +111,8 @@ if(isset($_REQUEST['id']) && $_REQUEST['id']){
 								<li><a href="<?php echo Yii::app()->createUrl("Bill/PLI",array("id"=>$id))?>" target="_blank"><span class="tbl-row"><span class="tbl-cell tbl-cell-caption">PLI</span></span></a></li>
 								<li><a href="<?php echo Yii::app()->createUrl("Bill/MADIWALA",array("id"=>$id))?>" target="_blank"><span class="tbl-row"><span class="tbl-cell tbl-cell-caption">MADIWALA MAINT.</span></span></a></li>
 								<li><a href="<?php echo Yii::app()->createUrl("Bill/JAYAMAHAL",array("id"=>$id))?>" target="_blank"><span class="tbl-row"><span class="tbl-cell tbl-cell-caption">JAYAMAHAL MAINT.</span></span></a></li>
+								<li><a href="<?php echo Yii::app()->createUrl("Bill/COURT",array("id"=>$id))?>" target="_blank"><span class="tbl-row"><span class="tbl-cell tbl-cell-caption">COURT</span></span></a></li>
+								
 								<li><a href="<?php echo Yii::app()->createUrl("Bill/PTCCSLIC",array("id"=>$id))?>" target="_blank"><span class="tbl-row"><span class="tbl-cell tbl-cell-caption">PT, CCS & LIC</span></span></a></li>
 						<?php } ?>
 						<li><a href="<?php echo Yii::app()->createUrl("Bill/EPAY",array("id"=>$id))?>" target="_blank"><span class="tbl-row"><span class="tbl-cell tbl-cell-caption">E PAYMENT</span></span></a></li>

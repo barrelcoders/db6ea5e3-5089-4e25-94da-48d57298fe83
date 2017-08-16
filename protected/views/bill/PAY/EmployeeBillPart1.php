@@ -80,7 +80,7 @@
 	</tfoot>
 </table>
 
-<div style="width: 400px; margin: 0 auto; font-size: 20px; margin-top:100px;">
+<div style="width: 400px; margin: 0 auto; font-size: 20px; margin-top:100px;display:none;">
 	<?php $appropiations = Yii::app()->db->createCommand("SELECT * FROM tbl_appropiation_register WHERE BILL_NO = $model->ID")->queryRow(); ?>
 	<h4 style="text-decoration: underline;">Appropiation</h4>
 	<p><b>Budget: </b>Rs. <?php echo Budget::model()->findByPK($appropiations['BUDGET_ID'])->AMOUNT;?>/-</p>

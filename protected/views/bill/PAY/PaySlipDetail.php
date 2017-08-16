@@ -86,80 +86,78 @@
 					</div>
 				</td>
 			</tr>
-			<tr class="info">
+			<tr style="background:#e2e2e2;">
 				<td colspan="3"><b>PAY SLIP FOR THE MONTH OF </b><span><?php echo $monthName[$this->Month]?>-<?php echo $this->Year?></span></td>
-				<td colspan="2"><b>GROUP </b><span><?php echo Groups::model()->findByPK($employee->GROUP_ID_FK)->GROUP_NAME;?></span></td>
-				<td><b>FOLIO NO</b><span><?php echo $employee->FOLIO_NO;?></span></td>
+				<td colspan="3"><b>BILL NO </b><span><?php echo Bill::model()->findByPK($salary->BILL_ID_FK)->BILL_NO;?></span></td>
 			</tr>
-			<tr>
+			<tr style="background:#e2e2e2;">
 				<td colspan="3"><b>NAME </b><span><?php echo $employee->NAME."<br>(".$employee->NAME_HINDI.")";?></span></td>
 				<td colspan="2"><b>DESIGNATION </b><span style="text-align: right;"><?php echo Designations::model()->findByPK($employee->DESIGNATION_ID_FK)->ABBREVIATIONS."<br/>(".Designations::model()->findByPK($employee->DESIGNATION_ID_FK)->DESIGNATION_HINDI.")";?></span></td>
-				<td><b>PAN </b><span><?php echo $employee->PAN;?></span></td>
+				<td><b>GROUP </b><span><?php echo Groups::model()->findByPK($employee->GROUP_ID_FK)->GROUP_NAME;?></span></td>
 			</tr>
-			
+			<tr style="background:#e2e2e2;">
+				<td colspan="3"><b>ACCOUT NO </b><span><?php echo $employee->ACCOUNT_NO;?></span></td>
+				<td colspan="2"><b>IFSC </b><span><?php echo $employee->IFSC;?></span></td>
+				<td colspan="1"><b>PAN </b><span><?php echo $employee->PAN;?></span></td>
+			</tr>
 			<tr>
-				<td><b>PAY </b><span><?php echo $salary->BASIC;?></span></td>
-				<td><b>GP </b><span><?php echo $salary->GP;?></span></td>
-				<td><b>TOTAL </b><span><?php echo $salary->GP+$salary->BASIC;?></span></td>
+				<td><b>BASIC </b><span><?php echo $salary->BASIC;?></span></td>
 				<td><b>SP </b><span><?php echo $salary->SP;?></span></td>
 				<td><b>PP </b><span><?php echo $salary->PP;?></span></td>
+				<td><b>HRA </b><span><?php echo $salary->HRA;?></span></td>
+				<td><b>DA </b><span><?php echo $salary->DA;?></span></td>
 				<td rowspan="2"><b>GROSS </b><br><?php echo $salary->GROSS;?></span></td>
 			</tr>
 			<tr>
-				<td><b>HRA </b><span><?php echo $salary->HRA;?></span></td>
-				<td><b>DA </b><span><?php echo $salary->DA;?></span></td>
 				<td><b>TA </b><span><?php echo $salary->TA;?></span></td>
 				<td><b>CCA </b><span><?php echo $salary->CCA;?></span></td>
 				<td><b>WA </b><span><?php echo $salary->WA;?></span></td>
+				<td colspan="2"></td>
 			</tr>
 			<tr>
-				<td colspan="5"><span style="height:20px;display:block;"></span></td>
-				<td rowspan="2"><b>NET </b><br><?php echo $salary->NET;?></td>
+				<td><b>IT </b><span><?php echo $salary->IT;?></span></td><!--DED-->
+				<td><b>CGHS </b><span><?php echo $salary->CGHS;?></span></td><!--DED-->
+				<td><b>LF </b><span><?php echo $salary->LF;?></span></td><!--DED-->
+				<td><b>CGEGIS </b><span><?php echo $salary->CGEGIS;?></span></td><!--DED-->
+				<td><b><?php echo $employee->PENSION_TYPE == 'OPS' ? 'GPFS' : 'CPF TIER I'?></b><span><?php echo $salary->CPF_TIER_I;?></span></td><!--DED-->
+				<td rowspan="4"><b>NET </b><br><?php echo $salary->NET;?></td>
 			</tr>
 			<tr>
-				<td><b>IT </b><span><?php echo $salary->IT;?></span></td>
-				<td><b>CGHS </b><span><?php echo $salary->CGHS;?></span></td>
-				<td><b>LF </b><span><?php echo $salary->LF;?></span></td>
-				<td><b>CGEGIS </b><span><?php echo $salary->CGEGIS;?></span></td>
-				<td><b><?php echo $employee->PENSION_TYPE == 'OPS' ? 'GPFS' : 'CPF TIER I'?></b><span><?php echo $salary->CPF_TIER_I;?></span></td>
+				<td><b><?php echo $employee->PENSION_TYPE == 'OPS' ? 'GPFR' : 'CPF TIER II'?> </b><span><?php echo $salary->CPF_TIER_II;?></span></td><!--DED-->
+				<td><b>HBA </b><span><?php echo $salary->HBA_EMI;?></span></td><!--DED-->
+				<td><b>MCA </b><span><?php echo $salary->MCA_EMI;?></span></td><!--DED-->
+				<td><b>FAN </b><span><?php echo $salary->FAN_EMI;?></span></td><!--DED-->
+				<td><b>CYCLE </b><span><?php echo $salary->CYCLE_EMI;?></span></td><!--DED-->
 			</tr>
 			<tr>
-				<td><b><?php echo $employee->PENSION_TYPE == 'OPS' ? 'GPFR' : 'CPF TIER II'?> </b><span><?php echo $salary->CPF_TIER_II;?></span></td>
-				<td><b>HBA </b><span><?php echo $salary->HBA_EMI;?></span></td>
-				<td><b>MCA </b><span><?php echo $salary->MCA_EMI;?></span></td>
-				<td><b>FAN </b><span><?php echo $salary->FAN_EMI;?></span></td>
-				<td><b>CYCLE </b><span><?php echo $salary->CYCLE_EMI;?></span></td>
-				<td rowspan="2"><b>OTHER DEDUCTION </b><br/><?php echo $salary->OTHER_DED;?></td>
+				<td><b>PLI </b><span><?php echo $salary->PLI;?></span></td><!--DED-->
+				<td><b>MISC </b><span><?php echo $salary->MISC;?></span></td><!--DED-->
+				<td><b>FLOOD </b><span><?php echo $salary->FLOOD_EMI;?></span></td><!--DED-->
+				<td><b>FEST </b><span><?php echo $salary->FEST_EMI;?></span></td><!--DED-->
+				<td><b>PAY ADV </b><span><?php echo 0;?></span></td><!--DED-->
 			</tr>
 			<tr>
-				<td><b>PLI </b><span><?php echo $salary->PLI;?></span></td>
-				<td><b>MISC </b><span><?php echo $salary->MISC;?></span></td>
-				<td><b>FLOOD </b><span><?php echo $salary->FLOOD_EMI;?></span></td>
-				<td><b>FEST </b><span><?php echo $salary->FEST_EMI;?></span></td>
-				<td><b>PAY ADV </b><span><?php echo 0;?></span></td>
+				<td><b>COURT </b><span><?php echo $salary->COURT_ATTACHMENT;?></span></td><!--DED-->
+				<td colspan="4"><b>TOTAL SALARY DEDUCTION </b><span><?php echo $salary->DED;?></span></td>
 			</tr>
 			<tr>
-				<td><b>CREDIT CO. </b><span><?php echo $salary->CCS;?></span></td>
-				<td><b>LIC </b><span><?php echo $salary->LIC;?></span></td>
-				<td><b>RD </b><span><?php echo 0;?></span></td>
-				<td><b>CONS.SO.</b><span><?php echo 0;?></span></td>
-				<td><b>COURT </b><span><?php echo 0;?></span></td>
-				<td rowspan="2"><b>AMT. CR. TO BANK</b><br><?php echo $salary->AMOUNT_BANK;?></td>
+				<td colspan="2"><b>CREDIT CO. </b><span><?php echo $salary->CCS;?></span></td><!-- OTHER DED-->
+				<td><b>LIC </b><span><?php echo $salary->LIC;?></span></td><!-- OTHER DED-->
+				<td><b>MAINT. </b><span><?php echo $salary->MAINT_MADIWALA+$salary->MAINT_JAYAMAHAL;?></span></td><!-- OTHER DED-->
+				<td><b>PT</b><span><?php echo $salary->PT;?></span></td><!-- OTHER DED-->
+				<td rowspan="3"><b>AMT. CR. TO BANK</b><br><?php echo $salary->AMOUNT_BANK;?></td>
 			</tr>
 			<tr>
-				<td><b>WATER </b><span><?php echo 0;?></span></td>
-				<td><b>MAINT. </b><span><?php echo 0;?></span></td>
-				<td><b>PT</b><span><?php echo $salary->PT;?></span></td>
-				<td><b>ASSOC.</b><span><?php echo $salary->ASSOSC_SUB;?></span></td>
-				<td><b>STRIKE</b><span><?php echo 0;?></span></td>
+				<td colspan="2"><b>ASSOC.</b><span><?php echo $salary->ASSOSC_SUB;?></span></td><!-- OTHER DED-->
+				<td colspan="3"><b>TOTAL SUBSIDIARY DEDUCTION </b><span><?php echo $salary->OTHER_DED + $salary->PT;?></span></td>
 			</tr>
 			<tr>
-				<td colspan="6"><b>REMARK</b><span><?php if($salary->REMARKS) echo $salary->REMARKS;?></span></td>
+				<td colspan="5"><b>REMARK</b><span><?php if($salary->REMARKS) echo $salary->REMARKS;?></span></td>
 			</tr>
 			
 			<tr>
 				<td colspan="6">
-					<div style="font-weight: bold; width:400px; float: right;text-align:center; margin-top:40px;margin-right:-10px;">
+					<div style="font-weight: bold; width:400px; float: right;text-align:center; margin-top:100px;margin-right:-10px;">
 					<?php
 						if(Employee::model()->findByPK($salary->EMPLOYEE_ID_FK)->DESIGNATION_ID_FK > 14){
 					?>

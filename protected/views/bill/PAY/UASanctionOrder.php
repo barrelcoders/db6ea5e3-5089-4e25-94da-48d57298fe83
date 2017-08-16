@@ -99,7 +99,7 @@
 <br>
 <p>The above expenditure is to be debited under head ‘SALARIES’ for the Financial Year-<?php echo FinancialYears::model()->find('STATUS=1')->NAME;?>.</p>
 <div style="font-weight: bold; width:400px; float: right;text-align:center; margin-top:100px;margin-right:-10px;">
-	<p><?php echo Employee::model()->findByPK($master['DEPT_ADMIN_EMPLOYEE'])->NAME;?></p>
+	<p>(<?php echo Employee::model()->findByPK($master['DEPT_ADMIN_EMPLOYEE'])->NAME;?>)</p>
 	<p><?php echo Designations::model()->findByPK(Employee::model()->findByPK($master['DEPT_ADMIN_EMPLOYEE'])->DESIGNATION_ID_FK)->DESIGNATION;?></p>
 	<p><?php echo $master['DEPT_NAME']?></p>
 </div>

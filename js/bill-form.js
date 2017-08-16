@@ -1,4 +1,3 @@
-
 $(document).ready(function(){
 	$('body').on('change', '.bills_amount', function() {
 		var total = 0;debugger;
@@ -125,11 +124,11 @@ $(document).ready(function(){
 				$('#chkIsUABill').prop('checked', false);
 				$('#chkIsLTCHTCBill').prop('checked', false);
 				$('#txtBillTitle').val("PAY AND ALLOWANCE in R/O OPS Staff of "+DEPT_NAME+" (OLD PENSION SCHEME) for the month of "+MONTH_YEAR);
-				var register_count = parseInt($("#BILL_REGISTER_COUNT").val());
-				$("#Bill_BILL_NO").val("P/"+zeroPad((register_count+1), 2)+"/"+FIANANCIAL_YEAR+" dt "+TODAY_DATE);
+				//var register_count = parseInt($("#BILL_REGISTER_COUNT").val());
+				//$("#Bill_BILL_NO").val("P/"+zeroPad((register_count+1), 2)+"/"+FIANANCIAL_YEAR+" dt "+TODAY_DATE);
 				$("#Bill_NILL_BILL_NO").val("");
-				$("#Bill_LIC_DED_BILL_NO").val("P/"+zeroPad((register_count+2), 2)+"/"+FIANANCIAL_YEAR+" dt "+TODAY_DATE);
-				$("#Bill_PT_DED_BILL_NO").val("P/"+zeroPad((register_count+3), 2)+"/"+FIANANCIAL_YEAR+" dt "+TODAY_DATE);
+				//$("#Bill_LIC_DED_BILL_NO").val("P/"+zeroPad((register_count+2), 2)+"/"+FIANANCIAL_YEAR+" dt "+TODAY_DATE);
+				//$("#Bill_PT_DED_BILL_NO").val("P/"+zeroPad((register_count+3), 2)+"/"+FIANANCIAL_YEAR+" dt "+TODAY_DATE);
 				$("#BILL_ENTRY_COUNT").val(3);
 				$("#paybillinfo").show();
 			}
@@ -144,15 +143,15 @@ $(document).ready(function(){
 				$("#Bill_PT_DED_BILL_NO").val("");
 				$("#BILL_ENTRY_COUNT").val(1);
 				$("#paybillinfo").hide();
-				var register_count = parseInt($("#BILL_REGISTER_COUNT").val());
+				//var register_count = parseInt($("#BILL_REGISTER_COUNT").val());
 				if(bill_sub_type == 15){
-					$("#Bill_BILL_NO").val("HRA Arr/"+zeroPad((register_count+1), 2)+"/"+FIANANCIAL_YEAR+" dt "+TODAY_DATE);
+					//$("#Bill_BILL_NO").val("HRA Arr/"+zeroPad((register_count+1), 2)+"/"+FIANANCIAL_YEAR+" dt "+TODAY_DATE);
 				}
 				else if(bill_sub_type == 17){
-					$("#Bill_BILL_NO").val("DA Arr/"+zeroPad((register_count+1), 2)+"/"+FIANANCIAL_YEAR+" dt "+TODAY_DATE);
+					//$("#Bill_BILL_NO").val("DA Arr/"+zeroPad((register_count+1), 2)+"/"+FIANANCIAL_YEAR+" dt "+TODAY_DATE);
 				}
 				else if(bill_sub_type == 27){
-					$("#Bill_BILL_NO").val("Arrear/"+zeroPad((register_count+1), 2)+"/"+FIANANCIAL_YEAR+" dt "+TODAY_DATE);
+					//$("#Bill_BILL_NO").val("Arrear/"+zeroPad((register_count+1), 2)+"/"+FIANANCIAL_YEAR+" dt "+TODAY_DATE);
 				}
 			}
 			if(bill_sub_type == 19){
@@ -161,8 +160,8 @@ $(document).ready(function(){
 				$('#chkIsCEABill').prop('checked', false);
 				$('#chkIsUABill').prop('checked', false);
 				$('#chkIsLTCHTCBill').prop('checked', false);
-				var register_count = parseInt($("#BILL_REGISTER_COUNT").val());
-				$("#Bill_BILL_NO").val("Ad-Bonus/"+zeroPad((register_count+1), 2)+"/"+FIANANCIAL_YEAR+" dt "+TODAY_DATE);
+				//var register_count = parseInt($("#BILL_REGISTER_COUNT").val());
+				//$("#Bill_BILL_NO").val("Ad-Bonus/"+zeroPad((register_count+1), 2)+"/"+FIANANCIAL_YEAR+" dt "+TODAY_DATE);
 				$("#Bill_NILL_BILL_NO").val("");
 				$("#Bill_LIC_DED_BILL_NO").val("");
 				$("#Bill_PT_DED_BILL_NO").val("");
@@ -176,8 +175,8 @@ $(document).ready(function(){
 				$('#chkIsBonusBill').prop('checked', false);
 				$('#chkIsLTCHTCBill').prop('checked', false);
 				$("#UA_PERIOD").show();
-				var register_count = parseInt($("#BILL_REGISTER_COUNT").val());
-				$("#Bill_BILL_NO").val("UA/"+zeroPad((register_count+1), 2)+"/"+FIANANCIAL_YEAR+" dt "+TODAY_DATE);
+				//var register_count = parseInt($("#BILL_REGISTER_COUNT").val());
+				//$("#Bill_BILL_NO").val("UA/"+zeroPad((register_count+1), 2)+"/"+FIANANCIAL_YEAR+" dt "+TODAY_DATE);
 				$("#Bill_NILL_BILL_NO").val("");
 				$("#Bill_LIC_DED_BILL_NO").val("");
 				$("#Bill_PT_DED_BILL_NO").val("");
@@ -190,8 +189,8 @@ $(document).ready(function(){
 				$('#chkIsArrearBill').prop('checked', false);
 				$('#chkIsBonusBill').prop('checked', false);
 				$('#chkIsLTCHTCBill').prop('checked', false);
-				var register_count = parseInt($("#BILL_REGISTER_COUNT").val());
-				$("#Bill_BILL_NO").val("CEA/"+zeroPad((register_count+1), 2)+"/"+FIANANCIAL_YEAR+" dt "+TODAY_DATE);
+				//var register_count = parseInt($("#BILL_REGISTER_COUNT").val());
+				//$("#Bill_BILL_NO").val("CEA/"+zeroPad((register_count+1), 2)+"/"+FIANANCIAL_YEAR+" dt "+TODAY_DATE);
 				$("#Bill_NILL_BILL_NO").val("");
 				$("#Bill_LIC_DED_BILL_NO").val("");
 				$("#Bill_PT_DED_BILL_NO").val("");
@@ -204,8 +203,8 @@ $(document).ready(function(){
 				$('#chkIsArrearBill').prop('checked', false);
 				$('#chkIsBonusBill').prop('checked', false);
 				$('#chkIsCEABill').prop('checked', false);
-				var register_count = parseInt($("#BILL_REGISTER_COUNT").val());
-				$("#Bill_BILL_NO").val("LTC/"+zeroPad((register_count+1), 2)+"/"+FIANANCIAL_YEAR+" dt "+TODAY_DATE);
+				//var register_count = parseInt($("#BILL_REGISTER_COUNT").val());
+				//$("#Bill_BILL_NO").val("LTC/"+zeroPad((register_count+1), 2)+"/"+FIANANCIAL_YEAR+" dt "+TODAY_DATE);
 				$("#Bill_NILL_BILL_NO").val("");
 				$("#Bill_LIC_DED_BILL_NO").val("");
 				$("#Bill_PT_DED_BILL_NO").val("");
@@ -221,11 +220,11 @@ $(document).ready(function(){
 				$('#chkIsUABill').prop('checked', false);
 				$('#chkIsLTCHTCBill').prop('checked', false);
 				$('#txtBillTitle').val("PAY AND ALLOWANCE in R/O NPS Staff of "+DEPT_NAME+" (NEW PENSION SCHEME) for the month of "+MONTH_YEAR);
-				var register_count = parseInt($("#BILL_REGISTER_COUNT").val());
-				$("#Bill_BILL_NO").val("P/"+zeroPad((register_count+1), 2)+"/"+FIANANCIAL_YEAR+" dt "+TODAY_DATE);
-				$("#Bill_NILL_BILL_NO").val("P/"+zeroPad((register_count+2), 2)+"/"+FIANANCIAL_YEAR+" dt "+TODAY_DATE);
-				$("#Bill_LIC_DED_BILL_NO").val("P/"+zeroPad((register_count+3), 2)+"/"+FIANANCIAL_YEAR+" dt "+TODAY_DATE);
-				$("#Bill_PT_DED_BILL_NO").val("P/"+zeroPad((register_count+4), 2)+"/"+FIANANCIAL_YEAR+" dt "+TODAY_DATE);
+				//var register_count = parseInt($("#BILL_REGISTER_COUNT").val());
+				//$("#Bill_BILL_NO").val("P/"+zeroPad((register_count+1), 2)+"/"+FIANANCIAL_YEAR+" dt "+TODAY_DATE);
+				//$("#Bill_NILL_BILL_NO").val("P/"+zeroPad((register_count+2), 2)+"/"+FIANANCIAL_YEAR+" dt "+TODAY_DATE);
+				//$("#Bill_LIC_DED_BILL_NO").val("P/"+zeroPad((register_count+3), 2)+"/"+FIANANCIAL_YEAR+" dt "+TODAY_DATE);
+				//$("#Bill_PT_DED_BILL_NO").val("P/"+zeroPad((register_count+4), 2)+"/"+FIANANCIAL_YEAR+" dt "+TODAY_DATE);
 				$("#BILL_ENTRY_COUNT").val(4);
 				$("#paybillinfo").show();
 				$("#npspaybillinfo").show();
@@ -236,24 +235,24 @@ $(document).ready(function(){
 				$('#chkIsBonusBill').prop('checked', false);
 				$('#chkIsUABill').prop('checked', false);
 				$('#chkIsLTCHTCBill').prop('checked', false);
-				var register_count = parseInt($("#BILL_REGISTER_COUNT").val());
+				//var register_count = parseInt($("#BILL_REGISTER_COUNT").val());
 				$("#Bill_NILL_BILL_NO").val("");
 				$("#Bill_LIC_DED_BILL_NO").val("");
 				$("#Bill_PT_DED_BILL_NO").val("");
 				$("#BILL_ENTRY_COUNT").val(1);
 				$("#paybillinfo").hide();
 				if(bill_sub_type == 16){
-					$("#Bill_BILL_NO").val("HRA Arr/"+zeroPad((register_count+1), 2)+"/"+FIANANCIAL_YEAR+" dt "+TODAY_DATE);
+					//$("#Bill_BILL_NO").val("HRA Arr/"+zeroPad((register_count+1), 2)+"/"+FIANANCIAL_YEAR+" dt "+TODAY_DATE);
 					$("#npspaybillinfo").hide();
 				}
 				else if(bill_sub_type == 18){
-					$("#Bill_BILL_NO").val("DA Arr/"+zeroPad((register_count+1), 2)+"/"+FIANANCIAL_YEAR+" dt "+TODAY_DATE);
-					$("#Bill_NILL_BILL_NO").val("DA Arr/"+zeroPad((register_count+2), 2)+"/"+FIANANCIAL_YEAR+" dt "+TODAY_DATE);
+					//$("#Bill_BILL_NO").val("DA Arr/"+zeroPad((register_count+1), 2)+"/"+FIANANCIAL_YEAR+" dt "+TODAY_DATE);
+					//$("#Bill_NILL_BILL_NO").val("DA Arr/"+zeroPad((register_count+2), 2)+"/"+FIANANCIAL_YEAR+" dt "+TODAY_DATE);
 					$("#npspaybillinfo").show();
 				}
 				else if(bill_sub_type == 28){
-					$("#Bill_BILL_NO").val("Arrear/"+zeroPad((register_count+1), 2)+"/"+FIANANCIAL_YEAR+" dt "+TODAY_DATE);
-					$("#Bill_NILL_BILL_NO").val("Arrear/"+zeroPad((register_count+2), 2)+"/"+FIANANCIAL_YEAR+" dt "+TODAY_DATE);
+					//$("#Bill_BILL_NO").val("Arrear/"+zeroPad((register_count+1), 2)+"/"+FIANANCIAL_YEAR+" dt "+TODAY_DATE);
+					//$("#Bill_NILL_BILL_NO").val("Arrear/"+zeroPad((register_count+2), 2)+"/"+FIANANCIAL_YEAR+" dt "+TODAY_DATE);
 					$("#npspaybillinfo").show();
 				}
 			}
@@ -263,8 +262,8 @@ $(document).ready(function(){
 				$('#chkIsCEABill').prop('checked', false);
 				$('#chkIsUABill').prop('checked', false);
 				$('#chkIsLTCHTCBill').prop('checked', false);
-				var register_count = parseInt($("#BILL_REGISTER_COUNT").val());
-				$("#Bill_BILL_NO").val("Ad-Bonus/"+zeroPad((register_count+1), 2)+"/"+FIANANCIAL_YEAR+" dt "+TODAY_DATE);
+				//var register_count = parseInt($("#BILL_REGISTER_COUNT").val());
+				//$("#Bill_BILL_NO").val("Ad-Bonus/"+zeroPad((register_count+1), 2)+"/"+FIANANCIAL_YEAR+" dt "+TODAY_DATE);
 				$("#Bill_NILL_BILL_NO").val("");
 				$("#Bill_LIC_DED_BILL_NO").val("");
 				$("#Bill_PT_DED_BILL_NO").val("");
@@ -279,8 +278,8 @@ $(document).ready(function(){
 				$('#chkIsBonusBill').prop('checked', false);
 				$('#chkIsLTCHTCBill').prop('checked', false);
 				$("#UA_PERIOD").show();
-				var register_count = parseInt($("#BILL_REGISTER_COUNT").val());
-				$("#Bill_BILL_NO").val("UA/"+zeroPad((register_count+1), 2)+"/"+FIANANCIAL_YEAR+" dt "+TODAY_DATE);
+				//var register_count = parseInt($("#BILL_REGISTER_COUNT").val());
+				//$("#Bill_BILL_NO").val("UA/"+zeroPad((register_count+1), 2)+"/"+FIANANCIAL_YEAR+" dt "+TODAY_DATE);
 				$("#Bill_NILL_BILL_NO").val("");
 				$("#Bill_LIC_DED_BILL_NO").val("");
 				$("#Bill_PT_DED_BILL_NO").val("");
@@ -294,8 +293,8 @@ $(document).ready(function(){
 				$('#chkIsArrearBill').prop('checked', false);
 				$('#chkIsBonusBill').prop('checked', false);
 				$('#chkIsLTCHTCBill').prop('checked', false);
-				var register_count = parseInt($("#BILL_REGISTER_COUNT").val());
-				$("#Bill_BILL_NO").val("CEA/"+zeroPad((register_count+1), 2)+"/"+FIANANCIAL_YEAR+" dt "+TODAY_DATE);
+				//var register_count = parseInt($("#BILL_REGISTER_COUNT").val());
+				//$("#Bill_BILL_NO").val("CEA/"+zeroPad((register_count+1), 2)+"/"+FIANANCIAL_YEAR+" dt "+TODAY_DATE);
 				$("#Bill_NILL_BILL_NO").val("");
 				$("#Bill_LIC_DED_BILL_NO").val("");
 				$("#Bill_PT_DED_BILL_NO").val("");
@@ -309,8 +308,8 @@ $(document).ready(function(){
 				$('#chkIsArrearBill').prop('checked', false);
 				$('#chkIsBonusBill').prop('checked', false);
 				$('#chkIsCEABill').prop('checked', false);
-				var register_count = parseInt($("#BILL_REGISTER_COUNT").val());
-				$("#Bill_BILL_NO").val("LTC/"+zeroPad((register_count+1), 2)+"/"+FIANANCIAL_YEAR+" dt "+TODAY_DATE);
+				//var register_count = parseInt($("#BILL_REGISTER_COUNT").val());
+				//$("#Bill_BILL_NO").val("LTC/"+zeroPad((register_count+1), 2)+"/"+FIANANCIAL_YEAR+" dt "+TODAY_DATE);
 				$("#Bill_NILL_BILL_NO").val("");
 				$("#Bill_LIC_DED_BILL_NO").val("");
 				$("#Bill_PT_DED_BILL_NO").val("");
@@ -322,9 +321,9 @@ $(document).ready(function(){
 		else if(bill_type == 8){
 			if(bill_sub_type == 32){
 				$('#txtBillTitle').val("Wages in respect of  "+DEPT_NAME+" for the month of "+MONTH_YEAR);
-				var register_count = parseInt($("#BILL_REGISTER_COUNT").val());
-				$("#Bill_BILL_NO").val("WPB/"+zeroPad((register_count+1), 2)+"/"+FIANANCIAL_YEAR+" dt "+TODAY_DATE);
-				$("#Bill_PT_DED_BILL_NO").val("WPB/"+zeroPad((register_count+2), 2)+"/"+FIANANCIAL_YEAR+" dt "+TODAY_DATE);
+				//var register_count = parseInt($("#BILL_REGISTER_COUNT").val());
+				//$("#Bill_BILL_NO").val("WPB/"+zeroPad((register_count+1), 2)+"/"+FIANANCIAL_YEAR+" dt "+TODAY_DATE);
+				//$("#Bill_PT_DED_BILL_NO").val("WPB/"+zeroPad((register_count+2), 2)+"/"+FIANANCIAL_YEAR+" dt "+TODAY_DATE);
 				$("#Bill_NILL_BILL_NO").val("");
 				$("#Bill_LIC_DED_BILL_NO").val("");
 				$("#BILL_ENTRY_COUNT").val(2);
@@ -335,8 +334,8 @@ $(document).ready(function(){
 		else if(bill_type == 3){
 			if(bill_sub_type == 1){
 				$('#txtBillTitle').val("Purchase of "+$("#Bill_BILL_SUB_TYPE option:selected").text()+" in R/O of "+DEPT_NAME);
-					var register_count = parseInt($("#BILL_REGISTER_COUNT").val());
-					$("#Bill_BILL_NO").val("OE/"+zeroPad((register_count+1), 2)+"/"+FIANANCIAL_YEAR+" dt "+TODAY_DATE);
+					//var register_count = parseInt($("#BILL_REGISTER_COUNT").val());
+					//$("#Bill_BILL_NO").val("OE/"+zeroPad((register_count+1), 2)+"/"+FIANANCIAL_YEAR+" dt "+TODAY_DATE);
 					$("#Bill_NILL_BILL_NO").val("");
 					$("#Bill_LIC_DED_BILL_NO").val("");
 					$("#Bill_PT_DED_BILL_NO").val("");
@@ -346,8 +345,8 @@ $(document).ready(function(){
 			}
 			else if(bill_sub_type == 2){
 				$('#txtBillTitle').val("Purchase of "+$("#Bill_BILL_SUB_TYPE option:selected").text()+" in R/O of "+DEPT_NAME);
-				var register_count = parseInt($("#BILL_REGISTER_COUNT").val());
-				$("#Bill_BILL_NO").val("OE/"+zeroPad((register_count+1), 2)+"/"+FIANANCIAL_YEAR+" dt "+TODAY_DATE);
+				//var register_count = parseInt($("#BILL_REGISTER_COUNT").val());
+				//$("#Bill_BILL_NO").val("OE/"+zeroPad((register_count+1), 2)+"/"+FIANANCIAL_YEAR+" dt "+TODAY_DATE);
 				$("#Bill_NILL_BILL_NO").val("");
 				$("#Bill_LIC_DED_BILL_NO").val("");
 				$("#Bill_PT_DED_BILL_NO").val("");
@@ -357,8 +356,8 @@ $(document).ready(function(){
 			}
 			else if(bill_sub_type == 3){
 				$('#txtBillTitle').val("Payment of "+$("#Bill_BILL_SUB_TYPE option:selected").text()+" charges in R/O of "+DEPT_NAME);
-				var register_count = parseInt($("#BILL_REGISTER_COUNT").val());
-				$("#Bill_BILL_NO").val("OE/"+zeroPad((register_count+1), 2)+"/"+FIANANCIAL_YEAR+" dt "+TODAY_DATE);
+				//var register_count = parseInt($("#BILL_REGISTER_COUNT").val());
+				//$("#Bill_BILL_NO").val("OE/"+zeroPad((register_count+1), 2)+"/"+FIANANCIAL_YEAR+" dt "+TODAY_DATE);
 				$("#Bill_NILL_BILL_NO").val("");
 				$("#Bill_LIC_DED_BILL_NO").val("");
 				$("#Bill_PT_DED_BILL_NO").val("");
@@ -368,8 +367,8 @@ $(document).ready(function(){
 			}
 			else if(bill_sub_type == 4){
 				$('#txtBillTitle').val("Purchase of "+$("#Bill_BILL_SUB_TYPE option:selected").text()+" in R/O of "+DEPT_NAME);
-				var register_count = parseInt($("#BILL_REGISTER_COUNT").val());
-				$("#Bill_BILL_NO").val("OE/"+zeroPad((register_count+1), 2)+"/"+FIANANCIAL_YEAR+" dt "+TODAY_DATE);
+				//var register_count = parseInt($("#BILL_REGISTER_COUNT").val());
+				//$("#Bill_BILL_NO").val("OE/"+zeroPad((register_count+1), 2)+"/"+FIANANCIAL_YEAR+" dt "+TODAY_DATE);
 				$("#Bill_NILL_BILL_NO").val("");
 				$("#Bill_LIC_DED_BILL_NO").val("");
 				$("#Bill_PT_DED_BILL_NO").val("");
@@ -379,8 +378,8 @@ $(document).ready(function(){
 			}
 			else if(bill_sub_type == 5){
 				$('#txtBillTitle').val("Purchase of "+$("#Bill_BILL_SUB_TYPE option:selected").text()+" in R/O of "+DEPT_NAME);
-				var register_count = parseInt($("#BILL_REGISTER_COUNT").val());
-				$("#Bill_BILL_NO").val("OE/"+zeroPad((register_count+1), 2)+"/"+FIANANCIAL_YEAR+" dt "+TODAY_DATE);
+				//var register_count = parseInt($("#BILL_REGISTER_COUNT").val());
+				//$("#Bill_BILL_NO").val("OE/"+zeroPad((register_count+1), 2)+"/"+FIANANCIAL_YEAR+" dt "+TODAY_DATE);
 				$("#Bill_NILL_BILL_NO").val("");
 				$("#Bill_LIC_DED_BILL_NO").val("");
 				$("#Bill_PT_DED_BILL_NO").val("");
@@ -390,8 +389,8 @@ $(document).ready(function(){
 			}
 			else if(bill_sub_type == 6){
 				$('#txtBillTitle').val("Payement of "+$("#Bill_BILL_SUB_TYPE option:selected").text()+" for the month of "+PREVIOUS_MONTH_YEAR+" in R/O of "+DEPT_NAME);
-				var register_count = parseInt($("#BILL_REGISTER_COUNT").val());
-				$("#Bill_BILL_NO").val("OE/"+zeroPad((register_count+1), 2)+"/"+FIANANCIAL_YEAR+" dt "+TODAY_DATE);
+				//var register_count = parseInt($("#BILL_REGISTER_COUNT").val());
+				//$("#Bill_BILL_NO").val("OE/"+zeroPad((register_count+1), 2)+"/"+FIANANCIAL_YEAR+" dt "+TODAY_DATE);
 				$("#Bill_NILL_BILL_NO").val("");
 				$("#Bill_LIC_DED_BILL_NO").val("");
 				$("#Bill_PT_DED_BILL_NO").val("");
@@ -401,8 +400,8 @@ $(document).ready(function(){
 			}
 			else if(bill_sub_type == 7){
 				$('#txtBillTitle').val("Purchase of "+$("#Bill_BILL_SUB_TYPE option:selected").text()+" in R/O of "+DEPT_NAME);
-				var register_count = parseInt($("#BILL_REGISTER_COUNT").val());
-				$("#Bill_BILL_NO").val("OE/"+zeroPad((register_count+1), 2)+"/"+FIANANCIAL_YEAR+" dt "+TODAY_DATE);
+				//var register_count = parseInt($("#BILL_REGISTER_COUNT").val());
+				//$("#Bill_BILL_NO").val("OE/"+zeroPad((register_count+1), 2)+"/"+FIANANCIAL_YEAR+" dt "+TODAY_DATE);
 				$("#Bill_NILL_BILL_NO").val("");
 				$("#Bill_LIC_DED_BILL_NO").val("");
 				$("#Bill_PT_DED_BILL_NO").val("");
@@ -412,8 +411,8 @@ $(document).ready(function(){
 			}
 			else if(bill_sub_type == 8){
 				$('#txtBillTitle').val("Purchase of "+$("#Bill_BILL_SUB_TYPE option:selected").text()+" in R/O of "+DEPT_NAME);
-				var register_count = parseInt($("#BILL_REGISTER_COUNT").val());
-				$("#Bill_BILL_NO").val("OE/"+zeroPad((register_count+1), 2)+"/"+FIANANCIAL_YEAR+" dt "+TODAY_DATE);
+				//var register_count = parseInt($("#BILL_REGISTER_COUNT").val());
+				//$("#Bill_BILL_NO").val("OE/"+zeroPad((register_count+1), 2)+"/"+FIANANCIAL_YEAR+" dt "+TODAY_DATE);
 				$("#Bill_NILL_BILL_NO").val("");
 				$("#Bill_LIC_DED_BILL_NO").val("");
 				$("#Bill_PT_DED_BILL_NO").val("");
@@ -423,8 +422,8 @@ $(document).ready(function(){
 			}
 			else if(bill_sub_type == 9){
 				$('#txtBillTitle').val("Purchase of "+$("#Bill_BILL_SUB_TYPE option:selected").text()+" in R/O of "+DEPT_NAME);
-				var register_count = parseInt($("#BILL_REGISTER_COUNT").val());
-				$("#Bill_BILL_NO").val("OE/"+zeroPad((register_count+1), 2)+"/"+FIANANCIAL_YEAR+" dt "+TODAY_DATE);
+				//var register_count = parseInt($("#BILL_REGISTER_COUNT").val());
+				//$("#Bill_BILL_NO").val("OE/"+zeroPad((register_count+1), 2)+"/"+FIANANCIAL_YEAR+" dt "+TODAY_DATE);
 				$("#Bill_NILL_BILL_NO").val("");
 				$("#Bill_LIC_DED_BILL_NO").val("");
 				$("#Bill_PT_DED_BILL_NO").val("");
@@ -434,8 +433,8 @@ $(document).ready(function(){
 			}
 			else if(bill_sub_type == 10){
 				$('#txtBillTitle').val("Payment of "+$("#Bill_BILL_SUB_TYPE option:selected").text()+" in R/O of "+DEPT_NAME);
-				var register_count = parseInt($("#BILL_REGISTER_COUNT").val());
-				$("#Bill_BILL_NO").val("OE/"+zeroPad((register_count+1), 2)+"/"+FIANANCIAL_YEAR+" dt "+TODAY_DATE);
+				//var register_count = parseInt($("#BILL_REGISTER_COUNT").val());
+				//$("#Bill_BILL_NO").val("OE/"+zeroPad((register_count+1), 2)+"/"+FIANANCIAL_YEAR+" dt "+TODAY_DATE);
 				$("#Bill_NILL_BILL_NO").val("");
 				$("#Bill_LIC_DED_BILL_NO").val("");
 				$("#Bill_PT_DED_BILL_NO").val("");
@@ -445,8 +444,8 @@ $(document).ready(function(){
 			}
 			else if(bill_sub_type == 11){
 				$('#txtBillTitle').val("Payment of "+$("#Bill_BILL_SUB_TYPE option:selected").text()+" in R/O of "+DEPT_NAME);
-				var register_count = parseInt($("#BILL_REGISTER_COUNT").val());
-				$("#Bill_BILL_NO").val("OE/"+zeroPad((register_count+1), 2)+"/"+FIANANCIAL_YEAR+" dt "+TODAY_DATE);
+				//var register_count = parseInt($("#BILL_REGISTER_COUNT").val());
+				//$("#Bill_BILL_NO").val("OE/"+zeroPad((register_count+1), 2)+"/"+FIANANCIAL_YEAR+" dt "+TODAY_DATE);
 				$("#Bill_NILL_BILL_NO").val("");
 				$("#Bill_LIC_DED_BILL_NO").val("");
 				$("#Bill_PT_DED_BILL_NO").val("");
@@ -456,8 +455,8 @@ $(document).ready(function(){
 			}
 			else if(bill_sub_type == 12){
 				$('#txtBillTitle').val("Payment of "+$("#Bill_BILL_SUB_TYPE option:selected").text()+" charges for the month of "+PREVIOUS_MONTH_YEAR+" in R/O of "+DEPT_NAME);
-				var register_count = parseInt($("#BILL_REGISTER_COUNT").val());
-				$("#Bill_BILL_NO").val("OE/"+zeroPad((register_count+1), 2)+"/"+FIANANCIAL_YEAR+" dt "+TODAY_DATE);
+				//var register_count = parseInt($("#BILL_REGISTER_COUNT").val());
+				//$("#Bill_BILL_NO").val("OE/"+zeroPad((register_count+1), 2)+"/"+FIANANCIAL_YEAR+" dt "+TODAY_DATE);
 				$("#Bill_NILL_BILL_NO").val("");
 				$("#Bill_LIC_DED_BILL_NO").val("");
 				$("#Bill_PT_DED_BILL_NO").val("");
@@ -467,8 +466,8 @@ $(document).ready(function(){
 			}
 			else if(bill_sub_type == 13){
 				$('#txtBillTitle').val("Payment of "+$("#Bill_BILL_SUB_TYPE option:selected").text()+" for the month of "+PREVIOUS_MONTH_YEAR+" in R/O of "+DEPT_NAME);
-				var register_count = parseInt($("#BILL_REGISTER_COUNT").val());
-				$("#Bill_BILL_NO").val("OE/"+zeroPad((register_count+1), 2)+"/"+FIANANCIAL_YEAR+" dt "+TODAY_DATE);
+				//var register_count = parseInt($("#BILL_REGISTER_COUNT").val());
+				//$("#Bill_BILL_NO").val("OE/"+zeroPad((register_count+1), 2)+"/"+FIANANCIAL_YEAR+" dt "+TODAY_DATE);
 				$("#Bill_NILL_BILL_NO").val("");
 				$("#Bill_LIC_DED_BILL_NO").val("");
 				$("#Bill_PT_DED_BILL_NO").val("");
@@ -478,8 +477,8 @@ $(document).ready(function(){
 			}
 			else if(bill_sub_type == 14){
 				$('#txtBillTitle').val("Payment of "+$("#Bill_BILL_SUB_TYPE option:selected").text()+" in R/O of "+DEPT_NAME);
-				var register_count = parseInt($("#BILL_REGISTER_COUNT").val());
-				$("#Bill_BILL_NO").val("OE/"+zeroPad((register_count+1), 2)+"/"+FIANANCIAL_YEAR+" dt "+TODAY_DATE);
+				//var register_count = parseInt($("#BILL_REGISTER_COUNT").val());
+				//$("#Bill_BILL_NO").val("OE/"+zeroPad((register_count+1), 2)+"/"+FIANANCIAL_YEAR+" dt "+TODAY_DATE);
 				$("#Bill_NILL_BILL_NO").val("");
 				$("#Bill_LIC_DED_BILL_NO").val("");
 				$("#Bill_PT_DED_BILL_NO").val("");
@@ -492,8 +491,8 @@ $(document).ready(function(){
 			$("#dte-emp").show();
 			if(bill_sub_type == 29){
 				$('#txtBillTitle').val("Bill of "+$("#Bill_BILL_SUB_TYPE option:selected").text()+" in R/O staff of "+DEPT_NAME);
-				var register_count = parseInt($("#BILL_REGISTER_COUNT").val());
-				$("#Bill_BILL_NO").val("DTE/"+zeroPad((register_count+1), 2)+"/"+FIANANCIAL_YEAR+" dt "+TODAY_DATE);
+				//var register_count = parseInt($("#BILL_REGISTER_COUNT").val());
+				//$("#Bill_BILL_NO").val("DTE/"+zeroPad((register_count+1), 2)+"/"+FIANANCIAL_YEAR+" dt "+TODAY_DATE);
 				$("#Bill_NILL_BILL_NO").val("");
 				$("#Bill_LIC_DED_BILL_NO").val("");
 				$("#Bill_PT_DED_BILL_NO").val("");
@@ -504,8 +503,8 @@ $(document).ready(function(){
 			$("#medical-emp").show();
 			if(bill_sub_type == 33){
 				$('#txtBillTitle').val("Bill of Reimbursement of "+$("#Bill_BILL_SUB_TYPE option:selected").text()+" in R/O staff of "+DEPT_NAME);
-				var register_count = parseInt($("#BILL_REGISTER_COUNT").val());
-				$("#Bill_BILL_NO").val("MED/"+zeroPad((register_count+1), 2)+"/"+FIANANCIAL_YEAR+" dt "+TODAY_DATE);
+				//var register_count = parseInt($("#BILL_REGISTER_COUNT").val());
+				//$("#Bill_BILL_NO").val("MED/"+zeroPad((register_count+1), 2)+"/"+FIANANCIAL_YEAR+" dt "+TODAY_DATE);
 				$("#Bill_NILL_BILL_NO").val("");
 				$("#Bill_LIC_DED_BILL_NO").val("");
 				$("#Bill_PT_DED_BILL_NO").val("");
@@ -595,6 +594,69 @@ $(document).ready(function(){
 	});
 	
 });
+
+function validateBillForm(){
+	var bill_type = parseInt($("#slBillType").val());
+	
+	if(bill_type == 0){
+		alert('Please select Bill Type');
+		return false;
+	}
+	
+	if(bill_type == 3){
+		if($("#Bill_BILL_SUB_TYPE").val() == ""){
+			alert('Please select Bill Sub Type');
+			return false;
+		}
+		if($("#Bill_BILL_NO").val() == ""){
+			alert('Please enter Bill Number');
+			return false;
+		}
+		if($("#txtBillTitle").val() == ""){
+			alert('Please enter Bill Title');
+			return false;
+		}
+		if($("#Bill_BILL_AMOUNT").val() == "" || $("#Bill_BILL_AMOUNT").val() == 0){
+			alert('Please enter Bill Amount');
+			return false;
+		}
+		if($("#Bill_FILE_NO").val() == ""){
+			alert('Please enter File Number');
+			return false;
+		}
+		if($("#Bill_OE_IT_DED").val() == ""){
+			alert('Please enter Income Tax Deduction');
+			return false;
+		}
+		if($("#Bill_OE_NET_AMOUNT").val() == "" || $("#Bill_OE_NET_AMOUNT").val() == 0){
+			alert('Please enter Bill Amount & IT Deduction to calculate Net Bill Amount');
+			return false;
+		}
+		if($("#Bill_VENDOR_ID").val() == "" || $("#Bill_VENDOR_ID").val() == 0){
+			alert('Please select Vendor');
+			return false;
+		}
+		
+		var sub_bills = $("#SubBillTable").find("input.bills_number"), total_bills = sub_bills.length, entered_bills = 0;
+		sub_bills.each(function(){
+			if($(this).val() != "" || $(this).val() != 0){
+				entered_bills ++;
+			}
+		});
+		
+		if(entered_bills != total_bills){
+			alert('Please fill all bill details');
+			return false;
+		}
+		
+		if($("#Bill_CER_NO").val() == ""){
+			alert('Please enter Central Event Register number of bill');
+			return false;
+		}
+	}
+	
+	return true;
+}
 	
 function otherSalaryBillsReset(){
 	$('#cea-emp').hide();
@@ -661,6 +723,7 @@ function insRow()
 	
 	var inp1 = new_row.cells[0].getElementsByTagName('input')[0];
 	inp1.name = "Bill[OE_BILL]["+len+"][BILL_NO]";
+	inp1.classList.add("bills_number");
 	inp1.value = '';
 	var inp2 = new_row.cells[1].getElementsByTagName('input')[0];
 	inp2.name = "Bill[OE_BILL]["+len+"][BILL_DATE]";

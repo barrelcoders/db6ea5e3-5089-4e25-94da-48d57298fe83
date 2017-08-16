@@ -120,7 +120,7 @@
 <div>
 	<div style="font-weight: bold; width:400px; float: left;font-size: 10px;"><p><span>Station :</span> Bangalore</p><p><span>Date :</span> <?php echo date('d/m/Y', strtotime($model->CREATION_DATE));?></p></div>
 	<div style="font-weight: bold; width:400px; float: right;text-align:center;font-size: 10px;">
-	<p><?php echo Employee::model()->findByPK($master['DEPT_ADMIN_EMPLOYEE'])->NAME;?></p>
+	<p>(<?php echo Employee::model()->findByPK($master['DEPT_ADMIN_EMPLOYEE'])->NAME;?>)</p>
 		<p><?php echo Designations::model()->findByPK(Employee::model()->findByPK($master['DEPT_ADMIN_EMPLOYEE'])->DESIGNATION_ID_FK)->DESIGNATION;?></p>
 		<p><?php echo $master['DEPT_NAME']?></p>
 	</div>
