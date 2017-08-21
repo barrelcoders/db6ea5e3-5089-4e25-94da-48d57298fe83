@@ -111,6 +111,7 @@ if(isset($_REQUEST['id']) && $_REQUEST['id']){
 								<li><a href="<?php echo Yii::app()->createUrl("Bill/PLI",array("id"=>$id))?>" target="_blank"><span class="tbl-row"><span class="tbl-cell tbl-cell-caption">PLI</span></span></a></li>
 								<li><a href="<?php echo Yii::app()->createUrl("Bill/MADIWALA",array("id"=>$id))?>" target="_blank"><span class="tbl-row"><span class="tbl-cell tbl-cell-caption">MADIWALA MAINT.</span></span></a></li>
 								<li><a href="<?php echo Yii::app()->createUrl("Bill/JAYAMAHAL",array("id"=>$id))?>" target="_blank"><span class="tbl-row"><span class="tbl-cell tbl-cell-caption">JAYAMAHAL MAINT.</span></span></a></li>
+								<li><a href="<?php echo Yii::app()->createUrl("Bill/ASSOCIATION",array("id"=>$id))?>" target="_blank"><span class="tbl-row"><span class="tbl-cell tbl-cell-caption">ASSOCIATION SUB.</span></span></a></li>
 								<li><a href="<?php echo Yii::app()->createUrl("Bill/COURT",array("id"=>$id))?>" target="_blank"><span class="tbl-row"><span class="tbl-cell tbl-cell-caption">COURT</span></span></a></li>
 								
 								<li><a href="<?php echo Yii::app()->createUrl("Bill/PTCCSLIC",array("id"=>$id))?>" target="_blank"><span class="tbl-row"><span class="tbl-cell tbl-cell-caption">PT, CCS & LIC</span></span></a></li>

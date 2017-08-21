@@ -221,7 +221,7 @@
 							<td><b class="one-label">MAINT. (MADIWALA): </b><input type='text' class="other-ded-inc-amount" name="SalaryDetails[<?php echo $employee->ID?>][MAINT_MADIWALA]" value='<?php echo $salary->MAINT_MADIWALA ? $salary->MAINT_MADIWALA : 0?>' placeholder='MAINT. (MADIWALA)'></td>
 						</tr>
 						<tr>
-							<td colspan="5"><b class="one-label">REMARKS: </b><textarea style="width:100%;" name="SalaryDetails[<?php echo $employee->ID?>][REMARKS]" value='<?php echo $salary->REMARKS ? $salary->REMARKS : 0?>' placeholder='REMARKS'></textarea></td>
+							<td colspan="5"><b class="one-label">REMARKS: </b><textarea style="width:100%;" name="SalaryDetails[<?php echo $employee->ID?>][REMARKS]" placeholder='REMARKS'><?php echo $salary->REMARKS ? $salary->REMARKS : ""?></textarea></td>
 						</tr>
 					</table>
 					<table class="table">

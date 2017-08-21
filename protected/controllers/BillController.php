@@ -723,5 +723,6 @@ class BillController extends Controller
 	public function actionMADIWALA($id){$this->layout='//layouts/column1';$model = $this->loadModel($id);$this->render('PAY/MADIWALA',array('model'=>$model,));}
 	public function actionJAYAMAHAL($id){$this->layout='//layouts/column1';$model = $this->loadModel($id);$this->render('PAY/JAYAMAHAL',array('model'=>$model,));}
 	public function actionCOURT($id){$this->layout='//layouts/column1';$model = $this->loadModel($id);$this->render('PAY/COURT',array('model'=>$model,));}
+	public function actionASSOCIATION($id){$this->layout='//layouts/column1';$model = $this->loadModel($id);$this->render('PAY/ASSOCIATION',array('model'=>$model,));}
 
 }
