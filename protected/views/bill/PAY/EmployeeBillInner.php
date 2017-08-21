@@ -201,6 +201,27 @@
 <h4 style="text-align:center;margin-top: 10px;">GRAND TOTAL AMOUNT CREADITED TO BANK (E-PAYMENT): Rs. <?php $AMOUNT_BANK = Yii::app()->db->createCommand("SELECT SUM(AMOUNT_BANK) + SUM(OTHER_DED) as TOTAL FROM tbl_salary_details WHERE BILL_ID_FK = $model->ID;")->queryRow()['TOTAL']; echo $AMOUNT_BANK;?>/-</h4>
 <br><br><p style="text-align: center;font-weight: bold;font-size:16px;"><?php echo $this->amountToWord($AMOUNT_BANK);?></p>
 <br><br><br><div style="text-align:center; font-weight: bold; width:400px; margin:0 auto;">"Certified that monthly Contribution under Central Government Employees Insurance Scheme has been recovered from persons who are covered under the Scheme"</div>
+
+<br><br>
+<div>
+	<p style="font-weight: bold;">Remarks</p>
+	<ol>
+		<?php 
+			$i=1;
+			foreach ($salaries as $salary) { 
+				if($salary->REMARKS !=""){
+		?>
+			<li>
+				<p style="font-weight: bold;padding-left: 50px;margin-bottom:10px;"><?php echo $i.".  ";?><?php echo Employee::model()->findByPK($salary->EMPLOYEE_ID_FK)->NAME.", ".Designations::model()->findByPK(Employee::model()->findByPK($salary->EMPLOYEE_ID_FK)->DESIGNATION_ID_FK)->DESIGNATION;?></p>
+				<p style="padding-left: 100px;margin-bottom:10px;"><?php echo $salary->REMARKS; ?></p>
+			</li>
+		<?php
+					$i++;
+				}
+			} 
+		?>
+	</ol>
+</div>
 <div style="font-weight: bold; width:400px; float: right;text-align:center; margin-top:100px;margin-right:-10px;">
 	<p>(<?php echo Employee::model()->findByPK($master['DEPT_ADMIN_EMPLOYEE'])->NAME;?>)</p>
 	<p><?php echo Designations::model()->findByPK(Employee::model()->findByPK($master['DEPT_ADMIN_EMPLOYEE'])->DESIGNATION_ID_FK)->DESIGNATION;?></p>
