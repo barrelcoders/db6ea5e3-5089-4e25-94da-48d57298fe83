@@ -46,7 +46,8 @@
 		
 		<p><span style="font-weight: bold;font-size: 11px;">8342 :</span> <span style="font-weight: bold;font-size: 11px;"> [ 20.01 ]	</span></p>
 		<?php 		
-			$PT = Yii::app()->db->createCommand("SELECT SUM(PT) as PT FROM tbl_salary_details WHERE BILL_ID_FK = $model->ID AND YEAR = $model->YEAR AND MONTH = $model->MONTH;")->queryRow()['PT']; 
+			$PT = Yii::app()->db->createCommand("SELECT SUM(PT) as PT FROM tbl_salary_details WHERE BILL_ID_FK = $model->ID;")->queryRow()['PT']; 
+			$COURT_ATTACHMENT = Yii::app()->db->createCommand("SELECT SUM(COURT_ATTACHMENT) as COURT_ATTACHMENT FROM tbl_salary_details WHERE BILL_ID_FK = $model->ID;")->queryRow()['COURT_ATTACHMENT']; 
 		?>
 		<p style="font-weight: bold;font-size: 12px;">Government's Contribution : Tier-I <span style="float: right;font-weight: bold;margin-right: 10px;"></span></p><br><br>
 		<p style="font-weight: bold;font-size: 10px;">Total C/o <span style="float: right;font-weight: bold;margin-right: 10px;"></span></p><br>
@@ -83,9 +84,10 @@
 		<div style="border: 1px solid;height: 425px;position: absolute;width: 73px;right: 5px;top: 0;"></div>
 		<p><span style="font-weight: bold;font-size: 11px;">Detailed Heads</span></p><br>
 		<p style="font-size: 11px;font-weight: bold;"><span style="font-size: 11px;float: right;margin-right: 10px;display: inline-block;width: 60%;">PT:-<span style="float: right;font-style: italic;">Rs.<?php echo $PT;?></span></span></p>
-		<br><br>
+		<p style="font-size: 11px;font-weight: bold;"><span style="font-size: 11px;float: right;margin-right: 10px;display: inline-block;width: 60%;">COURT ATTACHMENT:-<span style="float: right;font-style: italic;">Rs.<?php echo $COURT_ATTACHMENT;?></span></span></p>
+		<br>
 		<p style="font-size: 11px;font-weight: bold;">Expenditure Awaiting Transfer :</p>
-		<p style="font-size: 11px;font-weight: bold;">I. Grand Total :-<span style="font-size: 11px;float: right;margin-right: 10px;display: inline-block;width: 60%;"><span style="float: right;font-style: italic;">Rs.<?php echo $PT;?></span></span></p>
+		<p style="font-size: 11px;font-weight: bold;">I. Grand Total :-<span style="font-size: 11px;float: right;margin-right: 10px;display: inline-block;width: 60%;"><span style="float: right;font-style: italic;">Rs.<?php echo $PT + $COURT_ATTACHMENT;?></span></span></p>
 		<p style="font-size: 11px;">(a) LESS deductions/recoveries adjustable by Pay <br> and Accounts Officer as per details <span style="float: right;font-weight: bold;margin-right: 10px;"></span></p><br>
 		<p style="font-size: 11px;">(b) LESS deduction/recoveries adjustable by other <br> Accounts Offices        (Salary Advance) <span style="float: right;font-weight: bold;margin-right: 10px;"></span></p><br>
 		<p style="font-size: 11px;">8658  Suspence Accounts - Pay & Accounts Office  Suspence - Transactions adjustable with :</p>
@@ -100,10 +102,10 @@
 		<p style="font-size: 11px;font-weight: bold;">III. NET amount (I minus II) required for payment by : <span style="float: right;font-weight: bold;margin-right: 10px;"></p><br>
 		<p style="margin-bottom: 20px;"><span style="font-weight: bold;font-size: 11px;">(i) Cheque for self / s per detail given in the bill --</span><span style="font-size: 13px;float: right;margin-right: 10px;display: inline-block;width: 70%;font-weight: bold;"><span style="float: right;font-style: italic;"></span></span></p>
 		<p style="margin-bottom: 20px;"><span style="font-weight: bold;font-size: 11px;">(ii) Demand Draft in favour of :</span><span style="font-size: 12px;float: right;margin-right: 10px;display: inline-block;width: 70%;font-weight: bold;"></span></p><br/>
-		<p ><span style="font-weight: bold;font-size: 11px;"></span><span style="font-size: 13px;float: right;margin-right: 10px;display: inline-block;width: 70%;font-weight: bold;">Total :-<span style="font-weight: bold;font-size:12px;float: right;">Rs.<?php echo $PT;?></span></p>
+		<p ><span style="font-weight: bold;font-size: 11px;"></span><span style="font-size: 13px;float: right;margin-right: 10px;display: inline-block;width: 70%;font-weight: bold;">Total :-<span style="font-weight: bold;font-size:12px;float: right;">Rs.<?php echo $PT + $COURT_ATTACHMENT;?></span></p>
 	</div>
 </div>
-<p style="text-align: center;font-weight: bold;font-size:11px;"><?php echo $this->amountToWord($PT);?></p>
+<p style="text-align: center;font-weight: bold;font-size:11px;"><?php echo $this->amountToWord($PT + $COURT_ATTACHMENT);?></p>
 <div style="font-size: 10px;">
 	<p>CERTIFIED THAT I HAVE SATISFIED MYSELF THAT --</p>
 	<p>(a) the amounts claimed in the Bill are actually due to the persons concerned and the conditions attached to the payment of various allowances have been duly complied with in all cases ;</p>
