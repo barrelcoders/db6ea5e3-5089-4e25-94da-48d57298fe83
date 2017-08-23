@@ -176,13 +176,12 @@ class BillController extends Controller
 					$SalaryDetails->NET = $salary['NET'];
 					$SalaryDetails->DED = $salary['DED'];
 					$SalaryDetails->IS_SALARY_BILL = $_POST['SalaryDetails']['IS_SALARY_BILL'];
-					$SalaryDetails->IS_HBA_RECOVERY = $salary['IS_HBA_RECOVERY'];
-					$SalaryDetails->IS_MCA_RECOVERY = $salary['IS_MCA_RECOVERY'];
-					$SalaryDetails->IS_FEST_RECOVERY = $salary['IS_FEST_RECOVERY'];
-					$SalaryDetails->IS_CYCLE_RECOVERY = $salary['IS_CYCLE_RECOVERY'];
-					$SalaryDetails->IS_FLOOD_RECOVERY = $salary['IS_FLOOD_RECOVERY'];
-					$SalaryDetails->IS_FAN_RECOVERY = $salary['IS_FAN_RECOVERY'];
-					//echo $SalaryDetails->IS_HBA_RECOVERY;exit;
+					$SalaryDetails->IS_HBA_RECOVERY = isset($salary['IS_HBA_RECOVERY']) ? $salary['IS_HBA_RECOVERY'] : 0;
+					$SalaryDetails->IS_MCA_RECOVERY = isset($salary['IS_MCA_RECOVERY']) ? $salary['IS_MCA_RECOVERY'] : 0;
+					$SalaryDetails->IS_FEST_RECOVERY = isset($salary['IS_FEST_RECOVERY']) ? $salary['IS_FEST_RECOVERY'] : 0;
+					$SalaryDetails->IS_CYCLE_RECOVERY = isset($salary['IS_CYCLE_RECOVERY']) ? $salary['IS_CYCLE_RECOVERY'] : 0;
+					$SalaryDetails->IS_FLOOD_RECOVERY = isset($salary['IS_FLOOD_RECOVERY']) ? $salary['IS_FLOOD_RECOVERY'] : 0;
+					$SalaryDetails->IS_FAN_RECOVERY = isset($salary['IS_FAN_RECOVERY']) ? $salary['IS_FAN_RECOVERY'] : 0;
 					if(isset($_POST['SalaryDetails'][$salary['EMP_ID']]['UA'])){
 						$SalaryDetails->UA = $_POST['SalaryDetails'][$salary['EMP_ID']]['UA'];
 					}
@@ -282,12 +281,10 @@ class BillController extends Controller
 	 */
 	public function actionCreate()
 	{	
-		//echo Yii::app()->Security->Decrypt('UFr8iYAGinDhJL7UX2kEbC1izza4cup6PfVBoZ2nTjI=');exit;
 		$model=new Bill;
-		
-		
 		if(isset($_POST['Bill']))
 		{
+			//echo "<pre>";print_r($_POST['Bill']);echo "</pre>";exit;
 			$model->attributes=$_POST['Bill'];
 			if(isset($_POST['Bill']['BILL_TYPE']) && ( $_POST['Bill']['BILL_TYPE'] == 1 || $_POST['Bill']['BILL_TYPE'] == 2 || $_POST['Bill']['BILL_TYPE'] == 8)){
 				if($model->save(false)){
@@ -303,7 +300,10 @@ class BillController extends Controller
 					if(isset($_POST['Bill']['IS_CEA_BILL']) && $_POST['Bill']['IS_CEA_BILL'] == 1){
 						$OtherBillEmployees = new OtherBillEmployees;
 						$OtherBillEmployees->BILL_ID = $model->ID;
-						$OtherBillEmployees->EMPLOYEE_ID = implode(",", $_POST['Bill']['Employee']['CEA']);
+						if($_POST['Bill']['BILL_TYPE'] == 1 )
+							$OtherBillEmployees->EMPLOYEE_ID = implode(",", $_POST['Bill']['Employee']['OPS']);
+						if($_POST['Bill']['BILL_TYPE'] == 2 )
+							$OtherBillEmployees->EMPLOYEE_ID = implode(",", $_POST['Bill']['Employee']['NPS']);
 						$OtherBillEmployees->save(false);
 						
 						$CEADetails = $_POST['Bill']['CEA_BILLS'];
@@ -322,7 +322,10 @@ class BillController extends Controller
 					if(isset($_POST['Bill']['IS_BONUS_BILL']) && $_POST['Bill']['IS_BONUS_BILL'] == 1){
 						$OtherBillEmployees = new OtherBillEmployees;
 						$OtherBillEmployees->BILL_ID = $model->ID;
-						$OtherBillEmployees->EMPLOYEE_ID = implode(",", $_POST['Bill']['Employee']['BONUS']);
+						if($_POST['Bill']['BILL_TYPE'] == 1 )
+							$OtherBillEmployees->EMPLOYEE_ID = implode(",", $_POST['Bill']['Employee']['OPS_BONUS']);
+						if($_POST['Bill']['BILL_TYPE'] == 2 )
+							$OtherBillEmployees->EMPLOYEE_ID = implode(",", $_POST['Bill']['Employee']['NPS_BONUS']);
 						$OtherBillEmployees->save(false);
 					}
 					if(isset($_POST['Bill']['IS_UA_BILL']) && $_POST['Bill']['IS_UA_BILL'] == 1){
@@ -331,10 +334,40 @@ class BillController extends Controller
 						$OtherBillEmployees->EMPLOYEE_ID = implode(",", $_POST['Bill']['Employee']['UA']);
 						$OtherBillEmployees->save(false);
 					}
-					if(isset($_POST['Bill']['IS_LTC_HTC_BILL']) && $_POST['Bill']['IS_LTC_HTC_BILL'] == 1){
+					if(isset($_POST['Bill']['IS_LTC_ADVANCE_BILL']) && $_POST['Bill']['IS_LTC_ADVANCE_BILL'] == 1){
 						$OtherBillEmployees = new OtherBillEmployees;
 						$OtherBillEmployees->BILL_ID = $model->ID;
-						$OtherBillEmployees->EMPLOYEE_ID = implode(",", $_POST['Bill']['Employee']['HTC_LTC']);
+						if($_POST['Bill']['BILL_TYPE'] == 1 )
+							$OtherBillEmployees->EMPLOYEE_ID = implode(",", $_POST['Bill']['Employee']['OPS']);
+						if($_POST['Bill']['BILL_TYPE'] == 2 )
+							$OtherBillEmployees->EMPLOYEE_ID = implode(",", $_POST['Bill']['Employee']['NPS']);
+						$OtherBillEmployees->save(false);
+					}
+					if(isset($_POST['Bill']['IS_LTC_CLAIM_BILL']) && $_POST['Bill']['IS_LTC_CLAIM_BILL'] == 1){
+						$OtherBillEmployees = new OtherBillEmployees;
+						$OtherBillEmployees->BILL_ID = $model->ID;
+						if($_POST['Bill']['BILL_TYPE'] == 1 )
+							$OtherBillEmployees->EMPLOYEE_ID = implode(",", $_POST['Bill']['Employee']['OPS']);
+						if($_POST['Bill']['BILL_TYPE'] == 2 )
+							$OtherBillEmployees->EMPLOYEE_ID = implode(",", $_POST['Bill']['Employee']['NPS']);
+						$OtherBillEmployees->save(false);
+					}
+					if(isset($_POST['Bill']['IS_LTC_CLAIM_BILL']) && $_POST['Bill']['IS_EL_ENCASHMENT_BILL'] == 1){
+						$OtherBillEmployees = new OtherBillEmployees;
+						$OtherBillEmployees->BILL_ID = $model->ID;
+						if($_POST['Bill']['BILL_TYPE'] == 1 )
+							$OtherBillEmployees->EMPLOYEE_ID = implode(",", $_POST['Bill']['Employee']['OPS']);
+						if($_POST['Bill']['BILL_TYPE'] == 2 )
+							$OtherBillEmployees->EMPLOYEE_ID = implode(",", $_POST['Bill']['Employee']['NPS']);
+						$OtherBillEmployees->save(false);
+					}
+					if(isset($_POST['Bill']['IS_RECOVERY_BILL']) && $_POST['Bill']['IS_RECOVERY_BILL'] == 1){
+						$OtherBillEmployees = new OtherBillEmployees;
+						$OtherBillEmployees->BILL_ID = $model->ID;
+						if($_POST['Bill']['BILL_TYPE'] == 1 )
+							$OtherBillEmployees->EMPLOYEE_ID = implode(",", $_POST['Bill']['Employee']['OPS']);
+						if($_POST['Bill']['BILL_TYPE'] == 2 )
+							$OtherBillEmployees->EMPLOYEE_ID = implode(",", $_POST['Bill']['Employee']['NPS']);
 						$OtherBillEmployees->save(false);
 					}
 					if(isset($_POST['Bill']['BILL_TYPE']) && $_POST['Bill']['BILL_TYPE'] == 8){
@@ -492,9 +525,6 @@ class BillController extends Controller
 					
 				}
 			}
-		
-			
-			
 		}
 
 		$this->render('create',array(
@@ -507,7 +537,7 @@ class BillController extends Controller
 	 * If update is successful, the browser will be redirected to the 'view' page.
 	 * @param integer $id the ID of the model to be updated
 	 */
-	public function actionUpdate($id)
+	public function actionUpdate($id, $isSalaryHead=false)
 	{
 		$model=$this->loadModel($id);
 
@@ -517,10 +547,16 @@ class BillController extends Controller
 		if(isset($_POST['Bill']))
 		{
 			$model->attributes=$_POST['Bill'];
-			$command = Yii::app()->db->createCommand('UPDATE tbl_bill SET PFMS_BILL_NO="'.$_POST['Bill']['PFMS_BILL_NO'].'", PFMS_STATUS="'.$_POST['Bill']['PFMS_STATUS'].'" WHERE ID='.$_REQUEST['id']);
+			//, PFMS_STATUS="'.$_POST['Bill']['PFMS_STATUS'].'"
+			$command = Yii::app()->db->createCommand('UPDATE tbl_bill SET PFMS_BILL_NO="'.$_POST['Bill']['PFMS_BILL_NO'].'"  WHERE ID='.$_REQUEST['id']);
 
 			if($command->execute()){
-				$this->redirect(array('update', 'id'=> $model->ID));
+				if($isSalaryHead){ 
+					$this->redirect(array('SalaryDetails', 'id'=> $model->ID));
+				}
+				else{
+					$this->redirect(array('update', 'id'=> $model->ID));
+				}
 			}
 		}
 
@@ -673,6 +709,7 @@ class BillController extends Controller
 	public function actionUAEmployeeBillPart1($id){$this->layout='//layouts/column1';$model = $this->loadModel($id);$this->amountInWords = $this->amountToWord($model->BILL_AMOUNT);$this->render('PAY/UAEmployeeBillPart1',array('model'=>$model,));}
 	public function actionUANoteSheet($id){$this->layout='//layouts/column1';$model = $this->loadModel($id);$this->amountInWords = $this->amountToWord($model->BILL_AMOUNT);$this->render('PAY/UANoteSheet',array('model'=>$model,));}	
 	public function actionUASanctionOrder($id){$this->layout='//layouts/column1';$model = $this->loadModel($id);$this->amountInWords = $this->amountToWord($model->BILL_AMOUNT);$this->render('PAY/UASanctionOrder',array('model'=>$model,));}
+	public function actionELEncashEmployeeBillPart1($id){$this->layout='//layouts/column1';$model = $this->loadModel($id);$this->amountInWords = $this->amountToWord($model->BILL_AMOUNT);$this->render('PAY/ELEncashEmployeeBillPart1',array('model'=>$model,));}
 	public function actionNillBillFront($id){$this->layout='//layouts/column1';$model = $this->loadModel($id);$this->render('PAY/NillBillFront',array('model'=>$model,));}
 	public function actionNillBillCPF($id){$this->layout='//layouts/column1';$model = $this->loadModel($id);$this->render('PAY/NillBillCPF',array('model'=>$model,));}
 	public function actionNillBillInner($id){$this->layout='//layouts/column1';$model = $this->loadModel($id);$this->render('PAY/NillBillInner',array('model'=>$model,));}
@@ -702,6 +739,8 @@ class BillController extends Controller
 	public function actionPTCCSLIC($id){$this->layout='//layouts/column1';$model = $this->loadModel($id);$this->render('PAY/PTCCSLIC',array('model'=>$model,));}
 	public function actionEPAY($id){$this->layout='//layouts/column1';$model = $this->loadModel($id);$this->render('PAY/EPAY',array('model'=>$model,));}
 	public function actionReconsilationLICCCS($id){$this->layout='//layouts/column1';$model = $this->loadModel($id);$this->render('PAY/ReconsilationLICCCS',array('model'=>$model,));}
+	public function actionLTCFront($id){$this->layout='//layouts/column1';$model = $this->loadModel($id);$this->render('PAY/LTCFront',array('model'=>$model,));}
+	public function actionLTCBack($id){$this->layout='//layouts/column1';$model = $this->loadModel($id);$this->render('PAY/LTCBack',array('model'=>$model,));}
 	public function actionMedicalBill($id){$this->layout='//layouts/column1';$model = $this->loadModel($id);$this->render('MEDICAL/Medical',array('model'=>$model,));}
 	public function actionDTEFront($id){$this->layout='//layouts/column1';$model = $this->loadModel($id);$this->render('DTE/DTEFront',array('model'=>$model,));}
 	public function actionDTEBack($id){$this->layout='//layouts/column1';$model = $this->loadModel($id);$this->render('DTE/DTEBack',array('model'=>$model,));}

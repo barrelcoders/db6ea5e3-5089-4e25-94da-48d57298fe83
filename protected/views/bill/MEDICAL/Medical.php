@@ -200,9 +200,9 @@ $monthName = array('1'=>'January', '2'=>'February', '3'=>'March', '4'=>'April', 
 <p>Payment throught Cheque No ............................</p><br>
 
 <p style="text-decoration: underline">Appropriation</p><br>
-<p>Expenditure including this bill: <span style="text-decoration: underline"><?php echo $model->EXPENDITURE_INC_BILL;?></span></p><br>
+<p>Expenditure including this bill: <span style="text-decoration: underline"><?php //echo $model->EXPENDITURE_INC_BILL;?></span></p><br>
 <p>Amount of work bill annexed: <span style="text-decoration: underline"><?php echo $model->BILL_AMOUNT;?></span></p>	<br>
-<p>Balance available: <span style="text-decoration: underline"><?php echo $model->APPROPIATION_BALANCE;?></span></p><br>
+<p>Balance available: <span style="text-decoration: underline"><?php //echo $model->APPROPIATION_BALANCE;?></span></p><br>
 <script type="text/javascript">window.onload = function() { window.print(); }</script><style>
 
                                                                                                                    

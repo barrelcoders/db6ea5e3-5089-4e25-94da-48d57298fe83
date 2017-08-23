@@ -18,28 +18,6 @@
 								$("#Bill_BILL_SUB_TYPE").html(content + data);
 								var bill = parseInt($("#slBillType").val());
 								var bill_sub_type = parseInt($("#Bill_BILL_SUB_TYPE").val());
-								if(bill == 1 || bill == 2 || bill == 8){
-									$("#paybillinfo").show();
-								}
-								else{
-									$("#paybillinfo").hide();
-								}
-								
-								if(bill == 2 ){
-									$("#npspaybillinfo").show();
-								}
-								else{
-									$("#npspaybillinfo").hide();
-								}
-								
-								if(bill == 3 ){
-									$("#officeexpence").show();
-								}
-								else{
-									$("#officeexpence").hide();
-								}
-								
-				
 							}'
 						),
 						'empty'=>array('0'=>'Select Bill Type'),
@@ -67,126 +45,155 @@
 					else if(Yii::app()->controller->action->id == 'update'){
 						echo $form->dropDownList($model,'BILL_SUB_TYPE',$model->GetBillSubType($model->BILL_TYPE), array('disabled'=>Yii::app()->controller->action->id == 'update'));	
 					}?>
+					<input type="hidden" name="Bill[IS_ARREAR_BILL]" id="IS_ARREAR_BILL" value="0"/>
+					<input type="hidden" name="Bill[IS_BONUS_BILL]" id="IS_BONUS_BILL" value="0"/>
+					<input type="hidden" name="Bill[IS_UA_BILL]" id="IS_UA_BILL" value="0"/>
+					<input type="hidden" name="Bill[IS_CEA_BILL]" id="IS_CEA_BILL" value="0"/>
+					<input type="hidden" name="Bill[IS_EL_ENCASHMENT_BILL]" id="IS_EL_ENCASHMENT_BILL" value="0"/>
+					<input type="hidden" name="Bill[IS_LTC_ADVANCE_BILL]"  id="IS_LTC_ADVANCE_BILL" value="0"/>
+					<input type="hidden" name="Bill[IS_LTC_CLAIM_BILL]" id="IS_LTC_CLAIM_BILL" value="0"/>
+					<input type="hidden" name="Bill[IS_RECOVERY_BILL]" id="IS_RECOVERY_BILL" value="0"/>
 				</p>
 			</div>
 		</div>
 		<div class="form-group row">
 			<label class="col-sm-2 form-control-label"></label>
-			<div class="col-sm-10">
-					<div id="other-salary-bills" style="display:none;background: #333;color: #FFF;padding: 10px;" >
-						<span><?php echo $form->checkBox($model,'IS_ARREAR_BILL', array('id'=>'chkIsArrearBill')); ?> Arrear Bill</span>
-						<span><?php echo $form->checkBox($model,'IS_CEA_BILL', array('id'=>'chkIsCEABill')); ?> Children Education Allowance Bill</span>
-						<span><?php echo $form->checkBox($model,'IS_BONUS_BILL', array('id'=>'chkIsBonusBill')); ?> Bonus Bill</span>
-						<span><?php echo $form->checkBox($model,'IS_UA_BILL', array('id'=>'chkIsUABill')); ?> Uniform Allowance Bill</span>
-						<span><?php echo $form->checkBox($model,'IS_LTC_HTC_BILL', array('id'=>'chkIsLTCHTCBill')); ?> LTC/HTC Advances & Claims Bill</span>
-					</div>
-					<div id="nps-emp" class="small-container"  style="display:none;background: #CCC;padding: 10px;height: 300px;overflow-y: scroll;">
+			<div class="col-sm-10" id="employee-selection-lists">
+					<div id="nps-emp" class="small-container"  style="display:none;">
+						<div style="background: #333;padding: 5px;">
+							<input type="text" class="nps-list-search" size="100" placeholder="SEARCH NAME" onkeyup="search(this, 'nps-emp');"/><span style="float: right;color: #FFF;"><input type="checkBox" class="nps-select-all" onclick="selectList('nps-emp');"> SELECT ALL</span>
+						</div>
+						<ul style="background: rgb(204, 204, 204);padding: 10px;height: 300px;overflow-y: scroll;">
 						<?php
 							$employees = Employee::model()->findAllByAttributes(array('PENSION_TYPE'=>'NPS', 'IS_PERMANENT'=>1, 'IS_TRANSFERRED'=>0));
 							foreach($employees as $employee){
 								?>
-									<input type="checkBox" name="Bill[Employee][NPS][]" value="<?php echo $employee->ID;?>"><span><?php echo $employee->NAME.", ".Designations::model()->findByPK($employee->DESIGNATION_ID_FK)->DESIGNATION;?></span><br/>
+									<li><input type="checkBox" name="Bill[Employee][NPS][]" value="<?php echo $employee->ID;?>"><span><?php echo $employee->NAME.", ".Designations::model()->findByPK($employee->DESIGNATION_ID_FK)->DESIGNATION;?></span></li>
 								<?php
 							}
 						?>
+						</ul>
 					</div>
-					<div id="ops-emp"  class="small-container"  style="display:none;background: #CCC;padding: 10px;height: 300px;overflow-y: scroll;">
+					<div id="ops-emp"  class="small-container"  style="display:none;">
+						<div style="background: #333;padding: 5px;">
+							<input type="text" class="ops-list-search" size="100" placeholder="SEARCH NAME" onkeyup="search(this, 'ops-emp');"/><span style="float: right;color: #FFF;"><input type="checkBox" class="ops-select-all" onclick="selectList('ops-emp');"> SELECT ALL</span>
+						</div>
+						<ul style="background: rgb(204, 204, 204);padding: 10px;height: 300px;overflow-y: scroll;">
 						<?php
 							$employees = Employee::model()->findAllByAttributes(array('PENSION_TYPE'=>'OPS', 'IS_PERMANENT'=>1, 'IS_TRANSFERRED'=>0));
 							foreach($employees as $employee){
 								?>
-									<input type="checkBox" name="Bill[Employee][OPS][]" value="<?php echo $employee->ID;?>"><span><?php echo $employee->NAME.", ".Designations::model()->findByPK($employee->DESIGNATION_ID_FK)->DESIGNATION;?></span><br/>
+									<li><input type="checkBox" name="Bill[Employee][OPS][]" value="<?php echo $employee->ID;?>"><span><?php echo $employee->NAME.", ".Designations::model()->findByPK($employee->DESIGNATION_ID_FK)->DESIGNATION;?></span></li>
 								<?php
 							}
 						?>
+						</ul>
 					</div>
-					<div id="cea-emp" class="small-container"  style="display:none;background: #CCC;padding: 10px;height: 300px;overflow-y: scroll;">
+					<div id="bonus-nps-emp" class="small-container"  style="display:none;">
+						<div style="background: #333;padding: 5px;">
+							<input type="text" class="bonus-nps-list-search" size="100" placeholder="SEARCH NAME" onkeyup="search(this, 'bonus-nps-emp');"/><span style="float: right;color: #FFF;"><input type="checkBox" class="bonus-nps-select-all" onclick="selectList('bonus-nps-emp');"> SELECT ALL</span>
+						</div>
+						<ul style="background: rgb(204, 204, 204);padding: 10px;height: 300px;overflow-y: scroll;">
 						<?php
-							$employees = Employee::model()->findAllByAttributes(array('IS_PERMANENT'=>1, 'IS_TRANSFERRED'=>0, 'IS_RETIRED'=>0));
+							$employees = Employee::model()->findAllByAttributes(array('PENSION_TYPE'=>'NPS', 'IS_PERMANENT'=>1, 'IS_TRANSFERRED'=>0, 'BONUS_ELIGIBLE'=>1));
 							foreach($employees as $employee){
 								?>
-									<input type="checkBox" name="Bill[Employee][CEA][]" value="<?php echo $employee->ID;?>"><span><?php echo $employee->NAME.", ".Designations::model()->findByPK($employee->DESIGNATION_ID_FK)->DESIGNATION;?></span><br/>
+									<li><input type="checkBox" name="Bill[Employee][NPS_BONUS][]" value="<?php echo $employee->ID;?>"><span><?php echo $employee->NAME.", ".Designations::model()->findByPK($employee->DESIGNATION_ID_FK)->DESIGNATION;?></span></li>
 								<?php
 							}
 						?>
+						</ul>
 					</div>
-					<div id="bonus-emp" class="small-container"  style="display:none;background: #CCC;padding: 10px;height: 300px;overflow-y: scroll;">
+					<div id="bonus-ops-emp"  class="small-container"  style="display:none;">
+						<div style="background: #333;padding: 5px;">
+							<input type="text" class="bonus-ops-list-search" size="100" placeholder="SEARCH NAME" onkeyup="search(this, 'bonus-ops-emp');"/><span style="float: right;color: #FFF;"><input type="checkBox" class="bonus-ops-select-all" onclick="selectList('bonus-ops-emp');"> SELECT ALL</span>
+						</div>
+						<ul style="background: rgb(204, 204, 204);padding: 10px;height: 300px;overflow-y: scroll;">
 						<?php
-							$employees = Employee::model()->findAllByAttributes(array('IS_PERMANENT'=>1, 'BONUS_ELIGIBLE'=>1, 'IS_TRANSFERRED'=>0));
+							$employees = Employee::model()->findAllByAttributes(array('PENSION_TYPE'=>'OPS', 'IS_PERMANENT'=>1, 'IS_TRANSFERRED'=>0, 'BONUS_ELIGIBLE'=>1));
 							foreach($employees as $employee){
 								?>
-									<input type="checkBox" name="Bill[Employee][BONUS][]" value="<?php echo $employee->ID;?>" checked><span><?php echo $employee->NAME.", ".Designations::model()->findByPK($employee->DESIGNATION_ID_FK)->DESIGNATION;?></span><br/>
+									<li><input type="checkBox" name="Bill[Employee][OPS_BONUS][]" value="<?php echo $employee->ID;?>"><span><?php echo $employee->NAME.", ".Designations::model()->findByPK($employee->DESIGNATION_ID_FK)->DESIGNATION;?></span></li>
 								<?php
 							}
 						?>
+						</ul>
 					</div>
-					<div id="ua-emp" class="small-container"  style="display:none;background: #CCC;padding: 10px;height: 300px;overflow-y: scroll;">
+					<div id="ua-emp" class="small-container"  style="display:none;">
+						<div style="background: #333;padding: 5px;">
+							<input type="text" class="ua-list-search" size="100" placeholder="SEARCH NAME" onkeyup="search(this, 'ua-emp');"/><span style="float: right;color: #FFF;"><input type="checkBox" class="ua-select-all" onclick="selectList('ua-emp');"> SELECT ALL</span>
+						</div>
+						<ul style="background: rgb(204, 204, 204);padding: 10px;height: 300px;overflow-y: scroll;">
 						<?php
-							$employees = Employee::model()->findAllByAttributes(array('IS_PERMANENT'=>1, 'IS_TRANSFERRED'=>0, 'IS_RETIRED'=>0, 'UA_ELIGIBLE'=>1));
+							$employees = Employee::model()->findAllByAttributes(array('IS_PERMANENT'=>1, 'IS_TRANSFERRED'=>0, 'UA_ELIGIBLE'=>1));
 							foreach($employees as $employee){
 								?>
-									<input type="checkBox" name="Bill[Employee][UA][]" value="<?php echo $employee->ID;?>" checked><span><?php echo $employee->NAME.", ".Designations::model()->findByPK($employee->DESIGNATION_ID_FK)->DESIGNATION;?></span><br/>
+									<li><input type="checkBox" name="Bill[Employee][UA][]" value="<?php echo $employee->ID;?>"><span><?php echo $employee->NAME.", ".Designations::model()->findByPK($employee->DESIGNATION_ID_FK)->DESIGNATION;?></span></li>
 								<?php
 							}
 						?>
+						</ul>
 					</div>
-					<div id="medical-emp" class="small-container"  style="display:none;background: #CCC;padding: 10px;height: 300px;overflow-y: scroll;">
+					<div id="medical-emp" class="small-container"  style="display:none;">
+						<div style="background: #333;padding: 5px;">
+							<input type="text" class="medical-list-search" size="100" placeholder="SEARCH NAME" onkeyup="search(this, 'medical-emp');"/><span style="float: right;color: #FFF;"><input type="checkBox" class="medical-select-all" onclick="selectList('medical-emp');"> SELECT ALL</span>
+						</div>
+						<ul style="background: rgb(204, 204, 204);padding: 10px;height: 300px;overflow-y: scroll;">
 						<?php
-							$employees = Employee::model()->findAllByAttributes(array('IS_PERMANENT'=>1, 'IS_TRANSFERRED'=>0, 'IS_RETIRED'=>0));
+							$employees = Employee::model()->findAllByAttributes(array('IS_PERMANENT'=>1, 'IS_TRANSFERRED'=>0));
 							foreach($employees as $employee){
 								?>
-									<input type="checkBox" name="Bill[Employee][MEDICAL][]" value="<?php echo $employee->ID;?>"><span><?php echo $employee->NAME.", ".Designations::model()->findByPK($employee->DESIGNATION_ID_FK)->DESIGNATION;?></span><br/>
+									<li><input type="checkBox" name="Bill[Employee][MEDICAL][]" value="<?php echo $employee->ID;?>"><span><?php echo $employee->NAME.", ".Designations::model()->findByPK($employee->DESIGNATION_ID_FK)->DESIGNATION;?></span></li>
 								<?php
 							}
 						?>
+						</ul>
 					</div>
-					<div id="ltc-htc-emp" class="small-container"  style="display:none;background: #CCC;padding: 10px;height: 300px;overflow-y: scroll;">
+					<div id="dte-emp" class="small-container"  style="display:none;">
+						<div style="background: #333;padding: 5px;">
+							<input type="text" class="dte-list-search" size="100" placeholder="SEARCH NAME" onkeyup="search(this, 'dte-emp');"/><span style="float: right;color: #FFF;"><input type="checkBox" class="dte-select-all" onclick="selectList('dte-emp');"> SELECT ALL</span>
+						</div>
+						<ul style="background: rgb(204, 204, 204);padding: 10px;height: 300px;overflow-y: scroll;">
 						<?php
-							$employees = Employee::model()->findAllByAttributes(array('IS_PERMANENT'=>1, 'IS_TRANSFERRED'=>0, 'IS_RETIRED'=>0));
+							$employees = Employee::model()->findAllByAttributes(array('IS_PERMANENT'=>1, 'IS_TRANSFERRED'=>0));
 							foreach($employees as $employee){
 								?>
-									<input type="checkBox" name="Bill[Employee][HTC_LTC][]" value="<?php echo $employee->ID;?>" ><span><?php echo $employee->NAME.", ".Designations::model()->findByPK($employee->DESIGNATION_ID_FK)->DESIGNATION;?></span><br/>
+									<li><input type="checkBox" name="Bill[Employee][DTE][]" value="<?php echo $employee->ID;?>" ><span><?php echo $employee->NAME.", ".Designations::model()->findByPK($employee->DESIGNATION_ID_FK)->DESIGNATION;?></span><br/></li>
 								<?php
 							}
 						?>
+						</ul>
 					</div>
-					<div id="dte-emp" class="small-container"  style="display:none;background: #CCC;padding: 10px;height: 300px;overflow-y: scroll;">
+					<div id="wages-emp" class="small-container"  style="display:none;">
+						<div style="background: #333;padding: 5px;">
+							<input type="text" class="wages-list-search" size="100" placeholder="SEARCH NAME" onkeyup="search(this, 'wages-emp');"/><span style="float: right;color: #FFF;"><input type="checkBox" class="wages-select-all" onclick="selectList('wages-emp');"> SELECT ALL</span>
+						</div>
+						<ul style="background: rgb(204, 204, 204);padding: 10px;height: 300px;overflow-y: scroll;">
 						<?php
-							$employees = Employee::model()->findAllByAttributes(array('IS_PERMANENT'=>1, 'IS_TRANSFERRED'=>0, 'IS_RETIRED'=>0));
+							$employees = Employee::model()->findAllByAttributes(array('IS_PERMANENT'=>0, 'IS_TRANSFERRED'=>0));
 							foreach($employees as $employee){
 								?>
-									<input type="checkBox" name="Bill[Employee][DTE][]" value="<?php echo $employee->ID;?>" ><span><?php echo $employee->NAME.", ".Designations::model()->findByPK($employee->DESIGNATION_ID_FK)->DESIGNATION;?></span><br/>
+									<li><input type="checkBox" name="Bill[Employee][WAGES][]" value="<?php echo $employee->ID;?>" ><span><?php echo $employee->NAME.", ".Designations::model()->findByPK($employee->DESIGNATION_ID_FK)->DESIGNATION;?></span></li>
 								<?php
 							}
 						?>
-					</div>
-					<div id="wages-emp" class="small-container"  style="display:none;background: #CCC;padding: 10px;height: 300px;overflow-y: scroll;">
-						<?php
-							$employees = Employee::model()->findAllByAttributes(array('IS_PERMANENT'=>0, 'IS_TRANSFERRED'=>0, 'IS_RETIRED'=>0));
-							foreach($employees as $employee){
-								?>
-									<input type="checkBox" name="Bill[Employee][WAGES][]" value="<?php echo $employee->ID;?>" ><span><?php echo $employee->NAME.", ".Designations::model()->findByPK($employee->DESIGNATION_ID_FK)->DESIGNATION;?></span><br/>
-								<?php
-							}
-						?>
+						</ul>
 					</div>
 			</div>
 		</div>
 		
 		<?php
-			if($model->BILL_SUB_TYPE == 23 || $model->BILL_SUB_TYPE == 24){
-				if(Yii::app()->controller->action->id == 'update'){ 
-				?>
-					<div class="form-group row" id="UA_PERIOD">
-						<?php echo $form->labelEx($model,'UA_PERIOD', array('class'=>'col-sm-2 form-control-label')); ?>
-						<div class="col-sm-10">
-							<p class="form-control-static">
-								<?php echo $form->textField($model,'UA_PERIOD',array('size'=>40,'maxlength'=>100, 'disabled'=>Yii::app()->controller->action->id == 'update', 'value'=>$model->UA_PERIOD)); ?>
-							</p>
-						</div>
+			if(($model->BILL_SUB_TYPE == 23 || $model->BILL_SUB_TYPE == 24) && Yii::app()->controller->action->id == 'update'){ ?>
+				<div class="form-group row" id="UA_PERIOD">
+					<?php echo $form->labelEx($model,'UA_PERIOD', array('class'=>'col-sm-2 form-control-label')); ?>
+					<div class="col-sm-10">
+						<p class="form-control-static">
+							<?php echo $form->textField($model,'UA_PERIOD',array('size'=>40,'maxlength'=>100, 'disabled'=>Yii::app()->controller->action->id == 'update', 'value'=>$model->UA_PERIOD)); ?>
+						</p>
 					</div>
+				</div>
 				<?php } else { ?>
-				<div class="form-group row" id="UA_PERIOD" style="display:none;">
+				<div class="form-group row" id="UA_PERIOD">
 					<?php echo $form->labelEx($model,'UA_PERIOD', array('class'=>'col-sm-2 form-control-label')); ?>
 					<div class="col-sm-10">
 						<p class="form-control-static">
@@ -194,11 +201,9 @@
 						</p>
 					</div>
 				</div>
-				<?php }
-			}
-		?>
+		<?php } ?>
 		
-		<div class="form-group row">
+		<div class="form-group row" id="BILL_NO_SECTION">
 			<?php echo $form->labelEx($model,'BILL_NO', array('class'=>'col-sm-2 form-control-label')); ?>
 			<div class="col-sm-10">
 				<p class="form-control-static">
@@ -206,26 +211,15 @@
 				</p>
 			</div>
 		</div>
-		<div id="npspaybillinfo" style="display:none;">
-			<div class="form-group row">
-				<?php echo $form->labelEx($model,'NILL_BILL_NO', array('class'=>'col-sm-2 form-control-label')); ?>
-				<div class="col-sm-10">
-					<p class="form-control-static">
-						<?php echo $form->textField($model,'NILL_BILL_NO',array('size'=>40,'maxlength'=>100)); ?>
-					</p>
-				</div>
+		<div class="form-group row" id="NILL_BILL_NO_SECTION">
+			<?php echo $form->labelEx($model,'NILL_BILL_NO', array('class'=>'col-sm-2 form-control-label')); ?>
+			<div class="col-sm-10">
+				<p class="form-control-static">
+					<?php echo $form->textField($model,'NILL_BILL_NO',array('size'=>40,'maxlength'=>100)); ?>
+				</p>
 			</div>
 		</div>
-		<div id="paybillinfo" style="display:none;">
-			<div class="form-group row">
-				<?php echo $form->labelEx($model,'LIC_DED_BILL_NO', array('class'=>'col-sm-2 form-control-label')); ?>
-				<div class="col-sm-10">
-					<p class="form-control-static">
-						<?php echo $form->textField($model,'LIC_DED_BILL_NO',array('size'=>40,'maxlength'=>100)); ?>
-					</p>
-				</div>
-			</div>
-			<div class="form-group row">
+		<div class="form-group row" id="PT_BILL_NO_SECTION">
 				<?php echo $form->labelEx($model,'PT_DED_BILL_NO', array('class'=>'col-sm-2 form-control-label')); ?>
 				<div class="col-sm-10">
 					<p class="form-control-static">
@@ -233,8 +227,7 @@
 					</p>
 				</div>
 			</div>
-		</div>
-		<div class="form-group row">
+		<div class="form-group row" id="BILL_TITLE_SECTION">
 			<?php echo $form->labelEx($model,'BILL_TITLE', array('class'=>'col-sm-2 form-control-label')); ?>
 			<div class="col-sm-10">
 				<p class="form-control-static">
@@ -242,7 +235,7 @@
 				</p>
 			</div>
 		</div>
-		<div class="form-group row">
+		<div class="form-group row" id="BILL_AMOUNT_SECTION">
 			<?php echo $form->labelEx($model,'BILL_AMOUNT', array('class'=>'col-sm-2 form-control-label')); ?>
 			<div class="col-sm-10">
 				<p class="form-control-static">
@@ -250,7 +243,7 @@
 				</p>
 			</div>
 		</div>
-		<div class="form-group row">
+		<div class="form-group row" id="FILE_NO_SECTION">
 			<?php echo $form->labelEx($model,'FILE_NO', array('class'=>'col-sm-2 form-control-label')); ?>
 			<div class="col-sm-10">
 				<p class="form-control-static">
@@ -258,41 +251,52 @@
 				</p>
 			</div>
 		</div>
-
-		<div id="officeexpence" style="<?php
-			if($model->BILL_TYPE == 3) echo "display:block;";
-			else echo "display:none;";
-		?>">
-			
-			<?php 
-				if(Yii::app()->controller->action->id == 'update'){ 
-					if($model->BILL_TYPE == 3){
-			?>
-				<div class="form-group row">
-					<?php echo $form->labelEx($model,'OE_IT_DED', array('class'=>'col-sm-2 form-control-label')); ?>
-					<div class="col-sm-10">
-						<p class="form-control-static">
-							<?php echo $form->textField($model,'OE_IT_DED',array('size'=>40,'maxlength'=>100, 'value'=>OEBillDetails::model()->find('BILL_ID_FK='.$model->ID)->IT_DED, 'disabled'=>true)); ?>
-						</p>
-					</div>
-				</div>
-				<div class="form-group row">
-					<?php echo $form->labelEx($model,'OE_NET_AMOUNT', array('class'=>'col-sm-2 form-control-label')); ?>
-					<div class="col-sm-10">
-						<p class="form-control-static">
-							<?php echo $form->textField($model,'OE_NET_AMOUNT',array('size'=>40,'maxlength'=>100, 'value'=>OEBillDetails::model()->find('BILL_ID_FK='.$model->ID)->NET_AMOUNT, 'disabled'=>true)); ?>
-						</p>
-					</div>
-				</div>
-				<div class="form-group row">
-					<?php echo $form->labelEx($model,'VENDOR_ID', array('class'=>'col-sm-2 form-control-label')); ?>
-					<div class="col-sm-10">
-						<p class="form-control-static">
-							<?php echo $form->dropDownList($model,'VENDOR_ID',CHtml::listData(Vendors::model()->findAll(), 'ID', 'NAME'), array('empty'=>array('0'=>'Select Vendor'), 'disabled'=>Yii::app()->controller->action->id == 'update')); ?>
-						</p>
-					</div>
-					<?php echo $form->error($model,'VENDOR_ID'); ?>
-				</div>
+		<?php if($model->BILL_TYPE == 3 && Yii::app()->controller->action->id == 'update'){ ?>
+		<div class="form-group row" id="OE_IT_DED_SECTION">
+			<?php echo $form->labelEx($model,'OE_IT_DED', array('class'=>'col-sm-2 form-control-label')); ?>
+			<div class="col-sm-10">
+				<p class="form-control-static">
+					<?php echo $form->textField($model,'OE_IT_DED',array('size'=>40,'maxlength'=>100, 'value'=>OEBillDetails::model()->find('BILL_ID_FK='.$model->ID)->IT_DED, 'disabled'=>true)); ?>
+				</p>
+			</div>
+		</div>
+		<div class="form-group row" id="OE_NET_AMOUNT_SECTION">
+			<?php echo $form->labelEx($model,'OE_NET_AMOUNT', array('class'=>'col-sm-2 form-control-label')); ?>
+			<div class="col-sm-10">
+				<p class="form-control-static">
+					<?php echo $form->textField($model,'OE_NET_AMOUNT',array('size'=>40,'maxlength'=>100, 'value'=>OEBillDetails::model()->find('BILL_ID_FK='.$model->ID)->NET_AMOUNT, 'disabled'=>true)); ?>
+				</p>
+			</div>
+		</div>
+		<?php } else { ?>
+		<div class="form-group row" id="OE_IT_DED_SECTION">
+			<?php echo $form->labelEx($model,'OE_IT_DED', array('class'=>'col-sm-2 form-control-label')); ?>
+			<div class="col-sm-10">
+				<p class="form-control-static">
+					<?php echo $form->textField($model,'OE_IT_DED',array('size'=>40,'maxlength'=>100)); ?>
+				</p>
+			</div>
+		</div>
+		<div class="form-group row" id="OE_NET_AMOUNT_SECTION">
+			<?php echo $form->labelEx($model,'OE_NET_AMOUNT', array('class'=>'col-sm-2 form-control-label')); ?>
+			<div class="col-sm-10">
+				<p class="form-control-static">
+					<?php echo $form->textField($model,'OE_NET_AMOUNT',array('size'=>40,'maxlength'=>100)); ?>
+				</p>
+			</div>
+		</div>
+		<?php } ?>
+		<div class="form-group row" id="VENDOR_ID_SECTION">
+			<?php echo $form->labelEx($model,'VENDOR_ID', array('class'=>'col-sm-2 form-control-label')); ?>
+			<div class="col-sm-10">
+				<p class="form-control-static">
+					<?php echo $form->dropDownList($model,'VENDOR_ID',CHtml::listData(Vendors::model()->findAll(), 'ID', 'NAME'), array('empty'=>array('0'=>'Select Vendor'), 'disabled'=>Yii::app()->controller->action->id == 'update')); ?>
+				</p>
+			</div>
+			<?php echo $form->error($model,'VENDOR_ID'); ?>
+		</div>
+		<div id="OE_BILLS_SECTION">
+			<?php  if($model->BILL_TYPE == 3 && Yii::app()->controller->action->id == 'update'){  ?>
 				<div class="form-group row">
 					<label class="col-sm-2 form-control-label">Bills</label>
 					<style> #SubBillTable input[type=text] {width: 150px;} </style>
@@ -322,32 +326,7 @@
 						</p>
 					</div>
 				</div>
-			<?php }
-			} else {?>
-				<div class="form-group row">
-					<?php echo $form->labelEx($model,'OE_IT_DED', array('class'=>'col-sm-2 form-control-label')); ?>
-					<div class="col-sm-10">
-						<p class="form-control-static">
-							<?php echo $form->textField($model,'OE_IT_DED',array('size'=>40,'maxlength'=>100)); ?>
-						</p>
-					</div>
-				</div>
-				<div class="form-group row">
-					<?php echo $form->labelEx($model,'OE_NET_AMOUNT', array('class'=>'col-sm-2 form-control-label')); ?>
-					<div class="col-sm-10">
-						<p class="form-control-static">
-							<?php echo $form->textField($model,'OE_NET_AMOUNT',array('size'=>40,'maxlength'=>100)); ?>
-						</p>
-					</div>
-				</div>
-				<div class="form-group row">
-					<?php echo $form->labelEx($model,'VENDOR_ID', array('class'=>'col-sm-2 form-control-label')); ?>
-					<div class="col-sm-10">
-						<p class="form-control-static">
-							<?php echo $form->dropDownList($model,'VENDOR_ID',CHtml::listData(Vendors::model()->findAll(), 'ID', 'NAME'), array('empty'=>array('0'=>'Select Vendor'), 'disabled'=>Yii::app()->controller->action->id == 'update')); ?>
-						</p>
-					</div>
-				</div>
+			<?php } else { ?>
 				<div class="form-group row">
 					<label class="col-sm-2 form-control-label">Bills</label>
 					<style> #SubBillTable input[type=text] {width: 150px;}</style>
@@ -373,15 +352,8 @@
 			<?php } 
 			?>
 		</div>
-		<div id="ceabills" style="<?php
-			if($model->IS_CEA_BILL == 1) echo "display:block;";
-			else echo "display:none;";
-		?>">
-			
-			<?php 
-				if(Yii::app()->controller->action->id == 'update'){ 
-					if($model->IS_CEA_BILL ==1){
-					?>
+		<div id="CEA_BILLS_SECTION">
+			<?php  if($model->IS_CEA_BILL == 1 && Yii::app()->controller->action->id == 'update'){  ?>
 				<div class="form-group row">
 					<label class="col-sm-2 form-control-label">Details</label>
 					<style> #CEASubBillTable input[type=text] {width: 150px;} </style>
@@ -418,8 +390,7 @@
 					</div>
 				</div>
 			<?php 
-					}
-			} else{?>
+			} else { ?>
 				<div class="form-group row">
 					<label class="col-sm-2 form-control-label">Bills</label>
 					<style> #SubBillTable input[type=text] {width: 150px;}</style>
@@ -451,7 +422,7 @@
 			<?php } 
 			?>
 		</div>
-		<div class="form-group row">
+		<div class="form-group row" id="MONTH_SECTION">
 			<?php echo $form->labelEx($model,'MONTH', array('class'=>'col-sm-2 form-control-label')); ?>
 			<div class="col-sm-10">
 				<p class="form-control-static">
@@ -474,7 +445,7 @@
 				</p>
 			</div>
 		</div>
-		<div class="form-group row">
+		<div class="form-group row" id="YEAR_SECTION">
 			<?php echo $form->labelEx($model,'YEAR', array('class'=>'col-sm-2 form-control-label')); ?>
 			<div class="col-sm-10">
 				<p class="form-control-static">
@@ -484,7 +455,7 @@
 				</p>
 			</div>
 		</div>
-		<div class="form-group row">
+		<div class="form-group row" id="CREATION_DATE_SECTION">
 			<?php echo $form->labelEx($model,'CREATION_DATE', array('class'=>'col-sm-2 form-control-label')); ?>
 			<div class="col-sm-10">
 				<p class="form-control-static">
@@ -507,7 +478,7 @@
 		</div>
 		
 		<?php if(Yii::app()->controller->action->id == 'update') { ?>
-		<div class="form-group row">
+		<div class="form-group row" id="EXPENDITURE_INC_BILL_SECTION">
 			<?php echo $form->labelEx($model,'EXPENDITURE_INC_BILL', array('class'=>'col-sm-2 form-control-label')); ?>
 			<div class="col-sm-10">
 				<p class="form-control-static">
@@ -519,7 +490,7 @@
 				</p>
 			</div>
 		</div>
-		<div class="form-group row">
+		<div class="form-group row" id="APPROPIATION_BALANCE_SECTION">
 			<?php echo $form->labelEx($model,'APPROPIATION_BALANCE', array('class'=>'col-sm-2 form-control-label')); ?>
 			<div class="col-sm-10">
 				<p class="form-control-static">
@@ -532,7 +503,7 @@
 			</div>
 		</div>
 		<?php } ?>
-		<div class="form-group row">
+		<div class="form-group row" id="PFMS_BILL_NO_SECTION">
 			<?php echo $form->labelEx($model,'PFMS_BILL_NO', array('class'=>'col-sm-2 form-control-label')); ?>
 			<div class="col-sm-10">
 				<p class="form-control-static">
@@ -540,7 +511,7 @@
 				</p>
 			</div>
 		</div>
-		<div class="form-group row">
+		<div class="form-group row" id="CER_NO_SECTION">
 			<?php echo $form->labelEx($model,'CER_NO', array('class'=>'col-sm-2 form-control-label')); ?>
 			<div class="col-sm-10">
 				<p class="form-control-static">
@@ -548,7 +519,7 @@
 				</p>
 			</div>
 		</div>
-		<div class="form-group row">
+		<div class="form-group row" id="PFMS_STATUS_SECTION">
 			<?php echo $form->labelEx($model,'PFMS_STATUS', array('class'=>'col-sm-2 form-control-label')); ?>
 			<div class="col-sm-10">
 				<p class="form-control-static">
@@ -572,9 +543,9 @@
 		MONTH_YEAR = '<?php echo date('M-Y', strtotime(date('Y-m'))); ?>',
 		TODAY_DATE = '<?php echo date('d/m/Y')?>',
 		PREVIOUS_MONTH_YEAR = '<?php echo date('M-Y', strtotime(date('Y-m')." -1 month")); ?>',
-		CURRENT_MONTH_YEAR = '<?php echo date('M-Y'); ?>';
-		
-		
-	
+		CURRENT_MONTH_YEAR = '<?php echo date('M-Y'); ?>',
+		CURRENT_BILL_TYPE = <?php echo $model->BILL_TYPE ? $model->BILL_TYPE : 0; ?>,
+		CURRENT_BILL_SUB_TYPE = <?php echo $model->BILL_SUB_TYPE ? $model->BILL_SUB_TYPE : 0; ?>,
+		CONTROLLER_ACTION = '<?php echo Yii::app()->controller->action->id; ?>';
 </script>
 <script type="text/javascript" src="js/bill-form.js"></script>

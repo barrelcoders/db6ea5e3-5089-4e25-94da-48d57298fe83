@@ -4,25 +4,31 @@ var SALARY_OPS_BILL = 1,
 	DTE_BILL = 4,
 	MEDICAL_BILL = 6,
 	WAGES_BILL = 8,
-	OPS_HRA_ARREAR_BILL = 15,
-	OPS_DA_ARREAR_BILL = 17,
+	OPS_PAY_BILL = 15,
+	NPS_PAY_BILL = 16,
+	OPS_ARREAR_BILL = 17,
+	NPS_ARREAR_BILL = 18,
 	OPS_AD_BONUS_BILL = 19,
-	OPS_PAY_BILL = 21,
-	OPS_UA_BILL = 23,
-	OPS_CEA_BILL = 25,
-	OPS_PAY_ARREAR_BILL = 27,
-	OPS_LTC_HTC_ADVANCE_CLAIM_BILL = 30,
-	NPS_HRA_ARREAR_BILL = 16,
-	NPS_DA_ARREAR_BILL = 18,
 	NPS_AD_BONUS_BILL = 20,
-	NPS_PAY_BILL = 22,
+	OPS_CEA_BILL = 21,
+	NPS_CEA_BILL = 22,
+	OPS_UA_BILL = 23,
 	NPS_UA_BILL = 24,
-	NPS_CEA_BILL = 26,
-	NPS_PAY_ARREAR_BILL = 28,
-	NPS_LTC_HTC_ADVANCE_CLAIM_BILL = 31,
-	WAGES_PAY_BILL = 32,
-	DTE_TOUR_TA_BILL = 29,
-	MEDICAL_CLAIM = 33,
+	OPS_EL_ENCASHMENT_BILL = 25,
+	NPS_EL_ENCASHMENT_BILL = 26,
+	OPS_LTC_ADVANCE_BILL = 27,
+	NPS_LTC_ADVANCE_BILL = 28,
+	OPS_LTC_CLAIM_BILL = 29,
+	NPS_LTC_CLAIM_BILL = 30,
+	OPS_RECOVERY_BILL = 31,
+	NPS_RECOVERY_BILL = 32,
+	DTE_TOUR_TA_ADVANCE_BILL = 33,
+	DTE_TRANSFER_TA_ADVANCE_BILL = 34,
+	DTE_TOUR_TA_CLAIM_BILL = 35,
+	DTE_TRANSFER_TA_CLAIM_BILL = 36,
+	WAGES_PAY_BILL = 37,
+	MEDICAL_ADVANCE = 38,
+	MEDICAL_CLAIM = 39,
 	OE_Postage_and_Telegrams = 1,
 	OE_Furniture = 2,
 	OE_Contingents_pay_House_keeping = 3,
@@ -41,6 +47,8 @@ var SALARY_OPS_BILL = 1,
 	
 	
 $(document).ready(function(){
+	resetBiilSelection();
+	loadFormOnUpdate();
 	$('body').on('change', '.bills_amount', function() {
 		var total = 0;debugger;
 		$('.bills_amount').each(function(index, element){
@@ -61,303 +69,268 @@ $(document).ready(function(){
 		$('#Bill_OE_NET_AMOUNT').val($('#Bill_BILL_AMOUNT').val() - $('#Bill_OE_IT_DED').val())
 	});
 	
-	$('#chkIsArrearBill').change(function() {
-		otherSalaryBillsReset();
-		if($(this).is(":checked")) {
-			var bill_type = parseInt($('#slBillType').val());
-			if(bill_type == SALARY_OPS_BILL){
-				$("#ops-emp").show();
-			}
-			if(bill_type == SALARY_NPS_BILL){
-				$("#nps-emp").show();
-			}
-		}
-	});
-
-	$('#chkIsCEABill').change(function() {
-		otherSalaryBillsReset();
-		if($(this).is(":checked")) {
-			var bill_type = parseInt($('#slBillType').val());
-			if(bill_type == SALARY_OPS_BILL || bill_type == SALARY_NPS_BILL){
-				$("#cea-emp").show();
-				$("#ceabills").show();
-			}
-		}
-		else{
-			$("#ceabills").hide();
-		}
-	});
-	
-	$('#chkIsBonusBill').change(function() {
-		otherSalaryBillsReset();
-		if($(this).is(":checked")) {
-			var bill_type = parseInt($('#slBillType').val());
-			if(bill_type == SALARY_OPS_BILL || bill_type == SALARY_NPS_BILL){
-				$("#bonus-emp").show();
-				$('#txtBillTitle').val($("#Bill_BILL_SUB_TYPE option:selected").text()+" "+FIANANCIAL_YEAR+" in R/O Group B&C Employees of "+DEPT_NAME);
-			}
-		}
-		else{
-			$('#txtBillTitle').val("");
-		}
-	});
-	
-	$('#chkIsUABill').change(function() {
-		otherSalaryBillsReset();
-		if($(this).is(":checked")) {
-			var bill_type = parseInt($('#slBillType').val());
-			if(bill_type == SALARY_OPS_BILL || bill_type == SALARY_NPS_BILL){
-				$("#ua-emp").show();
-				$('#txtBillTitle').val($("#Bill_BILL_SUB_TYPE option:selected").text()+" "+FIANANCIAL_YEAR+" in R/O Group B&C Employees of "+DEPT_NAME);
-			}
-		}
-		else{
-			$('#txtBillTitle').val("");
-		}
-	});
-	
-	$('#chkIsLTCHTCBill').change(function() {
-		otherSalaryBillsReset();
-		if($(this).is(":checked")) {
-			var bill_type = parseInt($('#slBillType').val());
-			if(bill_type == SALARY_OPS_BILL || bill_type == SALARY_NPS_BILL){
-				$("#ltc-htc-emp").show();
-			}
-		}
-	});
-
 	$('#slBillType').change(function(){
-		otherSalaryBillsReset();
-		$('#other-salary-bills').hide();
-		var bill_type = parseInt($(this).val());
-		if(bill_type == SALARY_OPS_BILL || bill_type == SALARY_NPS_BILL){
-			$('#other-salary-bills').show();
-			$("#paybillinfo").show();
-		}
-		else if(bill_type == MEDICAL_BILL){
-			$('#medical-emp').show();
-			$("#paybillinfo").hide();
-		}
-		else if(bill_type == DTE_BILL){
-			$('#dte-emp').show();
-			$("#paybillinfo").hide();
-		}
-		else if(bill_type == WAGES_BILL){
-			$('#wages-emp').show();
-			$("#paybillinfo").hide();
-		}
-		else{
-			$("#paybillinfo").hide();
-			$('#txtBillTitle').val('');
-		}
+		resetBiilSelection();
 	});
 	
 	$('#Bill_BILL_SUB_TYPE').change(function(){
-		otherSalaryBillsReset();
+		resetBiilSelection();
 		var bill_type = parseInt($("#slBillType").val());
 		var bill_sub_type = parseInt($(this).val());
-		$("#UA_PERIOD").hide();
 		
 		if(bill_type == SALARY_OPS_BILL){
 			if(bill_sub_type == OPS_PAY_BILL){
-				$('#chkIsArrearBill').prop('checked', false);
-				$('#chkIsCEABill').prop('checked', false);
-				$('#chkIsBonusBill').prop('checked', false);
-				$('#chkIsUABill').prop('checked', false);
-				$('#chkIsLTCHTCBill').prop('checked', false);
-				$('#txtBillTitle').val("PAY AND ALLOWANCE in R/O OPS Staff of "+DEPT_NAME+" (OLD PENSION SCHEME) for the month of "+MONTH_YEAR);
 				//var register_count = parseInt($("#BILL_REGISTER_COUNT").val());
 				//$("#Bill_BILL_NO").val("P/"+zeroPad((register_count+1), 2)+"/"+FIANANCIAL_YEAR+" dt "+TODAY_DATE);
-				$("#Bill_NILL_BILL_NO").val("");
-				//$("#Bill_LIC_DED_BILL_NO").val("P/"+zeroPad((register_count+2), 2)+"/"+FIANANCIAL_YEAR+" dt "+TODAY_DATE);
-				//$("#Bill_PT_DED_BILL_NO").val("P/"+zeroPad((register_count+3), 2)+"/"+FIANANCIAL_YEAR+" dt "+TODAY_DATE);
-				$("#BILL_ENTRY_COUNT").val(3);
-				$("#paybillinfo").show();
+				//$("#Bill_PT_DED_BILL_NO").val("P/"+zeroPad((register_count+2), 2)+"/"+FIANANCIAL_YEAR+" dt "+TODAY_DATE);
+				//$("#BILL_ENTRY_COUNT").val(2);
+				//$("#Bill_NILL_BILL_NO").val("");
+				
+				$("#BILL_NO_SECTION").show();
+				$("#PT_BILL_NO_SECTION").show();
+				$("#BILL_TITLE_SECTION").show();
+				$("#MONTH_SECTION").show();
+				$("#YEAR_SECTION").show();
+				$("#CREATION_DATE_SECTION").show();
+				$('#txtBillTitle').val("PAY AND ALLOWANCE in R/O OPS Staff of "+DEPT_NAME+" (OLD PENSION SCHEME) for the month of "+MONTH_YEAR);
 			}
-			if(bill_sub_type == OPS_HRA_ARREAR_BILL || bill_sub_type == OPS_DA_ARREAR_BILL || bill_sub_type == OPS_PAY_ARREAR_BILL){
-				$('#chkIsArrearBill').prop('checked', true).change();
-				$('#chkIsCEABill').prop('checked', false);
-				$('#chkIsBonusBill').prop('checked', false);
-				$('#chkIsUABill').prop('checked', false);
-				$('#chkIsLTCHTCBill').prop('checked', false);
-				$("#Bill_NILL_BILL_NO").val("");
-				$("#Bill_LIC_DED_BILL_NO").val("");
-				$("#Bill_PT_DED_BILL_NO").val("");
-				$("#BILL_ENTRY_COUNT").val(1);
-				$("#paybillinfo").hide();
+			if(bill_sub_type == OPS_ARREAR_BILL){
 				//var register_count = parseInt($("#BILL_REGISTER_COUNT").val());
-				if(bill_sub_type == OPS_HRA_ARREAR_BILL){
-					//$("#Bill_BILL_NO").val("HRA Arr/"+zeroPad((register_count+1), 2)+"/"+FIANANCIAL_YEAR+" dt "+TODAY_DATE);
-				}
-				else if(bill_sub_type == OPS_DA_ARREAR_BILL){
-					//$("#Bill_BILL_NO").val("DA Arr/"+zeroPad((register_count+1), 2)+"/"+FIANANCIAL_YEAR+" dt "+TODAY_DATE);
-				}
-				else if(bill_sub_type == OPS_PAY_ARREAR_BILL){
-					//$("#Bill_BILL_NO").val("Arrear/"+zeroPad((register_count+1), 2)+"/"+FIANANCIAL_YEAR+" dt "+TODAY_DATE);
-				}
+				//$("#Bill_BILL_NO").val("Arr/"+zeroPad((register_count+1), 2)+"/"+FIANANCIAL_YEAR+" dt "+TODAY_DATE);
+				
+				$("#ops-emp").show();
+				$("#BILL_NO_SECTION").show();
+				$("#PT_BILL_NO_SECTION").show();
+				$("#BILL_TITLE_SECTION").show();
+				$("#MONTH_SECTION").show();
+				$("#YEAR_SECTION").show();
+				$("#CREATION_DATE_SECTION").show();
+				$("#FILE_NO_SECTION").show();
+				$("#PFMS_BILL_NO_SECTION").show();
+				$("#IS_ARREAR_BILL").val(1);
+				$('#txtBillTitle').val($("#Bill_BILL_SUB_TYPE option:selected").text()+" in R/O OPS Staff of "+DEPT_NAME+" (OLD PENSION SCHEME) for the month of "+MONTH_YEAR);
 			}
 			if(bill_sub_type == OPS_AD_BONUS_BILL){
-				$('#chkIsBonusBill').prop('checked', true).change();
-				$('#chkIsArrearBill').prop('checked', false);
-				$('#chkIsCEABill').prop('checked', false);
-				$('#chkIsUABill').prop('checked', false);
-				$('#chkIsLTCHTCBill').prop('checked', false);
 				//var register_count = parseInt($("#BILL_REGISTER_COUNT").val());
 				//$("#Bill_BILL_NO").val("Ad-Bonus/"+zeroPad((register_count+1), 2)+"/"+FIANANCIAL_YEAR+" dt "+TODAY_DATE);
-				$("#Bill_NILL_BILL_NO").val("");
-				$("#Bill_LIC_DED_BILL_NO").val("");
-				$("#Bill_PT_DED_BILL_NO").val("");
-				$("#BILL_ENTRY_COUNT").val(1);
-				$("#paybillinfo").hide();
+				$("#bonus-ops-emp").show();
+				$("#BILL_NO_SECTION").show();
+				$("#BILL_TITLE_SECTION").show();
+				$("#MONTH_SECTION").show();
+				$("#YEAR_SECTION").show();
+				$("#CREATION_DATE_SECTION").show();
+				$("#FILE_NO_SECTION").show();
+				$("#PFMS_BILL_NO_SECTION").show();
+				$("#IS_BONUS_BILL").val(1);
+				$('#txtBillTitle').val($("#Bill_BILL_SUB_TYPE option:selected").text()+" in R/O OPS Staff of "+DEPT_NAME);
 			}
 			if(bill_sub_type == OPS_UA_BILL){
-				$('#chkIsUABill').prop('checked', true).change();
-				$('#chkIsArrearBill').prop('checked', false);
-				$('#chkIsCEABill').prop('checked', false);
-				$('#chkIsBonusBill').prop('checked', false);
-				$('#chkIsLTCHTCBill').prop('checked', false);
-				$("#UA_PERIOD").show();
 				//var register_count = parseInt($("#BILL_REGISTER_COUNT").val());
 				//$("#Bill_BILL_NO").val("UA/"+zeroPad((register_count+1), 2)+"/"+FIANANCIAL_YEAR+" dt "+TODAY_DATE);
-				$("#Bill_NILL_BILL_NO").val("");
-				$("#Bill_LIC_DED_BILL_NO").val("");
-				$("#Bill_PT_DED_BILL_NO").val("");
-				$("#BILL_ENTRY_COUNT").val(1);
-				$("#paybillinfo").hide();
+				$("#ua-emp").show();
+				$("#UA_PERIOD").show();
+				$("#BILL_NO_SECTION").show();
+				$("#BILL_TITLE_SECTION").show();
+				$("#MONTH_SECTION").show();
+				$("#YEAR_SECTION").show();
+				$("#CREATION_DATE_SECTION").show();
+				$("#FILE_NO_SECTION").show();
+				$("#PFMS_BILL_NO_SECTION").show();
+				$("#IS_UA_BILL").val(1);
+				$('#txtBillTitle').val($("#Bill_BILL_SUB_TYPE option:selected").text()+" in R/O OPS Staff of "+DEPT_NAME);
 			}
 			if(bill_sub_type == OPS_CEA_BILL){
-				$('#chkIsCEABill').prop('checked', true).change();
-				$('#chkIsUABill').prop('checked', false);
-				$('#chkIsArrearBill').prop('checked', false);
-				$('#chkIsBonusBill').prop('checked', false);
-				$('#chkIsLTCHTCBill').prop('checked', false);
 				//var register_count = parseInt($("#BILL_REGISTER_COUNT").val());
 				//$("#Bill_BILL_NO").val("CEA/"+zeroPad((register_count+1), 2)+"/"+FIANANCIAL_YEAR+" dt "+TODAY_DATE);
-				$("#Bill_NILL_BILL_NO").val("");
-				$("#Bill_LIC_DED_BILL_NO").val("");
-				$("#Bill_PT_DED_BILL_NO").val("");
-				$("#BILL_ENTRY_COUNT").val(1);
-				$("#paybillinfo").hide();
+				$("#ops-emp").show();
+				$("#BILL_NO_SECTION").show();
+				$("#BILL_TITLE_SECTION").show();
+				$("#MONTH_SECTION").show();
+				$("#YEAR_SECTION").show();
+				$("#CREATION_DATE_SECTION").show();
+				$("#CEA_BILLS_SECTION").show();
+				$("#FILE_NO_SECTION").show();
+				$("#PFMS_BILL_NO_SECTION").show();
+				$("#IS_CEA_BILL").val(1);
+				$('#txtBillTitle').val($("#Bill_BILL_SUB_TYPE option:selected").text()+" in R/O OPS Staff of "+DEPT_NAME);
 			}
-			if(bill_sub_type == OPS_LTC_HTC_ADVANCE_CLAIM_BILL){
-				$('#chkIsLTCHTCBill').prop('checked', true).change();
-				$('#chkIsUABill').prop('checked', false);
-				$('#chkIsArrearBill').prop('checked', false);
-				$('#chkIsBonusBill').prop('checked', false);
-				$('#chkIsCEABill').prop('checked', false);
+			if(bill_sub_type == OPS_LTC_ADVANCE_BILL || bill_sub_type == OPS_LTC_CLAIM_BILL){
 				//var register_count = parseInt($("#BILL_REGISTER_COUNT").val());
 				//$("#Bill_BILL_NO").val("LTC/"+zeroPad((register_count+1), 2)+"/"+FIANANCIAL_YEAR+" dt "+TODAY_DATE);
-				$("#Bill_NILL_BILL_NO").val("");
-				$("#Bill_LIC_DED_BILL_NO").val("");
-				$("#Bill_PT_DED_BILL_NO").val("");
-				$("#BILL_ENTRY_COUNT").val(1);
-				$("#paybillinfo").hide();
+				$("#ops-emp").show();
+				$("#BILL_NO_SECTION").show();
+				$("#BILL_TITLE_SECTION").show();
+				$("#MONTH_SECTION").show();
+				$("#YEAR_SECTION").show();
+				$("#CREATION_DATE_SECTION").show();
+				$("#FILE_NO_SECTION").show();
+				$("#PFMS_BILL_NO_SECTION").show();
+				if(bill_sub_type == OPS_LTC_ADVANCE_BILL){
+					$("#IS_LTC_ADVANCE_BILL").val(1);
+				}
+				if(bill_sub_type == OPS_LTC_CLAIM_BILL){
+					$("#IS_LTC_CLAIM_BILL").val(1);
+				}
+				$('#txtBillTitle').val($("#Bill_BILL_SUB_TYPE option:selected").text()+" in R/O OPS Staff of "+DEPT_NAME);
+			}
+			if(bill_sub_type == OPS_EL_ENCASHMENT_BILL){
+				//var register_count = parseInt($("#BILL_REGISTER_COUNT").val());
+				//$("#Bill_BILL_NO").val("CEA/"+zeroPad((register_count+1), 2)+"/"+FIANANCIAL_YEAR+" dt "+TODAY_DATE);
+				$("#ops-emp").show();
+				$("#BILL_NO_SECTION").show();
+				$("#BILL_TITLE_SECTION").show();
+				$("#MONTH_SECTION").show();
+				$("#YEAR_SECTION").show();
+				$("#CREATION_DATE_SECTION").show();
+				$("#FILE_NO_SECTION").show();
+				$("#PFMS_BILL_NO_SECTION").show();
+				$("#IS_EL_ENCASHMENT_BILL").val(1);
+				$('#txtBillTitle').val($("#Bill_BILL_SUB_TYPE option:selected").text()+" in R/O OPS Staff of "+DEPT_NAME);
+			}
+			if(bill_sub_type == OPS_RECOVERY_BILL){
+				//var register_count = parseInt($("#BILL_REGISTER_COUNT").val());
+				//$("#Bill_BILL_NO").val("CEA/"+zeroPad((register_count+1), 2)+"/"+FIANANCIAL_YEAR+" dt "+TODAY_DATE);
+				$("#ops-emp").show();
+				$("#BILL_NO_SECTION").show();
+				$("#BILL_TITLE_SECTION").show();
+				$("#MONTH_SECTION").show();
+				$("#YEAR_SECTION").show();
+				$("#CREATION_DATE_SECTION").show();
+				$("#FILE_NO_SECTION").show();
+				$("#PFMS_BILL_NO_SECTION").show();
+				$("#IS_RECOVERY_BILL").val(1);
+				$('#txtBillTitle').val($("#Bill_BILL_SUB_TYPE option:selected").text()+" in R/O OPS Staff of "+DEPT_NAME);
 			}
 		}
 		else if(bill_type == SALARY_NPS_BILL){
 			if(bill_sub_type == NPS_PAY_BILL){
-				$('#chkIsArrearBill').prop('checked', false);
-				$('#chkIsCEABill').prop('checked', false);
-				$('#chkIsBonusBill').prop('checked', false);
-				$('#chkIsUABill').prop('checked', false);
-				$('#chkIsLTCHTCBill').prop('checked', false);
-				$('#txtBillTitle').val("PAY AND ALLOWANCE in R/O NPS Staff of "+DEPT_NAME+" (NEW PENSION SCHEME) for the month of "+MONTH_YEAR);
 				//var register_count = parseInt($("#BILL_REGISTER_COUNT").val());
 				//$("#Bill_BILL_NO").val("P/"+zeroPad((register_count+1), 2)+"/"+FIANANCIAL_YEAR+" dt "+TODAY_DATE);
 				//$("#Bill_NILL_BILL_NO").val("P/"+zeroPad((register_count+2), 2)+"/"+FIANANCIAL_YEAR+" dt "+TODAY_DATE);
 				//$("#Bill_LIC_DED_BILL_NO").val("P/"+zeroPad((register_count+3), 2)+"/"+FIANANCIAL_YEAR+" dt "+TODAY_DATE);
 				//$("#Bill_PT_DED_BILL_NO").val("P/"+zeroPad((register_count+4), 2)+"/"+FIANANCIAL_YEAR+" dt "+TODAY_DATE);
-				$("#BILL_ENTRY_COUNT").val(4);
-				$("#paybillinfo").show();
-				$("#npspaybillinfo").show();
+				//$("#BILL_ENTRY_COUNT").val(4);
+				
+				$("#BILL_NO_SECTION").show();
+				$("#PT_BILL_NO_SECTION").show();
+				$("#NILL_BILL_NO_SECTION").show();
+				$("#BILL_TITLE_SECTION").show();
+				$("#MONTH_SECTION").show();
+				$("#YEAR_SECTION").show();
+				$("#CREATION_DATE_SECTION").show();
+				$('#txtBillTitle').val("PAY AND ALLOWANCE in R/O NPS Staff of "+DEPT_NAME+" (NEW PENSION SCHEME) for the month of "+MONTH_YEAR);
 			}
-			if(bill_sub_type == NPS_HRA_ARREAR_BILL || bill_sub_type == NPS_DA_ARREAR_BILL || bill_sub_type == NPS_PAY_ARREAR_BILL){
-				$('#chkIsArrearBill').prop('checked', true).change();
-				$('#chkIsCEABill').prop('checked', false);
-				$('#chkIsBonusBill').prop('checked', false);
-				$('#chkIsUABill').prop('checked', false);
-				$('#chkIsLTCHTCBill').prop('checked', false);
+			if(bill_sub_type == NPS_ARREAR_BILL){
 				//var register_count = parseInt($("#BILL_REGISTER_COUNT").val());
-				$("#Bill_NILL_BILL_NO").val("");
-				$("#Bill_LIC_DED_BILL_NO").val("");
-				$("#Bill_PT_DED_BILL_NO").val("");
-				$("#BILL_ENTRY_COUNT").val(1);
-				$("#paybillinfo").hide();
-				if(bill_sub_type == NPS_HRA_ARREAR_BILL){
-					//$("#Bill_BILL_NO").val("HRA Arr/"+zeroPad((register_count+1), 2)+"/"+FIANANCIAL_YEAR+" dt "+TODAY_DATE);
-					$("#npspaybillinfo").hide();
-				}
-				else if(bill_sub_type == NPS_DA_ARREAR_BILL){
-					//$("#Bill_BILL_NO").val("DA Arr/"+zeroPad((register_count+1), 2)+"/"+FIANANCIAL_YEAR+" dt "+TODAY_DATE);
-					//$("#Bill_NILL_BILL_NO").val("DA Arr/"+zeroPad((register_count+2), 2)+"/"+FIANANCIAL_YEAR+" dt "+TODAY_DATE);
-					$("#npspaybillinfo").show();
-				}
-				else if(bill_sub_type == NPS_PAY_ARREAR_BILL){
-					//$("#Bill_BILL_NO").val("Arrear/"+zeroPad((register_count+1), 2)+"/"+FIANANCIAL_YEAR+" dt "+TODAY_DATE);
-					//$("#Bill_NILL_BILL_NO").val("Arrear/"+zeroPad((register_count+2), 2)+"/"+FIANANCIAL_YEAR+" dt "+TODAY_DATE);
-					$("#npspaybillinfo").show();
-				}
+				//$("#Bill_BILL_NO").val("HRA Arr/"+zeroPad((register_count+1), 2)+"/"+FIANANCIAL_YEAR+" dt "+TODAY_DATE);
+				//$("#Bill_BILL_NO").val("DA Arr/"+zeroPad((register_count+1), 2)+"/"+FIANANCIAL_YEAR+" dt "+TODAY_DATE);
+				//$("#Bill_NILL_BILL_NO").val("DA Arr/"+zeroPad((register_count+2), 2)+"/"+FIANANCIAL_YEAR+" dt "+TODAY_DATE);
+				//$("#Bill_BILL_NO").val("Arrear/"+zeroPad((register_count+1), 2)+"/"+FIANANCIAL_YEAR+" dt "+TODAY_DATE);
+				//$("#Bill_NILL_BILL_NO").val("Arrear/"+zeroPad((register_count+2), 2)+"/"+FIANANCIAL_YEAR+" dt "+TODAY_DATE);
+				
+				$("#nps-emp").show();
+				$("#BILL_NO_SECTION").show();
+				$("#PT_BILL_NO_SECTION").show();
+				$("#NILL_BILL_NO_SECTION").hide();
+				$("#BILL_TITLE_SECTION").show();
+				$("#MONTH_SECTION").show();
+				$("#YEAR_SECTION").show();
+				$("#CREATION_DATE_SECTION").show();
+				$("#FILE_NO_SECTION").show();
+				$("#PFMS_BILL_NO_SECTION").show();
+				$("#IS_ARREAR_BILL").val(1);
+				$('#txtBillTitle').val($("#Bill_BILL_SUB_TYPE option:selected").text()+" in R/O NPS Staff of "+DEPT_NAME);
 			}
 			if(bill_sub_type == NPS_AD_BONUS_BILL){
-				$('#chkIsBonusBill').prop('checked', true).change();
-				$('#chkIsArrearBill').prop('checked', false);
-				$('#chkIsCEABill').prop('checked', false);
-				$('#chkIsUABill').prop('checked', false);
-				$('#chkIsLTCHTCBill').prop('checked', false);
 				//var register_count = parseInt($("#BILL_REGISTER_COUNT").val());
 				//$("#Bill_BILL_NO").val("Ad-Bonus/"+zeroPad((register_count+1), 2)+"/"+FIANANCIAL_YEAR+" dt "+TODAY_DATE);
-				$("#Bill_NILL_BILL_NO").val("");
-				$("#Bill_LIC_DED_BILL_NO").val("");
-				$("#Bill_PT_DED_BILL_NO").val("");
-				$("#BILL_ENTRY_COUNT").val(1);
-				$("#paybillinfo").hide();
-				$("#npspaybillinfo").hide();
+				$("#bonus-nps-emp").show();
+				$("#BILL_NO_SECTION").show();
+				$("#BILL_TITLE_SECTION").show();
+				$("#MONTH_SECTION").show();
+				$("#YEAR_SECTION").show();
+				$("#CREATION_DATE_SECTION").show();
+				$("#FILE_NO_SECTION").show();
+				$("#PFMS_BILL_NO_SECTION").show();
+				$("#IS_BONUS_BILL").val(1);
+				$('#txtBillTitle').val($("#Bill_BILL_SUB_TYPE option:selected").text()+" in R/O NPS Staff of "+DEPT_NAME);
 			}
 			if(bill_sub_type == NPS_UA_BILL){
-				$('#chkIsUABill').prop('checked', true).change();
-				$('#chkIsArrearBill').prop('checked', false);
-				$('#chkIsCEABill').prop('checked', false);
-				$('#chkIsBonusBill').prop('checked', false);
-				$('#chkIsLTCHTCBill').prop('checked', false);
-				$("#UA_PERIOD").show();
 				//var register_count = parseInt($("#BILL_REGISTER_COUNT").val());
 				//$("#Bill_BILL_NO").val("UA/"+zeroPad((register_count+1), 2)+"/"+FIANANCIAL_YEAR+" dt "+TODAY_DATE);
-				$("#Bill_NILL_BILL_NO").val("");
-				$("#Bill_LIC_DED_BILL_NO").val("");
-				$("#Bill_PT_DED_BILL_NO").val("");
-				$("#BILL_ENTRY_COUNT").val(1);
-				$("#paybillinfo").hide();
-				$("#npspaybillinfo").hide();
+				$("#ua-emp").show();
+				$("#UA_PERIOD").show();
+				$("#BILL_NO_SECTION").show();
+				$("#BILL_TITLE_SECTION").show();
+				$("#MONTH_SECTION").show();
+				$("#YEAR_SECTION").show();
+				$("#CREATION_DATE_SECTION").show();
+				$("#FILE_NO_SECTION").show();
+				$("#PFMS_BILL_NO_SECTION").show();
+				$("#IS_UA_BILL").val(1);
+				$('#txtBillTitle').val($("#Bill_BILL_SUB_TYPE option:selected").text()+" in R/O NPS Staff of "+DEPT_NAME);
 			}
 			if(bill_sub_type == NPS_CEA_BILL){
-				$('#chkIsCEABill').prop('checked', true).change();
-				$('#chkIsUABill').prop('checked', false);
-				$('#chkIsArrearBill').prop('checked', false);
-				$('#chkIsBonusBill').prop('checked', false);
-				$('#chkIsLTCHTCBill').prop('checked', false);
 				//var register_count = parseInt($("#BILL_REGISTER_COUNT").val());
 				//$("#Bill_BILL_NO").val("CEA/"+zeroPad((register_count+1), 2)+"/"+FIANANCIAL_YEAR+" dt "+TODAY_DATE);
-				$("#Bill_NILL_BILL_NO").val("");
-				$("#Bill_LIC_DED_BILL_NO").val("");
-				$("#Bill_PT_DED_BILL_NO").val("");
-				$("#BILL_ENTRY_COUNT").val(1);
-				$("#paybillinfo").hide();
-				$("#npspaybillinfo").hide();
+				$("#nps-emp").show();
+				$("#BILL_NO_SECTION").show();
+				$("#BILL_TITLE_SECTION").show();
+				$("#MONTH_SECTION").show();
+				$("#YEAR_SECTION").show();
+				$("#CREATION_DATE_SECTION").show();
+				$("#CEA_BILLS_SECTION").show();
+				$("#FILE_NO_SECTION").show();
+				$("#PFMS_BILL_NO_SECTION").show();
+				$("#IS_CEA_BILL").val(1);
+				$('#txtBillTitle').val($("#Bill_BILL_SUB_TYPE option:selected").text()+" in R/O NPS Staff of "+DEPT_NAME);
 			}
-			if(bill_sub_type == NPS_LTC_HTC_ADVANCE_CLAIM_BILL){
-				$('#chkIsLTCHTCBill').prop('checked', true).change();
-				$('#chkIsUABill').prop('checked', false);
-				$('#chkIsArrearBill').prop('checked', false);
-				$('#chkIsBonusBill').prop('checked', false);
-				$('#chkIsCEABill').prop('checked', false);
+			if(bill_sub_type == NPS_LTC_ADVANCE_BILL || bill_sub_type == NPS_LTC_CLAIM_BILL){
 				//var register_count = parseInt($("#BILL_REGISTER_COUNT").val());
 				//$("#Bill_BILL_NO").val("LTC/"+zeroPad((register_count+1), 2)+"/"+FIANANCIAL_YEAR+" dt "+TODAY_DATE);
-				$("#Bill_NILL_BILL_NO").val("");
-				$("#Bill_LIC_DED_BILL_NO").val("");
-				$("#Bill_PT_DED_BILL_NO").val("");
-				$("#BILL_ENTRY_COUNT").val(1);
-				$("#paybillinfo").hide();
-				$("#npspaybillinfo").hide();
+				$("#nps-emp").show();
+				$("#BILL_NO_SECTION").show();
+				$("#BILL_TITLE_SECTION").show();
+				$("#MONTH_SECTION").show();
+				$("#YEAR_SECTION").show();
+				$("#CREATION_DATE_SECTION").show();
+				$("#FILE_NO_SECTION").show();
+				$("#PFMS_BILL_NO_SECTION").show();
+				if(bill_sub_type == NPS_LTC_ADVANCE_BILL){
+					$("#IS_LTC_ADVANCE_BILL").val(1);
+				}
+				if(bill_sub_type == NPS_LTC_CLAIM_BILL){
+					$("#IS_LTC_CLAIM_BILL").val(1);
+				}
+				$('#txtBillTitle').val($("#Bill_BILL_SUB_TYPE option:selected").text()+" in R/O NPS Staff of "+DEPT_NAME);
+			}
+			if(bill_sub_type == NPS_EL_ENCASHMENT_BILL){
+				//var register_count = parseInt($("#BILL_REGISTER_COUNT").val());
+				//$("#Bill_BILL_NO").val("CEA/"+zeroPad((register_count+1), 2)+"/"+FIANANCIAL_YEAR+" dt "+TODAY_DATE);
+				$("#nps-emp").show();
+				$("#BILL_NO_SECTION").show();
+				$("#BILL_TITLE_SECTION").show();
+				$("#MONTH_SECTION").show();
+				$("#YEAR_SECTION").show();
+				$("#CREATION_DATE_SECTION").show();
+				$("#FILE_NO_SECTION").show();
+				$("#PFMS_BILL_NO_SECTION").show();
+				$("#IS_EL_ENCASHMENT_BILL").val(1);
+				$('#txtBillTitle').val($("#Bill_BILL_SUB_TYPE option:selected").text()+" in R/O NPS Staff of "+DEPT_NAME);
+			}
+			if(bill_sub_type == NPS_RECOVERY_BILL){
+				//var register_count = parseInt($("#BILL_REGISTER_COUNT").val());
+				//$("#Bill_BILL_NO").val("CEA/"+zeroPad((register_count+1), 2)+"/"+FIANANCIAL_YEAR+" dt "+TODAY_DATE);
+				$("#nps-emp").show();
+				$("#BILL_NO_SECTION").show();
+				$("#BILL_TITLE_SECTION").show();
+				$("#MONTH_SECTION").show();
+				$("#YEAR_SECTION").show();
+				$("#CREATION_DATE_SECTION").show();
+				$("#FILE_NO_SECTION").show();
+				$("#PFMS_BILL_NO_SECTION").show();
+				$("#IS_RECOVERY_BILL").val(1);
+				$('#txtBillTitle').val($("#Bill_BILL_SUB_TYPE option:selected").text()+" in R/O NPS Staff of "+DEPT_NAME);
 			}
 		}
 		else if(bill_type == WAGES_BILL){
@@ -366,254 +339,372 @@ $(document).ready(function(){
 				//var register_count = parseInt($("#BILL_REGISTER_COUNT").val());
 				//$("#Bill_BILL_NO").val("WPB/"+zeroPad((register_count+1), 2)+"/"+FIANANCIAL_YEAR+" dt "+TODAY_DATE);
 				//$("#Bill_PT_DED_BILL_NO").val("WPB/"+zeroPad((register_count+2), 2)+"/"+FIANANCIAL_YEAR+" dt "+TODAY_DATE);
-				$("#Bill_NILL_BILL_NO").val("");
-				$("#Bill_LIC_DED_BILL_NO").val("");
-				$("#BILL_ENTRY_COUNT").val(2);
-				$("#paybillinfo").show();
-				$("#npspaybillinfo").hide();
+				//$("#BILL_ENTRY_COUNT").val(2);
+				$("#wages-emp").show();
+				$("#BILL_NO_SECTION").show();
+				$("#PT_BILL_NO_SECTION").show();
+				$("#BILL_TITLE_SECTION").show();
+				$("#MONTH_SECTION").show();
+				$("#YEAR_SECTION").show();
+				$("#CREATION_DATE_SECTION").show();
+				$("#FILE_NO_SECTION").show();
+				$("#PFMS_BILL_NO_SECTION").show();
+				$("#CER_NO_SECTION").show();
+				$('#txtBillTitle').val($("#Bill_BILL_SUB_TYPE option:selected").text()+" in R/O OPS Staff of "+DEPT_NAME);
 			}
 		}
-		else if(OE_BILL){
+		else if(bill_type == OE_BILL){
 			if(bill_sub_type == OE_Postage_and_Telegrams){
+				//var register_count = parseInt($("#BILL_REGISTER_COUNT").val());
+				//$("#Bill_BILL_NO").val("OE/"+zeroPad((register_count+1), 2)+"/"+FIANANCIAL_YEAR+" dt "+TODAY_DATE);
+				//$("#BILL_ENTRY_COUNT").val(1);
+				
+				$("#BILL_NO_SECTION").show();
+				$("#BILL_TITLE_SECTION").show();
+				$("#BILL_AMOUNT_SECTION").show();
+				$("#FILE_NO_SECTION").show();
+				$("#OE_IT_DED_SECTION").show();
+				$("#OE_NET_AMOUNT_SECTION").show();
+				$("#VENDOR_ID_SECTION").show();
+				$("#OE_BILLS_SECTION").show();
+				$("#PFMS_BILL_NO_SECTION").show();
+				$("#CER_NO_SECTION").show();
+				$("#MONTH_SECTION").show();
+				$("#YEAR_SECTION").show();
+				$("#CREATION_DATE_SECTION").show();
 				$('#txtBillTitle').val("Purchase of "+$("#Bill_BILL_SUB_TYPE option:selected").text()+" in R/O of "+DEPT_NAME);
-					//var register_count = parseInt($("#BILL_REGISTER_COUNT").val());
-					//$("#Bill_BILL_NO").val("OE/"+zeroPad((register_count+1), 2)+"/"+FIANANCIAL_YEAR+" dt "+TODAY_DATE);
-					$("#Bill_NILL_BILL_NO").val("");
-					$("#Bill_LIC_DED_BILL_NO").val("");
-					$("#Bill_PT_DED_BILL_NO").val("");
-					$("#BILL_ENTRY_COUNT").val(1);
-					$("#paybillinfo").hide();
-					$("#npspaybillinfo").hide();
 			}
 			else if(bill_sub_type == OE_Furniture){
-				$('#txtBillTitle').val("Purchase of "+$("#Bill_BILL_SUB_TYPE option:selected").text()+" in R/O of "+DEPT_NAME);
 				//var register_count = parseInt($("#BILL_REGISTER_COUNT").val());
 				//$("#Bill_BILL_NO").val("OE/"+zeroPad((register_count+1), 2)+"/"+FIANANCIAL_YEAR+" dt "+TODAY_DATE);
-				$("#Bill_NILL_BILL_NO").val("");
-				$("#Bill_LIC_DED_BILL_NO").val("");
-				$("#Bill_PT_DED_BILL_NO").val("");
-				$("#BILL_ENTRY_COUNT").val(1);
-				$("#paybillinfo").hide();
-				$("#npspaybillinfo").hide();
+				//$("#BILL_ENTRY_COUNT").val(1);
+				
+				$("#BILL_NO_SECTION").show();
+				$("#BILL_TITLE_SECTION").show();
+				$("#BILL_AMOUNT_SECTION").show();
+				$("#FILE_NO_SECTION").show();
+				$("#OE_IT_DED_SECTION").show();
+				$("#OE_NET_AMOUNT_SECTION").show();
+				$("#VENDOR_ID_SECTION").show();
+				$("#OE_BILLS_SECTION").show();
+				$("#PFMS_BILL_NO_SECTION").show();
+				$("#CER_NO_SECTION").show();
+				$("#MONTH_SECTION").show();
+				$("#YEAR_SECTION").show();
+				$("#CREATION_DATE_SECTION").show();
+				$('#txtBillTitle').val("Purchase of "+$("#Bill_BILL_SUB_TYPE option:selected").text()+" in R/O of "+DEPT_NAME);
 			}
 			else if(bill_sub_type == OE_Contingents_pay_House_keeping){
-				$('#txtBillTitle').val("Payment of "+$("#Bill_BILL_SUB_TYPE option:selected").text()+" charges in R/O of "+DEPT_NAME);
 				//var register_count = parseInt($("#BILL_REGISTER_COUNT").val());
 				//$("#Bill_BILL_NO").val("OE/"+zeroPad((register_count+1), 2)+"/"+FIANANCIAL_YEAR+" dt "+TODAY_DATE);
-				$("#Bill_NILL_BILL_NO").val("");
-				$("#Bill_LIC_DED_BILL_NO").val("");
-				$("#Bill_PT_DED_BILL_NO").val("");
-				$("#BILL_ENTRY_COUNT").val(1);
-				$("#paybillinfo").hide();
-				$("#npspaybillinfo").hide();
+				//$("#BILL_ENTRY_COUNT").val(1);
+				
+				$("#BILL_NO_SECTION").show();
+				$("#BILL_TITLE_SECTION").show();
+				$("#BILL_AMOUNT_SECTION").show();
+				$("#FILE_NO_SECTION").show();
+				$("#OE_IT_DED_SECTION").show();
+				$("#OE_NET_AMOUNT_SECTION").show();
+				$("#VENDOR_ID_SECTION").show();
+				$("#OE_BILLS_SECTION").show();
+				$("#PFMS_BILL_NO_SECTION").show();
+				$("#CER_NO_SECTION").show();
+				$("#MONTH_SECTION").show();
+				$("#YEAR_SECTION").show();
+				$("#CREATION_DATE_SECTION").show();
+				$('#txtBillTitle').val("Payment of "+$("#Bill_BILL_SUB_TYPE option:selected").text()+" charges in R/O of "+DEPT_NAME);
 			}
 			else if(bill_sub_type == OE_Other_Office_Machineries){
-				$('#txtBillTitle').val("Purchase of "+$("#Bill_BILL_SUB_TYPE option:selected").text()+" in R/O of "+DEPT_NAME);
 				//var register_count = parseInt($("#BILL_REGISTER_COUNT").val());
 				//$("#Bill_BILL_NO").val("OE/"+zeroPad((register_count+1), 2)+"/"+FIANANCIAL_YEAR+" dt "+TODAY_DATE);
-				$("#Bill_NILL_BILL_NO").val("");
-				$("#Bill_LIC_DED_BILL_NO").val("");
-				$("#Bill_PT_DED_BILL_NO").val("");
-				$("#BILL_ENTRY_COUNT").val(1);
-				$("#paybillinfo").hide();
-				$("#npspaybillinfo").hide();
+				
+				$("#BILL_NO_SECTION").show();
+				$("#BILL_TITLE_SECTION").show();
+				$("#BILL_AMOUNT_SECTION").show();
+				$("#FILE_NO_SECTION").show();
+				$("#OE_IT_DED_SECTION").show();
+				$("#OE_NET_AMOUNT_SECTION").show();
+				$("#VENDOR_ID_SECTION").show();
+				$("#OE_BILLS_SECTION").show();
+				$("#PFMS_BILL_NO_SECTION").show();
+				$("#CER_NO_SECTION").show();
+				$("#MONTH_SECTION").show();
+				$("#YEAR_SECTION").show();
+				$("#CREATION_DATE_SECTION").show();
+				$('#txtBillTitle').val("Purchase of "+$("#Bill_BILL_SUB_TYPE option:selected").text()+" in R/O of "+DEPT_NAME);
 			}
 			else if(bill_sub_type == OE_Office_Equipments){
-				$('#txtBillTitle').val("Purchase of "+$("#Bill_BILL_SUB_TYPE option:selected").text()+" in R/O of "+DEPT_NAME);
 				//var register_count = parseInt($("#BILL_REGISTER_COUNT").val());
 				//$("#Bill_BILL_NO").val("OE/"+zeroPad((register_count+1), 2)+"/"+FIANANCIAL_YEAR+" dt "+TODAY_DATE);
-				$("#Bill_NILL_BILL_NO").val("");
-				$("#Bill_LIC_DED_BILL_NO").val("");
-				$("#Bill_PT_DED_BILL_NO").val("");
-				$("#BILL_ENTRY_COUNT").val(1);
-				$("#paybillinfo").hide();
-				$("#npspaybillinfo").hide();
+				
+				$("#BILL_NO_SECTION").show();
+				$("#BILL_TITLE_SECTION").show();
+				$("#BILL_AMOUNT_SECTION").show();
+				$("#FILE_NO_SECTION").show();
+				$("#OE_IT_DED_SECTION").show();
+				$("#OE_NET_AMOUNT_SECTION").show();
+				$("#VENDOR_ID_SECTION").show();
+				$("#OE_BILLS_SECTION").show();
+				$("#PFMS_BILL_NO_SECTION").show();
+				$("#CER_NO_SECTION").show();
+				$("#MONTH_SECTION").show();
+				$("#YEAR_SECTION").show();
+				$("#CREATION_DATE_SECTION").show();
+				$('#txtBillTitle').val("Purchase of "+$("#Bill_BILL_SUB_TYPE option:selected").text()+" in R/O of "+DEPT_NAME);
 			}
 			else if(bill_sub_type == OE_Water_Charges){
-				$('#txtBillTitle').val("Payement of "+$("#Bill_BILL_SUB_TYPE option:selected").text()+" for the month of "+PREVIOUS_MONTH_YEAR+" in R/O of "+DEPT_NAME);
 				//var register_count = parseInt($("#BILL_REGISTER_COUNT").val());
 				//$("#Bill_BILL_NO").val("OE/"+zeroPad((register_count+1), 2)+"/"+FIANANCIAL_YEAR+" dt "+TODAY_DATE);
-				$("#Bill_NILL_BILL_NO").val("");
-				$("#Bill_LIC_DED_BILL_NO").val("");
-				$("#Bill_PT_DED_BILL_NO").val("");
-				$("#BILL_ENTRY_COUNT").val(1);
-				$("#paybillinfo").hide();
-				$("#npspaybillinfo").hide();
+				
+				$("#BILL_NO_SECTION").show();
+				$("#BILL_TITLE_SECTION").show();
+				$("#BILL_AMOUNT_SECTION").show();
+				$("#FILE_NO_SECTION").show();
+				$("#OE_IT_DED_SECTION").show();
+				$("#OE_NET_AMOUNT_SECTION").show();
+				$("#VENDOR_ID_SECTION").show();
+				$("#OE_BILLS_SECTION").show();
+				$("#PFMS_BILL_NO_SECTION").show();
+				$("#CER_NO_SECTION").show();
+				$("#MONTH_SECTION").show();
+				$("#YEAR_SECTION").show();
+				$("#CREATION_DATE_SECTION").show();
+				$('#txtBillTitle').val("Payement of "+$("#Bill_BILL_SUB_TYPE option:selected").text()+" for the month of "+PREVIOUS_MONTH_YEAR+" in R/O of "+DEPT_NAME);
 			}
 			else if(bill_sub_type == OE_Stationery_Local_Purchase){
-				$('#txtBillTitle').val("Purchase of "+$("#Bill_BILL_SUB_TYPE option:selected").text()+" in R/O of "+DEPT_NAME);
 				//var register_count = parseInt($("#BILL_REGISTER_COUNT").val());
 				//$("#Bill_BILL_NO").val("OE/"+zeroPad((register_count+1), 2)+"/"+FIANANCIAL_YEAR+" dt "+TODAY_DATE);
-				$("#Bill_NILL_BILL_NO").val("");
-				$("#Bill_LIC_DED_BILL_NO").val("");
-				$("#Bill_PT_DED_BILL_NO").val("");
-				$("#BILL_ENTRY_COUNT").val(1);
-				$("#paybillinfo").hide();
-				$("#npspaybillinfo").hide();
+				
+				$("#BILL_NO_SECTION").show();
+				$("#BILL_TITLE_SECTION").show();
+				$("#BILL_AMOUNT_SECTION").show();
+				$("#FILE_NO_SECTION").show();
+				$("#OE_IT_DED_SECTION").show();
+				$("#OE_NET_AMOUNT_SECTION").show();
+				$("#VENDOR_ID_SECTION").show();
+				$("#OE_BILLS_SECTION").show();
+				$("#PFMS_BILL_NO_SECTION").show();
+				$("#CER_NO_SECTION").show();
+				$("#MONTH_SECTION").show();
+				$("#YEAR_SECTION").show();
+				$("#CREATION_DATE_SECTION").show();
+				$('#txtBillTitle').val("Purchase of "+$("#Bill_BILL_SUB_TYPE option:selected").text()+" in R/O of "+DEPT_NAME);
 			}
 			else if(bill_sub_type == OE_Purchase_of_Books_and_Publication){
-				$('#txtBillTitle').val("Purchase of "+$("#Bill_BILL_SUB_TYPE option:selected").text()+" in R/O of "+DEPT_NAME);
 				//var register_count = parseInt($("#BILL_REGISTER_COUNT").val());
 				//$("#Bill_BILL_NO").val("OE/"+zeroPad((register_count+1), 2)+"/"+FIANANCIAL_YEAR+" dt "+TODAY_DATE);
-				$("#Bill_NILL_BILL_NO").val("");
-				$("#Bill_LIC_DED_BILL_NO").val("");
-				$("#Bill_PT_DED_BILL_NO").val("");
-				$("#BILL_ENTRY_COUNT").val(1);
-				$("#paybillinfo").hide();
-				$("#npspaybillinfo").hide();
+				
+				$("#BILL_NO_SECTION").show();
+				$("#BILL_TITLE_SECTION").show();
+				$("#BILL_AMOUNT_SECTION").show();
+				$("#FILE_NO_SECTION").show();
+				$("#OE_IT_DED_SECTION").show();
+				$("#OE_NET_AMOUNT_SECTION").show();
+				$("#VENDOR_ID_SECTION").show();
+				$("#OE_BILLS_SECTION").show();
+				$("#PFMS_BILL_NO_SECTION").show();
+				$("#CER_NO_SECTION").show();
+				$("#MONTH_SECTION").show();
+				$("#YEAR_SECTION").show();
+				$("#CREATION_DATE_SECTION").show();
+				$('#txtBillTitle').val("Purchase of "+$("#Bill_BILL_SUB_TYPE option:selected").text()+" in R/O of "+DEPT_NAME);
 			}
 			else if(bill_sub_type == OE_Perishable){
-				$('#txtBillTitle').val("Purchase of "+$("#Bill_BILL_SUB_TYPE option:selected").text()+" in R/O of "+DEPT_NAME);
 				//var register_count = parseInt($("#BILL_REGISTER_COUNT").val());
 				//$("#Bill_BILL_NO").val("OE/"+zeroPad((register_count+1), 2)+"/"+FIANANCIAL_YEAR+" dt "+TODAY_DATE);
-				$("#Bill_NILL_BILL_NO").val("");
-				$("#Bill_LIC_DED_BILL_NO").val("");
-				$("#Bill_PT_DED_BILL_NO").val("");
-				$("#BILL_ENTRY_COUNT").val(1);
-				$("#paybillinfo").hide();
-				$("#npspaybillinfo").hide();
+				
+				$("#BILL_NO_SECTION").show();
+				$("#BILL_TITLE_SECTION").show();
+				$("#BILL_AMOUNT_SECTION").show();
+				$("#FILE_NO_SECTION").show();
+				$("#OE_IT_DED_SECTION").show();
+				$("#OE_NET_AMOUNT_SECTION").show();
+				$("#VENDOR_ID_SECTION").show();
+				$("#OE_BILLS_SECTION").show();
+				$("#PFMS_BILL_NO_SECTION").show();
+				$("#CER_NO_SECTION").show();
+				$("#MONTH_SECTION").show();
+				$("#YEAR_SECTION").show();
+				$("#CREATION_DATE_SECTION").show();
+				$('#txtBillTitle').val("Purchase of "+$("#Bill_BILL_SUB_TYPE option:selected").text()+" in R/O of "+DEPT_NAME);
 			}
 			else if(bill_sub_type == OE_Imprest){
-				$('#txtBillTitle').val("Payment of "+$("#Bill_BILL_SUB_TYPE option:selected").text()+" in R/O of "+DEPT_NAME);
 				//var register_count = parseInt($("#BILL_REGISTER_COUNT").val());
 				//$("#Bill_BILL_NO").val("OE/"+zeroPad((register_count+1), 2)+"/"+FIANANCIAL_YEAR+" dt "+TODAY_DATE);
-				$("#Bill_NILL_BILL_NO").val("");
-				$("#Bill_LIC_DED_BILL_NO").val("");
-				$("#Bill_PT_DED_BILL_NO").val("");
-				$("#BILL_ENTRY_COUNT").val(1);
-				$("#paybillinfo").hide();
-				$("#npspaybillinfo").hide();
+				
+				$("#BILL_NO_SECTION").show();
+				$("#BILL_TITLE_SECTION").show();
+				$("#BILL_AMOUNT_SECTION").show();
+				$("#FILE_NO_SECTION").show();
+				$("#OE_IT_DED_SECTION").show();
+				$("#OE_NET_AMOUNT_SECTION").show();
+				$("#VENDOR_ID_SECTION").show();
+				$("#OE_BILLS_SECTION").show();
+				$("#PFMS_BILL_NO_SECTION").show();
+				$("#CER_NO_SECTION").show();
+				$("#MONTH_SECTION").show();
+				$("#YEAR_SECTION").show();
+				$("#CREATION_DATE_SECTION").show();
+				$('#txtBillTitle').val("Payment of "+$("#Bill_BILL_SUB_TYPE option:selected").text()+" in R/O of "+DEPT_NAME);
 			}
 			else if(bill_sub_type == OE_Diesel){
-				$('#txtBillTitle').val("Payment of "+$("#Bill_BILL_SUB_TYPE option:selected").text()+" in R/O of "+DEPT_NAME);
 				//var register_count = parseInt($("#BILL_REGISTER_COUNT").val());
 				//$("#Bill_BILL_NO").val("OE/"+zeroPad((register_count+1), 2)+"/"+FIANANCIAL_YEAR+" dt "+TODAY_DATE);
-				$("#Bill_NILL_BILL_NO").val("");
-				$("#Bill_LIC_DED_BILL_NO").val("");
-				$("#Bill_PT_DED_BILL_NO").val("");
-				$("#BILL_ENTRY_COUNT").val(1);
-				$("#paybillinfo").hide();
-				$("#npspaybillinfo").hide();
+				
+				$("#BILL_NO_SECTION").show();
+				$("#BILL_TITLE_SECTION").show();
+				$("#BILL_AMOUNT_SECTION").show();
+				$("#FILE_NO_SECTION").show();
+				$("#OE_IT_DED_SECTION").show();
+				$("#OE_NET_AMOUNT_SECTION").show();
+				$("#VENDOR_ID_SECTION").show();
+				$("#OE_BILLS_SECTION").show();
+				$("#PFMS_BILL_NO_SECTION").show();
+				$("#CER_NO_SECTION").show();
+				$("#MONTH_SECTION").show();
+				$("#YEAR_SECTION").show();
+				$("#CREATION_DATE_SECTION").show();
+				$('#txtBillTitle').val("Payment of "+$("#Bill_BILL_SUB_TYPE option:selected").text()+" in R/O of "+DEPT_NAME);
 			}
 			else if(bill_sub_type == OE_Telephones){
-				$('#txtBillTitle').val("Payment of "+$("#Bill_BILL_SUB_TYPE option:selected").text()+" charges for the month of "+PREVIOUS_MONTH_YEAR+" in R/O of "+DEPT_NAME);
 				//var register_count = parseInt($("#BILL_REGISTER_COUNT").val());
 				//$("#Bill_BILL_NO").val("OE/"+zeroPad((register_count+1), 2)+"/"+FIANANCIAL_YEAR+" dt "+TODAY_DATE);
-				$("#Bill_NILL_BILL_NO").val("");
-				$("#Bill_LIC_DED_BILL_NO").val("");
-				$("#Bill_PT_DED_BILL_NO").val("");
-				$("#BILL_ENTRY_COUNT").val(1);
-				$("#paybillinfo").hide();
-				$("#npspaybillinfo").hide();
+				
+				$("#BILL_NO_SECTION").show();
+				$("#BILL_TITLE_SECTION").show();
+				$("#BILL_AMOUNT_SECTION").show();
+				$("#FILE_NO_SECTION").show();
+				$("#OE_IT_DED_SECTION").show();
+				$("#OE_NET_AMOUNT_SECTION").show();
+				$("#VENDOR_ID_SECTION").show();
+				$("#OE_BILLS_SECTION").show();
+				$("#PFMS_BILL_NO_SECTION").show();
+				$("#CER_NO_SECTION").show();
+				$("#MONTH_SECTION").show();
+				$("#YEAR_SECTION").show();
+				$("#CREATION_DATE_SECTION").show();
+				$('#txtBillTitle').val("Payment of "+$("#Bill_BILL_SUB_TYPE option:selected").text()+" charges for the month of "+PREVIOUS_MONTH_YEAR+" in R/O of "+DEPT_NAME);
 			}
 			else if(bill_sub_type == OE_Electricity_Charges){
-				$('#txtBillTitle').val("Payment of "+$("#Bill_BILL_SUB_TYPE option:selected").text()+" for the month of "+PREVIOUS_MONTH_YEAR+" in R/O of "+DEPT_NAME);
 				//var register_count = parseInt($("#BILL_REGISTER_COUNT").val());
 				//$("#Bill_BILL_NO").val("OE/"+zeroPad((register_count+1), 2)+"/"+FIANANCIAL_YEAR+" dt "+TODAY_DATE);
-				$("#Bill_NILL_BILL_NO").val("");
-				$("#Bill_LIC_DED_BILL_NO").val("");
-				$("#Bill_PT_DED_BILL_NO").val("");
-				$("#BILL_ENTRY_COUNT").val(1);
-				$("#paybillinfo").hide();
-				$("#npspaybillinfo").hide();
+				
+				$("#BILL_NO_SECTION").show();
+				$("#BILL_TITLE_SECTION").show();
+				$("#BILL_AMOUNT_SECTION").show();
+				$("#FILE_NO_SECTION").show();
+				$("#OE_IT_DED_SECTION").show();
+				$("#OE_NET_AMOUNT_SECTION").show();
+				$("#VENDOR_ID_SECTION").show();
+				$("#OE_BILLS_SECTION").show();
+				$("#PFMS_BILL_NO_SECTION").show();
+				$("#CER_NO_SECTION").show();
+				$("#MONTH_SECTION").show();
+				$("#YEAR_SECTION").show();
+				$("#CREATION_DATE_SECTION").show();
+				$('#txtBillTitle').val("Payment of "+$("#Bill_BILL_SUB_TYPE option:selected").text()+" for the month of "+PREVIOUS_MONTH_YEAR+" in R/O of "+DEPT_NAME);
 			}
 			else if(bill_sub_type == OE_Misc_Office_Expenses){
-				$('#txtBillTitle').val("Payment of "+$("#Bill_BILL_SUB_TYPE option:selected").text()+" in R/O of "+DEPT_NAME);
 				//var register_count = parseInt($("#BILL_REGISTER_COUNT").val());
 				//$("#Bill_BILL_NO").val("OE/"+zeroPad((register_count+1), 2)+"/"+FIANANCIAL_YEAR+" dt "+TODAY_DATE);
-				$("#Bill_NILL_BILL_NO").val("");
-				$("#Bill_LIC_DED_BILL_NO").val("");
-				$("#Bill_PT_DED_BILL_NO").val("");
-				$("#BILL_ENTRY_COUNT").val(1);
-				$("#paybillinfo").hide();
-				$("#npspaybillinfo").hide();
+				
+				$("#BILL_NO_SECTION").show();
+				$("#BILL_TITLE_SECTION").show();
+				$("#BILL_AMOUNT_SECTION").show();
+				$("#FILE_NO_SECTION").show();
+				$("#OE_IT_DED_SECTION").show();
+				$("#OE_NET_AMOUNT_SECTION").show();
+				$("#VENDOR_ID_SECTION").show();
+				$("#OE_BILLS_SECTION").show();
+				$("#PFMS_BILL_NO_SECTION").show();
+				$("#CER_NO_SECTION").show();
+				$("#MONTH_SECTION").show();
+				$("#YEAR_SECTION").show();
+				$("#CREATION_DATE_SECTION").show();
+				$('#txtBillTitle').val("Payment of "+$("#Bill_BILL_SUB_TYPE option:selected").text()+" in R/O of "+DEPT_NAME);
 			}
 		}
 		else if(bill_type == DTE_BILL){
-			$("#dte-emp").show();
-			if(bill_sub_type == DTE_TOUR_TA_BILL){
-				$('#txtBillTitle').val("Bill of "+$("#Bill_BILL_SUB_TYPE option:selected").text()+" in R/O staff of "+DEPT_NAME);
+			if(bill_sub_type == DTE_TOUR_TA_ADVANCE_BILL || bill_sub_type == DTE_TRANSFER_TA_ADVANCE_BILL || bill_sub_type == DTE_TOUR_TA_CLAIM_BILL || bill_sub_type == DTE_TRANSFER_TA_CLAIM_BILL){
 				//var register_count = parseInt($("#BILL_REGISTER_COUNT").val());
 				//$("#Bill_BILL_NO").val("DTE/"+zeroPad((register_count+1), 2)+"/"+FIANANCIAL_YEAR+" dt "+TODAY_DATE);
-				$("#Bill_NILL_BILL_NO").val("");
-				$("#Bill_LIC_DED_BILL_NO").val("");
-				$("#Bill_PT_DED_BILL_NO").val("");
-				$("#BILL_ENTRY_COUNT").val(1);
+				//$("#BILL_ENTRY_COUNT").val(1);
+				$("#dte-emp").show();
+				$("#BILL_NO_SECTION").show();
+				$("#BILL_TITLE_SECTION").show();
+				$("#MONTH_SECTION").show();
+				$("#YEAR_SECTION").show();
+				$("#CREATION_DATE_SECTION").show();
+				$("#BILL_AMOUNT_SECTION").show();
+				$("#FILE_NO_SECTION").show();
+				$("#PFMS_BILL_NO_SECTION").show();
+				$("#CER_NO_SECTION").show();
+				
+				$('#txtBillTitle').val("Bill of "+$("#Bill_BILL_SUB_TYPE option:selected").text()+" in R/O staff of "+DEPT_NAME);
 			}
 		}
 		else if(bill_type == MEDICAL_BILL){
-			$("#medical-emp").show();
-			if(bill_sub_type == MEDICAL_CLAIM){
-				$('#txtBillTitle').val("Bill of Reimbursement of "+$("#Bill_BILL_SUB_TYPE option:selected").text()+" in R/O staff of "+DEPT_NAME);
+			if(bill_sub_type == MEDICAL_CLAIM || bill_sub_type == MEDICAL_ADVANCE){
 				//var register_count = parseInt($("#BILL_REGISTER_COUNT").val());
 				//$("#Bill_BILL_NO").val("MED/"+zeroPad((register_count+1), 2)+"/"+FIANANCIAL_YEAR+" dt "+TODAY_DATE);
-				$("#Bill_NILL_BILL_NO").val("");
-				$("#Bill_LIC_DED_BILL_NO").val("");
-				$("#Bill_PT_DED_BILL_NO").val("");
-				$("#BILL_ENTRY_COUNT").val(1);
+				//$("#BILL_ENTRY_COUNT").val(1);
+				
+				$("#medical-emp").show();
+				$("#BILL_NO_SECTION").show();
+				$("#BILL_TITLE_SECTION").show();
+				$("#MONTH_SECTION").show();
+				$("#YEAR_SECTION").show();
+				$("#CREATION_DATE_SECTION").show();
+				$("#BILL_AMOUNT_SECTION").show();
+				$("#FILE_NO_SECTION").show();
+				$("#PFMS_BILL_NO_SECTION").show();
+				$("#CER_NO_SECTION").show();
+				$('#txtBillTitle').val("Bill of "+$("#Bill_BILL_SUB_TYPE option:selected").text()+" in R/O staff of "+DEPT_NAME);
 			}
 		}
-		else{
-			$('#txtBillTitle').val('');
-		}
 	});
 	
-	$('#wages-emp input[type=checkbox], #ops-emp input[type=checkbox]').change(function(){
+	$('#ops-emp ul input[type=checkbox]').change(function(){
 		if($(this).is(":checked")) {
 			var empID = $(this).val(),
 				empName = $(this).next('span').html();
-			$('#txtBillTitle').val("Wages in respect of "+empName+" of  "+DEPT_NAME+" for the month of "+CURRENT_MONTH_YEAR);
+			$('#txtBillTitle').val($("#Bill_BILL_SUB_TYPE option:selected").text()+" in R/O "+empName+" of "+DEPT_NAME);
 		}
 		else{
-			$('#txtBillTitle').val("Wages in respect of staff of "+DEPT_NAME+" for the month of "+CURRENT_MONTH_YEAR);
+			$('#txtBillTitle').val($("#Bill_BILL_SUB_TYPE option:selected").text()+" in R/O OPS staff of "+DEPT_NAME);
 		}
 	});
-	
-	$('#nps-emp input[type=checkbox], #ops-emp input[type=checkbox]').change(function(){
+	$('#nps-emp ul input[type=checkbox]').change(function(){
 		if($(this).is(":checked")) {
 			var empID = $(this).val(),
 				empName = $(this).next('span').html();
-			$('#txtBillTitle').val($("#Bill_BILL_SUB_TYPE option:selected").text()+" in R/O "+empName+" of "+DEPT_NAME+" ");
+			$('#txtBillTitle').val($("#Bill_BILL_SUB_TYPE option:selected").text()+" in R/O "+empName+" of "+DEPT_NAME);
 		}
 		else{
-			$('#txtBillTitle').val($("#Bill_BILL_SUB_TYPE option:selected").text()+" in R/O staff of "+DEPT_NAME+" ");
+			$('#txtBillTitle').val($("#Bill_BILL_SUB_TYPE option:selected").text()+" in R/O NPS staff of "+DEPT_NAME);
 		}
 	});
-	
-	$('#ltc-htc-emp input[type=checkbox]').change(function(){
+	$('#bonus-ops-emp ul input[type=checkbox]').change(function(){
 		if($(this).is(":checked")) {
 			var empID = $(this).val(),
 				empName = $(this).next('span').html();
-			$('#txtBillTitle').val($("#Bill_BILL_SUB_TYPE option:selected").text()+" in R/O "+empName+" of "+DEPT_NAME+" for the Block Year");
+			$('#txtBillTitle').val($("#Bill_BILL_SUB_TYPE option:selected").text()+" in R/O "+empName+" of "+DEPT_NAME);
 		}
 		else{
-			$('#txtBillTitle').val($("#Bill_BILL_SUB_TYPE option:selected").text()+" in R/O staff of "+DEPT_NAME+" for the Block Year");
+			$('#txtBillTitle').val($("#Bill_BILL_SUB_TYPE option:selected").text()+" in R/O OPS staff of "+DEPT_NAME);
 		}
 	});
-	
-	$('#cea-emp input[type=checkbox]').change(function(){
+	$('#bonus-nps-emp ul input[type=checkbox]').change(function(){
 		if($(this).is(":checked")) {
 			var empID = $(this).val(),
 				empName = $(this).next('span').html();
-			$('#txtBillTitle').val("Bill of Reimbursement of "+$("#Bill_BILL_SUB_TYPE option:selected").text()+" in R/O "+empName+" of "+DEPT_NAME+" for the Academic Year ");
+			$('#txtBillTitle').val($("#Bill_BILL_SUB_TYPE option:selected").text()+" in R/O "+empName+" of "+DEPT_NAME);
 		}
 		else{
-			$('#txtBillTitle').val("Bill of Reimbursement of "+$("#Bill_BILL_SUB_TYPE option:selected").text()+" in R/O staff of "+DEPT_NAME+" for the Academic Year ");
+			$('#txtBillTitle').val($("#Bill_BILL_SUB_TYPE option:selected").text()+" in R/O NPS staff of "+DEPT_NAME);
 		}
 	});
-	
-	$('#medical-emp input[type=checkbox]').change(function(){
-		if($(this).is(":checked")) {
-			var empID = $(this).val(),
-				empName = $(this).next('span').html();
-			$('#txtBillTitle').val("Bill of Reimbursement of "+$("#Bill_BILL_SUB_TYPE option:selected").text()+" in R/O "+empName+" of "+DEPT_NAME+" for the Academic Year ");
-		}
-		else{
-			$('#txtBillTitle').val("Bill of Reimbursement of "+$("#Bill_BILL_SUB_TYPE option:selected").text()+" in R/O staff of "+DEPT_NAME+" for the Academic Year ");
-		}
-	});
-	
-	$('#dte-emp input[type=checkbox]').change(function(){
+	$('#ua-emp ul input[type=checkbox]').change(function(){
 		if($(this).is(":checked")) {
 			var empID = $(this).val(),
 				empName = $(this).next('span').html();
@@ -623,37 +714,567 @@ $(document).ready(function(){
 			$('#txtBillTitle').val("Bill of "+$("#Bill_BILL_SUB_TYPE option:selected").text()+" in R/O staff of "+DEPT_NAME);
 		}
 	});
-	
-	$('#ytchkIsBonusBill').change(function(){
+	$('#medical-emp ul input[type=checkbox]').change(function(){
 		if($(this).is(":checked")) {
 			var empID = $(this).val(),
 				empName = $(this).next('span').html();
-			
+			$('#txtBillTitle').val("Bill of "+$("#Bill_BILL_SUB_TYPE option:selected").text()+" in R/O "+empName+" of "+DEPT_NAME);
 		}
 		else{
-			$('#txtBillTitle').val("");
+			$('#txtBillTitle').val("Bill of "+$("#Bill_BILL_SUB_TYPE option:selected").text()+" in R/O staff of "+DEPT_NAME);
 		}
 	});
-	
+	$('#dte-emp ul input[type=checkbox]').change(function(){
+		if($(this).is(":checked")) {
+			var empID = $(this).val(),
+				empName = $(this).next('span').html();
+			$('#txtBillTitle').val("Bill of "+$("#Bill_BILL_SUB_TYPE option:selected").text()+" in R/O "+empName+" of "+DEPT_NAME);
+		}
+		else{
+			$('#txtBillTitle').val("Bill of "+$("#Bill_BILL_SUB_TYPE option:selected").text()+" in R/O staff of "+DEPT_NAME);
+		}
+	});
+	$('#wages-emp ul input[type=checkbox]').change(function(){
+		if($(this).is(":checked")) {
+			var empID = $(this).val(),
+				empName = $(this).next('span').html();
+			$('#txtBillTitle').val("Wages in respect of "+empName+" of  "+DEPT_NAME+" for the month of ");
+		}
+		else{
+			$('#txtBillTitle').val("Wages in respect of staff of "+DEPT_NAME+" for the month of ");
+		}
+	});
 });
 
+function loadFormOnUpdate(){
+	if(CONTROLLER_ACTION == 'update'){
+		$("#employee-selection-lists input").attr('disabled', 'disabled');
+		if(CURRENT_BILL_TYPE == SALARY_OPS_BILL){
+			if(CURRENT_BILL_SUB_TYPE == OPS_PAY_BILL){
+				$("#BILL_NO_SECTION").show();
+				$("#PT_BILL_NO_SECTION").show();
+				$("#BILL_TITLE_SECTION").show();
+				$("#MONTH_SECTION").show();
+				$("#YEAR_SECTION").show();
+				$("#CREATION_DATE_SECTION").show();
+			}
+			if(CURRENT_BILL_SUB_TYPE == OPS_ARREAR_BILL){
+				$("#ops-emp").show();
+				$("#BILL_NO_SECTION").show();
+				$("#PT_BILL_NO_SECTION").show();
+				$("#BILL_TITLE_SECTION").show();
+				$("#MONTH_SECTION").show();
+				$("#YEAR_SECTION").show();
+				$("#CREATION_DATE_SECTION").show();
+				$("#FILE_NO_SECTION").show();
+				$("#PFMS_BILL_NO_SECTION").show();
+				$("#IS_ARREAR_BILL").val(1);
+			}
+			if(CURRENT_BILL_SUB_TYPE == OPS_AD_BONUS_BILL){
+				$("#bonus-ops-emp").show();
+				$("#BILL_NO_SECTION").show();
+				$("#BILL_TITLE_SECTION").show();
+				$("#MONTH_SECTION").show();
+				$("#YEAR_SECTION").show();
+				$("#CREATION_DATE_SECTION").show();
+				$("#FILE_NO_SECTION").show();
+				$("#PFMS_BILL_NO_SECTION").show();
+				$("#IS_BONUS_BILL").val(1);
+			}
+			if(CURRENT_BILL_SUB_TYPE == OPS_UA_BILL){
+				$("#ua-emp").show();
+				$("#UA_PERIOD").show();
+				$("#BILL_NO_SECTION").show();
+				$("#BILL_TITLE_SECTION").show();
+				$("#MONTH_SECTION").show();
+				$("#YEAR_SECTION").show();
+				$("#CREATION_DATE_SECTION").show();
+				$("#FILE_NO_SECTION").show();
+				$("#PFMS_BILL_NO_SECTION").show();
+				$("#IS_UA_BILL").val(1);
+			}
+			if(CURRENT_BILL_SUB_TYPE == OPS_CEA_BILL){
+				$("#ops-emp").show();
+				$("#BILL_NO_SECTION").show();
+				$("#BILL_TITLE_SECTION").show();
+				$("#MONTH_SECTION").show();
+				$("#YEAR_SECTION").show();
+				$("#CREATION_DATE_SECTION").show();
+				$("#CEA_BILLS_SECTION").show();
+				$("#FILE_NO_SECTION").show();
+				$("#PFMS_BILL_NO_SECTION").show();
+				$("#IS_CEA_BILL").val(1);
+			}
+			if(CURRENT_BILL_SUB_TYPE == OPS_LTC_ADVANCE_BILL || CURRENT_BILL_SUB_TYPE == OPS_LTC_CLAIM_BILL){
+				$("#ops-emp").show();
+				$("#BILL_NO_SECTION").show();
+				$("#BILL_TITLE_SECTION").show();
+				$("#MONTH_SECTION").show();
+				$("#YEAR_SECTION").show();
+				$("#CREATION_DATE_SECTION").show();
+				$("#FILE_NO_SECTION").show();
+				$("#PFMS_BILL_NO_SECTION").show();
+				if(bill_sub_type == OPS_LTC_ADVANCE_BILL){
+					$("#IS_LTC_ADVANCE_BILL").val(1);
+				}
+				if(bill_sub_type == OPS_LTC_CLAIM_BILL){
+					$("#IS_LTC_CLAIM_BILL").val(1);
+				}
+			}
+			if(CURRENT_BILL_SUB_TYPE == OPS_EL_ENCASHMENT_BILL){
+				$("#ops-emp").show();
+				$("#BILL_NO_SECTION").show();
+				$("#BILL_TITLE_SECTION").show();
+				$("#MONTH_SECTION").show();
+				$("#YEAR_SECTION").show();
+				$("#CREATION_DATE_SECTION").show();
+				$("#FILE_NO_SECTION").show();
+				$("#PFMS_BILL_NO_SECTION").show();
+				$("#IS_EL_ENCASHMENT_BILL").val(1);
+			}
+			if(CURRENT_BILL_SUB_TYPE == OPS_RECOVERY_BILL){
+				$("#ops-emp").show();
+				$("#BILL_NO_SECTION").show();
+				$("#BILL_TITLE_SECTION").show();
+				$("#MONTH_SECTION").show();
+				$("#YEAR_SECTION").show();
+				$("#CREATION_DATE_SECTION").show();
+				$("#FILE_NO_SECTION").show();
+				$("#PFMS_BILL_NO_SECTION").show();
+				$("#IS_RECOVERY_BILL").val(1);
+			}
+		}
+		else if(CURRENT_BILL_TYPE == SALARY_NPS_BILL){
+			if(CURRENT_BILL_SUB_TYPE == NPS_PAY_BILL){
+				$("#BILL_NO_SECTION").show();
+				$("#PT_BILL_NO_SECTION").show();
+				$("#NILL_BILL_NO_SECTION").show();
+				$("#BILL_TITLE_SECTION").show();
+				$("#MONTH_SECTION").show();
+				$("#YEAR_SECTION").show();
+				$("#CREATION_DATE_SECTION").show();
+			}
+			if(CURRENT_BILL_SUB_TYPE == NPS_ARREAR_BILL){
+				$("#nps-emp").show();
+				$("#BILL_NO_SECTION").show();
+				$("#PT_BILL_NO_SECTION").show();
+				$("#NILL_BILL_NO_SECTION").hide();
+				$("#BILL_TITLE_SECTION").show();
+				$("#MONTH_SECTION").show();
+				$("#YEAR_SECTION").show();
+				$("#CREATION_DATE_SECTION").show();
+				$("#FILE_NO_SECTION").show();
+				$("#PFMS_BILL_NO_SECTION").show();
+				$("#IS_ARREAR_BILL").val(1);
+			}
+			if(CURRENT_BILL_SUB_TYPE == NPS_AD_BONUS_BILL){
+				$("#bonus-nps-emp").show();
+				$("#BILL_NO_SECTION").show();
+				$("#BILL_TITLE_SECTION").show();
+				$("#MONTH_SECTION").show();
+				$("#YEAR_SECTION").show();
+				$("#CREATION_DATE_SECTION").show();
+				$("#FILE_NO_SECTION").show();
+				$("#PFMS_BILL_NO_SECTION").show();
+				$("#IS_BONUS_BILL").val(1);
+			}
+			if(CURRENT_BILL_SUB_TYPE == NPS_UA_BILL){
+				$("#ua-emp").show();
+				$("#UA_PERIOD").show();
+				$("#BILL_NO_SECTION").show();
+				$("#BILL_TITLE_SECTION").show();
+				$("#MONTH_SECTION").show();
+				$("#YEAR_SECTION").show();
+				$("#CREATION_DATE_SECTION").show();
+				$("#FILE_NO_SECTION").show();
+				$("#PFMS_BILL_NO_SECTION").show();
+				$("#IS_UA_BILL").val(1);
+			}
+			if(CURRENT_BILL_SUB_TYPE == NPS_CEA_BILL){
+				$("#nps-emp").show();
+				$("#BILL_NO_SECTION").show();
+				$("#BILL_TITLE_SECTION").show();
+				$("#MONTH_SECTION").show();
+				$("#YEAR_SECTION").show();
+				$("#CREATION_DATE_SECTION").show();
+				$("#CEA_BILLS_SECTION").show();
+				$("#FILE_NO_SECTION").show();
+				$("#PFMS_BILL_NO_SECTION").show();
+				$("#IS_CEA_BILL").val(1);
+			}
+			if(CURRENT_BILL_SUB_TYPE == NPS_LTC_ADVANCE_BILL || CURRENT_BILL_SUB_TYPE == NPS_LTC_CLAIM_BILL){
+				$("#nps-emp").show();
+				$("#BILL_NO_SECTION").show();
+				$("#BILL_TITLE_SECTION").show();
+				$("#MONTH_SECTION").show();
+				$("#YEAR_SECTION").show();
+				$("#CREATION_DATE_SECTION").show();
+				$("#FILE_NO_SECTION").show();
+				$("#PFMS_BILL_NO_SECTION").show();
+				if(bill_sub_type == NPS_LTC_ADVANCE_BILL){
+					$("#IS_LTC_ADVANCE_BILL").val(1);
+				}
+				if(bill_sub_type == NPS_LTC_CLAIM_BILL){
+					$("#IS_LTC_CLAIM_BILL").val(1);
+				}
+			}
+			if(CURRENT_BILL_SUB_TYPE == NPS_EL_ENCASHMENT_BILL){
+				$("#nps-emp").show();
+				$("#BILL_NO_SECTION").show();
+				$("#BILL_TITLE_SECTION").show();
+				$("#MONTH_SECTION").show();
+				$("#YEAR_SECTION").show();
+				$("#CREATION_DATE_SECTION").show();
+				$("#FILE_NO_SECTION").show();
+				$("#PFMS_BILL_NO_SECTION").show();
+				$("#IS_EL_ENCASHMENT_BILL").val(1);
+			}
+			if(CURRENT_BILL_SUB_TYPE == NPS_RECOVERY_BILL){
+				//var register_count = parseInt($("#BILL_REGISTER_COUNT").val());
+				//$("#Bill_BILL_NO").val("CEA/"+zeroPad((register_count+1), 2)+"/"+FIANANCIAL_YEAR+" dt "+TODAY_DATE);
+				$("#nps-emp").show();
+				$("#BILL_NO_SECTION").show();
+				$("#BILL_TITLE_SECTION").show();
+				$("#MONTH_SECTION").show();
+				$("#YEAR_SECTION").show();
+				$("#CREATION_DATE_SECTION").show();
+				$("#FILE_NO_SECTION").show();
+				$("#PFMS_BILL_NO_SECTION").show();
+				$("#IS_RECOVERY_BILL").val(1);
+				$('#txtBillTitle').val($("#Bill_BILL_SUB_TYPE option:selected").text()+" in R/O NPS Staff of "+DEPT_NAME);
+			}
+		}
+		else if(CURRENT_BILL_TYPE == WAGES_BILL){
+			if(CURRENT_BILL_SUB_TYPE == WAGES_PAY_BILL){
+				$("#wages-emp").show();
+				$("#BILL_NO_SECTION").show();
+				$("#PT_BILL_NO_SECTION").show();
+				$("#BILL_TITLE_SECTION").show();
+				$("#MONTH_SECTION").show();
+				$("#YEAR_SECTION").show();
+				$("#CREATION_DATE_SECTION").show();
+				$("#FILE_NO_SECTION").show();
+				$("#PFMS_BILL_NO_SECTION").show();
+				$("#CER_NO_SECTION").show();
+			}
+		}
+		else if(CURRENT_BILL_TYPE == OE_BILL){
+			if(CURRENT_BILL_SUB_TYPE == OE_Postage_and_Telegrams){
+				$("#BILL_NO_SECTION").show();
+				$("#BILL_TITLE_SECTION").show();
+				$("#BILL_AMOUNT_SECTION").show();
+				$("#FILE_NO_SECTION").show();
+				$("#OE_IT_DED_SECTION").show();
+				$("#OE_NET_AMOUNT_SECTION").show();
+				$("#VENDOR_ID_SECTION").show();
+				$("#OE_BILLS_SECTION").show();
+				$("#PFMS_BILL_NO_SECTION").show();
+				$("#CER_NO_SECTION").show();
+				$("#MONTH_SECTION").show();
+				$("#YEAR_SECTION").show();
+				$("#CREATION_DATE_SECTION").show();
+			}
+			else if(CURRENT_BILL_SUB_TYPE == OE_Furniture){
+				$("#BILL_NO_SECTION").show();
+				$("#BILL_TITLE_SECTION").show();
+				$("#BILL_AMOUNT_SECTION").show();
+				$("#FILE_NO_SECTION").show();
+				$("#OE_IT_DED_SECTION").show();
+				$("#OE_NET_AMOUNT_SECTION").show();
+				$("#VENDOR_ID_SECTION").show();
+				$("#OE_BILLS_SECTION").show();
+				$("#PFMS_BILL_NO_SECTION").show();
+				$("#CER_NO_SECTION").show();
+				$("#MONTH_SECTION").show();
+				$("#YEAR_SECTION").show();
+				$("#CREATION_DATE_SECTION").show();
+			}
+			else if(CURRENT_BILL_SUB_TYPE == OE_Contingents_pay_House_keeping){
+				$("#BILL_NO_SECTION").show();
+				$("#BILL_TITLE_SECTION").show();
+				$("#BILL_AMOUNT_SECTION").show();
+				$("#FILE_NO_SECTION").show();
+				$("#OE_IT_DED_SECTION").show();
+				$("#OE_NET_AMOUNT_SECTION").show();
+				$("#VENDOR_ID_SECTION").show();
+				$("#OE_BILLS_SECTION").show();
+				$("#PFMS_BILL_NO_SECTION").show();
+				$("#CER_NO_SECTION").show();
+				$("#MONTH_SECTION").show();
+				$("#YEAR_SECTION").show();
+				$("#CREATION_DATE_SECTION").show();
+			}
+			else if(CURRENT_BILL_SUB_TYPE == OE_Other_Office_Machineries){
+				$("#BILL_NO_SECTION").show();
+				$("#BILL_TITLE_SECTION").show();
+				$("#BILL_AMOUNT_SECTION").show();
+				$("#FILE_NO_SECTION").show();
+				$("#OE_IT_DED_SECTION").show();
+				$("#OE_NET_AMOUNT_SECTION").show();
+				$("#VENDOR_ID_SECTION").show();
+				$("#OE_BILLS_SECTION").show();
+				$("#PFMS_BILL_NO_SECTION").show();
+				$("#CER_NO_SECTION").show();
+				$("#MONTH_SECTION").show();
+				$("#YEAR_SECTION").show();
+				$("#CREATION_DATE_SECTION").show();
+			}
+			else if(CURRENT_BILL_SUB_TYPE == OE_Office_Equipments){
+				$("#BILL_NO_SECTION").show();
+				$("#BILL_TITLE_SECTION").show();
+				$("#BILL_AMOUNT_SECTION").show();
+				$("#FILE_NO_SECTION").show();
+				$("#OE_IT_DED_SECTION").show();
+				$("#OE_NET_AMOUNT_SECTION").show();
+				$("#VENDOR_ID_SECTION").show();
+				$("#OE_BILLS_SECTION").show();
+				$("#PFMS_BILL_NO_SECTION").show();
+				$("#CER_NO_SECTION").show();
+				$("#MONTH_SECTION").show();
+				$("#YEAR_SECTION").show();
+				$("#CREATION_DATE_SECTION").show();
+			}
+			else if(CURRENT_BILL_SUB_TYPE == OE_Water_Charges){
+				$("#BILL_NO_SECTION").show();
+				$("#BILL_TITLE_SECTION").show();
+				$("#BILL_AMOUNT_SECTION").show();
+				$("#FILE_NO_SECTION").show();
+				$("#OE_IT_DED_SECTION").show();
+				$("#OE_NET_AMOUNT_SECTION").show();
+				$("#VENDOR_ID_SECTION").show();
+				$("#OE_BILLS_SECTION").show();
+				$("#PFMS_BILL_NO_SECTION").show();
+				$("#CER_NO_SECTION").show();
+				$("#MONTH_SECTION").show();
+				$("#YEAR_SECTION").show();
+				$("#CREATION_DATE_SECTION").show();
+			}
+			else if(CURRENT_BILL_SUB_TYPE == OE_Stationery_Local_Purchase){
+				$("#BILL_NO_SECTION").show();
+				$("#BILL_TITLE_SECTION").show();
+				$("#BILL_AMOUNT_SECTION").show();
+				$("#FILE_NO_SECTION").show();
+				$("#OE_IT_DED_SECTION").show();
+				$("#OE_NET_AMOUNT_SECTION").show();
+				$("#VENDOR_ID_SECTION").show();
+				$("#OE_BILLS_SECTION").show();
+				$("#PFMS_BILL_NO_SECTION").show();
+				$("#CER_NO_SECTION").show();
+				$("#MONTH_SECTION").show();
+				$("#YEAR_SECTION").show();
+				$("#CREATION_DATE_SECTION").show();
+			}
+			else if(CURRENT_BILL_SUB_TYPE == OE_Purchase_of_Books_and_Publication){
+				$("#BILL_NO_SECTION").show();
+				$("#BILL_TITLE_SECTION").show();
+				$("#BILL_AMOUNT_SECTION").show();
+				$("#FILE_NO_SECTION").show();
+				$("#OE_IT_DED_SECTION").show();
+				$("#OE_NET_AMOUNT_SECTION").show();
+				$("#VENDOR_ID_SECTION").show();
+				$("#OE_BILLS_SECTION").show();
+				$("#PFMS_BILL_NO_SECTION").show();
+				$("#CER_NO_SECTION").show();
+				$("#MONTH_SECTION").show();
+				$("#YEAR_SECTION").show();
+				$("#CREATION_DATE_SECTION").show();
+			}
+			else if(CURRENT_BILL_SUB_TYPE == OE_Perishable){
+				$("#BILL_NO_SECTION").show();
+				$("#BILL_TITLE_SECTION").show();
+				$("#BILL_AMOUNT_SECTION").show();
+				$("#FILE_NO_SECTION").show();
+				$("#OE_IT_DED_SECTION").show();
+				$("#OE_NET_AMOUNT_SECTION").show();
+				$("#VENDOR_ID_SECTION").show();
+				$("#OE_BILLS_SECTION").show();
+				$("#PFMS_BILL_NO_SECTION").show();
+				$("#CER_NO_SECTION").show();
+				$("#MONTH_SECTION").show();
+				$("#YEAR_SECTION").show();
+				$("#CREATION_DATE_SECTION").show();
+			}
+			else if(CURRENT_BILL_SUB_TYPE == OE_Imprest){
+				$("#BILL_NO_SECTION").show();
+				$("#BILL_TITLE_SECTION").show();
+				$("#BILL_AMOUNT_SECTION").show();
+				$("#FILE_NO_SECTION").show();
+				$("#OE_IT_DED_SECTION").show();
+				$("#OE_NET_AMOUNT_SECTION").show();
+				$("#VENDOR_ID_SECTION").show();
+				$("#OE_BILLS_SECTION").show();
+				$("#PFMS_BILL_NO_SECTION").show();
+				$("#CER_NO_SECTION").show();
+				$("#MONTH_SECTION").show();
+				$("#YEAR_SECTION").show();
+				$("#CREATION_DATE_SECTION").show();
+			}
+			else if(CURRENT_BILL_SUB_TYPE == OE_Diesel){
+				$("#BILL_NO_SECTION").show();
+				$("#BILL_TITLE_SECTION").show();
+				$("#BILL_AMOUNT_SECTION").show();
+				$("#FILE_NO_SECTION").show();
+				$("#OE_IT_DED_SECTION").show();
+				$("#OE_NET_AMOUNT_SECTION").show();
+				$("#VENDOR_ID_SECTION").show();
+				$("#OE_BILLS_SECTION").show();
+				$("#PFMS_BILL_NO_SECTION").show();
+				$("#CER_NO_SECTION").show();
+				$("#MONTH_SECTION").show();
+				$("#YEAR_SECTION").show();
+				$("#CREATION_DATE_SECTION").show();
+			}
+			else if(CURRENT_BILL_SUB_TYPE == OE_Telephones){
+				$("#BILL_NO_SECTION").show();
+				$("#BILL_TITLE_SECTION").show();
+				$("#BILL_AMOUNT_SECTION").show();
+				$("#FILE_NO_SECTION").show();
+				$("#OE_IT_DED_SECTION").show();
+				$("#OE_NET_AMOUNT_SECTION").show();
+				$("#VENDOR_ID_SECTION").show();
+				$("#OE_BILLS_SECTION").show();
+				$("#PFMS_BILL_NO_SECTION").show();
+				$("#CER_NO_SECTION").show();
+				$("#MONTH_SECTION").show();
+				$("#YEAR_SECTION").show();
+				$("#CREATION_DATE_SECTION").show();
+			}
+			else if(CURRENT_BILL_SUB_TYPE == OE_Electricity_Charges){
+				$("#BILL_NO_SECTION").show();
+				$("#BILL_TITLE_SECTION").show();
+				$("#BILL_AMOUNT_SECTION").show();
+				$("#FILE_NO_SECTION").show();
+				$("#OE_IT_DED_SECTION").show();
+				$("#OE_NET_AMOUNT_SECTION").show();
+				$("#VENDOR_ID_SECTION").show();
+				$("#OE_BILLS_SECTION").show();
+				$("#PFMS_BILL_NO_SECTION").show();
+				$("#CER_NO_SECTION").show();
+				$("#MONTH_SECTION").show();
+				$("#YEAR_SECTION").show();
+				$("#CREATION_DATE_SECTION").show();
+			}
+			else if(CURRENT_BILL_SUB_TYPE == OE_Misc_Office_Expenses){
+				$("#BILL_NO_SECTION").show();
+				$("#BILL_TITLE_SECTION").show();
+				$("#BILL_AMOUNT_SECTION").show();
+				$("#FILE_NO_SECTION").show();
+				$("#OE_IT_DED_SECTION").show();
+				$("#OE_NET_AMOUNT_SECTION").show();
+				$("#VENDOR_ID_SECTION").show();
+				$("#OE_BILLS_SECTION").show();
+				$("#PFMS_BILL_NO_SECTION").show();
+				$("#CER_NO_SECTION").show();
+				$("#MONTH_SECTION").show();
+				$("#YEAR_SECTION").show();
+				$("#CREATION_DATE_SECTION").show();
+			}
+		}
+		else if(CURRENT_BILL_TYPE == DTE_BILL){
+			if(CURRENT_BILL_SUB_TYPE == DTE_TOUR_TA_ADVANCE_BILL || CURRENT_BILL_SUB_TYPE == DTE_TRANSFER_TA_ADVANCE_BILL || CURRENT_BILL_SUB_TYPE == DTE_TOUR_TA_CLAIM_BILL || CURRENT_BILL_SUB_TYPE == DTE_TRANSFER_TA_CLAIM_BILL){
+				$("#dte-emp").show();
+				$("#BILL_NO_SECTION").show();
+				$("#BILL_TITLE_SECTION").show();
+				$("#MONTH_SECTION").show();
+				$("#YEAR_SECTION").show();
+				$("#CREATION_DATE_SECTION").show();
+				$("#BILL_AMOUNT_SECTION").show();
+				$("#FILE_NO_SECTION").show();
+				$("#PFMS_BILL_NO_SECTION").show();
+				$("#CER_NO_SECTION").show();
+			}
+		}
+		else if(CURRENT_BILL_TYPE == MEDICAL_BILL){
+			if(CURRENT_BILL_SUB_TYPE == MEDICAL_CLAIM || CURRENT_BILL_SUB_TYPE == MEDICAL_ADVANCE){
+				$("#medical-emp").show();
+				$("#BILL_NO_SECTION").show();
+				$("#BILL_TITLE_SECTION").show();
+				$("#MONTH_SECTION").show();
+				$("#YEAR_SECTION").show();
+				$("#CREATION_DATE_SECTION").show();
+				$("#BILL_AMOUNT_SECTION").show();
+				$("#FILE_NO_SECTION").show();
+				$("#PFMS_BILL_NO_SECTION").show();
+				$("#CER_NO_SECTION").show();
+			}
+		}
+	}
+}
+function resetBiilSelection(){
+	$("#nps-emp").hide();
+	$("#ops-emp").hide();
+	$("#bonus-nps-emp").hide();
+	$("#bonus-ops-emp").hide();
+	$("#ua-emp").hide();
+	$("#dte-emp").hide();
+	$("#wages-emp").hide();
+	$('#medical-emp').hide();
+	$("#ceabills").hide();
+	$("#oebills").hide();
+	
+	$("#IS_ARREAR_BILL").val(0);
+	$("#IS_BONUS_BILL").val(0);
+	$("#IS_UA_BILL").val(0);
+	$("#IS_CEA_BILL").val(0);
+	$("#IS_EL_ENCASHMENT_BILL").val(0);
+	$("#IS_LTC_ADVANCE_BILL").val(0);
+	$("#IS_LTC_CLAIM_BILL").val(0);
+	$("#IS_RECOVERY_BILL").val(0);
+	
+	$("#BILL_NO_SECTION").hide();
+	$("#NILL_BILL_NO_SECTION").hide();
+	$("#PT_BILL_NO_SECTION").hide();
+	$("#BILL_TITLE_SECTION").hide();
+	$("#BILL_AMOUNT_SECTION").hide();
+	$("#FILE_NO_SECTION").hide();
+	$("#OE_IT_DED_SECTION").hide();
+	$("#OE_NET_AMOUNT_SECTION").hide();
+	$("#VENDOR_ID_SECTION").hide();
+	$("#OE_BILLS_SECTION").hide();
+	$("#CEA_BILLS_SECTION").hide();
+	$("#MONTH_SECTION").hide();
+	$("#YEAR_SECTION").hide();
+	$("#CREATION_DATE_SECTION").hide();
+	$("#EXPENDITURE_INC_BILL_SECTION").hide();
+	$("#PFMS_BILL_NO_SECTION").hide();
+	$("#CER_NO_SECTION").hide();
+	$("#PFMS_STATUS_SECTION").hide();
+	$("#APPROPIATION_BALANCE_SECTION").hide();
+	$("#UA_PERIOD").hide();
+}
 function search(searchBox, list){
 	var input, filter, ul, li, a, i;
-	input = document.getElementById('textSearch');
+	input = searchBox;
 	filter = input.value.toUpperCase();
-	ul = document.getElementById("tab");
-	li = ul.getElementsByTagName('li');
+	ul = $("#"+list+" ul");
+	li = ul.find('li');
 
 	// Loop through all list items, and hide those who don't match the search query
 	for (i = 0; i < li.length; i++) {
-		a = li[i].getElementsByTagName("a")[0];
-		if (a.innerHTML.toUpperCase().indexOf(filter) > -1) {
+		span = li[i].getElementsByTagName("span")[0];
+		if (span.innerHTML.toUpperCase().indexOf(filter) > -1) {
 			li[i].style.display = "";
 		} else {
 			li[i].style.display = "none";
 		}
 	}
 }
+function selectList(list){
+	var ul, li, i;
+	ul = $("#"+list+" ul");
+	li = ul.find('li');
+
+	// Loop through all list items, and hide those who don't match the search query
+	for (i = 0; i < li.length; i++) {
+		checkbox = li[i].getElementsByTagName("input")[0];
+		if (checkbox.checked) {
+			checkbox.checked = false;
+		} else {
+			checkbox.checked = true;
+		}
+	}
+}
+
 function validateBillForm(){
 	var bill_type = parseInt($("#slBillType").val());
 	
@@ -715,16 +1336,6 @@ function validateBillForm(){
 	}
 	
 	return true;
-}
-function otherSalaryBillsReset(){
-	$('#cea-emp').hide();
-	$('#medical-emp').hide();
-	$("#ltc-htc-emp").hide();
-	$("#ua-emp").hide();
-	$("#bonus-emp").hide();
-	$("#nps-emp").hide();
-	$("#ops-emp").hide();
-	$("#dte-emp").hide();
 }
 function zeroPad(num, places){
   var zero = places - num.toString().length + 1;

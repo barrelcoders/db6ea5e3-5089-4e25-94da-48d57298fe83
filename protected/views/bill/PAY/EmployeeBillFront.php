@@ -88,7 +88,15 @@
 		<p><span style="font-weight: bold;font-size: 11px;">Detailed Heads</span></p>
 		<?php $GROSS = Yii::app()->db->createCommand("SELECT SUM(GROSS) as GROSS FROM tbl_salary_details WHERE BILL_ID_FK = $model->ID;")->queryRow()['GROSS']; ?>
 		<?php $DA = Yii::app()->db->createCommand("SELECT SUM(DA) as DA FROM tbl_salary_details WHERE BILL_ID_FK = $model->ID;")->queryRow()['DA']; ?>
-		<p >Salaries <?php if($model->IS_CEA_BILL == 1) echo "<span style='padding-left: 100px;'>CEA</span>"?><span style="float: right;font-weight: bold;margin-right: 10px;">Rs.<?php echo $GROSS - $DA;?></span></p>
+		<p >Salaries 
+			<?php if($model->IS_CEA_BILL == 1) echo "<span style='padding-left: 100px;'>Children Education Allowance</span>"?>
+			<?php if($model->IS_UA_BILL == 1) echo "<span style='padding-left: 100px;'>Uniform Allowance</span>"?>
+			<?php if($model->IS_ARREAR_BILL == 1) echo "<span style='padding-left: 100px;'>Arrear</span>"?>
+			<?php if($model->IS_BONUS_BILL == 1) echo "<span style='padding-left: 100px;'>Bonus</span>"?>
+			<?php if($model->IS_LTC_ADVANCE_BILL == 1) echo "<span style='padding-left: 100px;'>LTC/HTC Advance</span>"?>
+			<?php if($model->IS_LTC_CLAIM_BILL == 1) echo "<span style='padding-left: 100px;'>LTC/HTC Claim</span>"?>
+			<?php if($model->IS_EL_ENCASHMENT_BILL == 1) echo "<span style='padding-left: 100px;'>Earned Leave Encashment</span>"?>
+			<span style="float: right;font-weight: bold;margin-right: 10px;">Rs.<?php echo $GROSS - $DA;?></span></p>
 		<p >Dearness Allowance <span style="float: right;font-weight: bold;margin-right: 10px;">Rs.<?php echo $DA;?></span></p>
 		<p><span >Interim Relief</span></p>
 		<p ><b>I. Grand Total :-</b> <span style="float: right;font-weight: bold;margin-right: 10px;">Rs.<?php echo $GROSS;?></span></p>

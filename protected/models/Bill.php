@@ -54,7 +54,7 @@ class Bill extends CActiveRecord
 			array('BILL_TYPE, BILL_SUB_TYPE, VENDOR_ID', 'length', 'max'=>10),
 			array('BILL_AMOUNT, EXPENDITURE_INC_BILL, APPROPIATION_BALANCE', 'length', 'max'=>100),
 			array('CER_NO, UA_PERIOD', 'length', 'max'=>50),
-			array('IS_ARREAR_BILL, IS_CEA_BILL, IS_BONUS_BILL, IS_UA_BILL, IS_LTC_HTC_BILL', 'length', 'max'=>3),
+			array('IS_ARREAR_BILL, IS_CEA_BILL, IS_BONUS_BILL, IS_UA_BILL, IS_LTC_ADVANCE_BILL, IS_LTC_CLAIM_BILL, IS_EL_ENCASHMENT_BILL, IS_RECOVERY_BILL', 'length', 'max'=>3),
 			array('PFMS_STATUS, MONTH, YEAR', 'length', 'max'=>45),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
@@ -116,6 +116,10 @@ class Bill extends CActiveRecord
 			'IS_BONUS_BILL'=>'Bonus Bill',
 			'IS_UA_BILL'=>'Uniform Allowance Bill',
 			'IS_LTC_HTC_BILL'=>'LTC/HTC Advances & Claims Bill',
+			'IS_LTC_ADVANCE_BILL'=>'LTC/HTC Advance Bill',
+			'IS_LTC_CLAIM_BILL'=>'LTC/HTC Claims Bill', 
+			'IS_EL_ENCASHMENT_BILL'=>'EL Encashment Bill', 
+			'IS_RECOVERY_BILL'=>'Recovery Bill', 
 			'OE_IT_DED'=>'Income Tax Deduction',
 			'OE_NET_AMOUNT'=>'Net Bill Amount',
 			'UA_PERIOD'=>'Uniform Allowance Period'
@@ -174,12 +178,16 @@ class Bill extends CActiveRecord
 		$criteria->compare('PFMS_STATUS',$this->PFMS_STATUS,true);
 		$criteria->compare('BILL_SUB_TYPE',$this->BILL_SUB_TYPE,true);
 		$criteria->compare('VENDOR_ID',$this->VENDOR_ID,true);
+		$criteria->compare('UA_PERIOD',$this->UA_PERIOD,true);
 		$criteria->compare('IS_ARREAR_BILL',$this->IS_ARREAR_BILL,true);
 		$criteria->compare('IS_CEA_BILL',$this->IS_ARREAR_BILL,true);
 		$criteria->compare('IS_BONUS_BILL',$this->IS_ARREAR_BILL,true);
 		$criteria->compare('IS_UA_BILL',$this->IS_ARREAR_BILL,true);
-		$criteria->compare('IS_LTC_HTC_BILL',$this->IS_LTC_HTC_BILL,true);
-		$criteria->compare('UA_PERIOD',$this->UA_PERIOD,true);
+		$criteria->compare('IS_LTC_ADVANCE_BILL',$this->IS_LTC_ADVANCE_BILL,true);
+		$criteria->compare('IS_LTC_CLAIM_BILL',$this->IS_LTC_CLAIM_BILL,true);
+		$criteria->compare('IS_EL_ENCASHMENT_BILL',$this->IS_EL_ENCASHMENT_BILL,true);
+		$criteria->compare('IS_RECOVERY_BILL',$this->IS_RECOVERY_BILL,true);
+		
 		
 		$criteria->order = 'CREATION_DATE DESC';
 		

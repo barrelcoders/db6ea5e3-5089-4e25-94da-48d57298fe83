@@ -16,6 +16,14 @@
 				<tr>
 					<td colspan="2"><b class="one-label">BILL Title: </b><a href="<?php echo Yii::app()->createUrl('bill/update', array('id'=>$bill->ID))?>"><?php echo $bill->BILL_TITLE; ?></a></td>
 				</tr>
+				<?php if($bill->IS_ARREAR_BILL == 1 || $bill->IS_CEA_BILL == 1 || $bill->IS_BONUS_BILL == 1 || $bill->IS_UA_BILL == 1 || $bill->IS_LTC_CLAIM_BILL == 1 ||  $bill->IS_LTC_ADVANCE_BILL == 1 || $bill->IS_EL_ENCASHMENT_BILL == 1 || $bill->IS_RECOVERY_BILL == 1){ ?>
+				<form id="bill-form" action="<?php echo Yii::app()->createUrl('Bill/update', array('id'=>$bill->ID, 'isSalaryHead'=>1))?>" method="post">
+					<tr>
+						<td ><b class="one-label">PFMS BILL NO: </b><input size="100" maxlength="100" name="Bill[PFMS_BILL_NO]" id="Bill_PFMS_BILL_NO" value="<?php echo Bill::model()->findByPK($bill->ID)->PFMS_BILL_NO;?>" type="text" style="line-height:30px;font-size: 20px;width: 80%;" ></td>
+						<td ><input class="btn btn-success" type="submit" name="yt0" value="SAVE PFMS BILL NO"></td>
+					</tr>
+				</form>
+				<?php } ?>
 			</table>
 			<form name="SalaryDetails" action="<?php echo Yii::app()->createUrl('Bill/SalaryDetails', array('id'=>$bill->ID))?>" method="post">
 			<div class="row">
@@ -38,7 +46,7 @@
 			</div>
 			<?php
 			$employees = array();
-			if($bill->IS_ARREAR_BILL == 1 || $bill->IS_CEA_BILL == 1 || $bill->IS_BONUS_BILL == 1 || $bill->IS_UA_BILL == 1 || $bill->IS_LTC_HTC_BILL == 1){
+			if($bill->IS_ARREAR_BILL == 1 || $bill->IS_CEA_BILL == 1 || $bill->IS_BONUS_BILL == 1 || $bill->IS_UA_BILL == 1 || $bill->IS_LTC_CLAIM_BILL == 1 ||  $bill->IS_LTC_ADVANCE_BILL == 1 || $bill->IS_EL_ENCASHMENT_BILL == 1 || $bill->IS_RECOVERY_BILL == 1){
 				$OtherBillEmployees = explode(",", OtherBillEmployees::model()->findByAttributes(array('BILL_ID'=>$model->ID))->EMPLOYEE_ID);
 				$employees = Employee::model()->findAllByAttributes(array('ID'=>$OtherBillEmployees));
 				$DATA_URL = Yii::app()->createUrl('Employee/OtherBillEmployees', array('BILL_ID'=>$model->ID));
@@ -91,7 +99,7 @@
 			<div id="employee-container" style="position:relative;border: 1px solid #ccc;background-color: #f1f1f1;height: 50px;">
 			<a href="javascript:void(0);" style="position: absolute;left: 0;width: 50px;height: 49px;background: #ccc;font-size: 30px;padding: 7px 10px;border: 1px solid #999;text-align: center;font-weight: bold;color: #000;" id="btn-prev"><i class="fa fa-angle-left"></i></a>
 			<div style="position: absolute;right: 50px;left:50px;overflow:hidden;">
-				<ul class="tab" id="tab" style="width:<?php echo count($employees)*200;?>px">    
+				<ul class="tab" id="tab" style="width:<?php echo count($employees)*200;?>px; min-width:400px;">    
 				<?php 
 					$i=0;
 					foreach($employees as $employee){ 
@@ -133,7 +141,7 @@
 					</table>
 				<?php 
 				
-				if($bill->IS_ARREAR_BILL == 1 || $bill->IS_CEA_BILL == 1 || $bill->IS_BONUS_BILL == 1 || $bill->IS_UA_BILL == 1 || $bill->IS_LTC_HTC_BILL == 1){
+				if($bill->IS_ARREAR_BILL == 1 || $bill->IS_CEA_BILL == 1 || $bill->IS_BONUS_BILL == 1 || $bill->IS_UA_BILL == 1 || $bill->IS_LTC_CLAIM_BILL == 1 ||  $bill->IS_LTC_ADVANCE_BILL == 1 || $bill->IS_EL_ENCASHMENT_BILL == 1 || $bill->IS_RECOVERY_BILL == 1 ){
 					if(SalaryDetails::model()->exists('EMPLOYEE_ID_FK='.$employee->ID.' AND BILL_ID_FK='.$bill->ID)){
 						$salary = SalaryDetails::model()->findByAttributes(array('EMPLOYEE_ID_FK'=>$employee->ID, 'BILL_ID_FK'=>$bill->ID));
 					}
@@ -161,7 +169,7 @@
 					<input type="hidden" value="<?php echo $bill->YEAR?>" name="SalaryInfo[YEAR]">
 					<input type="hidden" value="<?php echo $bill->ID?>" name="SalaryInfo[BILL_ID]">
 					<input type="hidden" value="<?php echo $employee->ID?>" name="SalaryDetails[<?php echo $employee->ID?>][EMP_ID]">
-					<?php if(!$bill->IS_CEA_BILL && !$bill->IS_BONUS_BILL && !$bill->IS_UA_BILL && !$bill->IS_LTC_HTC_BILL) {?>
+					<?php if(!$bill->IS_CEA_BILL && !$bill->IS_BONUS_BILL && !$bill->IS_UA_BILL && !$bill->IS_LTC_ADVANCE_BILL && !$bill->IS_LTC_CLAIM_BILL && !$bill->IS_EL_ENCASHMENT_BILL && !$bill->IS_RECOVERY_BILL ) {?>
 					<table class='gross-comp-<?php echo $employee->ID;?> table'>
 						<tr>
 							<td><b class="one-label">Basic: </b><input type='text' class="gross-inc-amount basic-amount" name="SalaryDetails[<?php echo $employee->ID?>][BASIC]" value='<?php echo $salary->BASIC ? $salary->BASIC : 0; ?>' placeholder='BASIC'></td>
@@ -331,10 +339,40 @@
 						</tr>
 					</table>
 					<?php } ?>
-					<?php if($bill->IS_LTC_HTC_BILL) {?>
+					<?php if($bill->IS_LTC_ADVANCE_BILL || $bill->IS_LTC_CLAIM_BILL) {?>
 					<table class='gross-comp-<?php echo $employee->ID;?> table'>
 						<tr>
 							<td><b class="one-label">HTC/LTC: </b><input type='text' class="gross-inc-amount" name="SalaryDetails[<?php echo $employee->ID?>][LTC_HTC]" value='<?php echo $salary->LTC_HTC ? $salary->LTC_HTC : 0?>' placeholder='HTC/LTC'></td>
+						</tr>
+					</table>
+					<table class='gross-comp-<?php echo $employee->ID;?> table'>
+						<tr>
+							<td><b class="one-label">GROSS: </b><input type='text' id='gross-components' name="SalaryDetails[<?php echo $employee->ID?>][GROSS]" value='<?php echo $salary->GROSS ? $salary->GROSS : 0?>' placeholder='GROSS'></td>
+							<td><b class="one-label">Deduction: </b><input type='text' class='ded-components' name="SalaryDetails[<?php echo $employee->ID?>][DED]" value='<?php echo $salary->DED ? $salary->DED : 0?>' placeholder='Deduction'></td>
+							<td><b class="one-label">NET: </b><input type='text' id='net-components' name="SalaryDetails[<?php echo $employee->ID?>][NET]" value='<?php echo $salary->NET ? $salary->NET : 0?>' placeholder='NET'></td>
+							<td><b class="one-label">Amount credit to Bank: </b><input type='text' id='credit-component' name="SalaryDetails[<?php echo $employee->ID?>][AMOUNT_BANK]" value='<?php echo $salary->AMOUNT_BANK ? $salary->AMOUNT_BANK : 0?>' placeholder='AMOUNT TO BANK'></td>
+						</tr>
+					</table>
+					<?php } ?>
+					<?php if($bill->IS_EL_ENCASHMENT_BILL) {?>
+					<table class='gross-comp-<?php echo $employee->ID;?> table'>
+						<tr>
+							<td><b class="one-label">EL ENCASHMENT: </b><input type='text' class="gross-inc-amount" name="SalaryDetails[<?php echo $employee->ID?>][EL_ENCASHMENT]" value='<?php echo $salary->EL_ENCASHMENT ? $salary->EL_ENCASHMENT : 0?>' placeholder='EL ENCASHMENT'></td>
+						</tr>
+					</table>
+					<table class='gross-comp-<?php echo $employee->ID;?> table'>
+						<tr>
+							<td><b class="one-label">GROSS: </b><input type='text' id='gross-components' name="SalaryDetails[<?php echo $employee->ID?>][GROSS]" value='<?php echo $salary->GROSS ? $salary->GROSS : 0?>' placeholder='GROSS'></td>
+							<td><b class="one-label">Deduction: </b><input type='text' class='ded-components' name="SalaryDetails[<?php echo $employee->ID?>][DED]" value='<?php echo $salary->DED ? $salary->DED : 0?>' placeholder='Deduction'></td>
+							<td><b class="one-label">NET: </b><input type='text' id='net-components' name="SalaryDetails[<?php echo $employee->ID?>][NET]" value='<?php echo $salary->NET ? $salary->NET : 0?>' placeholder='NET'></td>
+							<td><b class="one-label">Amount credit to Bank: </b><input type='text' id='credit-component' name="SalaryDetails[<?php echo $employee->ID?>][AMOUNT_BANK]" value='<?php echo $salary->AMOUNT_BANK ? $salary->AMOUNT_BANK : 0?>' placeholder='AMOUNT TO BANK'></td>
+						</tr>
+					</table>
+					<?php } ?>
+					<?php if($bill->IS_RECOVERY_BILL) {?>
+					<table class='gross-comp-<?php echo $employee->ID;?> table'>
+						<tr>
+							<td><b class="one-label">RECOVERY: </b><input type='text' class="ded-inc-amount" name="SalaryDetails[<?php echo $employee->ID?>][RECOVERY]" value='<?php echo $salary->RECOVERY ? $salary->RECOVERY : 0?>' placeholder='RECOVERY'></td>
 						</tr>
 					</table>
 					<table class='gross-comp-<?php echo $employee->ID;?> table'>
