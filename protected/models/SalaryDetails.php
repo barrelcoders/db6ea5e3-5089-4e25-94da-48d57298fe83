@@ -173,7 +173,10 @@ class SalaryDetails extends CActiveRecord
 			'IS_FAN_RECOVERY'=>'IS_FAN_RECOVERY',
 			'MAINT_MADIWALA'=>'MAINT. MADIWALA',
 			'MAINT_JAYAMAHAL'=>'MAINT. JAYAMAHAL',
-			'COURT_ATTACHMENT'=>'COURT'
+			'COURT_ATTACHMENT'=>'COURT',
+			'LTC_HTC_GROSS'=>'LTC GROSS',
+			'LTC_HTC_ADVANCE'=>'LTC ADVANCE',
+			'LTC_HTC'=>'LTC NET',
 		);
 	}
 
@@ -259,8 +262,10 @@ class SalaryDetails extends CActiveRecord
 		$criteria->compare('MAINT_MADIWALA',$this->IS_FAN_RECOVERY,true);
 		$criteria->compare('MAINT_JAYAMAHAL',$this->IS_FAN_RECOVERY,true);
 		$criteria->compare('COURT_ATTACHMENT',$this->COURT_ATTACHMENT,true);
+		$criteria->compare('LTC_HTC_GROSS',$this->LTC_HTC_GROSS,true);
+		$criteria->compare('LTC_HTC_ADVANCE',$this->LTC_HTC_ADVANCE,true);
+		$criteria->compare('LTC_HTC',$this->LTC_HTC,true);
 		
-
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
 		));

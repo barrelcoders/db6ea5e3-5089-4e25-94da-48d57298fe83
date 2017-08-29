@@ -34,7 +34,7 @@ class Bill extends CActiveRecord
 	 * @return string the associated database table name
 	 */
 	 
-	public $OE_IT_DED, $OE_NET_AMOUNT;
+	public $OE_IT_DED, $OE_NET_AMOUNT, $CLAIM_GROSS_AMOUNT, $CLAIM_ADVANCE_AMOUNT;
 	public function tableName()
 	{
 		return 'tbl_bill';
@@ -122,7 +122,7 @@ class Bill extends CActiveRecord
 			'IS_RECOVERY_BILL'=>'Recovery Bill', 
 			'OE_IT_DED'=>'Income Tax Deduction',
 			'OE_NET_AMOUNT'=>'Net Bill Amount',
-			'UA_PERIOD'=>'Uniform Allowance Period'
+			'UA_PERIOD'=>'Uniform Allowance Period',
 		);
 	}
 
@@ -187,8 +187,6 @@ class Bill extends CActiveRecord
 		$criteria->compare('IS_LTC_CLAIM_BILL',$this->IS_LTC_CLAIM_BILL,true);
 		$criteria->compare('IS_EL_ENCASHMENT_BILL',$this->IS_EL_ENCASHMENT_BILL,true);
 		$criteria->compare('IS_RECOVERY_BILL',$this->IS_RECOVERY_BILL,true);
-		
-		
 		$criteria->order = 'CREATION_DATE DESC';
 		
 		return new CActiveDataProvider($this, array(

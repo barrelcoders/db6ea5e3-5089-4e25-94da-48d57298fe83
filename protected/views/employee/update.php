@@ -21,7 +21,7 @@ $this->menu=array(
 		<div class="tbl">
 			<div class="tbl-row">
 				<div class="tbl-cell">
-					<h2>Update Employee <?php echo $model->NAME; ?></h2>
+					<h2>Update <?php echo $model->NAME; ?></h2>
 					<div class="subtitle"></div>
 				</div>
 			</div>

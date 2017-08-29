@@ -19,7 +19,6 @@ $monthName = array('1'=>'January', '2'=>'February', '3'=>'March', '4'=>'April', 
 <p><b>1. Bill No. & Date: <span style="text-decoration:underline;"><?php echo $model->BILL_NO;?> ( <?php echo $model->PFMS_BILL_NO;?> )</span></b></p><br>
 <p style="text-align: left;"><b>2. Token No. & Date: ....................................</b></p>
 <p style="text-align: right;"><b>3. Voucher No. & Date: ....................................</b></p>
-<br/>
 <p style="font-weight: bold;font-size: 15px;">HEAD OF ACCOUNT</p>
 <br/>
 <div style="display: inline-block;float: left;">
@@ -115,10 +114,10 @@ $monthName = array('1'=>'January', '2'=>'February', '3'=>'March', '4'=>'April', 
 		<td style="vertical-align: top;"><?php echo $i; ?></td>
 		<td style="vertical-align: top;"></td>
 		<td style="vertical-align: top;">
-		<?php echo Employee::model()->findByPK($employee['EMPLOYEE_ID'])->NAME."(".Employee::model()->findByPK($employee['EMPLOYEE_ID'])->NAME_HINDI.")"; ?>
+		<?php echo $model->BILL_TITLE; ?>
 		</td>
-		<td style="vertical-align: top;">Rs. <?php echo $model->BILL_AMOUNT; ?></td>
-		<td style="vertical-align: top;"></td>
+		<td style="vertical-align: top;">Rs. <?php echo DTEBillDetails::model()->find('BILL_ID_FK='.$model->ID)->GROSS; ?></td>
+		<td style="vertical-align: top;">Rs. <?php echo DTEBillDetails::model()->find('BILL_ID_FK='.$model->ID)->ADVANCE; ?></td>
 		<td style="vertical-align: top;">Rs. <?php echo $model->BILL_AMOUNT; ?></td>
 		<td style="vertical-align: top;"></td>
 		
@@ -146,8 +145,8 @@ $monthName = array('1'=>'January', '2'=>'February', '3'=>'March', '4'=>'April', 
 		<td style="vertical-align: top;"></td>
 		<td style="vertical-align: top;"></td>
 		<td style="vertical-align: top;">TOTAL [A]</td>
-		<td style="vertical-align: top;">Rs. <?php echo $model->BILL_AMOUNT; ?></td>
-		<td style="vertical-align: top;"></td>
+		<td style="vertical-align: top;">Rs. <?php echo DTEBillDetails::model()->find('BILL_ID_FK='.$model->ID)->GROSS; ?></td>
+		<td style="vertical-align: top;">Rs. <?php echo DTEBillDetails::model()->find('BILL_ID_FK='.$model->ID)->ADVANCE; ?></td>
 		<td style="vertical-align: top;">Rs. <?php echo $model->BILL_AMOUNT; ?></td>
 		<td style="vertical-align: top;"></td>
 	</tr>

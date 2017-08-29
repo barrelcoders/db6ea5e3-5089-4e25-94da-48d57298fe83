@@ -6,7 +6,7 @@ class BillController extends Controller
 	 * @var string the default layout for the views. Defaults to '//layouts/column2', meaning
 	 * using two-column layout. See 'protected/views/layouts/column2.php'.
 	 */
-	public $layout='//layouts/contentLayout', $amountInWords, $amountLessthanInWords, $Month, $Year, $ID;
+	public $layout='//layouts/contentLayout', $amountInWords, $amountLessthanInWords, $Month, $Year, $ID, $list;
 
 	/**
 	 * @return array action filters
@@ -34,23 +34,35 @@ class BillController extends Controller
 			),
 		);
 	}
-	public function actionPayslips($id)
+	public function actionPaySlipSelectEmployee($Month, $Year, $id)
 	{
-		$this->layout='';
-		$model = new Bill;
+		$this->layout='//layouts/contentLayout';
+		$model = $this->loadModel($id);
+		$this->ID = $id;
+		$this->Month = $Month;
+		$this->Year = $Year;
 		
-		if(Yii::app()->User->EMPLOYEE_ID != $id){
-			$this->redirect(Yii::app()->createUrl('Bill/Payslips', array('id'=>Yii::app()->User->EMPLOYEE_ID)));
+		if(isset($_POST['Bill']['submit'])){
+			$this->layout='//layouts/column1';
+			$this->list = $_POST['Bill']['Employee'];
+			$this->render('PAY/SelectedPaySlipDetail',array(
+				'model'=>$model,
+			));exit;
 		}
 		
-		
-		$this->render('Payslips',array(
+		$this->render('PAY/SelectEmployeesForPaySlip',array(
 			'model'=>$model,
-			'id'=>$id
 		));
 	}
 	
 	
+	public function actionSelectedPaySlipDetail()
+	{
+		$model = $this->loadModel($this->ID);
+		$this->render('PAY/SelectedPaySlipDetail',array(
+			'model'=>$model,
+		));
+	}
 	
 	public function actionChangeStatus(){
 		if(isset($_POST['status']) && isset($_POST['bill_id']) && isset($_POST['date'])){
@@ -161,8 +173,8 @@ class BillController extends Controller
 			foreach($salaries as $salary){
 				if(isset($salary['GROSS']) && isset($salary['NET']) && isset($salary['DED'])){
 					$SalaryDetails = array();
-					if(SalaryDetails::model()->exists('BILL_ID_FK='.$bill_id.' AND MONTH='.$month.' AND YEAR='.$year.' AND EMPLOYEE_ID_FK='.$salary['EMP_ID'])){
-						$SalaryDetails = SalaryDetails::model()->findByAttributes(array('EMPLOYEE_ID_FK'=>$salary['EMP_ID'], 'BILL_ID_FK'=>$bill_id, 'MONTH'=>$month, 'YEAR'=>$year));
+					if(SalaryDetails::model()->exists('BILL_ID_FK='.$bill_id.' AND EMPLOYEE_ID_FK='.$salary['EMP_ID'])){
+						$SalaryDetails = SalaryDetails::model()->findByAttributes(array('EMPLOYEE_ID_FK'=>$salary['EMP_ID'], 'BILL_ID_FK'=>$bill_id));
 					}
 					else{
 						$SalaryDetails = new SalaryDetails;
@@ -194,6 +206,8 @@ class BillController extends Controller
 					}
 					
 					if(isset($_POST['SalaryDetails'][$salary['EMP_ID']]['LTC_HTC'])){
+						$SalaryDetails->LTC_HTC_GROSS = isset($_POST['SalaryDetails'][$salary['EMP_ID']]['LTC_HTC_GROSS']) ? $_POST['SalaryDetails'][$salary['EMP_ID']]['LTC_HTC_GROSS'] : 0;
+						$SalaryDetails->LTC_HTC_ADVANCE = isset($_POST['SalaryDetails'][$salary['EMP_ID']]['LTC_HTC_ADVANCE']) ? $_POST['SalaryDetails'][$salary['EMP_ID']]['LTC_HTC_ADVANCE'] : 0;
 						$SalaryDetails->LTC_HTC = $_POST['SalaryDetails'][$salary['EMP_ID']]['LTC_HTC'];
 					}
 					
@@ -216,10 +230,19 @@ class BillController extends Controller
 				$BUDGET_ID = 1;
 			}
 			$attribs = array('BUDGET_ID'=>$BUDGET_ID, 'BILL_NO='.$bill_id);
-			$SalaryGROSS = Yii::app()->db->createCommand()->select('SUM(GROSS) as GROSS')
-							->from('tbl_salary_details t')
-							->where('BILL_ID_FK=:BILL_ID_FK AND YEAR=:YEAR AND MONTH=:MONTH', array(':BILL_ID_FK'=>$bill_id, ':YEAR'=>$year, ':MONTH'=>$month))
-							->queryRow();			
+			$SalaryGROSS = null;
+			if($model->BILL_SUB_TYPE == 29 || $model->BILL_SUB_TYPE == 30){				
+				$SalaryGROSS = Yii::app()->db->createCommand()->select('SUM(AMOUNT_BANK) as GROSS')
+								->from('tbl_salary_details t')
+								->where('BILL_ID_FK=:BILL_ID_FK', array(':BILL_ID_FK'=>$bill_id))
+								->queryRow();
+			}
+			else{
+				$SalaryGROSS = Yii::app()->db->createCommand()->select('SUM(GROSS) as GROSS')
+								->from('tbl_salary_details t')
+								->where('BILL_ID_FK=:BILL_ID_FK', array(':BILL_ID_FK'=>$bill_id))
+								->queryRow();
+			}
 			$BILL_NO = $bill_id;
 			$BILL_AMOUNT = $SalaryGROSS['GROSS'];
 			$EXPENDITURE_INC_BILL = 0;
@@ -352,7 +375,7 @@ class BillController extends Controller
 							$OtherBillEmployees->EMPLOYEE_ID = implode(",", $_POST['Bill']['Employee']['NPS']);
 						$OtherBillEmployees->save(false);
 					}
-					if(isset($_POST['Bill']['IS_LTC_CLAIM_BILL']) && $_POST['Bill']['IS_EL_ENCASHMENT_BILL'] == 1){
+					if(isset($_POST['Bill']['IS_EL_ENCASHMENT_BILL']) && $_POST['Bill']['IS_EL_ENCASHMENT_BILL'] == 1){
 						$OtherBillEmployees = new OtherBillEmployees;
 						$OtherBillEmployees->BILL_ID = $model->ID;
 						if($_POST['Bill']['BILL_TYPE'] == 1 )
@@ -450,6 +473,14 @@ class BillController extends Controller
 					$OtherBillEmployees->BILL_ID = $model->ID;
 					$OtherBillEmployees->EMPLOYEE_ID = implode(",", $_POST['Bill']['Employee']['DTE']);
 					$OtherBillEmployees->save(false);
+					
+					if(isset($_POST['Bill']['BILL_SUB_TYPE']) && ($_POST['Bill']['BILL_SUB_TYPE'] == 35 || $_POST['Bill']['BILL_SUB_TYPE'] == 36)){
+						$DTEBillsDetailsModel = new DTEBillDetails;
+						$DTEBillsDetailsModel->BILL_ID_FK = $model->ID;
+						$DTEBillsDetailsModel->GROSS = $_POST['Bill']['CLAIM_GROSS_AMOUNT'];
+						$DTEBillsDetailsModel->ADVANCE = $_POST['Bill']['CLAIM_ADVANCE_AMOUNT'];
+						$DTEBillsDetailsModel->save(false);
+					}
 					
 					$BUDGET_ID = 3;
 					$attribs = array('BUDGET_ID'=>$BUDGET_ID);
@@ -739,11 +770,15 @@ class BillController extends Controller
 	public function actionPTCCSLIC($id){$this->layout='//layouts/column1';$model = $this->loadModel($id);$this->render('PAY/PTCCSLIC',array('model'=>$model,));}
 	public function actionEPAY($id){$this->layout='//layouts/column1';$model = $this->loadModel($id);$this->render('PAY/EPAY',array('model'=>$model,));}
 	public function actionReconsilationLICCCS($id){$this->layout='//layouts/column1';$model = $this->loadModel($id);$this->render('PAY/ReconsilationLICCCS',array('model'=>$model,));}
-	public function actionLTCFront($id){$this->layout='//layouts/column1';$model = $this->loadModel($id);$this->render('PAY/LTCFront',array('model'=>$model,));}
-	public function actionLTCBack($id){$this->layout='//layouts/column1';$model = $this->loadModel($id);$this->render('PAY/LTCBack',array('model'=>$model,));}
+	public function actionLTCClaimFront($id){$this->layout='//layouts/column1';$model = $this->loadModel($id);$this->render('PAY/LTCClaimFront',array('model'=>$model,));}
+	public function actionLTCClaimBack($id){$this->layout='//layouts/column1';$model = $this->loadModel($id);$this->render('PAY/LTCClaimBack',array('model'=>$model,));}
+	public function actionLTCAdvanceFront($id){$this->layout='//layouts/column1';$model = $this->loadModel($id);$this->render('PAY/LTCAdvanceFront',array('model'=>$model,));}
+	public function actionLTCAdvanceBack($id){$this->layout='//layouts/column1';$model = $this->loadModel($id);$this->render('PAY/LTCAdvanceBack',array('model'=>$model,));}
 	public function actionMedicalBill($id){$this->layout='//layouts/column1';$model = $this->loadModel($id);$this->render('MEDICAL/Medical',array('model'=>$model,));}
-	public function actionDTEFront($id){$this->layout='//layouts/column1';$model = $this->loadModel($id);$this->render('DTE/DTEFront',array('model'=>$model,));}
-	public function actionDTEBack($id){$this->layout='//layouts/column1';$model = $this->loadModel($id);$this->render('DTE/DTEBack',array('model'=>$model,));}
+	public function actionDTEClaimFront($id){$this->layout='//layouts/column1';$model = $this->loadModel($id);$this->render('DTE/DTEClaimFront',array('model'=>$model,));}
+	public function actionDTEClaimBack($id){$this->layout='//layouts/column1';$model = $this->loadModel($id);$this->render('DTE/DTEClaimBack',array('model'=>$model,));}
+	public function actionDTEAdvanceFront($id){$this->layout='//layouts/column1';$model = $this->loadModel($id);$this->render('DTE/DTEAdvanceFront',array('model'=>$model,));}
+	public function actionDTEAdvanceBack($id){$this->layout='//layouts/column1';$model = $this->loadModel($id);$this->render('DTE/DTEAdvanceBack',array('model'=>$model,));}
 	public function actionCasualPayBillBackPage($id){$this->layout='//layouts/column1';$model = $this->loadModel($id);$this->render('PAY/CasualPayBillBackPage',array('model'=>$model,));}
 	public function actionCasualPayBillFrontPage($id){$this->layout='//layouts/column1';$model = $this->loadModel($id);$this->render('PAY/CasualPayBillFrontPage',array('model'=>$model,));}
 	public function actionCasualPTBillFrontPage($id){$this->layout='//layouts/column1';$model = $this->loadModel($id);$this->render('PAY/CasualPTBillFrontPage',array('model'=>$model,));}

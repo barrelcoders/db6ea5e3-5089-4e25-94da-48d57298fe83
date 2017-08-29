@@ -22,7 +22,8 @@
 <div style="text-align: center;">
 	<h4><b>मंजुरी आदेश./SANCTION ORDER</b></h4>
 </div><br>
-<p>In terms of provisions contained in the Ministry’s Order F No. A-26017/22/2008-Ad II A(pt) dated 28.09.10, the following officers of <?php echo $master->DEPT_NAME;?> have submitted the uniform allowance certificate for drawl of Annual replacement allowance and request for payment of Initial Equipment Allowance. is to be drawn for the year <?php echo $model->UA_PERIOD; ?> as detailed below :-</p>
+<p>In terms of provisions contained in the Ministry’s Order F No. A-26017/22/2008-Ad II A(pt) dated 28.09.10, The Commissioner/Joint Commissioner is pleased to sanctioned uniform allowance to the following officers of <?php echo $master->DEPT_NAME;?> 
+for drawl of Annual Replacement Allowance/Initial Equipment Allowance for the year <?php echo $model->UA_PERIOD; ?> as detailed below :-</p>
 <br><br>
 <table class="one-table">
 	<thead>

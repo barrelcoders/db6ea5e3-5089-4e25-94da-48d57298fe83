@@ -62,10 +62,9 @@
 	}
 </style>
 <?php $master = Master::model()->findByPK(1); ?>
-<?php $employees = Employee::model()->findAll();?>
-<?php foreach($employees as $employee){?>
-<?php $salary = SalaryDetails::model()->findByAttributes(array( 'EMPLOYEE_ID_FK'=>$employee->ID, 'BILL_ID_FK'=>$this->ID )); 
-	if(isset($salary)){
+<?php $salaries = SalaryDetails::model()->findAll('EMPLOYEE_ID_FK IN ('.implode(",", $this->list).') AND BILL_ID_FK='.$this->ID); 
+	foreach($salaries as $salary){
+		$employee=Employee::model()->findByPK($salary->EMPLOYEE_ID_FK);
 ?>
 	<div>
 		<table>
@@ -172,9 +171,7 @@
 		</table>
 	</div>
 	<br>
-<?php 
-	}
-} ?>
+<?php } ?>
 <style>
 	b{font-weight: bold;margin-right: 5px;}
 	td{padding-left:5px !important;border-collapse: collapse;}

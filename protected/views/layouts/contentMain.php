@@ -34,7 +34,7 @@
 	
 	        <a href="#" class="site-logo">
 	            <h1></h1>
-	            <img class="hidden-lg-up" src="img/logo-2-mob.png" alt="">
+	            <!--<img class="hidden-lg-up" src="img/logo-2-mob.png" alt="">-->
 	        </a>
 	
 	        <button id="show-hide-sidebar-toggle" class="show-hide-sidebar">
@@ -65,9 +65,9 @@
 	                        </div>
 	                    </div>
 	
-	                    <button type="button" class="burger-right">
+	                    <!--<button type="button" class="burger-right">
 	                        <i class="font-icon-menu-addl"></i>
-	                    </button>
+	                    </button>-->
 	                </div><!--.site-header-shown-->
 	
 	                <div class="mobile-menu-right-overlay"></div>

@@ -302,10 +302,10 @@
 					</table>
 					<table class='gross-comp-<?php echo $employee->ID;?> table'>
 						<tr>
-							<td><b class="one-label">GROSS: </b><input type='text' id='gross-components' name="SalaryDetails[<?php echo $employee->ID?>][GROSS]" value='<?php echo $salary->GROSS ? $salary->GROSS : 0?>' placeholder='GROSS'></td>
-							<td><b class="one-label">Deduction: </b><input type='text' class='ded-components' name="SalaryDetails[<?php echo $employee->ID?>][DED]" value='<?php echo $salary->DED ? $salary->DED : 0?>' placeholder='Deduction'></td>
-							<td><b class="one-label">NET: </b><input type='text' id='net-components' name="SalaryDetails[<?php echo $employee->ID?>][NET]" value='<?php echo $salary->NET ? $salary->NET : 0?>' placeholder='NET'></td>
-							<td><b class="one-label">Amount credit to Bank: </b><input type='text' id='credit-component' name="SalaryDetails[<?php echo $employee->ID?>][AMOUNT_BANK]" value='<?php echo $salary->AMOUNT_BANK ? $salary->AMOUNT_BANK : 0?>' placeholder='AMOUNT TO BANK'></td>
+							<td><b class="one-label">GROSS: </b><input readonly  type='text' id='gross-components' name="SalaryDetails[<?php echo $employee->ID?>][GROSS]" value='<?php echo $salary->GROSS ? $salary->GROSS : 0?>' placeholder='GROSS'></td>
+							<td><b class="one-label">Deduction: </b><input readonly  type='text' id='ded-components' name="SalaryDetails[<?php echo $employee->ID?>][DED]" value='<?php echo $salary->DED ? $salary->DED : 0?>' placeholder='Deduction'></td>
+							<td><b class="one-label">NET: </b><input readonly  type='text' id='net-components' name="SalaryDetails[<?php echo $employee->ID?>][NET]" value='<?php echo $salary->NET ? $salary->NET : 0?>' placeholder='NET'></td>
+							<td><b class="one-label">Amount credit to Bank: </b><input readonly  type='text' id='credit-component' name="SalaryDetails[<?php echo $employee->ID?>][AMOUNT_BANK]" value='<?php echo $salary->AMOUNT_BANK ? $salary->AMOUNT_BANK : 0?>' placeholder='AMOUNT TO BANK'></td>
 						</tr>
 					</table>
 					<?php } ?>
@@ -317,10 +317,10 @@
 					</table>
 					<table class='gross-comp-<?php echo $employee->ID;?> table'>
 						<tr>
-							<td><b class="one-label">GROSS: </b><input type='text' id='gross-components' name="SalaryDetails[<?php echo $employee->ID?>][GROSS]" value='<?php echo $salary->GROSS ? $salary->GROSS : 0?>' placeholder='GROSS'></td>
-							<td><b class="one-label">Deduction: </b><input type='text' class='ded-components' name="SalaryDetails[<?php echo $employee->ID?>][DED]" value='<?php echo $salary->DED ? $salary->DED : 0?>' placeholder='Deduction'></td>
-							<td><b class="one-label">NET: </b><input type='text' id='net-components' name="SalaryDetails[<?php echo $employee->ID?>][NET]" value='<?php echo $salary->NET ? $salary->NET : 0?>' placeholder='NET'></td>
-							<td><b class="one-label">Amount credit to Bank: </b><input type='text' id='credit-component' name="SalaryDetails[<?php echo $employee->ID?>][AMOUNT_BANK]" value='<?php echo $salary->AMOUNT_BANK ? $salary->AMOUNT_BANK : 0?>' placeholder='AMOUNT TO BANK'></td>
+							<td><b class="one-label">GROSS: </b><input readonly  type='text' id='gross-components' name="SalaryDetails[<?php echo $employee->ID?>][GROSS]" value='<?php echo $salary->GROSS ? $salary->GROSS : 0?>' placeholder='GROSS'></td>
+							<td><b class="one-label">Deduction: </b><input readonly  type='text' id='ded-components' name="SalaryDetails[<?php echo $employee->ID?>][DED]" value='<?php echo $salary->DED ? $salary->DED : 0?>' placeholder='Deduction'></td>
+							<td><b class="one-label">NET: </b><input readonly  type='text' id='net-components' name="SalaryDetails[<?php echo $employee->ID?>][NET]" value='<?php echo $salary->NET ? $salary->NET : 0?>' placeholder='NET'></td>
+							<td><b class="one-label">Amount credit to Bank: </b><input readonly  type='text' id='credit-component' name="SalaryDetails[<?php echo $employee->ID?>][AMOUNT_BANK]" value='<?php echo $salary->AMOUNT_BANK ? $salary->AMOUNT_BANK : 0?>' placeholder='AMOUNT TO BANK'></td>
 						</tr>
 					</table>
 					<?php } ?>
@@ -332,25 +332,42 @@
 					</table>
 					<table class='gross-comp-<?php echo $employee->ID;?> table'>
 						<tr>
-							<td><b class="one-label">GROSS: </b><input type='text' id='gross-components' name="SalaryDetails[<?php echo $employee->ID?>][GROSS]" value='<?php echo $salary->GROSS ? $salary->GROSS : 0?>' placeholder='GROSS'></td>
-							<td><b class="one-label">Deduction: </b><input type='text' class='ded-components' name="SalaryDetails[<?php echo $employee->ID?>][DED]" value='<?php echo $salary->DED ? $salary->DED : 0?>' placeholder='Deduction'></td>
-							<td><b class="one-label">NET: </b><input type='text' id='net-components' name="SalaryDetails[<?php echo $employee->ID?>][NET]" value='<?php echo $salary->NET ? $salary->NET : 0?>' placeholder='NET'></td>
-							<td><b class="one-label">Amount credit to Bank: </b><input type='text' id='credit-component' name="SalaryDetails[<?php echo $employee->ID?>][AMOUNT_BANK]" value='<?php echo $salary->AMOUNT_BANK ? $salary->AMOUNT_BANK : 0?>' placeholder='AMOUNT TO BANK'></td>
+							<td><b class="one-label">GROSS: </b><input readonly  type='text' id='gross-components' name="SalaryDetails[<?php echo $employee->ID?>][GROSS]" value='<?php echo $salary->GROSS ? $salary->GROSS : 0?>' placeholder='GROSS'></td>
+							<td><b class="one-label">Deduction: </b><input readonly  type='text' id='ded-components' name="SalaryDetails[<?php echo $employee->ID?>][DED]" value='<?php echo $salary->DED ? $salary->DED : 0?>' placeholder='Deduction'></td>
+							<td><b class="one-label">NET: </b><input readonly  type='text' id='net-components' name="SalaryDetails[<?php echo $employee->ID?>][NET]" value='<?php echo $salary->NET ? $salary->NET : 0?>' placeholder='NET'></td>
+							<td><b class="one-label">Amount credit to Bank: </b><input readonly  type='text' id='credit-component' name="SalaryDetails[<?php echo $employee->ID?>][AMOUNT_BANK]" value='<?php echo $salary->AMOUNT_BANK ? $salary->AMOUNT_BANK : 0?>' placeholder='AMOUNT TO BANK'></td>
 						</tr>
 					</table>
 					<?php } ?>
-					<?php if($bill->IS_LTC_ADVANCE_BILL || $bill->IS_LTC_CLAIM_BILL) {?>
+					<?php if($bill->IS_LTC_ADVANCE_BILL) {?>
 					<table class='gross-comp-<?php echo $employee->ID;?> table'>
 						<tr>
-							<td><b class="one-label">HTC/LTC: </b><input type='text' class="gross-inc-amount" name="SalaryDetails[<?php echo $employee->ID?>][LTC_HTC]" value='<?php echo $salary->LTC_HTC ? $salary->LTC_HTC : 0?>' placeholder='HTC/LTC'></td>
+							<td><b class="one-label">HTC/LTC ADVANCE: </b><input type='text' class="gross-inc-amount" name="SalaryDetails[<?php echo $employee->ID?>][LTC_HTC]" value='<?php echo $salary->LTC_HTC ? $salary->LTC_HTC : 0?>' placeholder='HTC/LTC ADVANCE'></td>
 						</tr>
 					</table>
 					<table class='gross-comp-<?php echo $employee->ID;?> table'>
 						<tr>
-							<td><b class="one-label">GROSS: </b><input type='text' id='gross-components' name="SalaryDetails[<?php echo $employee->ID?>][GROSS]" value='<?php echo $salary->GROSS ? $salary->GROSS : 0?>' placeholder='GROSS'></td>
-							<td><b class="one-label">Deduction: </b><input type='text' class='ded-components' name="SalaryDetails[<?php echo $employee->ID?>][DED]" value='<?php echo $salary->DED ? $salary->DED : 0?>' placeholder='Deduction'></td>
-							<td><b class="one-label">NET: </b><input type='text' id='net-components' name="SalaryDetails[<?php echo $employee->ID?>][NET]" value='<?php echo $salary->NET ? $salary->NET : 0?>' placeholder='NET'></td>
-							<td><b class="one-label">Amount credit to Bank: </b><input type='text' id='credit-component' name="SalaryDetails[<?php echo $employee->ID?>][AMOUNT_BANK]" value='<?php echo $salary->AMOUNT_BANK ? $salary->AMOUNT_BANK : 0?>' placeholder='AMOUNT TO BANK'></td>
+							<td><b class="one-label">GROSS: </b><input readonly  type='text' id='gross-components' name="SalaryDetails[<?php echo $employee->ID?>][GROSS]" value='<?php echo $salary->GROSS ? $salary->GROSS : 0?>' placeholder='GROSS'></td>
+							<td><b class="one-label">Deduction: </b><input readonly  type='text' id='ded-components' name="SalaryDetails[<?php echo $employee->ID?>][DED]" value='<?php echo $salary->DED ? $salary->DED : 0?>' placeholder='Deduction'></td>
+							<td><b class="one-label">NET: </b><input readonly  type='text' id='net-components' name="SalaryDetails[<?php echo $employee->ID?>][NET]" value='<?php echo $salary->NET ? $salary->NET : 0?>' placeholder='NET'></td>
+							<td><b class="one-label">Amount credit to Bank: </b><input readonly  type='text' id='credit-component' name="SalaryDetails[<?php echo $employee->ID?>][AMOUNT_BANK]" value='<?php echo $salary->AMOUNT_BANK ? $salary->AMOUNT_BANK : 0?>' placeholder='AMOUNT TO BANK'></td>
+						</tr>
+					</table>
+					<?php } ?>
+					<?php if($bill->IS_LTC_CLAIM_BILL) {?>
+					<table class='gross-comp-<?php echo $employee->ID;?> table'>
+						<tr>
+							<td><b class="one-label">HTC/LTC GROSS CLAIM: </b><input type='text' class="gross-inc-amount" name="SalaryDetails[<?php echo $employee->ID?>][LTC_HTC_GROSS]" value='<?php echo $salary->LTC_HTC_GROSS ? $salary->LTC_HTC_GROSS : 0?>' placeholder='GROSS'></td>
+							<td><b class="one-label">HTC/LTC ADVANCE: </b><input type='text' class="ltc-ded-inc-amount" name="SalaryDetails[<?php echo $employee->ID?>][LTC_HTC_ADVANCE]" value='<?php echo $salary->LTC_HTC_ADVANCE ? $salary->LTC_HTC_ADVANCE : 0?>' placeholder='ADVANCE'></td>
+							<td><b class="one-label">HTC/LTC NET AMOUNT: </b><input type='text' id="ltc-credit-component" name="SalaryDetails[<?php echo $employee->ID?>][LTC_HTC]" value='<?php echo $salary->LTC_HTC ? $salary->LTC_HTC : 0?>' placeholder='CLAIM AMOUNT'></td>
+						</tr>
+					</table>
+					<table class='gross-comp-<?php echo $employee->ID;?> table'>
+						<tr>
+							<td><b class="one-label">GROSS: </b><input readonly  type='text' id='gross-components' name="SalaryDetails[<?php echo $employee->ID?>][GROSS]" value='<?php echo $salary->GROSS ? $salary->GROSS : 0?>' placeholder='GROSS'></td>
+							<td><b class="one-label">Deduction: </b><input readonly  type='text' id='ded-components' name="SalaryDetails[<?php echo $employee->ID?>][DED]" value='<?php echo $salary->DED ? $salary->DED : 0?>' placeholder='Deduction'></td>
+							<td><b class="one-label">NET: </b><input readonly  type='text' id='net-components' name="SalaryDetails[<?php echo $employee->ID?>][NET]" value='<?php echo $salary->NET ? $salary->NET : 0?>' placeholder='NET'></td>
+							<td><b class="one-label">Amount credit to Bank: </b><input readonly  type='text' id='credit-component' name="SalaryDetails[<?php echo $employee->ID?>][AMOUNT_BANK]" value='<?php echo $salary->AMOUNT_BANK ? $salary->AMOUNT_BANK : 0?>' placeholder='AMOUNT TO BANK'></td>
 						</tr>
 					</table>
 					<?php } ?>
@@ -362,10 +379,10 @@
 					</table>
 					<table class='gross-comp-<?php echo $employee->ID;?> table'>
 						<tr>
-							<td><b class="one-label">GROSS: </b><input type='text' id='gross-components' name="SalaryDetails[<?php echo $employee->ID?>][GROSS]" value='<?php echo $salary->GROSS ? $salary->GROSS : 0?>' placeholder='GROSS'></td>
-							<td><b class="one-label">Deduction: </b><input type='text' class='ded-components' name="SalaryDetails[<?php echo $employee->ID?>][DED]" value='<?php echo $salary->DED ? $salary->DED : 0?>' placeholder='Deduction'></td>
-							<td><b class="one-label">NET: </b><input type='text' id='net-components' name="SalaryDetails[<?php echo $employee->ID?>][NET]" value='<?php echo $salary->NET ? $salary->NET : 0?>' placeholder='NET'></td>
-							<td><b class="one-label">Amount credit to Bank: </b><input type='text' id='credit-component' name="SalaryDetails[<?php echo $employee->ID?>][AMOUNT_BANK]" value='<?php echo $salary->AMOUNT_BANK ? $salary->AMOUNT_BANK : 0?>' placeholder='AMOUNT TO BANK'></td>
+							<td><b class="one-label">GROSS: </b><input readonly  type='text' id='gross-components' name="SalaryDetails[<?php echo $employee->ID?>][GROSS]" value='<?php echo $salary->GROSS ? $salary->GROSS : 0?>' placeholder='GROSS'></td>
+							<td><b class="one-label">Deduction: </b><input readonly  type='text' id='ded-components' name="SalaryDetails[<?php echo $employee->ID?>][DED]" value='<?php echo $salary->DED ? $salary->DED : 0?>' placeholder='Deduction'></td>
+							<td><b class="one-label">NET: </b><input readonly  type='text' id='net-components' name="SalaryDetails[<?php echo $employee->ID?>][NET]" value='<?php echo $salary->NET ? $salary->NET : 0?>' placeholder='NET'></td>
+							<td><b class="one-label">Amount credit to Bank: </b><input readonly  type='text' id='credit-component' name="SalaryDetails[<?php echo $employee->ID?>][AMOUNT_BANK]" value='<?php echo $salary->AMOUNT_BANK ? $salary->AMOUNT_BANK : 0?>' placeholder='AMOUNT TO BANK'></td>
 						</tr>
 					</table>
 					<?php } ?>
@@ -377,10 +394,10 @@
 					</table>
 					<table class='gross-comp-<?php echo $employee->ID;?> table'>
 						<tr>
-							<td><b class="one-label">GROSS: </b><input type='text' id='gross-components' name="SalaryDetails[<?php echo $employee->ID?>][GROSS]" value='<?php echo $salary->GROSS ? $salary->GROSS : 0?>' placeholder='GROSS'></td>
-							<td><b class="one-label">Deduction: </b><input type='text' class='ded-components' name="SalaryDetails[<?php echo $employee->ID?>][DED]" value='<?php echo $salary->DED ? $salary->DED : 0?>' placeholder='Deduction'></td>
-							<td><b class="one-label">NET: </b><input type='text' id='net-components' name="SalaryDetails[<?php echo $employee->ID?>][NET]" value='<?php echo $salary->NET ? $salary->NET : 0?>' placeholder='NET'></td>
-							<td><b class="one-label">Amount credit to Bank: </b><input type='text' id='credit-component' name="SalaryDetails[<?php echo $employee->ID?>][AMOUNT_BANK]" value='<?php echo $salary->AMOUNT_BANK ? $salary->AMOUNT_BANK : 0?>' placeholder='AMOUNT TO BANK'></td>
+							<td><b class="one-label">GROSS: </b><input readonly  type='text' id='gross-components' name="SalaryDetails[<?php echo $employee->ID?>][GROSS]" value='<?php echo $salary->GROSS ? $salary->GROSS : 0?>' placeholder='GROSS'></td>
+							<td><b class="one-label">Deduction: </b><input readonly  type='text' id='ded-components' name="SalaryDetails[<?php echo $employee->ID?>][DED]" value='<?php echo $salary->DED ? $salary->DED : 0?>' placeholder='Deduction'></td>
+							<td><b class="one-label">NET: </b><input readonly  type='text' id='net-components' name="SalaryDetails[<?php echo $employee->ID?>][NET]" value='<?php echo $salary->NET ? $salary->NET : 0?>' placeholder='NET'></td>
+							<td><b class="one-label">Amount credit to Bank: </b><input readonly  type='text' id='credit-component' name="SalaryDetails[<?php echo $employee->ID?>][AMOUNT_BANK]" value='<?php echo $salary->AMOUNT_BANK ? $salary->AMOUNT_BANK : 0?>' placeholder='AMOUNT TO BANK'></td>
 						</tr>
 					</table>
 					<?php } ?>
@@ -486,6 +503,24 @@
 			deductionComponentElement.val(total);
 			netComponentElement.val(grossComponentElement.val() - getElementValue(deductionComponentElement));
 			creditComponentElement.val(grossComponentElement.val() - getElementValue(ptDeductionComponentElement) - getElementValue(deductionComponentElement) - getElementValue(otherDeductionComponentElement));
+		});
+		
+		$('.ltc-ded-inc-amount').keyup(function(){
+			var container = $(this).parents('.tabcontent'), total = 0,
+				grossComponentElement = $(container).find('#gross-components'),
+				deductionComponentElement = $(container).find('#ded-components'),
+				netComponentElement = $(container).find('#net-components'),
+				ltcCreditComponentElement = $(container).find('#ltc-credit-component'),
+				creditComponentElement = $(container).find('#credit-component');
+				
+			$(container).find('.ltc-ded-inc-amount').each(function (index, element) {
+				total += parseInt($(element).val());
+			});
+			
+			deductionComponentElement.val(total);
+			netComponentElement.val(grossComponentElement.val() - getElementValue(deductionComponentElement));
+			creditComponentElement.val(grossComponentElement.val() - getElementValue(deductionComponentElement));
+			ltcCreditComponentElement.val(grossComponentElement.val() - getElementValue(deductionComponentElement));
 		});
 
 		$('.other-ded-inc-amount').keyup(function(){

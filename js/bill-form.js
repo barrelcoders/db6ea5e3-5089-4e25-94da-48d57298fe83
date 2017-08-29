@@ -65,8 +65,12 @@ $(document).ready(function(){
 		$('#Bill_BILL_AMOUNT').val(total);
 	});
 	
-	$('#Bill_OE_IT_DED').on('change', function() {
+	$('#Bill_OE_IT_DED').on('keyup', function() {
 		$('#Bill_OE_NET_AMOUNT').val($('#Bill_BILL_AMOUNT').val() - $('#Bill_OE_IT_DED').val())
+	});
+	
+	$('#Bill_CLAIM_ADVANCE_AMOUNT').on('keyup', function() {
+		$('#Bill_BILL_AMOUNT').val($('#Bill_CLAIM_GROSS_AMOUNT').val() - $('#Bill_CLAIM_ADVANCE_AMOUNT').val())
 	});
 	
 	$('#slBillType').change(function(){
@@ -154,7 +158,7 @@ $(document).ready(function(){
 				$("#IS_CEA_BILL").val(1);
 				$('#txtBillTitle').val($("#Bill_BILL_SUB_TYPE option:selected").text()+" in R/O OPS Staff of "+DEPT_NAME);
 			}
-			if(bill_sub_type == OPS_LTC_ADVANCE_BILL || bill_sub_type == OPS_LTC_CLAIM_BILL){
+			if(bill_sub_type == OPS_LTC_ADVANCE_BILL){
 				//var register_count = parseInt($("#BILL_REGISTER_COUNT").val());
 				//$("#Bill_BILL_NO").val("LTC/"+zeroPad((register_count+1), 2)+"/"+FIANANCIAL_YEAR+" dt "+TODAY_DATE);
 				$("#ops-emp").show();
@@ -165,12 +169,21 @@ $(document).ready(function(){
 				$("#CREATION_DATE_SECTION").show();
 				$("#FILE_NO_SECTION").show();
 				$("#PFMS_BILL_NO_SECTION").show();
-				if(bill_sub_type == OPS_LTC_ADVANCE_BILL){
-					$("#IS_LTC_ADVANCE_BILL").val(1);
-				}
-				if(bill_sub_type == OPS_LTC_CLAIM_BILL){
-					$("#IS_LTC_CLAIM_BILL").val(1);
-				}
+				$("#IS_LTC_ADVANCE_BILL").val(1);
+				$('#txtBillTitle').val($("#Bill_BILL_SUB_TYPE option:selected").text()+" in R/O OPS Staff of "+DEPT_NAME);
+			}
+			if(bill_sub_type == OPS_LTC_CLAIM_BILL){
+				//var register_count = parseInt($("#BILL_REGISTER_COUNT").val());
+				//$("#Bill_BILL_NO").val("LTC/"+zeroPad((register_count+1), 2)+"/"+FIANANCIAL_YEAR+" dt "+TODAY_DATE);
+				$("#ops-emp").show();
+				$("#BILL_NO_SECTION").show();
+				$("#BILL_TITLE_SECTION").show();
+				$("#MONTH_SECTION").show();
+				$("#YEAR_SECTION").show();
+				$("#CREATION_DATE_SECTION").show();
+				$("#FILE_NO_SECTION").show();
+				$("#PFMS_BILL_NO_SECTION").show();
+				$("#IS_LTC_CLAIM_BILL").val(1);
 				$('#txtBillTitle').val($("#Bill_BILL_SUB_TYPE option:selected").text()+" in R/O OPS Staff of "+DEPT_NAME);
 			}
 			if(bill_sub_type == OPS_EL_ENCASHMENT_BILL){
@@ -285,7 +298,7 @@ $(document).ready(function(){
 				$("#IS_CEA_BILL").val(1);
 				$('#txtBillTitle').val($("#Bill_BILL_SUB_TYPE option:selected").text()+" in R/O NPS Staff of "+DEPT_NAME);
 			}
-			if(bill_sub_type == NPS_LTC_ADVANCE_BILL || bill_sub_type == NPS_LTC_CLAIM_BILL){
+			if(bill_sub_type == NPS_LTC_ADVANCE_BILL){
 				//var register_count = parseInt($("#BILL_REGISTER_COUNT").val());
 				//$("#Bill_BILL_NO").val("LTC/"+zeroPad((register_count+1), 2)+"/"+FIANANCIAL_YEAR+" dt "+TODAY_DATE);
 				$("#nps-emp").show();
@@ -296,12 +309,23 @@ $(document).ready(function(){
 				$("#CREATION_DATE_SECTION").show();
 				$("#FILE_NO_SECTION").show();
 				$("#PFMS_BILL_NO_SECTION").show();
-				if(bill_sub_type == NPS_LTC_ADVANCE_BILL){
-					$("#IS_LTC_ADVANCE_BILL").val(1);
-				}
-				if(bill_sub_type == NPS_LTC_CLAIM_BILL){
-					$("#IS_LTC_CLAIM_BILL").val(1);
-				}
+				$("#IS_LTC_ADVANCE_BILL").val(1);
+				$('#txtBillTitle').val($("#Bill_BILL_SUB_TYPE option:selected").text()+" in R/O NPS Staff of "+DEPT_NAME);
+			}
+			if(bill_sub_type == NPS_LTC_CLAIM_BILL){
+				//var register_count = parseInt($("#BILL_REGISTER_COUNT").val());
+				//$("#Bill_BILL_NO").val("LTC/"+zeroPad((register_count+1), 2)+"/"+FIANANCIAL_YEAR+" dt "+TODAY_DATE);
+				$("#nps-emp").show();
+				$("#BILL_NO_SECTION").show();
+				$("#BILL_TITLE_SECTION").show();
+				$("#MONTH_SECTION").show();
+				$("#YEAR_SECTION").show();
+				$("#CREATION_DATE_SECTION").show();
+				$("#FILE_NO_SECTION").show();
+				$("#PFMS_BILL_NO_SECTION").show();
+				$("#CLAIM_GROSS_SECTION").show();
+				$("#CLAIM_ADVANCE_SECTION").show();
+				$("#IS_LTC_CLAIM_BILL").val(1);
 				$('#txtBillTitle').val($("#Bill_BILL_SUB_TYPE option:selected").text()+" in R/O NPS Staff of "+DEPT_NAME);
 			}
 			if(bill_sub_type == NPS_EL_ENCASHMENT_BILL){
@@ -625,7 +649,7 @@ $(document).ready(function(){
 			}
 		}
 		else if(bill_type == DTE_BILL){
-			if(bill_sub_type == DTE_TOUR_TA_ADVANCE_BILL || bill_sub_type == DTE_TRANSFER_TA_ADVANCE_BILL || bill_sub_type == DTE_TOUR_TA_CLAIM_BILL || bill_sub_type == DTE_TRANSFER_TA_CLAIM_BILL){
+			if(bill_sub_type == DTE_TOUR_TA_ADVANCE_BILL || bill_sub_type == DTE_TRANSFER_TA_ADVANCE_BILL){
 				//var register_count = parseInt($("#BILL_REGISTER_COUNT").val());
 				//$("#Bill_BILL_NO").val("DTE/"+zeroPad((register_count+1), 2)+"/"+FIANANCIAL_YEAR+" dt "+TODAY_DATE);
 				//$("#BILL_ENTRY_COUNT").val(1);
@@ -638,6 +662,25 @@ $(document).ready(function(){
 				$("#BILL_AMOUNT_SECTION").show();
 				$("#FILE_NO_SECTION").show();
 				$("#PFMS_BILL_NO_SECTION").show();
+				$("#CER_NO_SECTION").show();
+				
+				$('#txtBillTitle').val("Bill of "+$("#Bill_BILL_SUB_TYPE option:selected").text()+" in R/O staff of "+DEPT_NAME);
+			}
+			if(bill_sub_type == DTE_TOUR_TA_CLAIM_BILL || bill_sub_type == DTE_TRANSFER_TA_CLAIM_BILL){
+				//var register_count = parseInt($("#BILL_REGISTER_COUNT").val());
+				//$("#Bill_BILL_NO").val("DTE/"+zeroPad((register_count+1), 2)+"/"+FIANANCIAL_YEAR+" dt "+TODAY_DATE);
+				//$("#BILL_ENTRY_COUNT").val(1);
+				$("#dte-emp").show();
+				$("#BILL_NO_SECTION").show();
+				$("#BILL_TITLE_SECTION").show();
+				$("#MONTH_SECTION").show();
+				$("#YEAR_SECTION").show();
+				$("#CREATION_DATE_SECTION").show();
+				$("#BILL_AMOUNT_SECTION").show();
+				$("#FILE_NO_SECTION").show();
+				$("#PFMS_BILL_NO_SECTION").show();
+				$("#CLAIM_GROSS_SECTION").show();
+				$("#CLAIM_ADVANCE_SECTION").show();
 				$("#CER_NO_SECTION").show();
 				
 				$('#txtBillTitle').val("Bill of "+$("#Bill_BILL_SUB_TYPE option:selected").text()+" in R/O staff of "+DEPT_NAME);
@@ -805,7 +848,7 @@ function loadFormOnUpdate(){
 				$("#PFMS_BILL_NO_SECTION").show();
 				$("#IS_CEA_BILL").val(1);
 			}
-			if(CURRENT_BILL_SUB_TYPE == OPS_LTC_ADVANCE_BILL || CURRENT_BILL_SUB_TYPE == OPS_LTC_CLAIM_BILL){
+			if(CURRENT_BILL_SUB_TYPE == OPS_LTC_ADVANCE_BILL){
 				$("#ops-emp").show();
 				$("#BILL_NO_SECTION").show();
 				$("#BILL_TITLE_SECTION").show();
@@ -814,12 +857,18 @@ function loadFormOnUpdate(){
 				$("#CREATION_DATE_SECTION").show();
 				$("#FILE_NO_SECTION").show();
 				$("#PFMS_BILL_NO_SECTION").show();
-				if(bill_sub_type == OPS_LTC_ADVANCE_BILL){
-					$("#IS_LTC_ADVANCE_BILL").val(1);
-				}
-				if(bill_sub_type == OPS_LTC_CLAIM_BILL){
-					$("#IS_LTC_CLAIM_BILL").val(1);
-				}
+				$("#IS_LTC_ADVANCE_BILL").val(1);
+			}
+			if(CURRENT_BILL_SUB_TYPE == OPS_LTC_CLAIM_BILL){
+				$("#ops-emp").show();
+				$("#BILL_NO_SECTION").show();
+				$("#BILL_TITLE_SECTION").show();
+				$("#MONTH_SECTION").show();
+				$("#YEAR_SECTION").show();
+				$("#CREATION_DATE_SECTION").show();
+				$("#FILE_NO_SECTION").show();
+				$("#PFMS_BILL_NO_SECTION").show();
+				$("#IS_LTC_CLAIM_BILL").val(1);
 			}
 			if(CURRENT_BILL_SUB_TYPE == OPS_EL_ENCASHMENT_BILL){
 				$("#ops-emp").show();
@@ -902,7 +951,7 @@ function loadFormOnUpdate(){
 				$("#PFMS_BILL_NO_SECTION").show();
 				$("#IS_CEA_BILL").val(1);
 			}
-			if(CURRENT_BILL_SUB_TYPE == NPS_LTC_ADVANCE_BILL || CURRENT_BILL_SUB_TYPE == NPS_LTC_CLAIM_BILL){
+			if(CURRENT_BILL_SUB_TYPE == NPS_LTC_ADVANCE_BILL){
 				$("#nps-emp").show();
 				$("#BILL_NO_SECTION").show();
 				$("#BILL_TITLE_SECTION").show();
@@ -911,12 +960,18 @@ function loadFormOnUpdate(){
 				$("#CREATION_DATE_SECTION").show();
 				$("#FILE_NO_SECTION").show();
 				$("#PFMS_BILL_NO_SECTION").show();
-				if(bill_sub_type == NPS_LTC_ADVANCE_BILL){
-					$("#IS_LTC_ADVANCE_BILL").val(1);
-				}
-				if(bill_sub_type == NPS_LTC_CLAIM_BILL){
-					$("#IS_LTC_CLAIM_BILL").val(1);
-				}
+				$("#IS_LTC_ADVANCE_BILL").val(1);
+			}
+			if(CURRENT_BILL_SUB_TYPE == NPS_LTC_CLAIM_BILL){
+				$("#nps-emp").show();
+				$("#BILL_NO_SECTION").show();
+				$("#BILL_TITLE_SECTION").show();
+				$("#MONTH_SECTION").show();
+				$("#YEAR_SECTION").show();
+				$("#CREATION_DATE_SECTION").show();
+				$("#FILE_NO_SECTION").show();
+				$("#PFMS_BILL_NO_SECTION").show();
+				$("#IS_LTC_CLAIM_BILL").val(1);
 			}
 			if(CURRENT_BILL_SUB_TYPE == NPS_EL_ENCASHMENT_BILL){
 				$("#nps-emp").show();
@@ -1171,7 +1226,7 @@ function loadFormOnUpdate(){
 			}
 		}
 		else if(CURRENT_BILL_TYPE == DTE_BILL){
-			if(CURRENT_BILL_SUB_TYPE == DTE_TOUR_TA_ADVANCE_BILL || CURRENT_BILL_SUB_TYPE == DTE_TRANSFER_TA_ADVANCE_BILL || CURRENT_BILL_SUB_TYPE == DTE_TOUR_TA_CLAIM_BILL || CURRENT_BILL_SUB_TYPE == DTE_TRANSFER_TA_CLAIM_BILL){
+			if(CURRENT_BILL_SUB_TYPE == DTE_TOUR_TA_ADVANCE_BILL || CURRENT_BILL_SUB_TYPE == DTE_TRANSFER_TA_ADVANCE_BILL){
 				$("#dte-emp").show();
 				$("#BILL_NO_SECTION").show();
 				$("#BILL_TITLE_SECTION").show();
@@ -1182,6 +1237,20 @@ function loadFormOnUpdate(){
 				$("#FILE_NO_SECTION").show();
 				$("#PFMS_BILL_NO_SECTION").show();
 				$("#CER_NO_SECTION").show();
+			}
+			if(CURRENT_BILL_SUB_TYPE == DTE_TOUR_TA_CLAIM_BILL || CURRENT_BILL_SUB_TYPE == DTE_TRANSFER_TA_CLAIM_BILL){
+				$("#dte-emp").show();
+				$("#BILL_NO_SECTION").show();
+				$("#BILL_TITLE_SECTION").show();
+				$("#MONTH_SECTION").show();
+				$("#YEAR_SECTION").show();
+				$("#CREATION_DATE_SECTION").show();
+				$("#BILL_AMOUNT_SECTION").show();
+				$("#FILE_NO_SECTION").show();
+				$("#PFMS_BILL_NO_SECTION").show();
+				$("#CER_NO_SECTION").show();
+				$("#CLAIM_GROSS_SECTION").show();
+				$("#CLAIM_ADVANCE_SECTION").show();
 			}
 		}
 		else if(CURRENT_BILL_TYPE == MEDICAL_BILL){
@@ -1241,6 +1310,9 @@ function resetBiilSelection(){
 	$("#PFMS_STATUS_SECTION").hide();
 	$("#APPROPIATION_BALANCE_SECTION").hide();
 	$("#UA_PERIOD").hide();
+	$("#CLAIM_GROSS_SECTION").hide();
+	$("#CLAIM_ADVANCE_SECTION").hide();
+	
 }
 function search(searchBox, list){
 	var input, filter, ul, li, a, i;

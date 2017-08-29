@@ -8,9 +8,10 @@
 ");
 ?>
 <style>
-.pending {background: #bfe0ba;}
-.passed {background: #ffdaa2;}
+.pending {background: #FFF;/*background: #ffdaa2;*/}
+.passed {background: #bfe0ba;}
 tr.selected{background: #FFF;}
+table.table.table-bordered.table-hover{font-size: 14px;}
 </style>
 
 <div class="container-fluid">
@@ -34,30 +35,23 @@ tr.selected{background: #FFF;}
 			'id'=>'bill-grid',
 			'itemsCssClass' => 'table table-bordered table-hover',
 			'dataProvider'=>$model->search(array()),
-			'rowCssClassExpression'=>'($data->PFMS_STATUS == "Generated")? "passed" : "pending"',
+			'rowCssClassExpression'=>'($data->PFMS_STATUS == "Generated")? "pending" : "passed"',
 			'columns'=>array(
 				array('header'=>'SN.',
 					  'value'=>'++$row',
 				),
 				array(
-					'name'=>'PFMS_BILL_NO',
+					'header'=>'BILL NO',
 					'type'=>'raw',
 					'value'=>function ($data){ 
-							return '<b>'.$data->PFMS_BILL_NO.'</b>';
-					}
-				), 
-				array(
-					'name'=>'BILL_NO',
-					'type'=>'raw',
-					'value'=>function ($data){ 
-							return '<b>'.$data->BILL_NO.'</b>';
+							return '<span style="color:#1fbad6;">'.$data->PFMS_BILL_NO.'</span><br><span style="color:#000;">'.$data->BILL_NO.'</span>';
 					}
 				), 
 				array(
 					'name'=>'BILL_TITLE',
 					'type'=>'raw',
 					'value'=>function ($data){ 
-							return '<a href='.Yii::app()->createUrl('bill/update', array('id'=>$data->ID)).' target="_blank">'.$data->BILL_TITLE.'</a>';
+							return '<a href='.Yii::app()->createUrl('bill/update', array('id'=>$data->ID)).' target="_blank" style="color:#000;border-bottom:none;text-decoration:underline;">'.$data->BILL_TITLE.'</a>';
 					}
 				), 
 				array(
@@ -82,10 +76,17 @@ tr.selected{background: #FFF;}
 					'name'=>'BILL_TYPE',
 					'type'=>'raw',
 					'value'=>function ($data){ 
-							return BillType::model()->findByPK($data->BILL_TYPE)->TYPE;
+							return '<span style="color:#1fbad6;">'.BillType::model()->findByPK($data->BILL_TYPE)->TYPE."</span><br>".BillSubType::model()->findByPK($data->BILL_SUB_TYPE)->SUB_TYPE;
 					}
 				), 
-				'BILL_AMOUNT',
+				array(
+					'header'=>'AMOUNT',
+					'name'=>'BILL_AMOUNT',
+					'type'=>'raw',
+					'value'=>function ($data){ 
+							return $data->BILL_AMOUNT;
+					}
+				), 
 			),
 		)); ?>
 	</div>

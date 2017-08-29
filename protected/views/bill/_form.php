@@ -235,6 +235,41 @@
 				</p>
 			</div>
 		</div>
+		<?php if($model->BILL_TYPE == 4 && ( $model->BILL_SUB_TYPE == 35 ||$model->BILL_SUB_TYPE == 36 ) && Yii::app()->controller->action->id == 'update'){ ?>
+		<div class="form-group row" id="CLAIM_GROSS_SECTION">
+			<?php echo $form->labelEx($model,'CLAIM_GROSS_AMOUNT', array('class'=>'col-sm-2 form-control-label')); ?>
+			<div class="col-sm-10">
+				<p class="form-control-static">
+					<?php echo $form->textField($model,'CLAIM_GROSS_AMOUNT',array('size'=>20,'maxlength'=>20, 'value'=>DTEBillDetails::model()->find('BILL_ID_FK='.$model->ID)->GROSS, 'disabled'=>true)); ?>
+				</p>
+			</div>
+		</div>
+		<div class="form-group row" id="CLAIM_ADVANCE_SECTION">
+			<?php echo $form->labelEx($model,'CLAIM_ADVANCE_AMOUNT', array('class'=>'col-sm-2 form-control-label')); ?>
+			<div class="col-sm-10">
+				<p class="form-control-static">
+					<?php echo $form->textField($model,'CLAIM_ADVANCE_AMOUNT',array('size'=>20,'maxlength'=>20, 'value'=>DTEBillDetails::model()->find('BILL_ID_FK='.$model->ID)->ADVANCE, 'disabled'=>true)); ?>
+				</p>
+			</div>
+		</div>
+		<?php } else { ?>
+		<div class="form-group row" id="CLAIM_GROSS_SECTION">
+			<?php echo $form->labelEx($model,'CLAIM_GROSS_AMOUNT', array('class'=>'col-sm-2 form-control-label')); ?>
+			<div class="col-sm-10">
+				<p class="form-control-static">
+					<?php echo $form->textField($model,'CLAIM_GROSS_AMOUNT',array('size'=>20,'maxlength'=>20, 'disabled'=>Yii::app()->controller->action->id == 'update')); ?>
+				</p>
+			</div>
+		</div>
+		<div class="form-group row" id="CLAIM_ADVANCE_SECTION">
+			<?php echo $form->labelEx($model,'CLAIM_ADVANCE_AMOUNT', array('class'=>'col-sm-2 form-control-label')); ?>
+			<div class="col-sm-10">
+				<p class="form-control-static">
+					<?php echo $form->textField($model,'CLAIM_ADVANCE_AMOUNT',array('size'=>20,'maxlength'=>20, 'disabled'=>Yii::app()->controller->action->id == 'update')); ?>
+				</p>
+			</div>
+		</div>
+		<?php } ?>
 		<div class="form-group row" id="BILL_AMOUNT_SECTION">
 			<?php echo $form->labelEx($model,'BILL_AMOUNT', array('class'=>'col-sm-2 form-control-label')); ?>
 			<div class="col-sm-10">

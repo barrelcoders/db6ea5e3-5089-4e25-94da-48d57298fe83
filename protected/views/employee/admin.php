@@ -106,7 +106,8 @@ $this->breadcrumbs=array(
 				array(
 					'class'=>'CButtonColumn',
 					'htmlOptions' => array('style'=>'width:100px'),
-					'template' => '{view}{update}{delete}',
+					'template' => '{view}{update}',
+					//{delete}
 					'buttons'=>array
 					(
 						'view' => array
@@ -123,13 +124,13 @@ $this->breadcrumbs=array(
 							'imageUrl'=>'',
 							'label'=>''
 						),
-						'delete' => array
+						/*'delete' => array
 						(
 							'url'=>'Yii::app()->createUrl("Employee/Delete", array("id"=>$data->ID))',
 							'options'=>array('class'=>'glyphicon glyphicon-trash'),
 							'imageUrl'=>'',
 							'label'=>''
-						),
+						),*/
 					),
 				),
 			),
