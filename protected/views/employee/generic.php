@@ -84,15 +84,56 @@ $this->menu=array(
 		
 			</div>
 			<div class="col-sm-4">
-				<div>
+				<div id="designation" style="margin-bottom:10px;">
+					<div style="background: #333;padding: 5px;">
+						<input type="text" class="designation-list-search" size="40" placeholder="SEARCH DESIGNATION" onkeyup="search(this, 'designation');"/><span style="float: right;color: #FFF;"><input type="checkBox" class="designation-select-all" onclick="selectList('designation');"> SELECT ALL</span>
+					</div>
+					<ul style="background: rgb(204, 204, 204);padding: 10px;height: 200px;overflow-y: scroll;">
 					<?php 
 						$Designations = Designations::model()->findAll();
 						foreach($Designations as $designation){
 							?>
-								<p><input type="checkbox" name="Employee[Designations][]" value="<?php echo $designation->ID; ?>"><?php echo $designation->DESIGNATION?></p>
+								<li><input type="checkbox" name="Employee[Designations][]" value="<?php echo $designation->ID; ?>"> <span><?php echo $designation->DESIGNATION?></span></li>
 							<?php
 						}
 					?>
+					</ul>
+				</div>
+				<div id="pension-type" style="margin-bottom:10px;">
+					<div style="background: #333;padding: 5px;">
+						<input type="text" class="pension-type-list-search" size="40" placeholder="SEARCH PENSION TYPE" onkeyup="search(this, 'pension-type');"/><span style="float: right;color: #FFF;"><input type="checkBox" class="pension-type-select-all" onclick="selectList('pension-type');"> SELECT ALL</span>
+					</div>
+					<ul style="background: rgb(204, 204, 204);padding: 10px;height: 100px;overflow-y: scroll;">
+						<li><input type="checkbox" name="Employee[PENSION][]" value="'OPS'"> <span>OLD PENSION SCHEME</span></li>
+						<li><input type="checkbox" name="Employee[PENSION][]" value="'NPS'"> <span>NEW PENSION SCHEME</span></li>
+					</ul>
+				</div>
+				<div id="uniform" style="margin-bottom:10px;">
+					<div style="background: #333;padding: 5px;">
+						<input type="text" class="uniform-list-search" size="40" placeholder="SEARCH UNIFORM ALLOWANCE ELLIGIBLE" onkeyup="search(this, 'uniform');"/><span style="float: right;color: #FFF;"><input type="checkBox" class="uniform-select-all" onclick="selectList('uniform');"> SELECT ALL</span>
+					</div>
+					<ul style="background: rgb(204, 204, 204);padding: 10px;height: 100px;overflow-y: scroll;">
+						<li><input type="checkbox" name="Employee[UA][]" value="0"> <span>ELLIGIBLE</span></li>
+						<li><input type="checkbox" name="Employee[UA][]" value="1"> <span>NOT ELLIGIBLE</span></li>
+					</ul>
+				</div>
+				<div id="bonus" style="margin-bottom:10px;">
+					<div style="background: #333;padding: 5px;">
+						<input type="text" class="bonus-list-search" size="40" placeholder="SEARCH AD-HOC BONUS ELLIGIBLE" onkeyup="search(this, 'bonus');"/><span style="float: right;color: #FFF;"><input type="checkBox" class="bonus-all" onclick="selectList('bonus');"> SELECT ALL</span>
+					</div>
+					<ul style="background: rgb(204, 204, 204);padding: 10px;height: 100px;overflow-y: scroll;">
+						<li><input type="checkbox" name="Employee[BONUS][]" value="0"> <span>ELLIGIBLE</span></li>
+						<li><input type="checkbox" name="Employee[BONUS][]" value="1"> <span>NOT ELLIGIBLE</span></li>
+					</ul>
+				</div>
+				<div id="gender" style="margin-bottom:10px;">
+					<div style="background: #333;padding: 5px;">
+						<input type="text" class="gender-list-search" size="40" placeholder="SEARCH GENDER" onkeyup="search(this, 'gender');"/><span style="float: right;color: #FFF;"><input type="checkBox" class="gender-all" onclick="selectList('gender');"> SELECT ALL</span>
+					</div>
+					<ul style="background: rgb(204, 204, 204);padding: 10px;height: 100px;overflow-y: scroll;">
+						<li><input type="checkbox" name="Employee[GENDER][]" value="'Male'"> <span>MALE</span></li>
+						<li><input type="checkbox" name="Employee[GENDER][]" value="'Female'"> <span>FEMALE</span></li>
+					</ul>
 				</div>
 			</div>
 		</div>
@@ -101,4 +142,39 @@ $this->menu=array(
 		$this->endWidget(); ?>
 	</div>
 </div>
+<script>
 
+function search(searchBox, list){
+	var input, filter, ul, li, a, i;
+	input = searchBox;
+	filter = input.value.toUpperCase();
+	ul = $("#"+list+" ul");
+	li = ul.find('li');
+
+	// Loop through all list items, and hide those who don't match the search query
+	for (i = 0; i < li.length; i++) {
+		span = li[i].getElementsByTagName("span")[0];
+		if (span.innerHTML.toUpperCase().indexOf(filter) > -1) {
+			li[i].style.display = "";
+		} else {
+			li[i].style.display = "none";
+		}
+	}
+}
+function selectList(list){
+	var ul, li, i;
+	ul = $("#"+list+" ul");
+	li = ul.find('li');
+
+	// Loop through all list items, and hide those who don't match the search query
+	for (i = 0; i < li.length; i++) {
+		checkbox = li[i].getElementsByTagName("input")[0];
+		if (checkbox.checked) {
+			checkbox.checked = false;
+		} else {
+			checkbox.checked = true;
+		}
+	}
+}
+
+</script>

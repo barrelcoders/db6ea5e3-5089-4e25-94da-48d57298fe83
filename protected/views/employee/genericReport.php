@@ -17,9 +17,28 @@
 	</thead>
 	<?php 
 		$employees = null;
+		$conditions = array();
 		if(count($designations) > 0){
+			array_push($conditions, "DESIGNATION_ID_FK IN (".implode(",", $designations).")");
+		}
+		if(count($pension) > 0){
+			array_push($conditions, "PENSION_TYPE IN (".implode(",", $pension).")");
+		}
+		if(count($uniform) > 0){
+			array_push($conditions, "UA_ELIGIBLE IN (".implode(",", $uniform).")");
+		}
+		if(count($bonus) > 0){
+			array_push($conditions, "UA_ELIGIBLE IN (".implode(",", $bonus).")");
+		}
+		if(count($gender) > 0){
+			array_push($conditions, "GENDER IN (".implode(",", $gender).")");
+		}
+		
+		$conditionString = implode(" AND ", $conditions);
+		
+		if(count($conditions) > 0){
 			//$employees = Yii::app()->db->createCommand("SELECT * FROM tbl_employee WHERE IS_TRANSFERRED=0 AND IS_RETIRED=0 AND DESIGNATION_ID_FK IN (".implode(",", $designations).") ORDER BY DESIGNATION_ID_FK DESC ")->queryAll();
-			$employees = Yii::app()->db->createCommand("SELECT * FROM tbl_employee WHERE DESIGNATION_ID_FK IN (".implode(",", $designations).") ORDER BY DESIGNATION_ID_FK DESC ")->queryAll();
+			$employees = Yii::app()->db->createCommand("SELECT * FROM tbl_employee WHERE ".$conditionString." ORDER BY DESIGNATION_ID_FK DESC ")->queryAll();
 		}
 		else{
 			//$employees = Yii::app()->db->createCommand("SELECT * FROM tbl_employee WHERE IS_TRANSFERRED=0 AND IS_RETIRED=0 ORDER BY DESIGNATION_ID_FK DESC ")->queryAll();

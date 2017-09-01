@@ -249,7 +249,11 @@ class EmployeeController extends Controller
 				'custom_1'=>$_POST['Employee']['Custom_attr_1'],
 				'custom_2'=>$_POST['Employee']['Custom_attr_2'],
 				'custom_3'=>$_POST['Employee']['Custom_attr_3'],
-				'designations'=>isset($_POST['Employee']['Designations']) ? $_POST['Employee']['Designations'] : array()
+				'designations'=>isset($_POST['Employee']['Designations']) ? $_POST['Employee']['Designations'] : array(),
+				'pension'=>isset($_POST['Employee']['PENSION']) ? $_POST['Employee']['PENSION'] : array(),
+				'uniform'=>isset($_POST['Employee']['UA']) ? $_POST['Employee']['UA'] : array(),
+				'bonus'=>isset($_POST['Employee']['BONUS']) ? $_POST['Employee']['BONUS'] : array(),
+				'gender'=>isset($_POST['Employee']['GENDER']) ? $_POST['Employee']['GENDER'] : array(),
 			));
 		}
 		else{
