@@ -397,11 +397,11 @@
 							<table id="CEASubBillTable" border="1">
 								<tr>
 									<td>Name of Child</td>
-									<td>Date of Birth</td>
+									<!--<td>Date of Birth</td>-->
 									<td>Class</td>
 									<td>School</td>
 									<td>Amount</td>
-									<td>Remarks</td>
+									<td>Academmic Year</td>
 								</tr>
 								<?php
 									$CEABillDetails = new CEABillDetails;
@@ -410,7 +410,7 @@
 										?>
 										<tr>
 											<td><input type="text" size="10" value="<?php echo $bill->NAME; ?>" disabled="disabled"/></td>
-											<td><input type="text" size="10" value="<?php echo date('Y-m-d', strtotime($bill->DOB)); ?>" disabled="disabled"/></td>
+											<!--<td><input type="text" size="10" value="<?php echo date('Y-m-d', strtotime($bill->DOB)); ?>" disabled="disabled"/></td>-->
 											<td><input type="text" size="10" value="<?php echo $bill->CLASS; ?>" disabled="disabled"/></td>
 											<td><input type="text" size="10" value="<?php echo $bill->SCHOOL; ?>" disabled="disabled"/></td>
 											<td><input type="text" size="10" class="cea_bills_amount" value="<?php echo $bill->AMOUNT; ?>" disabled="disabled"/></td>
@@ -434,19 +434,19 @@
 							<table id="CEASubBillTable" border="1">
 								<tr>
 									<td>Name of Child</td>
-									<td>Date of Birth</td>
+									<!--<td>Date of Birth</td>-->
 									<td>Class</td>
 									<td>School</td>
 									<td>Amount</td>
-									<td>Remarks</td>
+									<td>Academmic Year</td>
 								</tr>
 								<tr>
 									<td><input type="text" style="width:150px;" name="Bill[CEA_BILLS][0][NAME]"/></td>
-									<td><input type="date" style="width:150px;" name="Bill[CEA_BILLS][0][DOB]"/></td>
+									<!--<td><input type="date" style="width:150px;" name="Bill[CEA_BILLS][0][DOB]"/></td>-->
 									<td><input type="text" style="width:150px;" name="Bill[CEA_BILLS][0][CLASS]"/></td>
 									<td><input type="text" style="width:150px;" name="Bill[CEA_BILLS][0][SCHOOL]"/></td>
 									<td><input type="text" style="width:150px;" class="cea_bills_amount" name="Bill[CEA_BILLS][0][AMOUNT]"/></td>
-									<td><input type="text" style="width:150px;" name="Bill[CEA_BILLS][0][REMARKS]"/></td>
+									<td><input type="text" style="width:150px;" name="Bill[CEA_BILLS][0][REMARKS]" value="2016-17"/></td>
 									<td><input type="button" id="delSubBillbutton" value="Delete" onclick="deleteCEARow(this)"/></td>
 									<td><input type="button" id="addSubBillbutton" value="Add Detail" onclick="insCEARow()"/></td>
 								</tr>

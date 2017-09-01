@@ -333,7 +333,7 @@ class BillController extends Controller
 						foreach($CEADetails as $CEADetail){
 							$CEAModel = new CEABillDetails;
 							$CEAModel->NAME = $CEADetail['NAME'];
-							$CEAModel->DOB = date('Y-m-d', strtotime($CEADetail['DOB']));
+							//$CEAModel->DOB = date('Y-m-d', strtotime($CEADetail['DOB']));
 							$CEAModel->CLASS = $CEADetail['CLASS'];
 							$CEAModel->SCHOOL = $CEADetail['SCHOOL'];
 							$CEAModel->REMARKS = $CEADetail['REMARKS'];

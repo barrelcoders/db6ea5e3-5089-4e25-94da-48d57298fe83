@@ -1425,22 +1425,22 @@ function insCEARow(){
 	var inp1 = new_row.cells[0].getElementsByTagName('input')[0];
 	inp1.name = "Bill[CEA_BILLS]["+len+"][NAME]";
 	inp1.value = '';
-	var inp2 = new_row.cells[1].getElementsByTagName('input')[0];
-	inp2.name = "Bill[CEA_BILLS]["+len+"][DOB]";
-	inp2.value = '';
-	var inp3 = new_row.cells[2].getElementsByTagName('input')[0];
+	//var inp2 = new_row.cells[1].getElementsByTagName('input')[0];
+	//inp2.name = "Bill[CEA_BILLS]["+len+"][DOB]";
+	//inp2.value = '';
+	var inp3 = new_row.cells[1].getElementsByTagName('input')[0];
 	inp3.name = "Bill[CEA_BILLS]["+len+"][CLASS]";
 	inp3.value = '';
-	var inp4 = new_row.cells[3].getElementsByTagName('input')[0];
+	var inp4 = new_row.cells[2].getElementsByTagName('input')[0];
 	inp4.name = "Bill[CEA_BILLS]["+len+"][SCHOOL]";
 	inp4.value = '';
-	var inp5 = new_row.cells[4].getElementsByTagName('input')[0];
+	var inp5 = new_row.cells[3].getElementsByTagName('input')[0];
 	inp5.name = "Bill[CEA_BILLS]["+len+"][AMOUNT]";
 	inp5.classList.add("bills_amount");
 	inp5.value = '';
-	var inp6 = new_row.cells[5].getElementsByTagName('input')[0];
+	var inp6 = new_row.cells[4].getElementsByTagName('input')[0];
 	inp6.name = "Bill[CEA_BILLS]["+len+"][REMARKS]";
-	inp6.value = '';
+	inp6.value = '2016-17';
 	x.appendChild( new_row );
 }
 function deleteRow(row){

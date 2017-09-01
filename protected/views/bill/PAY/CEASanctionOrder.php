@@ -37,7 +37,7 @@
 			<th>Name & Designation of the Officer (Shri/Smt)</th>
 			<th>Name, Age and Class of the Child in respect of whom CEA is sanctioned</th>
 			<th>Name of the School</th>
-			<th>Amount Sanctioned</th>
+			<th>Amount Sanctioned &<br>Academic Year</th>
 		</tr>
 	</thead>
 	<tbody>
@@ -56,7 +56,7 @@
 					$empName = Employee::model()->findByPK($empID)->NAME;
 					$empDesign = Designations::model()->findByPK(Employee::model()->findByPK($empID)->DESIGNATION_ID_FK)->DESIGNATION;
 					echo $empName."<br>".$empDesign;?></td>
-				<td style="text-align: center;"><?php echo $bill->NAME.'<br>DOB: '.date('d-m-Y',strtotime($bill->DOB)).'<br>Standrad: '.$bill->CLASS?></td>
+				<td style="text-align: center;"><?php echo $bill->NAME.'<br>Standrad: '.$bill->CLASS // DOB: '.date('d-m-Y',strtotime($bill->DOB)).'<br>?></td>
 				<td style="text-align: center;"><?php echo $bill->SCHOOL;?></td>
 				<td style="text-align: center;"><?php echo 'Rs. '.$bill->AMOUNT."/-<br>".$bill->REMARKS;?></td>
 			
