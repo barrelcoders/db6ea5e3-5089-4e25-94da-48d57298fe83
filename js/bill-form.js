@@ -244,7 +244,7 @@ $(document).ready(function(){
 				$("#nps-emp").show();
 				$("#BILL_NO_SECTION").show();
 				$("#PT_BILL_NO_SECTION").show();
-				$("#NILL_BILL_NO_SECTION").hide();
+				$("#NILL_BILL_NO_SECTION").show();
 				$("#BILL_TITLE_SECTION").show();
 				$("#MONTH_SECTION").show();
 				$("#YEAR_SECTION").show();
@@ -907,7 +907,7 @@ function loadFormOnUpdate(){
 				$("#nps-emp").show();
 				$("#BILL_NO_SECTION").show();
 				$("#PT_BILL_NO_SECTION").show();
-				$("#NILL_BILL_NO_SECTION").hide();
+				$("#NILL_BILL_NO_SECTION").show();
 				$("#BILL_TITLE_SECTION").show();
 				$("#MONTH_SECTION").show();
 				$("#YEAR_SECTION").show();
