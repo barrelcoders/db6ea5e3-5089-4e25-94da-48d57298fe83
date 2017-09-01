@@ -456,6 +456,17 @@
 			$(container).parent().find('#total-amount').val(basic);
 		});
 		
+		$('#pt-ded-inc-amount').keyup(function(){
+			var container = $(this).parents('table'), total = 0,
+				grossComponentElement = $(container).parent().find('#gross-components'),
+				deductionComponentElement = $(container).find('#ded-components'),
+				creditComponentElement = $(container).parent().find('#credit-component'),
+				ptDeductionComponentElement = $(container).parent().find('#pt-ded-inc-amount'),
+				otherDeductionComponentElement = $(container).parent().find('#other-ded-components');
+				
+			creditComponentElement.val(grossComponentElement.val() - getElementValue(ptDeductionComponentElement) - getElementValue(deductionComponentElement) - getElementValue(otherDeductionComponentElement));
+		});
+		
 		$('.ded-components').keyup(function(){
 			var container = $(this).parents('table'), total = 0,
 				grossComponentElement = $(container).parent().find('#gross-components'),

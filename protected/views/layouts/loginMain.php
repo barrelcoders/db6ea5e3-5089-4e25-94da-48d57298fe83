@@ -29,7 +29,7 @@
 <?php echo $content; ?>
 
 <div style="position: absolute;bottom: 0;left: 0;right: 0;height: 20px;z-index: 100;background: #00a8ff;color: #FFF;">
-	<marquee style="line-height: 10px;font-size: 12px;margin-top: 5px;display: block;">Designed &amp; Developed by Ankit Sharma, Tax Assistant, Yelahanka Service Tax Division</marquee>
+	<marquee style="line-height: 10px;font-size: 12px;margin-top: 5px;display: block;">Designed &amp; Developed by Ankit Sharma, Tax Assistant, Central Tax HQRS, Bangalore North Commissionerate</marquee>
 </div>
 <script src="<?php echo Yii::app()->request->baseUrl; ?>/js/lib/jquery/jquery.min.js"></script>
 <script src="<?php echo Yii::app()->request->baseUrl; ?>/js/lib/tether/tether.min.js"></script>

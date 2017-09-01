@@ -229,6 +229,14 @@
 					</p>
 				</div>
 			</div>
+			<div class="form-group row">
+				<?php echo $form->labelEx($model,'FOLIO_NO', array('class'=>'col-sm-2 form-control-label')); ?>
+				<div class="col-sm-10">
+					<p class="form-control-static">
+						<?php echo $form->textField($model,'FOLIO_NO',array('size'=>10,'maxlength'=>10, 'value'=>$model->FOLIO_NO)); ?>
+					</p>
+				</div>
+			</div>
 		</div>
 		<div class="col-sm-6">
 			<div class="form-group row">
@@ -244,14 +252,6 @@
 				<div class="col-sm-9">
 					<p class="form-control-static">
 						<input value="<?php echo ($model->DOI == "") ? "" : date('Y-m-d', strtotime($model->DOI))?>" id="Employee_DOI" name="Employee[DOI]" type="date">
-					</p>
-				</div>
-			</div>
-			<div class="form-group row">
-				<?php echo $form->labelEx($model,'IS_PERMANENT', array('class'=>'col-sm-3 form-control-label')); ?>
-				<div class="col-sm-9">
-					<p class="form-control-static">
-						<?php echo $form->dropDownList($model,'IS_PERMANENT',array(1=>'Permanent', 0=>'Contractor'), array('options'=>array($model->IS_PERMANENT=>array('selected'=>true)))); ?>
 					</p>
 				</div>
 			</div>
@@ -310,10 +310,10 @@
 				</div>
 			</div>
 			<div class="form-group row">
-				<?php echo $form->labelEx($model,'FOLIO_NO', array('class'=>'col-sm-3 form-control-label')); ?>
+				<?php echo $form->labelEx($model,'IS_PERMANENT', array('class'=>'col-sm-3 form-control-label')); ?>
 				<div class="col-sm-9">
 					<p class="form-control-static">
-						<?php echo $form->textField($model,'FOLIO_NO',array('size'=>10,'maxlength'=>10, 'value'=>$model->FOLIO_NO)); ?>
+						<?php echo $form->dropDownList($model,'IS_PERMANENT',array(1=>'Yes', 0=>'No'), array('options'=>array($model->IS_PERMANENT=>array('selected'=>true)))); ?>
 					</p>
 				</div>
 			</div>
@@ -330,6 +330,22 @@
 				<div class="col-sm-9">
 					<p class="form-control-static">
 						<?php echo $form->dropDownList($model,'IS_RETIRED',array(0=>'No', 1=>'Yes'), array('options'=>array($model->IS_RETIRED=>array('selected'=>true)))); ?>
+					</p>
+				</div>
+			</div>
+			<div class="form-group row">
+				<?php echo $form->labelEx($model,'UA_ELIGIBLE', array('class'=>'col-sm-3 form-control-label')); ?>
+				<div class="col-sm-9">
+					<p class="form-control-static">
+						<?php echo $form->dropDownList($model,'UA_ELIGIBLE',array(0=>'No', 1=>'Yes'), array('options'=>array($model->UA_ELIGIBLE=>array('selected'=>true)))); ?>
+					</p>
+				</div>
+			</div>
+			<div class="form-group row">
+				<?php echo $form->labelEx($model,'BONUS_ELIGIBLE', array('class'=>'col-sm-3 form-control-label')); ?>
+				<div class="col-sm-9">
+					<p class="form-control-static">
+						<?php echo $form->dropDownList($model,'BONUS_ELIGIBLE',array(0=>'No', 1=>'Yes'), array('options'=>array($model->BONUS_ELIGIBLE=>array('selected'=>true)))); ?>
 					</p>
 				</div>
 			</div>

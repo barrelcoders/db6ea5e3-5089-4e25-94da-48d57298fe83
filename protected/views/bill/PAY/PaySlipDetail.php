@@ -1,3 +1,12 @@
+<style>
+	@media print {
+	  table { /* Or specify a table class */
+		max-height: 100%;
+		overflow: hidden;
+		page-break-after: always;
+	  }
+	}
+</style>
 <link href="<?php echo Yii::app()->request->baseUrl; ?>/css/oneadmin.css" rel="stylesheet"><?php
 	$monthName = array('1'=>'January',
 						'2'=>'February',
@@ -95,7 +104,7 @@
 				<td><b>समूह<br>GROUP</b><span><?php echo Groups::model()->findByPK($employee->GROUP_ID_FK)->GROUP_NAME;?></span></td>
 			</tr>
 			<tr style="background:#e2e2e2;">
-				<td colspan="3"><b>खाता क्रमांक<br>ACCOUT NO</b><span><?php echo $employee->ACCOUNT_NO;?></span></td>
+				<td colspan="3"><b>खाता क्रमांक<br>ACCOUNT NO</b><span><?php echo $employee->ACCOUNT_NO;?></span></td>
 				<td colspan="2"><b>आई एफ एस सी<br>IFSC</b><span><?php echo $employee->IFSC;?></span></td>
 				<td colspan="1"><b>पैन नंबर<br>PAN</b><span><?php echo $employee->PAN;?></span></td>
 			</tr>
@@ -156,7 +165,7 @@
 			
 			<tr>
 				<td colspan="6">
-					<div style="font-weight: bold; width:500px; float: right;text-align:center; margin-top:250px;margin-right:-10px;">
+					<div style="font-weight: bold; width:500px; float: right;text-align:center; margin-top:240px;margin-right:-10px;">
 					<?php
 						if(Employee::model()->findByPK($salary->EMPLOYEE_ID_FK)->DESIGNATION_ID_FK > 14){
 					?>

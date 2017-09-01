@@ -106,7 +106,7 @@ $this->breadcrumbs=array(
 				array(
 					'class'=>'CButtonColumn',
 					'htmlOptions' => array('style'=>'width:100px'),
-					'template' => '{view}{update}',
+					'template' => '{view}{update}{salaryAdd}',
 					//{delete}
 					'buttons'=>array
 					(
@@ -120,9 +120,16 @@ $this->breadcrumbs=array(
 						'update' => array
 						(
 							'url'=>'Yii::app()->createUrl("Employee/Update", array("id"=>$data->ID))',
-							'options'=>array('class'=>'glyphicon glyphicon-pencil'),
+							'options'=>array('class'=>'glyphicon glyphicon-pencil', 'target'=>"_blank",),
 							'imageUrl'=>'',
-							'label'=>''
+							'label'=>'',
+						),
+						'salaryAdd' => array
+						(
+							'url'=>'Yii::app()->createUrl("SupplementarySalaryDetails/Update", array("id"=>$data->ID))',
+							'options'=>array('class'=>'fa fa-money', 'target'=>"_blank", 'title'=>'Mar-Jun 2017 Salary'),
+							'imageUrl'=>'',
+							'label'=>'',
 						),
 						/*'delete' => array
 						(

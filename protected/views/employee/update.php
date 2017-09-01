@@ -21,8 +21,11 @@ $this->menu=array(
 		<div class="tbl">
 			<div class="tbl-row">
 				<div class="tbl-cell">
-					<h2>Update <?php echo $model->NAME; ?></h2>
-					<div class="subtitle"></div>
+					<h2><?php echo $model->NAME; ?></h2>
+					<div class="subtitle" style="text-align: right;">
+						<a href="<?php echo Yii::app()->createUrl('Employee/admin')?>" style="float: left;font-size: 15px;">Employees</a>
+						<a class="btn btn-inline" href="<?php echo Yii::app()->createUrl('SupplementarySalaryDetails/update', array('id'=>$model->ID))?>">Mar-Jun 2017 Salary</a>
+					</div>
 				</div>
 			</div>
 		</div>

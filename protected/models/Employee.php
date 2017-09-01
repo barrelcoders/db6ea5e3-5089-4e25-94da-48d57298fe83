@@ -116,6 +116,8 @@ class Employee extends CActiveRecord
 			'DEPT_JOIN_TIME'=>'Commissionerate Joining Time',
 			'PERMISSION'=>'Permission',
 			'SERVICE_BOOK_VOL'=>'Service Book Volumn',
+			'UA_ELIGIBLE'=>'Elligible for Uniform Allowance',
+			'BONUS_ELIGIBLE'=>'Elligible for Bonus',
 		);
 	}
 
