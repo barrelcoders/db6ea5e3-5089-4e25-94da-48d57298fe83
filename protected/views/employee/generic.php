@@ -35,60 +35,59 @@ $this->menu=array(
 		)); ?>
 
 		<div class="row">
-			<div class="col-sm-8">
-				<div class="form-group row">
-					<label class='col-sm-4 form-control-label'>Custom 1</label>
-					<div class="col-sm-8">
-						<p class="form-control-static">
-							<input type="text" name="Employee[Custom_attr_1]" class="col-sm-6 form-control-label"  />
-						</p>
+			<div class="col-sm-6">
+				<div style="padding: 10px;height: 500px;overflow-y: scroll;overflow-x: hidden;">
+					<div class="form-group row">
+						<label class='col-sm-9 form-control-label'>Custom 1</label>
+						<div class="col-sm-3">
+							<p class="form-control-static">
+								<input type="text" name="Employee[Custom_attr_1]" class="col-sm-12 form-control-label"  />
+							</p>
+						</div>
 					</div>
+					<div class="form-group row">
+						<label class='col-sm-9 form-control-label'>Custom 2</label>
+						<div class="col-sm-3">
+							<p class="form-control-static">
+								<input type="text" name="Employee[Custom_attr_2]" class="col-sm-12 form-control-label"  />
+							</p>
+						</div>
+					</div>
+					<div class="form-group row">
+						<label class='col-sm-9 form-control-label'>Custom 3</label>
+						<div class="col-sm-3">
+							<p class="form-control-static">
+								<input type="text" name="Employee[Custom_attr_3]" class="col-sm-12 form-control-label"  />
+							</p>
+						</div>
+					</div>
+					<?php 
+						foreach($model->attributes as $key=>$value){
+					?>
+					<div class="form-group row">
+						<label class="col-sm-9 form-control-label" for="Employee_<?php echo $key;?>"><?php echo strtoupper($model->getAttributeLabel($key));?></label>
+						<div class="col-sm-3">
+							<p class="form-control-static">
+								<input type="checkbox" name="Employee[Attributes][]" class="form-control-label"  value="<?php echo $key; ?>" />
+							</p>
+						</div>
+					</div>
+					<?php } ?>
 				</div>
 				<div class="form-group row">
-					<label class='col-sm-4 form-control-label'>Custom 2</label>
-					<div class="col-sm-8">
-						<p class="form-control-static">
-							<input type="text" name="Employee[Custom_attr_2]" class="col-sm-6 form-control-label"  />
-						</p>
-					</div>
-				</div>
-				<div class="form-group row">
-					<label class='col-sm-4 form-control-label'>Custom 3</label>
-					<div class="col-sm-8">
-						<p class="form-control-static">
-							<input type="text" name="Employee[Custom_attr_3]" class="col-sm-6 form-control-label"  />
-						</p>
-					</div>
-				</div>
-				<?php 
-					foreach($model->attributes as $key=>$value){
-				?>
-				<div class="form-group row">
-					<?php echo $form->labelEx($model, $key , array('class'=>'col-sm-4 form-control-label')); ?>
-					<div class="col-sm-8">
-						<p class="form-control-static">
-							<input type="checkbox" name="Employee[Attributes][]" class="form-control-label"  value="<?php echo $key; ?>" />
-						</p>
-					</div>
-				</div>
-				<?php } ?>
-				
-				<div class="form-group row">
-					<label class='col-sm-4 form-control-label'></label>
-					<div class="col-sm-8">
+					<div class="col-sm-12">
 						<p class="form-control-static">
 							<?php echo CHtml::submitButton('Generate', array('class'=>'btn btn-inline')); ?>
 						</p>
 					</div>
 				</div>
-		
 			</div>
-			<div class="col-sm-4">
-				<div id="designation" style="margin-bottom:10px;">
-					<div style="background: #333;padding: 5px;">
-						<input type="text" class="designation-list-search" size="40" placeholder="SEARCH DESIGNATION" onkeyup="search(this, 'designation');"/><span style="float: right;color: #FFF;"><input type="checkBox" class="designation-select-all" onclick="selectList('designation');"> SELECT ALL</span>
+			<div class="col-sm-6">
+				<div id="designation" style="margin-bottom:10px;" class="col-sm-12">
+					<div style="background: #333;padding: 5px;" class="col-sm-12" >
+						<input type="text" class="designation-list-search" size="40" placeholder="SEARCH DESIGNATION" onkeyup="search(this, 'designation');" style="width: 55%;"/><span style="float: right;color: #FFF;"><input type="checkBox" class="designation-select-all" onclick="selectList('designation');"> SELECT ALL</span>
 					</div>
-					<ul style="background: rgb(204, 204, 204);padding: 10px;height: 200px;overflow-y: scroll;">
+					<ul style="background: rgb(204, 204, 204);padding: 10px;height: 200px;overflow-y: scroll;" class="col-sm-12">
 					<?php 
 						$Designations = Designations::model()->findAll();
 						foreach($Designations as $designation){
@@ -99,36 +98,36 @@ $this->menu=array(
 					?>
 					</ul>
 				</div>
-				<div id="pension-type" style="margin-bottom:10px;">
+				<div id="pension-type" style="margin-bottom:10px;" class="col-sm-12">
 					<div style="background: #333;padding: 5px;">
-						<input type="text" class="pension-type-list-search" size="40" placeholder="SEARCH PENSION TYPE" onkeyup="search(this, 'pension-type');"/><span style="float: right;color: #FFF;"><input type="checkBox" class="pension-type-select-all" onclick="selectList('pension-type');"> SELECT ALL</span>
+						<input type="text" class="pension-type-list-search" size="40" placeholder="SEARCH PENSION TYPE" onkeyup="search(this, 'pension-type');" style="width: 55%;"/><span style="float: right;color: #FFF;"><input type="checkBox" class="pension-type-select-all" onclick="selectList('pension-type');"> SELECT ALL</span>
 					</div>
 					<ul style="background: rgb(204, 204, 204);padding: 10px;height: 100px;overflow-y: scroll;">
 						<li><input type="checkbox" name="Employee[PENSION][]" value="'OPS'"> <span>OLD PENSION SCHEME</span></li>
 						<li><input type="checkbox" name="Employee[PENSION][]" value="'NPS'"> <span>NEW PENSION SCHEME</span></li>
 					</ul>
 				</div>
-				<div id="uniform" style="margin-bottom:10px;">
+				<div id="uniform" style="margin-bottom:10px;" class="col-sm-12">
 					<div style="background: #333;padding: 5px;">
-						<input type="text" class="uniform-list-search" size="40" placeholder="SEARCH UNIFORM ALLOWANCE ELLIGIBLE" onkeyup="search(this, 'uniform');"/><span style="float: right;color: #FFF;"><input type="checkBox" class="uniform-select-all" onclick="selectList('uniform');"> SELECT ALL</span>
+						<input type="text" class="uniform-list-search" size="40" placeholder="SEARCH UNIFORM ALLOWANCE ELLIGIBLE" onkeyup="search(this, 'uniform');" style="width: 55%;"/><span style="float: right;color: #FFF;"><input type="checkBox" class="uniform-select-all" onclick="selectList('uniform');"> SELECT ALL</span>
 					</div>
 					<ul style="background: rgb(204, 204, 204);padding: 10px;height: 100px;overflow-y: scroll;">
 						<li><input type="checkbox" name="Employee[UA][]" value="0"> <span>ELLIGIBLE</span></li>
 						<li><input type="checkbox" name="Employee[UA][]" value="1"> <span>NOT ELLIGIBLE</span></li>
 					</ul>
 				</div>
-				<div id="bonus" style="margin-bottom:10px;">
+				<div id="bonus" style="margin-bottom:10px;" class="col-sm-12">
 					<div style="background: #333;padding: 5px;">
-						<input type="text" class="bonus-list-search" size="40" placeholder="SEARCH AD-HOC BONUS ELLIGIBLE" onkeyup="search(this, 'bonus');"/><span style="float: right;color: #FFF;"><input type="checkBox" class="bonus-all" onclick="selectList('bonus');"> SELECT ALL</span>
+						<input type="text" class="bonus-list-search" size="40" placeholder="SEARCH AD-HOC BONUS ELLIGIBLE" onkeyup="search(this, 'bonus');" style="width: 55%;"/><span style="float: right;color: #FFF;"><input type="checkBox" class="bonus-all" onclick="selectList('bonus');"> SELECT ALL</span>
 					</div>
 					<ul style="background: rgb(204, 204, 204);padding: 10px;height: 100px;overflow-y: scroll;">
 						<li><input type="checkbox" name="Employee[BONUS][]" value="0"> <span>ELLIGIBLE</span></li>
 						<li><input type="checkbox" name="Employee[BONUS][]" value="1"> <span>NOT ELLIGIBLE</span></li>
 					</ul>
 				</div>
-				<div id="gender" style="margin-bottom:10px;">
+				<div id="gender" style="margin-bottom:10px;" class="col-sm-12">
 					<div style="background: #333;padding: 5px;">
-						<input type="text" class="gender-list-search" size="40" placeholder="SEARCH GENDER" onkeyup="search(this, 'gender');"/><span style="float: right;color: #FFF;"><input type="checkBox" class="gender-all" onclick="selectList('gender');"> SELECT ALL</span>
+						<input type="text" class="gender-list-search" size="40" placeholder="SEARCH GENDER" onkeyup="search(this, 'gender');" style="width: 55%;"/><span style="float: right;color: #FFF;"><input type="checkBox" class="gender-all" onclick="selectList('gender');"> SELECT ALL</span>
 					</div>
 					<ul style="background: rgb(204, 204, 204);padding: 10px;height: 100px;overflow-y: scroll;">
 						<li><input type="checkbox" name="Employee[GENDER][]" value="'Male'"> <span>MALE</span></li>
