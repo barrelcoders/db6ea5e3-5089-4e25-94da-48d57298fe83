@@ -1,11 +1,3 @@
-<?php
-/* @var $this InvestmentsController */
-/* @var $model Investments */
-/* @var $form CActiveForm */
-?>
-
-<div class="form">
-
 <?php $form=$this->beginWidget('CActiveForm', array(
 	'id'=>'investments-form',
 	// Please note: When you enable ajax validation, make sure the corresponding
@@ -14,129 +6,173 @@
 	// See class documentation of CActiveForm for details on this.
 	'enableAjaxValidation'=>false,
 )); ?>
-
-	<p class="note">Fields with <span class="required">*</span> are required.</p>
-
-	<?php echo $form->errorSummary($model); ?>
-
-	<div class="row">
-		<?php echo $form->labelEx($model,'FINANCIAL_YEAR_ID_FK'); ?>
-		<?php echo $form->textField($model,'FINANCIAL_YEAR_ID_FK',array('size'=>10,'maxlength'=>10)); ?>
-		<?php echo $form->error($model,'FINANCIAL_YEAR_ID_FK'); ?>
+<div class="row">
+	<div class="col-sm-12">
+		<h3><?php echo Employee::model()->findByPK($id)->NAME.", ".Designations::model()->findByPK(Employee::model()->findByPK($id)->DESIGNATION_ID_FK)->DESIGNATION; ?></h3>
 	</div>
-
-	<div class="row">
-		<?php echo $form->labelEx($model,'EMPLOYEE_ID'); ?>
-		<?php echo $form->textField($model,'EMPLOYEE_ID',array('size'=>10,'maxlength'=>10)); ?>
-		<?php echo $form->error($model,'EMPLOYEE_ID'); ?>
+	<div class="col-sm-6">
+		<div class="form-group row">
+			<?php echo $form->labelEx($model,'DA_TA_ARREAR', array('class'=>'col-sm-3 form-control-label')); ?>
+			<div class="col-sm-9">
+				<p class="form-control-static">
+					<?php echo $form->textField($model,'DA_TA_ARREAR',array('size'=>40,'maxlength'=>100, 'value'=>$model->DA_TA_ARREAR, 'style'=>'text-transform: uppercase;')); ?>
+				</p>
+			</div>
+		</div>
+		<div class="form-group row">
+			<?php echo $form->labelEx($model,'OTA_HONORANIUM', array('class'=>'col-sm-3 form-control-label')); ?>
+			<div class="col-sm-9">
+				<p class="form-control-static">
+					<?php echo $form->textField($model,'OTA_HONORANIUM',array('size'=>40,'maxlength'=>100, 'value'=>$model->OTA_HONORANIUM, 'style'=>'text-transform: uppercase;')); ?>
+				</p>
+			</div>
+		</div>
+		<div class="form-group row">
+			<?php echo $form->labelEx($model,'HRA', array('class'=>'col-sm-3 form-control-label')); ?>
+			<div class="col-sm-9">
+				<p class="form-control-static">
+					<?php echo $form->textField($model,'HRA',array('size'=>40,'maxlength'=>100, 'value'=>$model->HRA, 'style'=>'text-transform: uppercase;')); ?>
+				</p>
+			</div>
+		</div>
+		<div class="form-group row">
+			<?php echo $form->labelEx($model,'MEDICAL_INSURANCE', array('class'=>'col-sm-3 form-control-label')); ?>
+			<div class="col-sm-9">
+				<p class="form-control-static">
+					<?php echo $form->textField($model,'MEDICAL_INSURANCE',array('size'=>40,'maxlength'=>100, 'value'=>$model->MEDICAL_INSURANCE, 'style'=>'text-transform: uppercase;')); ?>
+				</p>
+			</div>
+		</div>
+		<div class="form-group row">
+			<?php echo $form->labelEx($model,'DONATION', array('class'=>'col-sm-3 form-control-label')); ?>
+			<div class="col-sm-9">
+				<p class="form-control-static">
+					<?php echo $form->textField($model,'DONATION',array('size'=>40,'maxlength'=>100, 'value'=>$model->DONATION, 'style'=>'text-transform: uppercase;')); ?>
+				</p>
+			</div>
+		</div>
+		<div class="form-group row">
+			<?php echo $form->labelEx($model,'DISABILITY_MED_EXP', array('class'=>'col-sm-3 form-control-label')); ?>
+			<div class="col-sm-9">
+				<p class="form-control-static">
+					<?php echo $form->textField($model,'DISABILITY_MED_EXP',array('size'=>40,'maxlength'=>100, 'value'=>$model->DISABILITY_MED_EXP, 'style'=>'text-transform: uppercase;')); ?>
+				</p>
+			</div>
+		</div>
+		<div class="form-group row">
+			<?php echo $form->labelEx($model,'EDU_LOAD_INT', array('class'=>'col-sm-3 form-control-label')); ?>
+			<div class="col-sm-9">
+				<p class="form-control-static">
+					<?php echo $form->textField($model,'EDU_LOAD_INT',array('size'=>40,'maxlength'=>100, 'value'=>$model->EDU_LOAD_INT, 'style'=>'text-transform: uppercase;')); ?>
+				</p>
+			</div>
+		</div>
+		<div class="form-group row">
+			<?php echo $form->labelEx($model,'SELF_DISABILITY', array('class'=>'col-sm-3 form-control-label')); ?>
+			<div class="col-sm-9">
+				<p class="form-control-static">
+					<?php echo $form->textField($model,'SELF_DISABILITY',array('size'=>40,'maxlength'=>100, 'value'=>$model->SELF_DISABILITY, 'style'=>'text-transform: uppercase;')); ?>
+				</p>
+			</div>
+		</div>
+		<div class="form-group row">
+			<?php echo $form->labelEx($model,'HOME_LOAN_INT', array('class'=>'col-sm-3 form-control-label')); ?>
+			<div class="col-sm-9">
+				<p class="form-control-static">
+					<?php echo $form->textField($model,'HOME_LOAN_INT',array('size'=>40,'maxlength'=>100, 'value'=>$model->HOME_LOAN_INT, 'style'=>'text-transform: uppercase;')); ?>
+				</p>
+			</div>
+		</div>
+		<div class="form-group row">
+			<label class='col-sm-1 form-control-label'></label>
+			<div class="col-sm-11">
+				<p class="form-control-static">
+					<?php echo CHtml::submitButton('Save', array('class'=>'btn btn-inline')); ?>
+				</p>
+			</div>
+		</div>
 	</div>
-
-	<div class="row">
-		<?php echo $form->labelEx($model,'HRA'); ?>
-		<?php echo $form->textField($model,'HRA',array('size'=>10,'maxlength'=>10)); ?>
-		<?php echo $form->error($model,'HRA'); ?>
+	<div class="col-sm-6">
+		<div class="form-group row">
+			<?php echo $form->labelEx($model,'HOME_LOAD_EXCESS_2013_14', array('class'=>'col-sm-3 form-control-label')); ?>
+			<div class="col-sm-9">
+				<p class="form-control-static">
+					<?php echo $form->textField($model,'HOME_LOAD_EXCESS_2013_14',array('size'=>40,'maxlength'=>100, 'value'=>$model->HOME_LOAD_EXCESS_2013_14, 'style'=>'text-transform: uppercase;')); ?>
+				</p>
+			</div>
+		</div>
+		<div class="form-group row">
+			<?php echo $form->labelEx($model,'INSURANCE_LIC_OTHER', array('class'=>'col-sm-3 form-control-label')); ?>
+			<div class="col-sm-9">
+				<p class="form-control-static">
+					<?php echo $form->textField($model,'INSURANCE_LIC_OTHER',array('size'=>40,'maxlength'=>100, 'value'=>$model->INSURANCE_LIC_OTHER, 'style'=>'text-transform: uppercase;')); ?>
+				</p>
+			</div>
+		</div>
+		<div class="form-group row">
+			<?php echo $form->labelEx($model,'TUITION_FESS_EXEMPTION', array('class'=>'col-sm-3 form-control-label')); ?>
+			<div class="col-sm-9">
+				<p class="form-control-static">
+					<?php echo $form->textField($model,'TUITION_FESS_EXEMPTION',array('size'=>40,'maxlength'=>100, 'value'=>$model->TUITION_FESS_EXEMPTION, 'style'=>'text-transform: uppercase;')); ?>
+				</p>
+			</div>
+		</div>
+		<div class="form-group row">
+			<?php echo $form->labelEx($model,'PPF_NSC', array('class'=>'col-sm-3 form-control-label')); ?>
+			<div class="col-sm-9">
+				<p class="form-control-static">
+					<?php echo $form->textField($model,'PPF_NSC',array('size'=>40,'maxlength'=>100, 'value'=>$model->PPF_NSC, 'style'=>'text-transform: uppercase;')); ?>
+				</p>
+			</div>
+		</div>
+		<div class="form-group row">
+			<?php echo $form->labelEx($model,'HOME_LOAD_PR', array('class'=>'col-sm-3 form-control-label')); ?>
+			<div class="col-sm-9">
+				<p class="form-control-static">
+					<?php echo $form->textField($model,'HOME_LOAD_PR',array('size'=>40,'maxlength'=>100, 'value'=>$model->HOME_LOAD_PR, 'style'=>'text-transform: uppercase;')); ?>
+				</p>
+			</div>
+		</div>
+		<div class="form-group row">
+			<?php echo $form->labelEx($model,'PLI_ULIP', array('class'=>'col-sm-3 form-control-label')); ?>
+			<div class="col-sm-9">
+				<p class="form-control-static">
+					<?php echo $form->textField($model,'PLI_ULIP',array('size'=>40,'maxlength'=>100, 'value'=>$model->PLI_ULIP, 'style'=>'text-transform: uppercase;')); ?>
+				</p>
+			</div>
+		</div>
+		<div class="form-group row">
+			<?php echo $form->labelEx($model,'TERM_DEPOSIT_ABOVE_5', array('class'=>'col-sm-3 form-control-label')); ?>
+			<div class="col-sm-9">
+				<p class="form-control-static">
+					<?php echo $form->textField($model,'TERM_DEPOSIT_ABOVE_5',array('size'=>40,'maxlength'=>100, 'value'=>$model->TERM_DEPOSIT_ABOVE_5, 'style'=>'text-transform: uppercase;')); ?>
+				</p>
+			</div>
+		</div>
+		<div class="form-group row">
+			<?php echo $form->labelEx($model,'MUTUAL_FUND', array('class'=>'col-sm-3 form-control-label')); ?>
+			<div class="col-sm-9">
+				<p class="form-control-static">
+					<?php echo $form->textField($model,'MUTUAL_FUND',array('size'=>40,'maxlength'=>100, 'value'=>$model->MUTUAL_FUND, 'style'=>'text-transform: uppercase;')); ?>
+				</p>
+			</div>
+		</div>
+		<div class="form-group row">
+			<?php echo $form->labelEx($model,'PENSION_FUND', array('class'=>'col-sm-3 form-control-label')); ?>
+			<div class="col-sm-9">
+				<p class="form-control-static">
+					<?php echo $form->textField($model,'PENSION_FUND',array('size'=>40,'maxlength'=>100, 'value'=>$model->PENSION_FUND, 'style'=>'text-transform: uppercase;')); ?>
+				</p>
+			</div>
+		</div>
+		<div class="form-group row">
+			<?php echo $form->labelEx($model,'CPF', array('class'=>'col-sm-3 form-control-label')); ?>
+			<div class="col-sm-9">
+				<p class="form-control-static">
+					<?php echo $form->textField($model,'CPF',array('size'=>40,'maxlength'=>100, 'value'=>$model->CPF, 'style'=>'text-transform: uppercase;')); ?>
+				</p>
+			</div>
+		</div>
 	</div>
-
-	<div class="row">
-		<?php echo $form->labelEx($model,'MEDICAL_INSURANCE'); ?>
-		<?php echo $form->textField($model,'MEDICAL_INSURANCE',array('size'=>10,'maxlength'=>10)); ?>
-		<?php echo $form->error($model,'MEDICAL_INSURANCE'); ?>
-	</div>
-
-	<div class="row">
-		<?php echo $form->labelEx($model,'DONATION'); ?>
-		<?php echo $form->textField($model,'DONATION',array('size'=>10,'maxlength'=>10)); ?>
-		<?php echo $form->error($model,'DONATION'); ?>
-	</div>
-
-	<div class="row">
-		<?php echo $form->labelEx($model,'DISABILITY_MED_EXP'); ?>
-		<?php echo $form->textField($model,'DISABILITY_MED_EXP',array('size'=>10,'maxlength'=>10)); ?>
-		<?php echo $form->error($model,'DISABILITY_MED_EXP'); ?>
-	</div>
-
-	<div class="row">
-		<?php echo $form->labelEx($model,'EDU_LOAD_INT'); ?>
-		<?php echo $form->textField($model,'EDU_LOAD_INT',array('size'=>10,'maxlength'=>10)); ?>
-		<?php echo $form->error($model,'EDU_LOAD_INT'); ?>
-	</div>
-
-	<div class="row">
-		<?php echo $form->labelEx($model,'SELF_DISABILITY'); ?>
-		<?php echo $form->textField($model,'SELF_DISABILITY',array('size'=>10,'maxlength'=>10)); ?>
-		<?php echo $form->error($model,'SELF_DISABILITY'); ?>
-	</div>
-
-	<div class="row">
-		<?php echo $form->labelEx($model,'HOME_LOAN_INT'); ?>
-		<?php echo $form->textField($model,'HOME_LOAN_INT',array('size'=>10,'maxlength'=>10)); ?>
-		<?php echo $form->error($model,'HOME_LOAN_INT'); ?>
-	</div>
-
-	<div class="row">
-		<?php echo $form->labelEx($model,'HOME_LOAD_EXCESS_2013_14'); ?>
-		<?php echo $form->textField($model,'HOME_LOAD_EXCESS_2013_14',array('size'=>10,'maxlength'=>10)); ?>
-		<?php echo $form->error($model,'HOME_LOAD_EXCESS_2013_14'); ?>
-	</div>
-
-	<div class="row">
-		<?php echo $form->labelEx($model,'INSURANCE_LIC_OTHER'); ?>
-		<?php echo $form->textField($model,'INSURANCE_LIC_OTHER',array('size'=>10,'maxlength'=>10)); ?>
-		<?php echo $form->error($model,'INSURANCE_LIC_OTHER'); ?>
-	</div>
-
-	<div class="row">
-		<?php echo $form->labelEx($model,'TUITION_FESS_EXEMPTION'); ?>
-		<?php echo $form->textField($model,'TUITION_FESS_EXEMPTION',array('size'=>10,'maxlength'=>10)); ?>
-		<?php echo $form->error($model,'TUITION_FESS_EXEMPTION'); ?>
-	</div>
-
-	<div class="row">
-		<?php echo $form->labelEx($model,'PPF_NSC'); ?>
-		<?php echo $form->textField($model,'PPF_NSC',array('size'=>10,'maxlength'=>10)); ?>
-		<?php echo $form->error($model,'PPF_NSC'); ?>
-	</div>
-
-	<div class="row">
-		<?php echo $form->labelEx($model,'HOME_LOAD_PR'); ?>
-		<?php echo $form->textField($model,'HOME_LOAD_PR',array('size'=>10,'maxlength'=>10)); ?>
-		<?php echo $form->error($model,'HOME_LOAD_PR'); ?>
-	</div>
-
-	<div class="row">
-		<?php echo $form->labelEx($model,'PLI_ULIP'); ?>
-		<?php echo $form->textField($model,'PLI_ULIP',array('size'=>10,'maxlength'=>10)); ?>
-		<?php echo $form->error($model,'PLI_ULIP'); ?>
-	</div>
-
-	<div class="row">
-		<?php echo $form->labelEx($model,'TERM_DEPOSIT_ABOVE_5'); ?>
-		<?php echo $form->textField($model,'TERM_DEPOSIT_ABOVE_5',array('size'=>10,'maxlength'=>10)); ?>
-		<?php echo $form->error($model,'TERM_DEPOSIT_ABOVE_5'); ?>
-	</div>
-
-	<div class="row">
-		<?php echo $form->labelEx($model,'MUTUAL_FUND'); ?>
-		<?php echo $form->textField($model,'MUTUAL_FUND',array('size'=>10,'maxlength'=>10)); ?>
-		<?php echo $form->error($model,'MUTUAL_FUND'); ?>
-	</div>
-
-	<div class="row">
-		<?php echo $form->labelEx($model,'PENSION_FUND'); ?>
-		<?php echo $form->textField($model,'PENSION_FUND',array('size'=>10,'maxlength'=>10)); ?>
-		<?php echo $form->error($model,'PENSION_FUND'); ?>
-	</div>
-
-	<div class="row">
-		<?php echo $form->labelEx($model,'CPF'); ?>
-		<?php echo $form->textField($model,'CPF',array('size'=>10,'maxlength'=>10)); ?>
-		<?php echo $form->error($model,'CPF'); ?>
-	</div>
-
-	<div class="row buttons">
-		<?php echo CHtml::submitButton($model->isNewRecord ? 'Create' : 'Save'); ?>
-	</div>
-
+</div>
 <?php $this->endWidget(); ?>
-
-</div><!-- form -->

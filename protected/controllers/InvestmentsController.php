@@ -208,20 +208,29 @@ class InvestmentsController extends Controller
 	 */
 	public function actionUpdate($id)
 	{
-		$model=$this->loadModel($id);
-
-		// Uncomment the following line if AJAX validation is needed
-		// $this->performAjaxValidation($model);
-
+		$model=Investments::model()->find('FINANCIAL_YEAR_ID_FK='.FinancialYears::model()->find("STATUS=1")->ID.' AND EMPLOYEE_ID='.$id);
+		
+		if(!$model){
+			$model=new Investments;
+		}
+		
+		if(isset($_GET['msg']) && $_GET['msg'] == 1){
+			echo "<script>alert('Investment saved successfully');</script>";
+		}
+		
 		if(isset($_POST['Investments']))
 		{
-			$model->attributes=$_POST['Investments'];
-			if($model->save())
-				$this->redirect(array('view','id'=>$model->ID));
+			$model->attributes = $_POST['Investments'];
+			$model->EMPLOYEE_ID = $id;
+			$model->FINANCIAL_YEAR_ID_FK = FinancialYears::model()->find("STATUS=1")->ID;
+			if($model->save(false)){
+				$this->redirect(array('update','id'=>$id, 'msg'=>1));
+			}
 		}
 
 		$this->render('update',array(
-			'model'=>$model,
+			'model'=>$model, 
+			'id'=>$id
 		));
 	}
 

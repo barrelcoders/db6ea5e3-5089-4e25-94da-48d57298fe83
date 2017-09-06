@@ -93,17 +93,26 @@ class SupplementarySalaryDetailsController extends Controller
 		$this->ID = $id;
 		
 		if(isset($_GET['msg']) && $_GET['msg'] == 1){
-			echo "<script>alert('Salary saveed successfully');</script>";
+			echo "<script>alert('Salary saved successfully');</script>";
 		}
 		
 		if(isset($_POST['SupplementarySalaryDetails']))
 		{
 			$records = $_POST['SupplementarySalaryDetails'];
 			foreach($records as $key=>$value){
-				$salaryModel = new SupplementarySalaryDetails;
-				$salaryModel->attributes = $_POST['SupplementarySalaryDetails'][$key];
-				$salaryModel->EMPLOYEE_ID_FK = $this->ID;
-				$salaryModel->save(false);
+				$attributes = $_POST['SupplementarySalaryDetails'][$key];
+				if(SupplementarySalaryDetails::model()->exists('MONTH='.$attributes['MONTH'].' AND EMPLOYEE_ID_FK='.$this->ID)){
+					$salaryModel = SupplementarySalaryDetails::model()->find('MONTH='.$attributes['MONTH'].' AND EMPLOYEE_ID_FK='.$this->ID);
+					$salaryModel->attributes = $attributes;
+					$salaryModel->EMPLOYEE_ID_FK = $this->ID;
+					$salaryModel->save(false);
+				}
+				else{
+					$salaryModel = new SupplementarySalaryDetails;
+					$salaryModel->attributes = $attributes;
+					$salaryModel->EMPLOYEE_ID_FK = $this->ID;
+					$salaryModel->save(false);
+				}
 			}
 			
 			$this->redirect(array('update','id'=>$this->ID, 'msg'=>1));

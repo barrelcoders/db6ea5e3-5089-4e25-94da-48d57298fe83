@@ -16,6 +16,20 @@ $this->menu=array(
 );
 ?>
 
-<h1>Update Investments <?php echo $model->ID; ?></h1>
-
-<?php $this->renderPartial('_form', array('model'=>$model)); ?>
+<div class="container-fluid">
+	<header class="section-header">
+		<div class="tbl">
+			<div class="tbl-row">
+				<div class="tbl-cell">
+					<h2>Investments for <?php echo FinancialYears::model()->find("STATUS=1")->NAME ?></h2>
+					<div class="subtitle" style="text-align: right;">
+						<a href="<?php echo Yii::app()->createUrl('Employee/admin')?>" style="float: left;font-size: 15px;">Employees</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</header>
+	<div class="box-typical box-typical-padding">
+		<?php $this->renderPartial('_form', array('model'=>$model, 'id'=>$id)); ?>
+	</div>
+</div>
