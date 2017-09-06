@@ -19,11 +19,53 @@
 				</p>
 			</div>
 		</div>
+		<?php if(Employee::model()->findByPK($id)->PENSION_TYPE == "NPS") {?>
+		<div class="form-group row">
+			<?php echo $form->labelEx($model,'DA_TA_ARREAR_CPF', array('class'=>'col-sm-3 form-control-label')); ?>
+			<div class="col-sm-9">
+				<p class="form-control-static">
+					<?php echo $form->textField($model,'DA_TA_ARREAR_CPF',array('size'=>40,'maxlength'=>100, 'value'=>$model->DA_TA_ARREAR_CPF, 'style'=>'text-transform: uppercase;')); ?>
+				</p>
+			</div>
+		</div>
+		<?php } ?>
+		<div class="form-group row">
+			<?php echo $form->labelEx($model,'UNIFORM', array('class'=>'col-sm-3 form-control-label')); ?>
+			<div class="col-sm-9">
+				<p class="form-control-static">
+					<?php echo $form->textField($model,'UNIFORM',array('size'=>40,'maxlength'=>100, 'value'=>$model->UNIFORM, 'style'=>'text-transform: uppercase;')); ?>
+				</p>
+			</div>
+		</div>
 		<div class="form-group row">
 			<?php echo $form->labelEx($model,'OTA_HONORANIUM', array('class'=>'col-sm-3 form-control-label')); ?>
 			<div class="col-sm-9">
 				<p class="form-control-static">
 					<?php echo $form->textField($model,'OTA_HONORANIUM',array('size'=>40,'maxlength'=>100, 'value'=>$model->OTA_HONORANIUM, 'style'=>'text-transform: uppercase;')); ?>
+				</p>
+			</div>
+		</div>
+		<div class="form-group row">
+			<?php echo $form->labelEx($model,'EL_ENCASH', array('class'=>'col-sm-3 form-control-label')); ?>
+			<div class="col-sm-9">
+				<p class="form-control-static">
+					<?php echo $form->textField($model,'EL_ENCASH',array('size'=>40,'maxlength'=>100, 'value'=>$model->EL_ENCASH, 'style'=>'text-transform: uppercase;')); ?>
+				</p>
+			</div>
+		</div>
+		<div class="form-group row">
+			<?php echo $form->labelEx($model,'LTC_HTC', array('class'=>'col-sm-3 form-control-label')); ?>
+			<div class="col-sm-9">
+				<p class="form-control-static">
+					<?php echo $form->textField($model,'LTC_HTC',array('size'=>40,'maxlength'=>100, 'value'=>$model->LTC_HTC, 'style'=>'text-transform: uppercase;')); ?>
+				</p>
+			</div>
+		</div>
+		<div class="form-group row">
+			<?php echo $form->labelEx($model,'CEA', array('class'=>'col-sm-3 form-control-label')); ?>
+			<div class="col-sm-9">
+				<p class="form-control-static">
+					<?php echo $form->textField($model,'CEA',array('size'=>40,'maxlength'=>100, 'value'=>$model->CEA, 'style'=>'text-transform: uppercase;')); ?>
 				</p>
 			</div>
 		</div>
@@ -68,6 +110,16 @@
 			</div>
 		</div>
 		<div class="form-group row">
+			<label class='col-sm-1 form-control-label'></label>
+			<div class="col-sm-11">
+				<p class="form-control-static">
+					<?php echo CHtml::submitButton('Save', array('class'=>'btn btn-inline')); ?>
+				</p>
+			</div>
+		</div>
+	</div>
+	<div class="col-sm-6">
+		<div class="form-group row">
 			<?php echo $form->labelEx($model,'SELF_DISABILITY', array('class'=>'col-sm-3 form-control-label')); ?>
 			<div class="col-sm-9">
 				<p class="form-control-static">
@@ -83,16 +135,6 @@
 				</p>
 			</div>
 		</div>
-		<div class="form-group row">
-			<label class='col-sm-1 form-control-label'></label>
-			<div class="col-sm-11">
-				<p class="form-control-static">
-					<?php echo CHtml::submitButton('Save', array('class'=>'btn btn-inline')); ?>
-				</p>
-			</div>
-		</div>
-	</div>
-	<div class="col-sm-6">
 		<div class="form-group row">
 			<?php echo $form->labelEx($model,'HOME_LOAD_EXCESS_2013_14', array('class'=>'col-sm-3 form-control-label')); ?>
 			<div class="col-sm-9">
@@ -176,3 +218,13 @@
 	</div>
 </div>
 <?php $this->endWidget(); ?>
+<script>
+	$('#Investments_DA_TA_ARREAR').on('keyup', function() {
+		if($(this).val() != ""){
+			$('#Investments_DA_TA_ARREAR_CPF').val(Math.round(parseInt($(this).val())*0.1));
+		}
+		else{
+			$('#Investments_DA_TA_ARREAR_CPF').val(0);
+		}
+	});
+</script>

@@ -44,7 +44,7 @@ class Investments extends CActiveRecord
 		// will receive user inputs.
 		return array(
 			array('FINANCIAL_YEAR_ID_FK, EMPLOYEE_ID', 'required'),
-			array('DA_TA_ARREAR, OTA_HONORANIUM, FINANCIAL_YEAR_ID_FK, EMPLOYEE_ID, HRA, MEDICAL_INSURANCE, DONATION, DISABILITY_MED_EXP, EDU_LOAD_INT, SELF_DISABILITY, HOME_LOAN_INT, 
+			array('CEA,EL_ENCASH, LTC_HTC, UNIFORM, DA_TA_ARREAR_CPF, DA_TA_ARREAR, OTA_HONORANIUM, FINANCIAL_YEAR_ID_FK, EMPLOYEE_ID, HRA, MEDICAL_INSURANCE, DONATION, DISABILITY_MED_EXP, EDU_LOAD_INT, SELF_DISABILITY, HOME_LOAN_INT, 
 			HOME_LOAD_EXCESS_2013_14, REGISTRY_STAMP, INSURANCE_LIC_OTHER, TUITION_FESS_EXEMPTION, PPF_NSC, HOME_LOAD_PR, PLI_ULIP, TERM_DEPOSIT_ABOVE_5, MUTUAL_FUND, PENSION_FUND, CPF', 'length', 'max'=>10),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
@@ -86,13 +86,18 @@ class Investments extends CActiveRecord
 			'PPF_NSC' => 'PPF/NSC',
 			'HOME_LOAD_PR' => 'Home Load Principal',
 			'PLI_ULIP' => 'PLI/ULIP',
-			'TERM_DEPOSIT_ABOVE_5' => 'Term Deposit Above 5',
+			'TERM_DEPOSIT_ABOVE_5' => 'Term Deposit > 5 Year',
 			'MUTUAL_FUND' => 'Mutual Fund',
 			'PENSION_FUND' => 'Pension Fund',
 			'CPF' => 'CPF',
 			'REGISTRY_STAMP'=>'REGISTRY STAMP',
 			'DA_TA_ARREAR'=>'DA/TA ARREAR',
-			'OTA_HONORANIUM'=>'OTA/HONORANIUM' 
+			'OTA_HONORANIUM'=>'OTA/HONORANIUM' ,
+			'UNIFORM'=>'UNIFORM ALLOWANCE',
+			'DA_TA_ARREAR_CPF'=>'DA/TA ARREAR CPF',
+			'EL_ENCASH'=>'Leavse Encashment',
+			'LTC_HTC'=>'LTC/HTC Advance/Claim',
+			'CEA' => 'CEA',
 		);
 	}
 
@@ -137,7 +142,12 @@ class Investments extends CActiveRecord
 		$criteria->compare('REGISTRY_STAMP',$this->REGISTRY_STAMP,true);
 		$criteria->compare('DA_TA_ARREAR',$this->DA_TA_ARREAR,true);
 		$criteria->compare('OTA_HONORANIUM',$this->OTA_HONORANIUM,true);
-
+		$criteria->compare('UNIFORM',$this->UNIFORM,true);
+		$criteria->compare('DA_TA_ARREAR_CPF',$this->DA_TA_ARREAR_CPF,true);
+		$criteria->compare('EL_ENCASH',$this->DA_TA_ARREAR_CPF,true);
+		$criteria->compare('LTC_HTC',$this->DA_TA_ARREAR_CPF,true);
+		$criteria->compare('CEA',$this->DA_TA_ARREAR_CPF,true);
+		
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
 		));
