@@ -54,12 +54,12 @@ class Bill extends CActiveRecord
 			array('BILL_TYPE, BILL_SUB_TYPE, VENDOR_ID', 'length', 'max'=>10),
 			array('BILL_AMOUNT, EXPENDITURE_INC_BILL, APPROPIATION_BALANCE', 'length', 'max'=>100),
 			array('CER_NO, UA_PERIOD', 'length', 'max'=>50),
-			array('IS_ARREAR_BILL, IS_CEA_BILL, IS_BONUS_BILL, IS_UA_BILL, IS_LTC_ADVANCE_BILL, IS_LTC_CLAIM_BILL, IS_EL_ENCASHMENT_BILL, IS_RECOVERY_BILL', 'length', 'max'=>3),
+			array('IS_ARREAR_BILL, IS_CEA_BILL, IS_BONUS_BILL, IS_UA_BILL, IS_LTC_ADVANCE_BILL, IS_LTC_CLAIM_BILL, IS_EL_ENCASHMENT_BILL, IS_RECOVERY_BILL, IS_DA_ARREAR_BILL, IS_MULTIPLE_MONTH', 'length', 'max'=>3),
 			array('PFMS_STATUS, MONTH, YEAR', 'length', 'max'=>45),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
 			array('ID, BILL_NO, PT_DED_BILL_NO, LIC_DED_BILL_NO, NILL_BILL_NO, MONTH, YEAR, CREATION_DATE, BILL_TYPE, BILL_AMOUNT, EXPENDITURE_INC_BILL, APPROPIATION_BALANCE, PFMS_BILL_NO, FILE_NO, 
-			BILL_TITLE, CER_NO, PFMS_STATUS, BILL_SUB_TYPE, IS_ARREAR_BILL, IS_CEA_BILL, IS_BONUS_BILL, IS_UA_BILL, UA_PERIOD', 'safe', 'on'=>'search'),
+			BILL_TITLE, CER_NO, PFMS_STATUS, BILL_SUB_TYPE, IS_ARREAR_BILL, IS_CEA_BILL, IS_BONUS_BILL, IS_UA_BILL, UA_PERIOD, IS_DA_ARREAR_BILL, IS_MULTIPLE_MONTH, MONTH_END, YEAR_END', 'safe', 'on'=>'search'),
 			
 		);
 	}
@@ -123,6 +123,10 @@ class Bill extends CActiveRecord
 			'OE_IT_DED'=>'Income Tax Deduction',
 			'OE_NET_AMOUNT'=>'Net Bill Amount',
 			'UA_PERIOD'=>'Uniform Allowance Period',
+			'IS_DA_ARREAR_BILL'=>'Arrear(DA/TA) Bill',
+			'IS_MULTIPLE_MONTH'=>'Multiple Month Bill', 
+			'MONTH_END'=>'MONTH END',
+			'YEAR_END'=>'YEAR END',
 		);
 	}
 
@@ -187,6 +191,10 @@ class Bill extends CActiveRecord
 		$criteria->compare('IS_LTC_CLAIM_BILL',$this->IS_LTC_CLAIM_BILL,true);
 		$criteria->compare('IS_EL_ENCASHMENT_BILL',$this->IS_EL_ENCASHMENT_BILL,true);
 		$criteria->compare('IS_RECOVERY_BILL',$this->IS_RECOVERY_BILL,true);
+		$criteria->compare('IS_DA_ARREAR_BILL',$this->IS_DA_ARREAR_BILL,true);
+		$criteria->compare('IS_MULTIPLE_MONTH',$this->IS_MULTIPLE_MONTH,true);
+		$criteria->compare('MONTH_END',$this->MONTH_END,true);
+		$criteria->compare('YEAR_END',$this->YEAR_END,true);
 		$criteria->order = 'CREATION_DATE DESC';
 		
 		return new CActiveDataProvider($this, array(

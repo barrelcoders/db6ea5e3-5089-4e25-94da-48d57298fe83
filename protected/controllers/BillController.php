@@ -80,8 +80,7 @@ class BillController extends Controller
 	
 	public function actionGetSubType()
 	{
-		$data=BillSubType::model()->findAll('TYPE=:TYPE', array(':TYPE'=>(int) $_POST['Bill']['BILL_TYPE']));
- 
+		$data=BillSubType::model()->findAll(array("condition" => "TYPE = ".(int) $_POST['Bill']['BILL_TYPE'] ,"order" => "SUB_TYPE"));
 		$data=CHtml::listData($data,'ID','SUB_TYPE');
 		foreach($data as $value=>$name)
 		{
@@ -309,9 +308,19 @@ class BillController extends Controller
 		{
 			//echo "<pre>";print_r($_POST['Bill']);echo "</pre>";exit;
 			$model->attributes=$_POST['Bill'];
+			//echo "<pre>";print_r($model->attributes);echo "</pre>";exit;
 			if(isset($_POST['Bill']['BILL_TYPE']) && ( $_POST['Bill']['BILL_TYPE'] == 1 || $_POST['Bill']['BILL_TYPE'] == 2 || $_POST['Bill']['BILL_TYPE'] == 8)){
 				if($model->save(false)){
 					if(isset($_POST['Bill']['IS_ARREAR_BILL']) && $_POST['Bill']['IS_ARREAR_BILL'] == 1){
+						$OtherBillEmployees = new OtherBillEmployees;
+						$OtherBillEmployees->BILL_ID = $model->ID;
+						if($_POST['Bill']['BILL_TYPE'] == 1 )
+							$OtherBillEmployees->EMPLOYEE_ID = implode(",", $_POST['Bill']['Employee']['OPS']);
+						if($_POST['Bill']['BILL_TYPE'] == 2 )
+							$OtherBillEmployees->EMPLOYEE_ID = implode(",", $_POST['Bill']['Employee']['NPS']);
+						$OtherBillEmployees->save(false);
+					}
+					if(isset($_POST['Bill']['IS_DA_ARREAR_BILL']) && $_POST['Bill']['IS_DA_ARREAR_BILL'] == 1){
 						$OtherBillEmployees = new OtherBillEmployees;
 						$OtherBillEmployees->BILL_ID = $model->ID;
 						if($_POST['Bill']['BILL_TYPE'] == 1 )

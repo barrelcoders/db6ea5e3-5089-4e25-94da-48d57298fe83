@@ -46,6 +46,7 @@
 						echo $form->dropDownList($model,'BILL_SUB_TYPE',$model->GetBillSubType($model->BILL_TYPE), array('disabled'=>Yii::app()->controller->action->id == 'update'));	
 					}?>
 					<input type="hidden" name="Bill[IS_ARREAR_BILL]" id="IS_ARREAR_BILL" value="0"/>
+					<input type="hidden" name="Bill[IS_DA_ARREAR_BILL]" id="IS_DA_ARREAR_BILL" value="0"/>
 					<input type="hidden" name="Bill[IS_BONUS_BILL]" id="IS_BONUS_BILL" value="0"/>
 					<input type="hidden" name="Bill[IS_UA_BILL]" id="IS_UA_BILL" value="0"/>
 					<input type="hidden" name="Bill[IS_CEA_BILL]" id="IS_CEA_BILL" value="0"/>
@@ -458,56 +459,39 @@
 			?>
 		</div>
 		<div class="form-group row" id="MONTH_SECTION">
-			<?php echo $form->labelEx($model,'MONTH', array('class'=>'col-sm-2 form-control-label')); ?>
+			<label class="col-sm-2 form-control-label">MONTH/YEAR
+			<!--<p id="multiple-month-choice"><input type="checkbox" id="IS_MULTIPLE_MONTH" name="Bill[IS_MULTIPLE_MONTH]"> Multiple</p>-->
+			</label>
 			<div class="col-sm-10">
+				<?php $months = array(''=>'', '1'=>'January','2'=>'February', '3'=>'March', '4'=>'April', '5'=>'May', '6'=>'June', '7'=>'July',
+									'8'=>'August', '9'=>'September', '10'=>'October', '11'=>'November', '12'=>'December',);
+					 $years = array(''=>'', '2016'=>'2016', '2017'=>'2017', '2018'=>'2018', '2019'=>'2019', '2020'=>'2020', '2021'=>'2021');?>
 				<p class="form-control-static">
-					<?php echo $form->dropDownList($model,'MONTH',array('1'=>'January',
-																'2'=>'February',
-																'3'=>'March',
-																'4'=>'April',
-																'5'=>'May',
-																'6'=>'June',
-																'7'=>'July',
-																'8'=>'August',
-																'9'=>'September',
-																'10'=>'October',
-																'11'=>'November',
-																'12'=>'December',),
-																array(
+					<?php echo $form->dropDownList($model,'MONTH',$months, array(
 																	'options' => array(ltrim(date('m'), '0') => array('selected'=>true)),
-																	'disabled'=>Yii::app()->controller->action->id == 'update'
-																)); ?>
+																	'disabled'=>Yii::app()->controller->action->id == 'update',
+																	'style'=>'width: 150px;'
+																));
+							echo $form->dropDownList($model,'YEAR',$years, array('disabled'=>Yii::app()->controller->action->id == 'update',
+											'options' => array(date('Y') => array('selected'=>true)),'style'=>'width: 150px;'));
+
+																?>
 				</p>
 			</div>
-		</div>
-		<div class="form-group row" id="YEAR_SECTION">
-			<?php echo $form->labelEx($model,'YEAR', array('class'=>'col-sm-2 form-control-label')); ?>
-			<div class="col-sm-10">
+			<!--<div class="col-sm-10" style="display:none;" id="multiple-month">
 				<p class="form-control-static">
-					<?php echo $form->dropDownList($model,'YEAR',array('2016'=>'2016', '2017'=>'2017', '2018'=>'2018', '2019'=>'2019', '2020'=>'2020', '2021'=>'2021'), array(
-						'disabled'=>Yii::app()->controller->action->id == 'update',
-						'options' => array(date('Y') => array('selected'=>true)))); ?>
+					<?php 
+						echo $form->dropDownList($model,'MONTH_END',$months, array('options' => array(ltrim(date('m'), '0') => array('selected'=>true)), 'disabled'=>Yii::app()->controller->action->id == 'update', 'style'=>'width: 150px;'));
+						echo $form->dropDownList($model,'YEAR_END', $years, array('options' => array(date('Y') => array('selected'=>true)), 'disabled'=>Yii::app()->controller->action->id == 'update','style'=>'width: 150px;'));
+					?>
 				</p>
-			</div>
+			</div>-->
 		</div>
 		<div class="form-group row" id="CREATION_DATE_SECTION">
 			<?php echo $form->labelEx($model,'CREATION_DATE', array('class'=>'col-sm-2 form-control-label')); ?>
 			<div class="col-sm-10">
 				<p class="form-control-static">
-					<?php 
-						$this->widget('zii.widgets.jui.CJuiDatePicker',array(
-							'model'=>$model,
-							'attribute'=>'CREATION_DATE',
-							'options'=>array(
-								'dateFormat'=>'yy-mm-dd',
-								'showAnim'=>'fold',
-							),
-							'htmlOptions'=>array(
-								'style'=>'height:20px;',
-								'disabled'=>Yii::app()->controller->action->id == 'update',
-								'value'=>date('Y-m-d')
-							),
-						));	?>
+					<input type="date" name="Bill[CREATION_DATE]" id="Bill_CREATION_DATE" value="<?php echo (strtotime($model->CREATION_DATE) ? date('Y-m-d', strtotime($model->CREATION_DATE)) : date('Y-m-d'));?>" <?php echo (Yii::app()->controller->action->id == 'update') ? 'readonly':''; ?>>
 				</p>
 			</div>
 		</div>
