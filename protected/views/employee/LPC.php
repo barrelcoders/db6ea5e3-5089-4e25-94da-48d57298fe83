@@ -19,11 +19,12 @@
 <p style="font-size: 20px;text-align: center;font-weight: bold;">अंतिम वेतन प्रमाण पत्र /LAST PAY CERTIFICATE</p>
 <p style="font-size: 15px;text-align: center;font-weight: bold;">[ See Rule 11(4) and 80 of the Central Government Account, Receipts Payments Rules, 1983 ]</p>
 <br><br>
-<p style="font-size: 15px;">1. Last Pay Certificate of <b><?php echo Employee::model()->findByPK($id)->NAME_HINDI; ?>/ 
+<ol type="1">
+<li style="font-size: 15px;">Last Pay Certificate of <b><?php echo Employee::model()->findByPK($id)->NAME_HINDI; ?>/ 
 <?php echo Employee::model()->findByPK($id)->NAME?>, <?php echo Designations::model()->findByPK(Employee::model()->findByPK($id)->DESIGNATION_ID_FK)->DESIGNATION; ?></b>, Bangalore. of 
 Ministry / Department / Office  <b><?php echo $master->OFFICE_NAME_HINDI;?>/<?php echo $master->OFFICE_NAME;?></b>
  proceeding on  transfer to  <b><?php echo Employee::model()->findByPK($id)->TRANSFERED_TO;?></b> with reference to  Order <b><?php echo Employee::model()->findByPK($id)->TRANSFER_ORDER;?></b>. 
- He has been relieved on A/F of <?php echo date('d-M-Y', strtotime(Employee::model()->findByPK($id)->DEPT_RELIEF_DATE));?>.</p>
+ He has been relieved in <?php echo Employee::model()->findByPK($id)->DEPT_RELIEF_TIME;?> of <?php echo date('d-M-Y', strtotime(Employee::model()->findByPK($id)->DEPT_RELIEF_DATE));?>.</li>
 <br>
 <table class="one-table" cellmargin="10" style="display: block; clear: both;width: 300px;">
 	<tbody>
@@ -45,14 +46,14 @@ Ministry / Department / Office  <b><?php echo $master->OFFICE_NAME_HINDI;?>/<?ph
 		</tr>
 	</tbody>
 </table>
-<p>2. He has been paid upto and at the following rates for 
+<li>He has been paid upto and at the following rates for 
 <?php 
 
 	$salary = Yii::app()->db->createCommand("SELECT ID, MONTH, YEAR, EMPLOYEE_ID_FK FROM tbl_salary_details WHERE EMPLOYEE_ID_FK=$id ORDER BY ID DESC")->queryRow();
 	echo $monthName[$salary['MONTH']]."-".$salary['YEAR'];
 	$salaryDetails = SalaryDetails::model()->find(array('condition'=>'EMPLOYEE_ID_FK='.$salary['EMPLOYEE_ID_FK'], 'order'=>'ID DESC'));
 	
-?></p>
+?></li>
 <table class="one-table" cellmargin="10" style="display: block; clear: both;width: 500px;">
 	<tbody>
 		<tr>
@@ -104,7 +105,7 @@ Ministry / Department / Office  <b><?php echo $master->OFFICE_NAME_HINDI;?>/<?ph
 			<td><?php echo $salaryDetails->FAN_EMI; ?></td>
 		</tr>
 		<tr>
-			<td>HRA@30%</td>
+			<td>HRA</td>
 			<td><?php echo $salaryDetails->HRA; ?></td>
 			<td>H. EDU.CESS</td>
 			<td><?php echo round(($salaryDetails->IT*1)/103); ?></td>
@@ -138,21 +139,47 @@ Ministry / Department / Office  <b><?php echo $master->OFFICE_NAME_HINDI;?>/<?ph
 	</tbody>
 </table>
 <br>
-<p>3. His/Her GPF Account NO. <?php if(Employee::model()->findByPK($id)->PENSION_TYPE == "OPS") echo "BGR/CCE/".Employee::model()->findByPK($id)->PENSION_ACC_NO; else echo Employee::model()->findByPK($id)->PENSION_ACC_NO; ?>  is maintained by PAO,C.Ex, Bangalore.</p>
-<p>4. He/She made over charge of the Office/Post of <?php echo Designations::model()->findByPK(Employee::model()->findByPK($id)->DESIGNATION_ID_FK)->DESIGNATION; ?> of <?php echo $master->OFFICE_NAME;?>  in the after noon of <?php echo date('d-M-Y', strtotime(Employee::model()->findByPK($id)->DEPT_JOIN_DATE));?></p>
-<p>5.Recoveries are to be made from the pay of the Government Servent as detailed below.</p>
-<p>6. He/She is also entitled to joining time     for as Admissible days.</p>
-<p>7. He/She has been sanctioned leave preceding joining time   for As Admissible days.</p>
-<p>8.* [ Reduntant - Not printed ]</p>
-<p>9. Details for PLI recovery through paybill. PLI Policy No.                   Amount Rs.</p>
-<p>10. Details of Income Tax recovered up to the date from the begining of the current financial year are noted in the annexure</p>
-<p>11.Service for the period <?php echo date('M-Y', strtotime(Employee::model()->findByPK($id)->DEPT_JOIN_DATE));?> to <?php echo date('M-Y', strtotime(Employee::model()->findByPK($id)->DEPT_RELIEF_DATE));?> ( during his/her stay in this office ) has been verified.</p>
+<li> His/Her GPF Account NO. <?php if(Employee::model()->findByPK($id)->PENSION_TYPE == "OPS") echo "BGR/CCE/".Employee::model()->findByPK($id)->PENSION_ACC_NO; else echo Employee::model()->findByPK($id)->PENSION_ACC_NO; ?>  is maintained by PAO,C.Ex, Bangalore.</li>
+<li> He/She made over charge of the Office/Post of <?php echo Designations::model()->findByPK(Employee::model()->findByPK($id)->DESIGNATION_ID_FK)->DESIGNATION; ?> of <?php echo $master->OFFICE_NAME;?>  in the after noon of <?php echo date('d-M-Y', strtotime(Employee::model()->findByPK($id)->DEPT_JOIN_DATE));?></li>
+<li>Recoveries are to be made from the pay of the Government Servent as detailed below.</li>
+<li> He/She is also entitled to joining time     for as Admissible days.</li>
+<li> He/She has been sanctioned leave preceding joining time   for As Admissible days.</li>
+<li>* [ Reduntant - Not printed ]</li>
+<li> PLI Policy Details.</li>
+<table class="one-table" cellmargin="10" style="display: block; clear: both;width: 300px;">
+	<tbody>
+		<tr>
+			<th>Policy No</th>
+			<th>Amt</th>
+		</tr>
+		<?php 
+			$lic_polices = EmployeePLIPolicies::model()->findAll('EMPLOYEE_ID_FK='.$id.' AND STATUS=1');
+			$total = 0;
+			foreach($lic_polices as $policy){
+				$total = $total + $policy->AMOUNT;
+				?>
+				<tr>
+					<td><?php echo $policy->POLICY_NO; ?></td>
+					<td><?php echo $policy->AMOUNT; ?></td>
+				</tr>
+				<?php
+			}
+		?>
+		<tr>
+			<th>TOTAL</th>
+			<th><?php echo $total;?></th>
+		</tr>
+	</tbody>
+</table>
+<li> Details of Income Tax recovered up to the date from the begining of the current financial year are noted in the annexure</li>
+<li> Service for the period <?php echo date('M-Y', strtotime(Employee::model()->findByPK($id)->DEPT_JOIN_DATE));?> to 
+<?php echo date('M-Y', strtotime(Employee::model()->findByPK($id)->DEPT_RELIEF_DATE));?> ( during his/her stay in this office ) has been verified.</li>
 <br>
-<p style="font-size: 15px;font-weight: bold;">वसूली का विवरण/Details of recoveries</p>
+<li style="font-size: 15px;font-weight: bold;">वसूली का विवरण/Details of recoveries</p>
 <br>
-<p>1)  GPF Adv ; Rs…….….., drawn in  ………. Rs……….../- recoverable in ……………. Installments of Rs……….. Each.</p>
-<p>2) Transfer TA  advance of ---- has been drawn and paid vide Bill No</p>
-<p>3) Professional Tax at the rate of Rs. 200/- has been recovered upto <?php echo $monthName[$salary['MONTH']]."-".$salary['YEAR'];?>. </p>
+<li>1)  GPF Adv ; Rs…….….., drawn in  ………. Rs……….../- recoverable in ……………. Installments of Rs……….. Each.</li>
+<li>2) Transfer TA  advance of ---- has been drawn and paid vide Bill No</li>
+<li>3) Professional Tax at the rate of Rs. 200/- has been recovered upto <?php echo $monthName[$salary['MONTH']]."-".$salary['YEAR'];?>. </li>
 <?php
 	$BILL_TYPE = 1;
 	$BILL_SUB_TYPE = 0;
@@ -175,15 +202,30 @@ Ministry / Department / Office  <b><?php echo $master->OFFICE_NAME_HINDI;?>/<?ph
 			array_push($DA_Arrear_Bills_Array, $bill->BILL_NO);	
 		}
 	}
+	if($DA_Arrear > 0){
+		?>
+			<li>DA Arrear of Rs.<?php echo $DA_Arrear;?>/- has been paid vide Bill No. (<?php echo implode(",", $DA_Arrear_Bills_Array)?>).</li>
+		<?php
+	}
 ?>
-<p>4) DA Arrear of Rs.<?php echo $DA_Arrear;?>/- has been paid vide Bill No. (<?php echo implode(",", $DA_Arrear_Bills_Array)?>).</p>
 <?php if($salaryDetails->HBA_EMI) { ?>
-<p>5) Out of HBA Interest of Rs.<?php echo $salaryDetails->HBA_TOTAL?>/-, an amount of Rs.<?php echo $salaryDetails->HBA_EMI * intVal($salaryDetails->HBA_TOTAL/$salaryDetails->HBA_EMI)?>/- has been recovered in <?php echo intVal($salaryDetails->HBA_TOTAL/$salaryDetails->HBA_EMI)?> monthly installments of Rs.<?php echo $salaryDetails->HBA_EMI?>/- each. The balance of Rs.<?php echo ($salaryDetails->HBA_TOTAL - ( $salaryDetails->HBA_EMI * intVal($salaryDetails->HBA_TOTAL/$salaryDetails->HBA_EMI)))?>/- may be recovered in <?php echo ($salaryDetails->HBA_TOTAL - ( $salaryDetails->HBA_EMI * intVal($salaryDetails->HBA_TOTAL/$salaryDetails->HBA_EMI))) < $salaryDetails->HBA_EMI ? 1 : 0; ?> monthly installments of Rs.<?php echo ($salaryDetails->HBA_TOTAL - ( $salaryDetails->HBA_EMI * intVal($salaryDetails->HBA_TOTAL/$salaryDetails->HBA_EMI)))?>/- each w.e.f. the salary of May-2016 onwards.</p>
+<li>Out of HBA Interest of Rs.<?php echo $salaryDetails->HBA_TOTAL?>/-, an amount of Rs.<?php echo $salaryDetails->HBA_EMI * intVal($salaryDetails->HBA_TOTAL/$salaryDetails->HBA_EMI)?>/- 
+has been recovered in <?php echo intVal($salaryDetails->HBA_TOTAL/$salaryDetails->HBA_EMI)?> monthly installments of Rs.<?php echo $salaryDetails->HBA_EMI?>/- each. 
+The balance of Rs.<?php echo ($salaryDetails->HBA_TOTAL - ( $salaryDetails->HBA_EMI * intVal($salaryDetails->HBA_TOTAL/$salaryDetails->HBA_EMI)))?>/- may be recovered
+ in <?php echo ($salaryDetails->HBA_TOTAL - ( $salaryDetails->HBA_EMI * intVal($salaryDetails->HBA_TOTAL/$salaryDetails->HBA_EMI))) < $salaryDetails->HBA_EMI ? 1 : 0; ?> 
+ monthly installments of Rs.<?php echo ($salaryDetails->HBA_TOTAL - ( $salaryDetails->HBA_EMI * intVal($salaryDetails->HBA_TOTAL/$salaryDetails->HBA_EMI)))?>/- each w.e.f. 
+ the salary of May-2016 onwards.</li>
 <?php } ?>
 <?php if($salaryDetails->MCA_EMI) { ?>
-<p>5) Out of MCA Interest of Rs.<?php echo $salaryDetails->MCA_TOTAL?>/-, an amount of Rs.<?php echo $salaryDetails->MCA_EMI * intVal($salaryDetails->MCA_TOTAL/$salaryDetails->MCA_EMI)?>/- has to be recovered in <?php echo intVal($salaryDetails->MCA_TOTAL/$salaryDetails->MCA_EMI)?> monthly installments of Rs.<?php echo $salaryDetails->MCA_EMI?>/- each. The balance of Rs.<?php echo ($salaryDetails->MCA_TOTAL - ( $salaryDetails->MCA_EMI * intVal($salaryDetails->MCA_TOTAL/$salaryDetails->MCA_EMI)))?>/- may be recovered in <?php echo ($salaryDetails->MCA_TOTAL - ( $salaryDetails->MCA_EMI * intVal($salaryDetails->MCA_TOTAL/$salaryDetails->MCA_EMI))) < $salaryDetails->MCA_EMI ? 1 : 0; ?> monthly installments of Rs.<?php echo ($salaryDetails->MCA_TOTAL - ( $salaryDetails->MCA_EMI * intVal($salaryDetails->MCA_TOTAL/$salaryDetails->MCA_EMI)))?>/- each w.e.f. the salary of Feb-2017 onwards.</p>
+<li>Out of MCA Interest of Rs.<?php echo $salaryDetails->MCA_TOTAL?>/-, an amount of Rs.
+<?php echo $salaryDetails->MCA_EMI * intVal($salaryDetails->MCA_TOTAL/$salaryDetails->MCA_EMI)?>/- has to be recovered in 
+<?php echo intVal($salaryDetails->MCA_TOTAL/$salaryDetails->MCA_EMI)?> monthly installments of Rs.<?php echo $salaryDetails->MCA_EMI?>/- each. The balance of Rs.
+<?php echo ($salaryDetails->MCA_TOTAL - ( $salaryDetails->MCA_EMI * intVal($salaryDetails->MCA_TOTAL/$salaryDetails->MCA_EMI)))?>/- may be recovered in 
+<?php echo ($salaryDetails->MCA_TOTAL - ( $salaryDetails->MCA_EMI * intVal($salaryDetails->MCA_TOTAL/$salaryDetails->MCA_EMI))) < $salaryDetails->MCA_EMI ? 1 : 0; ?> 
+monthly installments of Rs.<?php echo ($salaryDetails->MCA_TOTAL - ( $salaryDetails->MCA_EMI * intVal($salaryDetails->MCA_TOTAL/$salaryDetails->MCA_EMI)))?>/- 
+each w.e.f. the salary of Feb-2017 onwards.</li>
 <?php } ?>
-<p style="font-size: 15px;font-weight: bold;">आयकर के लिए वेतन का विवरण /Salary Details for Income Tax</p>
+<li style="font-size: 15px;font-weight: bold;">आयकर के लिए वेतन का विवरण /Salary Details for Income Tax</li>
 
 <table class="one-table small" cellmargin="10" style="display: block; clear: both; font-size: 10px;">
 	<tbody>
@@ -211,10 +253,9 @@ Ministry / Department / Office  <b><?php echo $master->OFFICE_NAME_HINDI;?>/<?ph
 			<th>AMOUNT TO BANK</th>
 		</tr>
 <?php
-
 	$salaries = YII::app()->db->createCommand("SELECT * FROM tbl_salary_details a, tbl_bill b WHERE b.ID = a.BILL_ID_FK AND a.EMPLOYEE_ID_FK=$id AND
- b.IS_ARREAR_BILL=0 AND b.IS_CEA_BILL=0 AND b.IS_BONUS_BILL=0 AND b.IS_UA_BILL=0 AND b.IS_LTC_HTC_BILL=0
-ORDER BY a.ID DESC LIMIT 4;")->queryAll();
+ b.IS_ARREAR_BILL=0 AND b.IS_CEA_BILL=0 AND b.IS_BONUS_BILL=0 AND b.IS_UA_BILL=0 AND b.IS_LTC_CLAIM_BILL=0 AND b.IS_LTC_ADVANCE_BILL=0 AND b.IS_EL_ENCASHMENT_BILL=0 AND b.IS_RECOVERY_BILL=0 
+ LIMIT 4;")->queryAll();
 	foreach ($salaries as $salary) {
 	?>
 	<tr>
@@ -245,19 +286,33 @@ ORDER BY a.ID DESC LIMIT 4;")->queryAll();
 ?>
 	</tbody>
 </table>
-<p style="font-size: 15px;font-weight: bold;">LIC Policy Details</p>
+<li style="font-size: 15px;font-weight: bold;">LIC Policy Details</li>
 <table class="one-table" cellmargin="10" style="display: block; clear: both;width: 300px;">
 	<tbody>
 		<tr>
 			<th>Policy No</th>
 			<th>Amt</th>
 		</tr>
+		<?php 
+			$lic_polices = EmployeeLICPolicies::model()->findAll('EMPLOYEE_ID_FK='.$id.' AND STATUS=1');
+			$total = 0;
+			foreach($lic_polices as $policy){
+				$total = $total + $policy->AMOUNT;
+				?>
+				<tr>
+					<td><?php echo $policy->POLICY_NO; ?></td>
+					<td><?php echo $policy->AMOUNT; ?></td>
+				</tr>
+				<?php
+			}
+		?>
 		<tr>
-			<td></td>
-			<td></td>
+			<th>TOTAL</th>
+			<th><?php echo $total;?></th>
 		</tr>
 	</tbody>
 </table>
+</ol>
 <br><br>
 <div style="font-weight: bold; width:400px; float: right;text-align:center; margin-top:20px;margin-right:-10px;">
 	<p>(<?php echo Employee::model()->findByPK($master['DEPT_ADMIN_EMPLOYEE'])->NAME;?>)</p>

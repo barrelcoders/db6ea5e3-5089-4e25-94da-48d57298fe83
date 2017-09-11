@@ -49,9 +49,23 @@ $this->menu=array(
 			<label class='col-sm-2 form-control-label'>Employee</label>
 			<div class="col-sm-10">
 				<p class="form-control-static">
-					<?php echo $form->dropDownList($model,'ID',CHtml::listData(Employee::model()->findAll(), 'ID', 'NAME'), array(
-						'id'=>'slEmployee',
-						'empty'=>array('0'=>'Select Employee'))); ?>
+					<div class="col-sm-10">
+						<div id="employees" class="small-container">
+							<div style="background: #333;padding: 5px;">
+								<input type="text" class="employees-list-search" size="100" placeholder="SEARCH NAME" onkeyup="search(this, 'employees');"/>
+							</div>
+							<ul style="background: rgb(204, 204, 204);padding: 10px;height: 300px;overflow-y: scroll;">
+							<?php
+								$employees = Employee::model()->findAll(); 
+								foreach($employees as $employee){
+									?>
+										<li><input type="radio" name="Employee[ID]" value="<?php echo $employee->ID;?>"><span><?php echo $employee->NAME.", ".Designations::model()->findByPK($employee->DESIGNATION_ID_FK)->DESIGNATION;?></span></li>
+									<?php
+								}
+							?>
+							</ul>
+						</div>
+					</div>
 				</p>
 			</div>
 		</div>
@@ -59,18 +73,8 @@ $this->menu=array(
 			<?php echo $form->labelEx($model,'DEPT_RELIEF_DATE', array('class'=>'col-sm-2 form-control-label')); ?>
 			<div class="col-sm-10">
 				<p class="form-control-static">
-					<?php 
-						$this->widget('zii.widgets.jui.CJuiDatePicker',array(
-							'model'=>$model,
-							'attribute'=>'DEPT_RELIEF_DATE',
-							'options'=>array(
-								'dateFormat'=>'yy-mm-dd',
-								'showAnim'=>'fold',
-							),
-							'htmlOptions'=>array(
-								'style'=>'height:20px;',
-							),
-						));	?>
+					<input value="<?php echo ($model->DEPT_RELIEF_DATE == "") ? "" : date('Y-m-d', strtotime($model->DEPT_RELIEF_DATE))?>" id="Employee_DEPT_RELIEF_DATE" name="Employee[DEPT_RELIEF_DATE]" type="date">
+					<?php echo $form->dropDownList($model,'DEPT_RELIEF_TIME',array(''=>'', 'F/N'=>'F/N', 'A/N'=>'A/N'), array('options'=>array($model->DEPT_RELIEF_TIME=>array('selected'=>true)))); ?>
 				</p>
 			</div>
 		</div>
@@ -113,8 +117,8 @@ $this->menu=array(
 <script>
 	
 	$(document).ready(function(){
-		$('#slEmployee').change(function(){
-			var empID = $('#slEmployee').val();
+		$('#employees li input[type=radio]').change(function(){
+			var empID = $(this).val();
 			
 			$('#LPC').attr('href', '<?php echo Yii::app()->createUrl('Employee/LPC'); ?>'+'&id='+empID);
 			$('#LPCCover').attr('href', '<?php echo Yii::app()->createUrl('Employee/LPCCover'); ?>'+'&id='+empID);
@@ -122,13 +126,34 @@ $this->menu=array(
 		});
 		
 		$('#btnViewLPC').click(function(){
-			var empID = $('#slEmployee').val();
+			//var empID = $('#slEmployee').val();
 			
-			$('#LPC').attr('href', '<?php echo Yii::app()->createUrl('Employee/LPC'); ?>'+'&id='+empID);
-			$('#LPCCover').attr('href', '<?php echo Yii::app()->createUrl('Employee/LPCCover'); ?>'+'&id='+empID);
+			//$('#LPC').attr('href', '<?php echo Yii::app()->createUrl('Employee/LPC'); ?>'+'&id='+empID);
+			//$('#LPCCover').attr('href', '<?php echo Yii::app()->createUrl('Employee/LPCCover'); ?>'+'&id='+empID);
 			$(".side-menu-additional").show();
 			$("#lpc-content").addClass('slide-content');
 			$('#footer_action').show();
 		});
 	});
+</script>
+
+<script>
+
+function search(searchBox, list){
+	var input, filter, ul, li, a, i;
+	input = searchBox;
+	filter = input.value.toUpperCase();
+	ul = $("#"+list+" ul");
+	li = ul.find('li');
+
+	// Loop through all list items, and hide those who don't match the search query
+	for (i = 0; i < li.length; i++) {
+		span = li[i].getElementsByTagName("span")[0];
+		if (span.innerHTML.toUpperCase().indexOf(filter) > -1) {
+			li[i].style.display = "";
+		} else {
+			li[i].style.display = "none";
+		}
+	}
+}
 </script>

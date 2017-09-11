@@ -171,6 +171,7 @@ class EmployeeController extends Controller
 			$model=$this->loadModel($_POST['Employee']['ID']);
 			$model->IS_TRANSFERRED = 1;
 			$model->DEPT_RELIEF_DATE = $_POST['Employee']['DEPT_RELIEF_DATE'] ? $_POST['Employee']['DEPT_RELIEF_DATE'] : NULL;
+			$model->DEPT_RELIEF_TIME = $_POST['Employee']['DEPT_RELIEF_TIME'] ? $_POST['Employee']['DEPT_RELIEF_TIME'] : NULL;
 			$model->TRANSFERED_TO = $_POST['Employee']['TRANSFERED_TO'];
 			$model->TRANSFER_ORDER = $_POST['Employee']['TRANSFER_ORDER'];
 			
