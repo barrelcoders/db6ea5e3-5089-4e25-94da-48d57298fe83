@@ -308,7 +308,7 @@ class BillController extends Controller
 		{
 			//echo "<pre>";print_r($_POST['Bill']);echo "</pre>";exit;
 			$model->attributes=$_POST['Bill'];
-			//echo "<pre>";print_r($model->attributes);echo "</pre>";exit;
+			$model->FINANCIAL_YEAR_ID_FK=FinancialYears::model()->find('STATUS=1')->ID;
 			if(isset($_POST['Bill']['BILL_TYPE']) && ( $_POST['Bill']['BILL_TYPE'] == 1 || $_POST['Bill']['BILL_TYPE'] == 2 || $_POST['Bill']['BILL_TYPE'] == 8)){
 				if($model->save(false)){
 					if(isset($_POST['Bill']['IS_ARREAR_BILL']) && $_POST['Bill']['IS_ARREAR_BILL'] == 1){

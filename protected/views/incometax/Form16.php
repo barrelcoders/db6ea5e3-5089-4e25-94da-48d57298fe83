@@ -1,274 +1,422 @@
 <link href="<?php echo Yii::app()->request->baseUrl; ?>/css/oneadmin.css" rel="stylesheet">
+<?php if($type == "Screen") { ?>
 <script type="text/javascript">window.onload = function() { window.print(); }</script>
+<?php } ?>
 <?php $master = Master::model()->findByPK(1); ?>
 <?php
 	
 	$monthName = array('1'=>'JAN', '2'=>'FEB', '3'=>'MAR', '4'=>'APR', '5'=>'MAY', '6'=>'JUN', '7'=>'JUL', '8'=>'AUG', '9'=>'SEP', '10'=>'OCT', '11'=>'NOV', '12'=>'DEC');
-	$monthNameHindi = array('1'=>'?????', '2'=>'??????', '3'=>'?????', '4'=>'??????', '5'=>'??', '6'=>'???', '7'=>'?????', '8'=>'?????', '9'=>'??????', '10'=>'???????', '11'=>'?????', '12'=>'??????'); 
+	$periods = array('3-2017','4-2017','5-2017','6-2017','7-2017','8-2017','9-2017','10-2017','11-2017', '12-2017','1-2018', '2-2018');
 	$master = Master::model()->findByPK(1);
-	$financialYear = FinancialYears::model()->find('STATUS=1'); 
-	$employees = Employee::model()->findAll();
+	$financialYear = FinancialYears::model()->find('STATUS=1');
+	$OTA_BILL_TYPE = 5;
+	$HONORIUM_BILL_TYPE = 12;
+	
+	$TAX_SLABS_I_MIN = 0;
+	$TAX_SLABS_I_MAX = 250000;
+	$TAX_SLABS_I_RATE = 0;
+	
+	$TAX_SLABS_II_MIN = 250000;
+	$TAX_SLABS_II_MAX = 500000;
+	$TAX_SLABS_II_RATE = 5;
+	
+	$TAX_SLABS_III_MIN = 500000;
+	$TAX_SLABS_III_MAX = 1000000;
+	$TAX_SLABS_III_RATE = 20;
+	
+	$TAX_SLABS_IV_MIN = 1000000;
+	$TAX_SLABS_IV_MAX = 10000000000;
+	$TAX_SLABS_IV_RATE = 30;
+	
+	$employeeIds = $list;
 ?>
 <style>
+	*{font-size: 10px;}
+	table.full{width: 100%;height:100%;page-break-after:always }
+	table {border-collapse: collapse;}
+	tr, td{border: 1px solid #000;border-collapse: collapse;}
 	td{text-align: center;}
-	*{font-size: 12px;}
-	td.left{text-align: left;padding-left: 5px;}
-	td.no-bottom-border { border-bottom: none;} 
+	.no-bottom-border {border-bottom: none;}
+	.no-border {border: none;}
+	.no-right-border {border-right: none;}
+	.left-text {text-align: left;padding-left: 10px;}
+	.right-text {text-align: right;padding-right: 10px;}
 </style>
 <table class="one-table">
 <?php 
-	foreach($employees as $employee){
+	foreach($employeeIds as $id){
+		$employee = Employee::model()->findByPK($id);
 		$investment = Investments::model()->find('EMPLOYEE_ID = '.$employee->ID.' AND FINANCIAL_YEAR_ID_FK = '.$financialYear->ID);
-		?>
-			<tr>
-				<td colspan="10">PROVISIONAL INCOME TAX CALCULATION  FOR THE YEAR <?php echo $financialYear->NAME?> <?php echo $employee->PENSION_TYPE?></td>
-				<td colspan="4">Page No: 1</td>
-			</tr>
-			<tr>
-				<td colspan="3">IN R/O OF SHRI./SMT/KUM</td>
-				<td colspan="4"><?php echo $employee->NAME."<br>(".$employee->NAME_HINDI.")";?></td>
-				<td colspan="2">DESGN.:</td>
-				<td colspan="5"><?php echo Designations::model()->findByPK($employee->DESIGNATION_ID_FK)->DESIGNATION ."<br>(".Designations::model()->findByPK($employee->DESIGNATION_ID_FK)->DESIGNATION_HINDI.")";?></td>
-			</tr>
-			<tr>
-				<td>MONTH</td>
-				<td>BASIC</td>
-				<td>GP</td>
-				<td>PP/SP</td>
-				<td>TA</td>
-				<td>HRA</td>
-				<td>DA</td>
-				<td>TOTAL</td>
-				<td>CGEGIS</td>
-				<td>GPF(C)</td>
-				<td>PT</td>
-				<td>HomeLoan</td>
-				<td>IT</td>
-				<td>PLI</td>
-			</tr>
-			<?php 
-			$start = new DateTime($financialYear->START_DATE);
-			$start->modify('-1 month');
-			$end = new DateTime($financialYear->END_DATE);
-			$end->modify('-1 month');
-			$bills = Bill::model()->findAll("PFMS_STATUS='Passed' AND PASSED_DATE >='".$start->format('Y-m-01')."' AND PASSED_DATE <='".$end->format('Y-m-t')."'");
-			$billsArray = array();
-			foreach ($bills as $bill)
-				array_push($billsArray, $bill->ID);
-				
-			$salaries = SalaryDetails::model()->findAll("EMPLOYEE_ID_FK = $employee->ID AND IS_SALARY_BILL = 1 AND BILL_ID_FK IN (".implode(',',$billsArray).")");
-			$i=1; $BASIC=0; $GP=0; $PP_SP=0; $TA=0; $HRA=0; $DA=0; $TOTAL=0; $CGEGIS=0; $CPF_TIER_I=0; $PT=0; $IT=0;
-			$otherMonthSalaries = null;
-			foreach($salaries as $salary){
-			?>
-				<tr>
-					<td><?php echo $monthName[$salary->MONTH]."-".$salary->YEAR;?></td>
-					<td><?php $BASIC = $BASIC + $salary->BASIC; echo $salary->BASIC;?></td>
-					<td><?php $GP = $GP + $salary->GP; echo $salary->GP;?></td>
-					<td><?php $PP_SP = $PP_SP + $salary->PP+$salary->SP; echo $salary->PP+$salary->SP;?></td>
-					<td><?php $TA = $TA + $salary->TA; echo $salary->TA;?></td>
-					<td><?php $HRA = $HRA + $salary->HRA; echo $salary->HRA;?></td>
-					<td><?php $DA = $DA + $salary->DA; echo $salary->DA;?></td>
-					<td><?php $TOTAL = $TOTAL + $salary->BASIC+$salary->GP+$salary->PP+$salary->SP+$salary->TA+$salary->HRA+$salary->DA; echo $salary->BASIC+$salary->GP+$salary->PP+$salary->SP+$salary->TA+$salary->HRA+$salary->DA;?></td>
-					<td><?php $CGEGIS = $CGEGIS + $salary->CGEGIS; echo $salary->CGEGIS;?></td>
-					<td><?php $CPF_TIER_I = $CPF_TIER_I + $salary->CPF_TIER_I; echo $salary->CPF_TIER_I;?></td>
-					<td><?php $PT = $PT + $salary->PT; echo $salary->PT;?></td>
-					<td></td>
-					<td><?php $IT = $IT + $salary->IT; echo $salary->IT;?></td>
-					<td></td>
-				</tr>
-			<?php
-				if($i = count($salaries)){
-					$otherMonthSalaries = $salary;
+		$SALARIES = array();
+		$TOTAL_SALARIES = array();
+		$DA_TA_ARREAR = 0;
+		$i=0;
+		foreach($periods as $period){
+			$MONTH = explode('-', $period)[0];
+			$YEAR = explode('-', $period)[1];
+			if(SalaryDetails::model()->exists('EMPLOYEE_ID_FK='.$id.' AND MONTH='.$MONTH.' AND YEAR='.$YEAR.' AND IS_SALARY_BILL=1')){
+				$salary = SalaryDetails::model()->find('EMPLOYEE_ID_FK='.$id.' AND MONTH='.$MONTH.' AND YEAR='.$YEAR.' AND IS_SALARY_BILL=1');
+				array_push($SALARIES, array(
+					'MONTH'=>$MONTH,
+					'YEAR'=>$YEAR,
+					'PERIOD'=>$monthName[$salary->MONTH].'-'.$salary->YEAR,
+					'BASIC'=>$salary->BASIC,
+					'PP_SP'=>($salary->PP+$salary->SP),
+					'TA'=>$salary->TA,
+					'HRA'=>$salary->HRA,
+					'DA'=>$salary->DA,
+					'TOTAL'=>($salary->BASIC+$salary->PP+$salary->SP+$salary->TA+$salary->HRA+$salary->DA),
+					'CGEGIS'=>$salary->CGEGIS,
+					'CGHS'=>$salary->CGHS,
+					'CPF'=>($salary->CPF_TIER_I + $salary->CPF_TIER_II),
+					'PT'=>$salary->PT,
+					'IT'=>$salary->IT,
+					'PLI'=>$salary->PLI,
+					'TYPE'=>'SALARY'
+				));
+			}
+			else if(SupplementarySalaryDetails::model()->exists('EMPLOYEE_ID_FK='.$id.' AND MONTH='.$MONTH.' AND YEAR='.$YEAR)){
+				$salary = SupplementarySalaryDetails::model()->find('EMPLOYEE_ID_FK='.$id.' AND MONTH='.$MONTH.' AND YEAR='.$YEAR);
+				array_push($SALARIES, array(
+					'MONTH'=>$MONTH,
+					'YEAR'=>$YEAR,
+					'PERIOD'=>$monthName[$salary->MONTH].'-'.$salary->YEAR,
+					'BASIC'=>$salary->BASIC,
+					'PP_SP'=>($salary->PP+$salary->SP),
+					'TA'=>$salary->TA,
+					'HRA'=>$salary->HRA,
+					'DA'=>$salary->DA,
+					'TOTAL'=>($salary->BASIC+$salary->PP+$salary->SP+$salary->TA+$salary->HRA+$salary->DA),
+					'CGEGIS'=>$salary->CGEGIS,
+					'CGHS'=>$salary->CGHS,
+					'CPF'=>($salary->CPF_TIER_I + $salary->CPF_TIER_II),
+					'PT'=>$salary->PT,
+					'IT'=>$salary->IT,
+					'PLI'=>$salary->PLI,
+					'TYPE'=>'SALARY'
+				));
+			}
+			else{
+				if(isset($SALARIES[$i-1])){
+					$salary = $SALARIES[$i-1];
+					$salary['MONTH'] = $MONTH;
+					$salary['YEAR'] = $YEAR;
+					$salary['PERIOD'] = $monthName[$MONTH].'-'.$YEAR;
+					$salary['IT'] = 0;
+					array_push($SALARIES, $salary);
 				}
-				
-				$i++;			
+				else{
+					array_push($SALARIES, array(
+						'MONTH'=>$MONTH,
+						'YEAR'=>$YEAR,
+						'PERIOD'=>$monthName[$MONTH].'-'.$YEAR,
+						'BASIC'=>0,
+						'PP_SP'=>0,
+						'TA'=>0,
+						'HRA'=>0,
+						'DA'=>0,
+						'TOTAL'=>0,
+						'CGEGIS'=>0,
+						'CGHS'=>0,
+						'CPF'=>0,
+						'PT'=>0,
+						'IT'=>0,
+						'PLI'=>0,
+						'TYPE'=>'SALARY'
+					));
+				}
 			}
 			
-			$month = intval($otherMonthSalaries['MONTH'])+1;
-			$year = intval($otherMonthSalaries['YEAR']);
-			for(;$i<12;$i++){
-				?>
-				<tr>
-					<td><?php 
-						if(($month == 12)){
-							$month = 1;
-							$year = $year + 1;
-						}
-						echo $monthName[$month]."-".$year;
-							
-					?></td>
-					<td><?php $BASIC = $BASIC +  $otherMonthSalaries['BASIC']; echo $otherMonthSalaries['BASIC'];?></td>
-					<td><?php $GP = $GP +  $otherMonthSalaries['GP']; echo $otherMonthSalaries['GP'];?></td>
-					<td><?php $PP_SP = $PP_SP +   $otherMonthSalaries['PP']+$otherMonthSalaries['SP']; echo $otherMonthSalaries['PP']+$otherMonthSalaries['SP'];?></td>
-					<td><?php $TA = $TA +  $otherMonthSalaries['TA']; echo $otherMonthSalaries['TA'];?></td>
-					<td><?php $HRA = $HRA +  $otherMonthSalaries['HRA']; echo $otherMonthSalaries['HRA'];?></td>
-					<td><?php $DA = $DA +  $otherMonthSalaries['DA']; echo $otherMonthSalaries['DA'];?></td>
-					<td><?php $TOTAL = $TOTAL +  $otherMonthSalaries['BASIC']+$otherMonthSalaries['GP']+$otherMonthSalaries['PP']+$otherMonthSalaries['SP']+$otherMonthSalaries['TA']+$otherMonthSalaries['HRA']+$otherMonthSalaries['DA']; echo $otherMonthSalaries['BASIC']+$otherMonthSalaries['GP']+$otherMonthSalaries['PP']+$otherMonthSalaries['SP']+$otherMonthSalaries['TA']+$otherMonthSalaries['HRA']+$otherMonthSalaries['DA'];?></td>
-					<td><?php $CGEGIS = $CGEGIS +  $otherMonthSalaries['CGEGIS']; echo $otherMonthSalaries['CGEGIS'];?></td>
-					<td><?php $CPF_TIER_I = $CPF_TIER_I +  $otherMonthSalaries['CPF_TIER_I']; echo $otherMonthSalaries['CPF_TIER_I'];?></td>
-					<td><?php $PT = $PT +  $otherMonthSalaries['PT']; echo $otherMonthSalaries['PT'];?></td>
-					<td></td>
-					<td><?php $IT = $IT +  $otherMonthSalaries['IT']; echo $otherMonthSalaries['IT'];?></td>
-					<td></td>
-				</tr>
-				<?php
-				$month += 1;
-			}
-			?>
-			<tr>
-				<td>TOTAL</td>
-				<td><?php echo $BASIC;?></td>
-				<td><?php echo $GP;?></td>
-				<td><?php echo $PP_SP;?></td>
-				<td><?php echo $TA;?></td>
-				<td><?php echo $HRA;?></td>
-				<td><?php echo $DA;?></td>
-				<td><?php echo $TOTAL;?></td>
-				<td><?php echo $CGEGIS;?></td>
-				<td><?php echo $CPF_TIER_I;?></td>
-				<td><?php echo $PT;?></td>
-				<td>0</td>
-				<td><?php echo $IT;?></td>
-				<td>0</td>
-			</tr>
-				
-			<?php
-				$CEABills = Bill::model()->findAll("IS_CEA_BILL = 1 AND ID IN (".implode(',',$billsArray).")");
-				$CEA = 0;
-				foreach($CEABills as $bill){
-					$billEmployees = explode(",", OtherBillEmployees::model()->find('BILL_ID='.$bill->ID)->EMPLOYEE_ID);
-					if(in_array($employee->ID, $billEmployees)){
-						$CEA = $CEA + $bill->BILL_AMOUNT;
-					}
+			$bills = Bill::model()->findAll('PFMS_STATUS="Passed" AND MONTH='.$MONTH.' AND YEAR='.$YEAR.' AND IS_ARREAR_BILL=1');
+			$arr_bills = array(); foreach($bills as $bill) array_push($arr_bills, $bill->ID);
+			if(count($arr_bills) > 0){
+				$salary = SalaryDetails::model()->find('EMPLOYEE_ID_FK='.$id.' AND MONTH='.$MONTH.' AND YEAR='.$YEAR.' AND BILL_ID_FK IN ('.implode(',', $arr_bills).')');
+				if($salary){
+					array_push($SALARIES, array(
+						'MONTH'=>$MONTH,
+						'YEAR'=>$YEAR,
+						'PERIOD'=>'Arr '.$monthName[$salary->MONTH].'-'.$salary->YEAR,
+						'BASIC'=>$salary->BASIC,
+						'PP_SP'=>($salary->PP+$salary->SP),
+						'TA'=>$salary->TA,
+						'HRA'=>$salary->HRA,
+						'DA'=>$salary->DA,
+						'TOTAL'=>($salary->BASIC+$salary->PP+$salary->SP+$salary->TA+$salary->HRA+$salary->DA),
+						'CGEGIS'=>$salary->CGEGIS,
+						'CGHS'=>$salary->CGHS,
+						'CPF'=>$salary->CPF_TIER_I,
+						'PT'=>$salary->PT,
+						'IT'=>$salary->IT,
+						'PLI'=>$salary->PLI,
+					));
 				}
-			?>
-			<tr>
-				<td class="left" colspan="7">DA /TA ARREARS (1/16 to 3/16) ( ENTER MANUALLY)</td>
-				<td></td>
-				<td class="no-bottom-border"></td>
-				<td class="left" colspan="4">* HRA Exemption (Least of the following)</td>
-				<td></td>
-			</tr>
-			<tr>
-				<td class="left" colspan="7">Other Pay Arrears</td>
-				<td></td>
-				<td class="no-bottom-border"></td>
-				<td class="left" colspan="4">(i) Actual HRA</td>
-				<td><?php echo $HRA;?></td>
-			</tr>
-			<tr>
-				<td class="left" colspan="7">OTA, Honorarium, etc.,</td>
-				<td></td>
-				<td class="no-bottom-border"></td>
-				<td class="left" colspan="4">(ii) Rent paid in excess of 10% of Salary</td>
-				<td></td>
-			</tr>
-			<tr>
-				<td colspan="7"><br/></td>
-				<td></td>
-				<td class="no-bottom-border"></td>
-				<td colspan="4"></td>
-				<td></td>
-			</tr>
-			<tr>
-				<td class="left" colspan="7">Leave Encashment</td>
-				<td></td>
-				<td class="no-bottom-border"></td>
-				<td class="left" colspan="4"></td>
-				<td></td>
-			</tr>
-			<tr>
-				<td class="left" colspan="7">Children Education Allowance</td>
-				<td><?php echo $CEA;?></td>
-				<td class="no-bottom-border"></td>
-				<td class="left" colspan="4">(iii) 40% of Salary</td>
-				<td></td>
-			</tr>
-			<tr>
-				<td class="left" colspan="7">TOTAL INCOME (from Salary)</td>
-				<td></td>
-				<td class="no-bottom-border"></td>
-				<td class="left" colspan="4">(Salary = Total Pay + DA)</td>
-				<td></td>
-			</tr>
-			<tr>
-				<td class="left" colspan="2">H.R.A.EXEMPTION</td>
-				<td class="left" colspan="2">RENT per Annum :</td>
-				<td class="left" colspan="2"><?php echo $investment->HRA;?></td>
-				<td>(Minus)</td>
-				<td></td>
-				<td colspan="6"><?php echo ($employee->PENSION_TYPE == "NPS")? "NEW PENSION SCHEME" : "";?></td>
-			</tr>
-			<?php if($employee->PENSION_TYPE == "OPS") { ?>
-			<tr>
-				<td class="left" colspan="7">ANY OTHER INCOME (to be specified)</td>
-				<td class="left" >0</td>
-				<td colspan="6"></td>
-			</tr>
-			<?php } else { ?>
-			<tr>
-				<td class="left" colspan="7">Govt. Contribution towards CPF (equal to Govt. Servant's cont.)</td>
-				<td class="left" ><?php echo $CPF_TIER_I; ?></td>
-				<td></td>
-				<td colspan="3">(1) Mandatory CPF cont.</td>
-				<td ><?php echo $CPF_TIER_I; ?></td>
-				<td></td>
-			</tr>	
-			<?php } ?>
-			<tr>
-				<td class="left" colspan="7">HOUSE INCOME**(Income from Saving Bank Intrest)</td>
-				<td class="left">0</td>
-				<td></td>
-				<?php if($employee->PENSION_TYPE == "NPS") { ?>
-				<td colspan="3">(2) CPF cont. from Arr.</td>
-				<td>0</td>
-				<td></td>
-				<?php } else { ?>
-				<td colspan="6"></td>
-				<?php } ?>
-			</tr>
-			<tr>
-				<td colspan="3">A</td>
-				<td class="left" colspan="4">Gross Income</td>
-				<td>0</td>
-				<td></td>
-				<?php if($employee->PENSION_TYPE == "NPS") { ?>
-				<td colspan="3">Govt. CPF Cont. (1+2)</td>
-				<td><?php echo $CPF_TIER_I; ?></td>
-				<td></td>
-				<?php } else { ?>
-				<td colspan="6"></td>
-				<?php } ?>
-			</tr>
-			<tr>
-				<td colspan="3"></td>
-				<td class="left" colspan="4">PROFESSIONAL TAX</td>
-				<td><?php echo $PT;?></td>
-				<td></td>
-				<?php if($employee->PENSION_TYPE == "NPS") { ?>
-				<td colspan="3">CPF</td>
-				<td><?php echo $CPF_TIER_I * 2; ?></td>
-				<td></td>
-				<?php } else { ?>
-				<td colspan="6"></td>
-				<?php } ?>
-			</tr>
-			<tr>
-				<td colspan="3"></td>
-				<td class="left" colspan="4"> Tr. Allow (u/s. 10(14)</td>
-				<td><?php echo min($TA, 19200);?></td>
-				<td></td>
-				<td colspan="6"></td>
-			</tr>
-			<tr>
-				<td colspan="3"></td>
-				<td class="left" colspan="4">Income after Deductions</td>
-				<td>0</td>
-				<td></td>
-				<td colspan="6"></td>
-			</tr>
-		<?php
+			}
+			$i++;
+		}
+		
+		$TOTAL_SALARIES = getSalaryTotal($SALARIES);
+		
+		$bills = Bill::model()->findAll('PFMS_STATUS="Passed" AND FINANCIAL_YEAR_ID_FK='.$financialYear->ID.' AND IS_DA_ARREAR_BILL=1');
+		$da_arr_bills = array(); foreach($bills as $bill) array_push($da_arr_bills, $bill->ID);
+		$DA_TA_ARREAR_CURRENT_OFFICE=0;
+		if(count($da_arr_bills)>0){
+			$DA_TA_ARREAR_CURRENT_OFFICE = Yii::app()->db->createCommand("SELECT SUM(DA) + SUM(TA) AS TOTAL FROM tbl_salary_details WHERE EMPLOYEE_ID_FK=".$id." AND BILL_ID_FK IN (".implode(",", $da_arr_bills).")")->queryRow()['TOTAL'];
+		}
+		
+		$DA_TA_ARREAR_PREVIOUS_OFFICE =  isset($investment->DA_TA_ARREAR) ? $investment->DA_TA_ARREAR : 0;
+		$TOTAL_DA_TA_ARREAR = $DA_TA_ARREAR_CURRENT_OFFICE + $DA_TA_ARREAR_PREVIOUS_OFFICE;		
+		
+		$DA_TA_ARREAR_CPF_CURRENT_OFFICE=0;
+		if(count($da_arr_bills)>0){
+			$DA_TA_ARREAR_CPF_CURRENT_OFFICE = Yii::app()->db->createCommand("SELECT SUM(CPF_TIER_I) AS TOTAL FROM tbl_salary_details WHERE EMPLOYEE_ID_FK=".$id." AND BILL_ID_FK IN (".implode(",", $da_arr_bills).")")->queryRow()['TOTAL'];
+		}
+		$DA_TA_ARREAR_CPF_PREVIOUS_OFFICE = isset($investment->DA_TA_ARREAR_CPF) ? $investment->DA_TA_ARREAR_CPF : 0;
+		$TOTAL_DA_TA_ARREAR_CPF = $DA_TA_ARREAR_CPF_CURRENT_OFFICE + $DA_TA_ARREAR_CPF_PREVIOUS_OFFICE;	
+		
+		$bills = Bill::model()->findAll('PFMS_STATUS="Passed" AND FINANCIAL_YEAR_ID_FK='.$financialYear->ID.' AND BILL_TYPE='.$OTA_BILL_TYPE.' OR BILL_TYPE='.$HONORIUM_BILL_TYPE);
+		$ota_honorium_bills = array(); 
+		$OTA_HONORIUM_CURRENT_OFFICE = 0;
+		foreach($bills as $bill){
+			$OtherBillEmployees = explode(",", OtherBillEmployees::model()->find('BILL_ID='.$bill->ID)->EMPLOYEE_ID);
+			if(in_array($id, $OtherBillEmployees)){
+				$OTA_HONORIUM_CURRENT_OFFICE += $bill->AMOUNT;
+			}
+		}
+		$OTA_HONORIUM_PREVIOUS_OFFICE = isset($investment->OTA_HONORANIUM) ? $investment->OTA_HONORANIUM : 0;
+		$TOTAL_OTA_HONORIUM = $OTA_HONORIUM_CURRENT_OFFICE + $OTA_HONORIUM_PREVIOUS_OFFICE;
+		
+		$bills = Bill::model()->findAll('PFMS_STATUS="Passed" AND FINANCIAL_YEAR_ID_FK='.$financialYear->ID.' AND IS_BONUS_BILL=1');
+		$BONUS_CURRENT_OFFICE = 0;
+		foreach($bills as $bill){
+			$OtherBillEmployees = explode(",", OtherBillEmployees::model()->find('BILL_ID='.$bill->ID)->EMPLOYEE_ID);
+			if(in_array($id, $OtherBillEmployees)){
+				$BONUS_CURRENT_OFFICE = Yii::app()->db->createCommand("SELECT SUM(BONUS) AS TOTAL FROM tbl_salary_details WHERE EMPLOYEE_ID_FK=".$id." AND BILL_ID_FK=".$bill->ID)->queryRow()['TOTAL'];
+			}
+		}
+		$BONUS_PREVIOUS_OFFICE = isset($investment->BONUS) ? $investment->BONUS : 0;
+		$TOTAL_BONUS = $BONUS_CURRENT_OFFICE + $BONUS_PREVIOUS_OFFICE;
+		
+		
+		$bills = Bill::model()->findAll('PFMS_STATUS="Passed" AND FINANCIAL_YEAR_ID_FK='.$financialYear->ID.' AND IS_UA_BILL=1');
+		$UA_CURRENT_OFFICE = 0;
+		foreach($bills as $bill){
+			$OtherBillEmployees = explode(",", OtherBillEmployees::model()->find('BILL_ID='.$bill->ID)->EMPLOYEE_ID);
+			if(in_array($id, $OtherBillEmployees)){
+				$UA_CURRENT_OFFICE = Yii::app()->db->createCommand("SELECT SUM(UA) AS TOTAL FROM tbl_salary_details WHERE EMPLOYEE_ID_FK=".$id." AND BILL_ID_FK=".$bill->ID)->queryRow()['TOTAL'];
+			}
+		}
+		$UA_PREVIOUS_OFFICE = isset($investment->UNIFORM) ? $investment->UNIFORM : 0;
+		$TOTAL_UA = $UA_CURRENT_OFFICE + $UA_PREVIOUS_OFFICE;
+		
+		$bills = Bill::model()->findAll('PFMS_STATUS="Passed" AND FINANCIAL_YEAR_ID_FK='.$financialYear->ID.' AND IS_CEA_BILL=1');
+		$CEA_CURRENT_OFFICE = 0;
+		foreach($bills as $bill){
+			$OtherBillEmployees = explode(",", OtherBillEmployees::model()->find('BILL_ID='.$bill->ID)->EMPLOYEE_ID);
+			if(in_array($id, $OtherBillEmployees)){
+				$CEA_CURRENT_OFFICE = Yii::app()->db->createCommand("SELECT SUM(CEA) AS TOTAL FROM tbl_salary_details WHERE EMPLOYEE_ID_FK=".$id." AND BILL_ID_FK=".$bill->ID)->queryRow()['TOTAL'];
+			}
+		}
+		$CEA_PREVIOUS_OFFICE = isset($investment->CEA) ? $investment->CEA : 0;
+		$TOTAL_CEA = $CEA_CURRENT_OFFICE + $CEA_PREVIOUS_OFFICE;
+		
+		$bills = Bill::model()->findAll('PFMS_STATUS="Passed" AND FINANCIAL_YEAR_ID_FK='.$financialYear->ID.' AND (IS_LTC_ADVANCE_BILL=1 OR IS_LTC_CLAIM_BILL=1)');
+		$LTC_HTC_CURRENT_OFFICE = 0;
+		foreach($bills as $bill){
+			$OtherBillEmployees = explode(",", OtherBillEmployees::model()->find('BILL_ID='.$bill->ID)->EMPLOYEE_ID);
+			if(in_array($id, $OtherBillEmployees)){
+				$LTC_HTC_CURRENT_OFFICE = Yii::app()->db->createCommand("SELECT SUM(LTC_HTC) AS TOTAL FROM tbl_salary_details WHERE EMPLOYEE_ID_FK=".$id." AND BILL_ID_FK=".$bill->ID)->queryRow()['TOTAL'];
+			}
+		}
+		$LTC_HTC_PREVIOUS_OFFICE = isset($investment->LTC_HTC) ? $investment->LTC_HTC : 0;
+		$TOTAL_LTC_HTC = $LTC_HTC_CURRENT_OFFICE + $LTC_HTC_PREVIOUS_OFFICE;
+		
+		$bills = Bill::model()->findAll('PFMS_STATUS="Passed" AND FINANCIAL_YEAR_ID_FK='.$financialYear->ID.' AND IS_EL_ENCASHMENT_BILL=1');
+		$EL_ENCASH_CURRENT_OFFICE = 0;
+		foreach($bills as $bill){
+			$OtherBillEmployees = explode(",", OtherBillEmployees::model()->find('BILL_ID='.$bill->ID)->EMPLOYEE_ID);
+			if(in_array($id, $OtherBillEmployees)){
+				$EL_ENCASH_CURRENT_OFFICE = Yii::app()->db->createCommand("SELECT SUM(EL_ENCASHMENT) AS TOTAL FROM tbl_salary_details WHERE EMPLOYEE_ID_FK=".$id." AND BILL_ID_FK=".$bill->ID)->queryRow()['TOTAL'];
+			}
+		}
+		$EL_ENCASH_PREVIOUS_OFFICE = isset($investment->EL_ENCASH) ? $investment->EL_ENCASH : 0;
+		$TOTAL_EL_ENCASH = $EL_ENCASH_CURRENT_OFFICE + $EL_ENCASH_PREVIOUS_OFFICE;
+		
+		$TOTAL_INCOME_FROM_SALARY = $TOTAL_SALARIES[0]['TOTAL'] + $TOTAL_DA_TA_ARREAR + $TOTAL_OTA_HONORIUM + $TOTAL_BONUS + $TOTAL_UA + $TOTAL_CEA + $TOTAL_LTC_HTC + $TOTAL_EL_ENCASH;
+		
+		$TOTAL_RENT = isset($investment->HRA) ? $investment->HRA : 0;
+		$TOTAL_OTHER_INCOME = isset($investment->OTHER_INCOME) ? $investment->OTHER_INCOME : 0;
+		$TOTAL_HOUSE_INCOME = isset($investment->HOUSE_INCOME) ? $investment->HOUSE_INCOME : 0;
+		
+		$GROSS_INCOME = 0;
+		if($employee->PENSION_TYPE == "OPS"){
+			$GROSS_INCOME = $TOTAL_INCOME_FROM_SALARY - $TOTAL_SALARIES[0]['HRA'] - $TOTAL_RENT - $TOTAL_OTHER_INCOME - $TOTAL_HOUSE_INCOME;
+		}
+		if($employee->PENSION_TYPE == "NPS"){
+			$GROSS_INCOME = $TOTAL_INCOME_FROM_SALARY + ($TOTAL_SALARIES[0]['HRA'] - $TOTAL_RENT) - $TOTAL_SALARIES[0]['CPF'] - $TOTAL_HOUSE_INCOME;
+		}
+		
+		$INCOME_AFTER_DEDUCTION = $GROSS_INCOME - $TOTAL_SALARIES[0]['PT'] - $TOTAL_SALARIES[0]['TA'];
+		$TOTAL_CPF_EMPLOYEE = $TOTAL_DA_TA_ARREAR_CPF + $TOTAL_SALARIES[0]['CPF'];
+		
+		$TOTAL_CGHS = $TOTAL_SALARIES[0]['CGHS'];
+		$MEDICAL_INSURANCE = isset($investment->MEDICAL_INSURANCE) ? $investment->MEDICAL_INSURANCE : 0;
+		$DONATION = isset($investment->DONATION) ? $investment->DONATION : 0;
+		$DISABILITY_MED_EXP = isset($investment->DISABILITY_MED_EXP) ? $investment->DISABILITY_MED_EXP : 0;
+		$EDU_LOAD_INT = isset($investment->EDU_LOAD_INT) ? $investment->EDU_LOAD_INT : 0;
+		$SELF_DISABILITY = isset($investment->SELF_DISABILITY) ? $investment->SELF_DISABILITY : 0;
+		$HOME_LOAN_INT = isset($investment->HOME_LOAN_INT) ? $investment->HOME_LOAN_INT : 0;
+		$MIN_HOME_LOAN_INT = min($HOME_LOAN_INT,200000);
+		$HOME_LOAD_EXCESS_2013_14 = min((($HOME_LOAN_INT >= 250001) ? ($HOME_LOAN_INT - $MIN_HOME_LOAN_INT) : 0 ), 100000);
+		$HOME_LOAD_EXCESS_2013_14_ADDTIONAL = ($HOME_LOAN_INT < 250001) ? min(($HOME_LOAN_INT - $MIN_HOME_LOAN_INT), 100000) : 0;
+		$NPS_UNDER_80CCD_1B = isset($investment->NPS_UNDER_80CCD_1B) ? $investment->NPS_UNDER_80CCD_1B : 0;
+		$BANK_INTEREST_DED_80TTA = isset($investment->BANK_INTEREST_DED_80TTA) ? $investment->BANK_INTEREST_DED_80TTA : 0;
+		$TOTAL_EXEMPTION = $TOTAL_CGHS+$MEDICAL_INSURANCE+$DONATION+$DISABILITY_MED_EXP+$EDU_LOAD_INT+$SELF_DISABILITY+$HOME_LOAN_INT+$MIN_HOME_LOAN_INT+$HOME_LOAD_EXCESS_2013_14
+		+$NPS_UNDER_80CCD_1B+$BANK_INTEREST_DED_80TTA;
+							
+		
+		
+		$TOTAL_CPF = ($employee->PENSION_TYPE == "OPS") ? $TOTAL_CPF_EMPLOYEE : ($TOTAL_CPF_EMPLOYEE * 2);
+		$TOTAL_CGEGIS = $TOTAL_SALARIES[0]['CGEGIS'];
+		$INSURANCE_LIC_OTHER = isset($investment->INSURANCE_LIC_OTHER) ? $investment->INSURANCE_LIC_OTHER : 0;
+		$TUITION_FESS_EXEMPTION = isset($investment->TUITION_FESS_EXEMPTION) ? $investment->TUITION_FESS_EXEMPTION : 0;
+		$PPF_NSC = isset($investment->PPF_NSC) ? $investment->PPF_NSC : 0;
+		$HOME_LOAD_PR = isset($investment->HOME_LOAD_PR) ? $investment->HOME_LOAD_PR : 0;
+		$PLI_ULIP = isset($investment->PLI_ULIP) ? $investment->PLI_ULIP : 0;
+		$TERM_DEPOSIT_ABOVE_5 = isset($investment->TERM_DEPOSIT_ABOVE_5) ? $investment->TERM_DEPOSIT_ABOVE_5 : 0;
+		$MUTUAL_FUND = isset($investment->MUTUAL_FUND) ? $investment->MUTUAL_FUND : 0;
+		$PENSION_FUND = isset($investment->PENSION_FUND) ? $investment->PENSION_FUND : 0;
+		$CPF_809CCD = isset($investment->CPF) ? $investment->CPF : 0;
+		$REGISTRY_STAMP = isset($investment->REGISTRY_STAMP) ? $investment->REGISTRY_STAMP : 0;
+		$TOTAL_SAVING_80C = $TOTAL_CPF+$TOTAL_CGEGIS+$INSURANCE_LIC_OTHER+$TUITION_FESS_EXEMPTION+$PPF_NSC+$HOME_LOAD_PR+$PLI_ULIP+$TERM_DEPOSIT_ABOVE_5+$MUTUAL_FUND
+							+$PENSION_FUND+$CPF_809CCD+$REGISTRY_STAMP;
+		$MIN_SAVING_80C = min($TOTAL_SAVING_80C,150000);
+		$NET_SAVING_80C = ($employee->PENSION_TYPE == "OPS") ? $MIN_SAVING_80C : ($MIN_SAVING_80C + $TOTAL_CPF_EMPLOYEE);
+		
+		$TOTAL_DEDUCTIONS = $TOTAL_EXEMPTION+$NET_SAVING_80C;
+		$TOTAL_TAXABLE_INCOME = $INCOME_AFTER_DEDUCTION-$TOTAL_DEDUCTIONS;
+		$TOTAL_TAXABLE_INCOME_ROUNDED = round($INCOME_AFTER_DEDUCTION-$TOTAL_DEDUCTIONS, -1);
+		
+		$TAXABLE_INCOME = 0;
+		$TAX_REBATE_UNDER_87 = ($TOTAL_TAXABLE_INCOME<500001)? (MIN($TAXABLE_INCOME,5000)) : 0;
+		
+		$FIRST_SLAB_INCOME = 250000;
+		$FIRST_SLAB_TAX = 0;
+		
+		$SECOND_SLAB_INCOME = MIN((($TOTAL_TAXABLE_INCOME_ROUNDED>=$TAX_SLABS_II_MIN) ? ($TOTAL_TAXABLE_INCOME_ROUNDED - $TAX_SLABS_II_MIN) : 0 ), $TAX_SLABS_II_MIN);
+		$SECOND_SLAB_TAX = round(($SECOND_SLAB_INCOME *  $TAX_SLABS_II_RATE )/100);
+		
+		$THIRD_SLAB_INCOME = MIN((($TOTAL_TAXABLE_INCOME_ROUNDED>=$TAX_SLABS_III_MIN) ? ($TOTAL_TAXABLE_INCOME_ROUNDED - $TAX_SLABS_III_MIN) : 0 ), $TAX_SLABS_III_MIN);
+		$THIRD_SLAB_TAX = round(($THIRD_SLAB_INCOME *  $TAX_SLABS_III_RATE )/100);
+		
+		$FOURTH_SLAB_INCOME = MIN((($TOTAL_TAXABLE_INCOME_ROUNDED>=$TAX_SLABS_IV_MIN) ? ($TOTAL_TAXABLE_INCOME_ROUNDED - $TAX_SLABS_IV_MIN) : 0 ), $TAX_SLABS_IV_MIN);
+		$FOURTH_SLAB_TAX = round(($FOURTH_SLAB_INCOME *  $TAX_SLABS_IV_RATE )/100);
+		
+		$TOTAL_SLAB_INCOME = $FIRST_SLAB_INCOME + $SECOND_SLAB_INCOME + $THIRD_SLAB_INCOME + $FOURTH_SLAB_INCOME;
+		$TOTAL_SLAB_TAX = $FIRST_SLAB_TAX + $SECOND_SLAB_TAX + $THIRD_SLAB_TAX + $FOURTH_SLAB_TAX;
+		
+		$TOTAL_SLAB_TAX_WITH_CESS = round(0.03 * $TOTAL_SLAB_TAX);
+		$GROSS_TAX_PAYABLE = $TOTAL_SLAB_TAX + $TOTAL_SLAB_TAX_WITH_CESS;
+		
+		$TAX_PAID_FROM_SALARY = $TOTAL_SALARIES[0]['IT'];
+		$TAX_REMAINING = $GROSS_TAX_PAYABLE - $TAX_PAID_FROM_SALARY;
+		$TAX_REMAINING_TEXT = (($GROSS_TAX_PAYABLE - $TAX_PAID_FROM_SALARY) < 0 ) ? "NET TAX REFUNDABLE":"NET TAX PAYABLE";
+		
+		$PAN_NUMBER = $employee->PAN;
+		
+		$REMAINING_MONTHS = remainingMonthsForIT($SALARIES);
+		if($TAX_REMAINING <= 0){
+			$IT_FOR_REMAINING_MONTHS = getNilParts($REMAINING_MONTHS);
+		}
+		else{
+			$IT_FOR_REMAINING_MONTHS = getParts($TAX_REMAINING, $REMAINING_MONTHS);
+		}
+		
+		
+		for($i=0,$j=0; $i<count($SALARIES); $i++){
+			if($SALARIES[$i]['IT'] == 0){ 
+				$SALARIES[$i]['IT'] = $IT_FOR_REMAINING_MONTHS[$j];
+				$j++;
+			}
+		}
+		
+		$TOTAL_SALARIES = getSalaryTotal($SALARIES);
+		$TAX_PAID_FROM_SALARY = $TOTAL_SALARIES[0]['IT'];
+		$TAX_REMAINING = $GROSS_TAX_PAYABLE - $TAX_PAID_FROM_SALARY;
+		$TAX_REMAINING_TEXT = (($GROSS_TAX_PAYABLE - $TAX_PAID_FROM_SALARY) < 0 ) ? "NET TAX REFUNDABLE":"NET TAX PAYABLE";
+		
+		
+		include ($employee->PENSION_TYPE == "OPS") ? "Form16_OPS.php" : "Form16_NPS.php";
 	}
 ?>
 </table>
+<?php
+function getSalaryTotal($salaries){
+	$total = array();
+	$BASIC = 0;
+	$PP_SP = 0;
+	$TA = 0;
+	$HRA = 0;
+	$DA = 0;
+	$TOTAL = 0;
+	$CGEGIS = 0;
+	$CGHS = 0;
+	$CPF = 0;
+	$PT = 0;
+	$IT = 0;
+	$PLI = 0;
+	
+	for($i=0;$i<=count($salaries)-1;$i++){
+		$BASIC += $salaries[$i]['BASIC'];
+		$PP_SP += $salaries[$i]['PP_SP'];
+		$TA += $salaries[$i]['TA'];
+		$HRA += $salaries[$i]['HRA'];
+		$DA += $salaries[$i]['DA'];
+		$TOTAL += $salaries[$i]['TOTAL'];
+		$CGEGIS += $salaries[$i]['CGEGIS'];
+		$CGHS += $salaries[$i]['CGHS'];
+		$CPF += $salaries[$i]['CPF'];
+		$PT += $salaries[$i]['PT'];
+		$IT += $salaries[$i]['IT'];
+		$PLI += $salaries[$i]['PLI'];
+	}
+	array_push($total, array(
+		'MONTH'=>'',
+		'YEAR'=>'',
+		'PERIOD'=>'TOTAL',
+		'BASIC'=>$BASIC,
+		'PP_SP'=>$PP_SP,
+		'TA'=>$TA,
+		'HRA'=>$HRA,
+		'DA'=>$DA,
+		'TOTAL'=>$TOTAL,
+		'CGEGIS'=>$CGEGIS,
+		'CGHS'=>$CGHS,
+		'CPF'=>$CPF,
+		'PT'=>$PT,
+		'IT'=>$IT,
+		'PLI'=>$PLI,
+	));
+	
+	return $total;
+}
+function remainingMonthsForIT($salaries){
+	$count = 0;
+	foreach($salaries as $salary){
+		if($salary['IT'] == 0)
+			$count++;
+	}
+	return $count;
+}
+function getParts($tot, $n){
+	$values = array_fill( 0, $n-1, round( $tot/$n) );
+	$values[ $n-1 ] = round( $tot - array_sum( $values ),2 );
+	return $values;
+}
+function getNilParts($months){
+	$values = array();
+	for($i=0; $i<=$months-1;$i++)
+		array_push($values, 0);
+	
+	return $values;
+}
+?>

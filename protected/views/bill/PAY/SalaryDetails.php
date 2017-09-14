@@ -1,6 +1,32 @@
 
 <link href="<?php echo Yii::app()->request->baseUrl; ?>/css/oneadmin.css" rel="stylesheet">
 <div class="container-fluid">
+	<div id="form-16-panel" style="display:none;">
+		<section class="box-typical box-typical-padding">
+			<header class="box-typical-header panel-heading">
+				<h3 class="panel-title">Form-16 (<?php echo FinancialYears::model()->find('STATUS=1')->NAME;?>)</h3>
+				<a href="javascript: void(0);" id="form-16-panel-close"><i class="fa fa-close"></i></a>
+				<div class="dropdown">
+					<ul class="dropdown-menu dropdown-menu-right">
+						<li>
+							<a data-func="editTitle" data-tooltip="Edit title" data-toggle="tooltip" data-title="Edit title" data-placement="bottom" data-original-title="" title="">
+								<i class="panel-control-icon glyphicon glyphicon-pencil"></i>
+								<span class="control-title">Edit title</span>
+							</a>
+						</li>
+					</ul>
+				</div>
+			</header>
+			<div class="box-typical-body panel-body">
+				<input type="hidden" id="HDFORM16URL"/>
+				<iframe style="width:100%;height:100%;"></iframe>
+			</div><!--.box-typical-body-->
+		</section>
+	</div>
+	<style>#form-16-panel{position: fixed;z-index: 9999;right: 0;top: 0;bottom: 0;width: 700px;}#form-16-panel section{height: 100%}
+	#form-16-panel div{height: 95%}
+	#it-icon{position: absolute;right: 6px;top: 13px;font-size: 25px;color: #000;text-decoration: none;}
+	#form-16-panel-close{color: #000;position: absolute;right: 25px;top: 10px;padding: 10px;font-size: 25px;}</style>
 	<div class="box-typical box-typical-padding" style="min-height:800px;">
 	<?php
 	$master = Master::model()->findByPK(1);
@@ -16,7 +42,7 @@
 				<tr>
 					<td colspan="2"><b class="one-label">BILL Title: </b><a href="<?php echo Yii::app()->createUrl('bill/update', array('id'=>$bill->ID))?>"><?php echo $bill->BILL_TITLE; ?></a></td>
 				</tr>
-				<?php if($bill->IS_ARREAR_BILL == 1 || $bill->IS_CEA_BILL == 1 || $bill->IS_BONUS_BILL == 1 || $bill->IS_UA_BILL == 1 || $bill->IS_LTC_CLAIM_BILL == 1 ||  $bill->IS_LTC_ADVANCE_BILL == 1 || $bill->IS_EL_ENCASHMENT_BILL == 1 || $bill->IS_RECOVERY_BILL == 1){ ?>
+				<?php if($bill->IS_ARREAR_BILL == 1 || $bill->IS_DA_ARREAR_BILL == 1 || $bill->IS_CEA_BILL == 1 || $bill->IS_BONUS_BILL == 1 || $bill->IS_UA_BILL == 1 || $bill->IS_LTC_CLAIM_BILL == 1 ||  $bill->IS_LTC_ADVANCE_BILL == 1 || $bill->IS_EL_ENCASHMENT_BILL == 1 || $bill->IS_RECOVERY_BILL == 1){ ?>
 				<form id="bill-form" action="<?php echo Yii::app()->createUrl('Bill/update', array('id'=>$bill->ID, 'isSalaryHead'=>1))?>" method="post">
 					<tr>
 						<td ><b class="one-label">PFMS BILL NO: </b><input size="100" maxlength="100" name="Bill[PFMS_BILL_NO]" id="Bill_PFMS_BILL_NO" value="<?php echo Bill::model()->findByPK($bill->ID)->PFMS_BILL_NO;?>" type="text" style="line-height:30px;font-size: 20px;width: 80%;" ></td>
@@ -64,35 +90,38 @@
 			}
 			else{
 				?>
+				<p style="text-align: center;font-weight bold;font-size:11px;margin-bottom: 10px;">
+					Note: For IT Provisional <?php echo FinancialYears::model()->find('STATUS=1')->NAME?> Preview, Click Employee Name & Press ( q )
+				</p>
 				<input type="hidden" name="SalaryDetails[IS_SALARY_BILL]" value="1"/>
 				<?php
 				if($bill->BILL_TYPE == 1){
-					/*$salaries = SalaryDetails::model()->findAllByAttributes(array('BILL_ID_FK'=>$model->ID));
-					if($salaries){
+					if(SalaryDetails::model()->exists('BILL_ID_FK='.$model->ID)){
+						$salaries = SalaryDetails::model()->findAllByAttributes(array('BILL_ID_FK'=>$model->ID));
 						$salaryBillEmployees = array();foreach($salaries as $salary){array_push($salaryBillEmployees, $salary->EMPLOYEE_ID_FK);}
 						$criteria=new CDbCriteria;
 						$criteria->compare("PENSION_TYPE",'OPS');
 						$criteria->addInCondition('ID', $salaryBillEmployees);
 						$employees = Employee::model()->findAll($criteria);
 					}
-					else{*/
+					else{
 						$employees = Employee::model()->findAllByAttributes(array('PENSION_TYPE'=>'OPS', 'IS_TRANSFERRED'=>0, 'IS_RETIRED'=>0, 'IS_PERMANENT'=>1));
-						$DATA_URL = Yii::app()->createUrl('Employee/OPSSalaryBillEmployees');
-					/*}*/
+					}
+					$DATA_URL = Yii::app()->createUrl('Employee/OPSSalaryBillEmployees');
 				}
 				if($bill->BILL_TYPE == 2){
-					/*$salaries = SalaryDetails::model()->findAllByAttributes(array('BILL_ID_FK'=>$model->ID));
-					if($salaries){
+					if(SalaryDetails::model()->exists('BILL_ID_FK='.$model->ID)){
+						$salaries = SalaryDetails::model()->findAllByAttributes(array('BILL_ID_FK'=>$model->ID));
 						$salaryBillEmployees = array();foreach($salaries as $salary){array_push($salaryBillEmployees, $salary->EMPLOYEE_ID_FK);}
 						$criteria=new CDbCriteria;
 						$criteria->compare("PENSION_TYPE",'NPS');
 						$criteria->addInCondition('ID', $salaryBillEmployees);
 						$employees = Employee::model()->findAll($criteria);
 					}
-					else{*/
+					else{
 						$employees = Employee::model()->findAllByAttributes(array('PENSION_TYPE'=>'NPS', 'IS_TRANSFERRED'=>0, 'IS_RETIRED'=>0, 'IS_PERMANENT'=>1));
-						$DATA_URL = Yii::app()->createUrl('Employee/NPSSalaryBillEmployees');
-					/*}*/
+					}
+					$DATA_URL = Yii::app()->createUrl('Employee/NPSSalaryBillEmployees');
 				}
 			}
 			?>
@@ -561,7 +590,9 @@
 			}
 		});
 			
-		
+		$("#form-16-panel-close").click(function(){
+			$("#form-16-panel").hide();
+		});
 	});
 	
 	function search(){
@@ -603,6 +634,22 @@
 		}
 		document.getElementById(empID).style.display = "block";
 		evt.currentTarget.className += " active";
+		
+		$("#HDFORM16URL").val('<?php echo Yii::app()->createUrl('IncomeTax/Form16', array('type'=>'Dialog'));?>&id='+empID);
 	}
 	
-	</script>
+		
+	document.onkeyup=function(e){debugger;
+		var e = e || window.event; 
+		//e.altKey && 
+		//i key code 73
+		if(e.which == 81) {
+			if($("#HDFORM16URL").val() != ""){
+				$("#form-16-panel iframe").attr('src', $("#HDFORM16URL").val());
+				$("#form-16-panel").toggle();  
+			}
+			return false;
+		}
+	}
+	
+</script>

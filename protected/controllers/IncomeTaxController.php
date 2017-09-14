@@ -34,10 +34,81 @@ class IncomeTaxController extends Controller
 		);
 	}
 	
-	public function actionForm16()
+	public function actionSelectEmployeesForForm16()
+	{
+		$this->layout = '//layouts/contentLayout';
+		$list = array();
+		
+		if(isset($_POST['Form16']['submit'])){
+			$list = $_POST['Form16']['Employee'];
+			$this->layout='//layouts/column1';
+			
+			$this->render('Form16',array(
+				'list'=>$list,
+				'type'=>'Screen'
+			));
+			exit;
+		}
+		
+		$this->render('SelectEmployeesForForm16');	
+	}
+	
+	public function actionForm16($type=null, $id=null, $pension=null)
 	{
 		$this->layout = '';
-		$this->render('Form16');
+		$list = array();
+		
+		if($type == "Dialog"){
+			$list = array();
+			array_push($list, $id);
+			$this->render('Form16',array(
+				'list'=>$list,
+				'type'=>$type
+			));
+		}
+		
+		if($type == "Screen"){
+			if($pension == "NPS"){
+				$employees = Employee::model()->findAll(array('condition'=>'PENSION_TYPE="NPS"', 'order'=>'DESIGNATION_ID_FK DESC'));
+				foreach($employees as $employee){
+					array_push($list, $employee->ID);
+				}
+				$this->render('Form16',array(
+					'list'=>$list,
+					'type'=>$type
+				));
+			}
+			else if($pension == "OPS"){
+				$employees = Employee::model()->findAll(array('condition'=>'PENSION_TYPE="OPS"', 'order'=>'DESIGNATION_ID_FK DESC'));
+				foreach($employees as $employee){
+					array_push($list, $employee->ID);
+				}
+				$this->render('Form16',array(
+					'list'=>$list,
+					'type'=>$type
+				));
+			}
+			else{
+				$employees = Employee::model()->findAll(array('order'=>'DESIGNATION_ID_FK DESC'));
+				foreach($employees as $employee){
+					array_push($list, $employee->ID);
+				}
+				$this->render('Form16',array(
+					'list'=>$list,
+					'type'=>$type
+				));
+			}
+		}
+	}
+	
+	public function actionScreenForm16($type=null)
+	{
+		$this->layout = '';
+		$list = array();
+		array_push($list, $id);
+		$this->render('ScreenForm16',array(
+			'list'=>$list
+		));
 	}
 	
 	public function actionQuarterly()

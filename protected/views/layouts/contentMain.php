@@ -144,7 +144,7 @@
 	                <span class="lbl">Yearly Reports</span>
 	            </span>
 	            <ul>
-	                <li><a href="<?php echo Yii::app()->createUrl('IncomeTax/form16');?>" target="_blank"><span class="lbl">Form-16 (Provisional)</span></a></li>
+	                <li><a href="<?php echo Yii::app()->createUrl('IncomeTax/SelectEmployeesForForm16');?>" target="_blank"><span class="lbl">Form-16 (Provisional)</span></a></li>
 	            </ul>
 	        </li>
 			<li class="grey with-sub">

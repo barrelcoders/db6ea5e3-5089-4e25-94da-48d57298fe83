@@ -363,8 +363,6 @@ $(document).ready(function(){
 				$("#CREATION_DATE_SECTION").show();
 				$("#FILE_NO_SECTION").show();
 				$("#PFMS_BILL_NO_SECTION").show();
-				$("#CLAIM_GROSS_SECTION").show();
-				$("#CLAIM_ADVANCE_SECTION").show();
 				$("#IS_LTC_CLAIM_BILL").val(1);
 				$('#txtBillTitle').val($("#Bill_BILL_SUB_TYPE option:selected").text()+" in R/O NPS Staff of "+DEPT_NAME);
 			}

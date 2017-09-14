@@ -44,15 +44,14 @@ class Investments extends CActiveRecord
 		// will receive user inputs.
 		return array(
 			array('FINANCIAL_YEAR_ID_FK, EMPLOYEE_ID', 'required'),
-			array('CEA,EL_ENCASH, LTC_HTC, UNIFORM, DA_TA_ARREAR_CPF, DA_TA_ARREAR, OTA_HONORANIUM, FINANCIAL_YEAR_ID_FK, EMPLOYEE_ID, HRA, MEDICAL_INSURANCE, DONATION, DISABILITY_MED_EXP, EDU_LOAD_INT, SELF_DISABILITY, HOME_LOAN_INT, 
+			array('OTHER_INCOME, HOUSE_INCOME, BONUS, CEA,EL_ENCASH, LTC_HTC, UNIFORM, DA_TA_ARREAR_CPF, DA_TA_ARREAR, OTA_HONORANIUM, FINANCIAL_YEAR_ID_FK, EMPLOYEE_ID, HRA, MEDICAL_INSURANCE, DONATION, DISABILITY_MED_EXP, EDU_LOAD_INT, SELF_DISABILITY, HOME_LOAN_INT, 
 			HOME_LOAD_EXCESS_2013_14, REGISTRY_STAMP, INSURANCE_LIC_OTHER, TUITION_FESS_EXEMPTION, PPF_NSC, HOME_LOAD_PR, PLI_ULIP, TERM_DEPOSIT_ABOVE_5, MUTUAL_FUND, PENSION_FUND, CPF', 'length', 'max'=>10),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('ID, FINANCIAL_YEAR_ID_FK, EMPLOYEE_ID, HRA, MEDICAL_INSURANCE, DONATION, DISABILITY_MED_EXP, EDU_LOAD_INT, SELF_DISABILITY, HOME_LOAN_INT, HOME_LOAD_EXCESS_2013_14, REGISTRY_STAMP,
+			array('BONUS, ID, FINANCIAL_YEAR_ID_FK, EMPLOYEE_ID, HRA, MEDICAL_INSURANCE, DONATION, DISABILITY_MED_EXP, EDU_LOAD_INT, SELF_DISABILITY, HOME_LOAN_INT, HOME_LOAD_EXCESS_2013_14, REGISTRY_STAMP,
 			INSURANCE_LIC_OTHER, TUITION_FESS_EXEMPTION, PPF_NSC, HOME_LOAD_PR, PLI_ULIP, TERM_DEPOSIT_ABOVE_5, MUTUAL_FUND, PENSION_FUND, CPF', 'safe', 'on'=>'search'),
 		);
 	}
-
 	/**
 	 * @return array relational rules.
 	 */
@@ -80,11 +79,11 @@ class Investments extends CActiveRecord
 			'EDU_LOAD_INT' => 'Education Loan Interest',
 			'SELF_DISABILITY' => 'Self Disability',
 			'HOME_LOAN_INT' => 'Home Loan Interest',
-			'HOME_LOAD_EXCESS_2013_14' => 'Home Load Excess 2013 14',
+			'HOME_LOAD_EXCESS_2013_14' => 'Home Loan Excess 2013 14',
 			'INSURANCE_LIC_OTHER' => 'Insurance/LIC/Other',
 			'TUITION_FESS_EXEMPTION' => 'Tuition Fees Exemption',
 			'PPF_NSC' => 'PPF/NSC',
-			'HOME_LOAD_PR' => 'Home Load Principal',
+			'HOME_LOAD_PR' => 'Home Loan Principal',
 			'PLI_ULIP' => 'PLI/ULIP',
 			'TERM_DEPOSIT_ABOVE_5' => 'Term Deposit > 5 Year',
 			'MUTUAL_FUND' => 'Mutual Fund',
@@ -98,6 +97,9 @@ class Investments extends CActiveRecord
 			'EL_ENCASH'=>'Leavse Encashment',
 			'LTC_HTC'=>'LTC/HTC Advance/Claim',
 			'CEA' => 'CEA',
+			'BONUS'=>'BONUS', 
+			'OTHER_INCOME'=>'OTHER INCOME', 
+			'HOUSE_INCOME'=>'HOUSE INCOME', 
 		);
 	}
 
@@ -147,6 +149,9 @@ class Investments extends CActiveRecord
 		$criteria->compare('EL_ENCASH',$this->DA_TA_ARREAR_CPF,true);
 		$criteria->compare('LTC_HTC',$this->DA_TA_ARREAR_CPF,true);
 		$criteria->compare('CEA',$this->DA_TA_ARREAR_CPF,true);
+		$criteria->compare('BONUS',$this->BONUS,true);
+		$criteria->compare('OTHER_INCOME',$this->OTHER_INCOME,true);
+		$criteria->compare('HOUSE_INCOME',$this->HOUSE_INCOME,true);
 		
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
