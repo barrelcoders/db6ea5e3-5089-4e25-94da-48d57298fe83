@@ -244,15 +244,15 @@
 	</tr>
 	<tr class="no-border">
 		<td colspan="2" class="no-border"></td>
-		<td colspan="4" class="left-text">SAVINGS (U/s.80C)</td>
-		<td><?php echo $NET_SAVING_80C;?></td>
+		<td colspan="4" class="left-text">ix) Bank Interest deduction 80TTA</td>
+		<td><?php echo $BANK_INTEREST_DED_80TTA;?></td>
 		<td class="no-border"></td>
 		<td colspan="3" class="left-text">Stamp Duty/ Registration Charges</td>
 		<td><?php echo $REGISTRY_STAMP;?></td>
 	</tr>
 	<tr class="no-border">
 		<td colspan="2" class="no-border"></td>
-		<td colspan="4" class="left-text">Investment NPS under 80CCD(1B)</td>
+		<td colspan="4" class="left-text">x) Investment NPS under 80CCD(1B)</td>
 		<td><?php echo $NPS_UNDER_80CCD_1B;?></td>
 		<td class="no-border"></td>
 		<td colspan="3" class="left-text">Total</td>
@@ -260,8 +260,8 @@
 	</tr>
 	<tr class="no-border">
 		<td colspan="2" class="no-border"></td>
-		<td colspan="4" class="left-text">Bank Interest deduction 80TTA</td>
-		<td><?php echo $BANK_INTEREST_DED_80TTA;?></td>
+		<td colspan="4" class="left-text">SAVINGS (U/s.80C)</td>
+		<td><?php echo $NET_SAVING_80C;?></td>
 		<td class="no-border"></td>
 		<td colspan="3" class="left-text"> Savings (Max - Rs.1.5 lakh)</td>
 		<td><?php echo $MIN_SAVING_80C;?></td>

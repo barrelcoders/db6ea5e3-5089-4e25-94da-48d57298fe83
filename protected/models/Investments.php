@@ -100,6 +100,8 @@ class Investments extends CActiveRecord
 			'BONUS'=>'BONUS', 
 			'OTHER_INCOME'=>'OTHER INCOME', 
 			'HOUSE_INCOME'=>'HOUSE INCOME', 
+			'NPS_UNDER_80CCD_1B'=>'NPS under 80CCD(1B) Income', 
+			'BANK_INTEREST_DED_80TTA'=>'Bank Interest Deduction 80TTA', 
 		);
 	}
 
@@ -152,6 +154,8 @@ class Investments extends CActiveRecord
 		$criteria->compare('BONUS',$this->BONUS,true);
 		$criteria->compare('OTHER_INCOME',$this->OTHER_INCOME,true);
 		$criteria->compare('HOUSE_INCOME',$this->HOUSE_INCOME,true);
+		$criteria->compare('NPS_UNDER_80CCD_1B',$this->NPS_UNDER_80CCD_1B,true);
+		$criteria->compare('BANK_INTEREST_DED_80TTA',$this->BANK_INTEREST_DED_80TTA,true);
 		
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,

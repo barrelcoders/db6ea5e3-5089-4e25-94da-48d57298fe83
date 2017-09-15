@@ -123,7 +123,7 @@
 		<td colspan="2"><?php echo $TOTAL_SALARIES[0]['CPF'];?></td>
 	</tr>
 	<tr class="no-border">
-		<td colspan="6" class="left-text">Govt. Contribution towards CPF (equal to Govt. Servant's cont.)</td>
+		<td colspan="6" class="left-text">Govt. Contribution in CPF (equal to Govt. Servant's cont.)</td>
 		<td><?php echo $TOTAL_SALARIES[0]['CPF']?></td>
 		<td class="no-border"></td>
 		<td colspan="2" class="left-text">(2) CPF cont. from Arr.</td>
@@ -300,6 +300,9 @@
 		<td colspan="8" class="no-border">&nbsp;</td>
 		<td colspan="3" class="left-text">TOTAL - EXEMPTION</td>
 		<td><?php echo $NET_SAVING_80C;?></td>
+	</tr>
+	<tr class="no-border">
+		<td colspan="7" class="no-border">&nbsp;</td>
 	</tr>
 	<tr class="no-border">
 		<td colspan="3" class="no-border"></td>

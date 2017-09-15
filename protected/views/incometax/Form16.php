@@ -72,6 +72,7 @@
 					'PT'=>$salary->PT,
 					'IT'=>$salary->IT,
 					'PLI'=>$salary->PLI,
+					'LIC'=>$salary->LIC,
 					'TYPE'=>'SALARY'
 				));
 			}
@@ -93,6 +94,7 @@
 					'PT'=>$salary->PT,
 					'IT'=>$salary->IT,
 					'PLI'=>$salary->PLI,
+					'LIC'=>$salary->LIC,
 					'TYPE'=>'SALARY'
 				));
 			}
@@ -122,6 +124,7 @@
 						'PT'=>0,
 						'IT'=>0,
 						'PLI'=>0,
+						'LIC'=>0,
 						'TYPE'=>'SALARY'
 					));
 				}
@@ -148,6 +151,7 @@
 						'PT'=>$salary->PT,
 						'IT'=>$salary->IT,
 						'PLI'=>$salary->PLI,
+						'LIC'=>$salary->LIC,
 					));
 				}
 			}
@@ -277,7 +281,12 @@
 		
 		$TOTAL_CPF = ($employee->PENSION_TYPE == "OPS") ? $TOTAL_CPF_EMPLOYEE : ($TOTAL_CPF_EMPLOYEE * 2);
 		$TOTAL_CGEGIS = $TOTAL_SALARIES[0]['CGEGIS'];
-		$INSURANCE_LIC_OTHER = isset($investment->INSURANCE_LIC_OTHER) ? $investment->INSURANCE_LIC_OTHER : 0;
+		
+		$POSTAL_LIC_FROM_SALARY = $TOTAL_SALARIES[0]['PLI'];
+		$LIC_FROM_SALARY = $TOTAL_SALARIES[0]['LIC'];
+		$LIC_FROM_INVESTMENTS = isset($investment->INSURANCE_LIC_OTHER) ? $investment->INSURANCE_LIC_OTHER : 0;
+		$INSURANCE_LIC_OTHER = $POSTAL_LIC_FROM_SALARY + $LIC_FROM_SALARY + $LIC_FROM_INVESTMENTS;
+		
 		$TUITION_FESS_EXEMPTION = isset($investment->TUITION_FESS_EXEMPTION) ? $investment->TUITION_FESS_EXEMPTION : 0;
 		$PPF_NSC = isset($investment->PPF_NSC) ? $investment->PPF_NSC : 0;
 		$HOME_LOAD_PR = isset($investment->HOME_LOAD_PR) ? $investment->HOME_LOAD_PR : 0;
@@ -323,7 +332,8 @@
 		
 		$PAN_NUMBER = $employee->PAN;
 		
-		$REMAINING_MONTHS = remainingMonthsForIT($SALARIES);
+		$REMAINING_MONTHS = remainingMonthsForIT($periods, $id);
+		
 		if($TAX_REMAINING <= 0){
 			$IT_FOR_REMAINING_MONTHS = getNilParts($REMAINING_MONTHS);
 		}
@@ -332,7 +342,7 @@
 		}
 		
 		
-		for($i=0,$j=0; $i<count($SALARIES); $i++){
+		for($i=$REMAINING_MONTHS,$j=0; $i<count($SALARIES); $i++){
 			if($SALARIES[$i]['IT'] == 0){ 
 				$SALARIES[$i]['IT'] = $IT_FOR_REMAINING_MONTHS[$j];
 				$j++;
@@ -364,6 +374,7 @@ function getSalaryTotal($salaries){
 	$PT = 0;
 	$IT = 0;
 	$PLI = 0;
+	$LIC = 0;
 	
 	for($i=0;$i<=count($salaries)-1;$i++){
 		$BASIC += $salaries[$i]['BASIC'];
@@ -378,6 +389,7 @@ function getSalaryTotal($salaries){
 		$PT += $salaries[$i]['PT'];
 		$IT += $salaries[$i]['IT'];
 		$PLI += $salaries[$i]['PLI'];
+		$LIC += $salaries[$i]['LIC'];
 	}
 	array_push($total, array(
 		'MONTH'=>'',
@@ -395,15 +407,20 @@ function getSalaryTotal($salaries){
 		'PT'=>$PT,
 		'IT'=>$IT,
 		'PLI'=>$PLI,
+		'LIC'=>$LIC,
 	));
 	
 	return $total;
 }
-function remainingMonthsForIT($salaries){
+function remainingMonthsForIT($periods, $emp_id){
 	$count = 0;
-	foreach($salaries as $salary){
-		if($salary['IT'] == 0)
+	
+	foreach($periods as $period){
+		$MONTH = explode('-', $period)[0];
+		$YEAR = explode('-', $period)[1];
+		if(!SalaryDetails::model()->exists('EMPLOYEE_ID_FK='.$emp_id.' AND MONTH='.$MONTH.' AND YEAR='.$YEAR.' AND IS_SALARY_BILL=1') && !SupplementarySalaryDetails::model()->exists('EMPLOYEE_ID_FK='.$emp_id.' AND MONTH='.$MONTH.' AND YEAR='.$YEAR)){
 			$count++;
+		}
 	}
 	return $count;
 }

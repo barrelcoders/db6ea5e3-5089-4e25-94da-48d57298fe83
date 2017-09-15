@@ -112,8 +112,9 @@
 	            <ul>
 	                <li><a href="<?php echo Yii::app()->createUrl('Employee/create');?>"><span class="lbl">Create Employee</span></a></li>
 	                <li><a href="<?php echo Yii::app()->createUrl('Employee/admin');?>"><span class="lbl">Manage Employees</span></a></li>
-	                <li><a href="<?php echo Yii::app()->createUrl('Investments/showInvestments');?>"><span class="lbl">Manage Employee Investments</span></a></li>
 	                <li><a href="<?php echo Yii::app()->createUrl('Employee/generateLPC');?>"><span class="lbl">Last Pay Certificate</span></a></li>
+					<li><a href="<?php echo Yii::app()->createUrl('Investments/showInvestments');?>" target="_blank"><span class="lbl">Investments (<?php echo FinancialYears::model()->find('STATUS=1')->NAME; ?>)</span></a></li>
+	                <li><a href="<?php echo Yii::app()->createUrl('IncomeTax/SelectEmployeesForForm16');?>" target="_blank"><span class="lbl">Pro. Form-16 (<?php echo FinancialYears::model()->find('STATUS=1')->NAME; ?>)</span></a></li>
 	            </ul>
 	        </li>
 			<li class="grey with-sub">
@@ -136,15 +137,6 @@
 	                <li><a href="<?php echo Yii::app()->createUrl('Expenditure/Quarterly');?>"><span class="lbl">Quarterly Expenditure</span></a></li>
 	                <li><a href="<?php echo Yii::app()->createUrl('IncomeTax/Quarterly');?>"><span class="lbl">Quaterly Income Tax</span></a></li>
 	                <li><a href="<?php echo Yii::app()->createUrl('HindiReport/Admin');?>"><span class="lbl">Hindi Report</span></a></li>
-	            </ul>
-	        </li>
-			<li class="grey with-sub">
-	            <span>
-	                <i class="font-icon font-icon-dashboard"></i>
-	                <span class="lbl">Yearly Reports</span>
-	            </span>
-	            <ul>
-	                <li><a href="<?php echo Yii::app()->createUrl('IncomeTax/SelectEmployeesForForm16');?>" target="_blank"><span class="lbl">Form-16 (Provisional)</span></a></li>
 	            </ul>
 	        </li>
 			<li class="grey with-sub">

@@ -67,7 +67,7 @@ ul.tab {
 }
 
 /* Float the list items side by side */
-ul.tab li {float: left;}
+ul.tab li {float: left;width: 300px;text-align: center;}
 
 /* Style the links inside the list items */
 ul.tab li a {
@@ -78,6 +78,7 @@ ul.tab li a {
     text-decoration: none;
     transition: 0.3s;
     font-size: 17px;
+	width: 100%;
 }
 
 /* Change background color of links on hover */

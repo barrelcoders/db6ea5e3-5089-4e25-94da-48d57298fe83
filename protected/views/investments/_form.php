@@ -162,6 +162,14 @@
 					</div>
 				</div>
 				<div class="form-group row">
+					<?php echo $form->labelEx($model,'SELF_DISABILITY', array('class'=>'col-sm-8 form-control-label')); ?>
+					<div class="col-sm-4">
+						<p class="form-control-static">
+							<?php echo $form->textField($model,'SELF_DISABILITY',array('size'=>10,'maxlength'=>100, 'value'=>$model->SELF_DISABILITY, 'style'=>'text-transform: uppercase;')); ?>
+						</p>
+					</div>
+				</div>
+				<div class="form-group row">
 					<?php echo $form->labelEx($model,'HOME_LOAN_INT', array('class'=>'col-sm-8 form-control-label')); ?>
 					<div class="col-sm-4">
 						<p class="form-control-static">

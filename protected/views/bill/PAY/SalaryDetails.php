@@ -36,11 +36,10 @@
 		?>
 			<table class="table">
 				<tr>
-					<td><b class="one-label">BILL No: </b><span><?php echo $bill->BILL_NO; ?></span></td>
-					<td><b class="one-label">BILL TYPE: </b><span><?php echo BillType::model()->findByPK($bill->BILL_TYPE)->TYPE; ?></span></td>
-				</tr>
-				<tr>
-					<td colspan="2"><b class="one-label">BILL Title: </b><a href="<?php echo Yii::app()->createUrl('bill/update', array('id'=>$bill->ID))?>"><?php echo $bill->BILL_TITLE; ?></a></td>
+					<td colspan="2">
+						<a href="<?php echo Yii::app()->createUrl('bill/update', array('id'=>$bill->ID))?>"><?php echo $bill->BILL_TITLE; ?></a>
+						<span style="float: right;"><?php echo $bill->BILL_NO; ?></span>
+					</td>
 				</tr>
 				<?php if($bill->IS_ARREAR_BILL == 1 || $bill->IS_DA_ARREAR_BILL == 1 || $bill->IS_CEA_BILL == 1 || $bill->IS_BONUS_BILL == 1 || $bill->IS_UA_BILL == 1 || $bill->IS_LTC_CLAIM_BILL == 1 ||  $bill->IS_LTC_ADVANCE_BILL == 1 || $bill->IS_EL_ENCASHMENT_BILL == 1 || $bill->IS_RECOVERY_BILL == 1){ ?>
 				<form id="bill-form" action="<?php echo Yii::app()->createUrl('Bill/update', array('id'=>$bill->ID, 'isSalaryHead'=>1))?>" method="post">
@@ -55,7 +54,9 @@
 			<div class="row">
 				<div class="col-sm-2">
 					<p class="form-control-static">
+						<?php if($model->PFMS_STATUS != "Passed"){?>
 						<input type="submit" name="SalaryDetails[save]" class="btn btn-inline" value="Save" style="float:left;">
+						<?php } ?>
 					</p>
 				</div>
 				<div class="col-sm-8">
@@ -65,8 +66,10 @@
 				</div>
 				<div class="col-sm-2">
 					<p class="form-control-static">
+						<?php if($model->PFMS_STATUS != "Passed"){?>
 						<input type="submit" name="SalaryDetails[submit]" class="btn btn-inline" style="float: right;" value="Submit" onsubmit="return confirm('Are you sure wants to submit the bill, This will change the Appropiation Register');"
 						onclick="return confirm('Are you sure wants to submit the bill, This will change the Appropiation Register');">
+						<?php } ?>
 					</p>
 				</div>
 			</div>
@@ -90,9 +93,8 @@
 			}
 			else{
 				?>
-				<p style="text-align: center;font-weight bold;font-size:11px;margin-bottom: 10px;">
-					Note: For IT Provisional <?php echo FinancialYears::model()->find('STATUS=1')->NAME?> Preview, Click Employee Name & Press ( q )
-				</p>
+				<p style="text-align: center;font-weight bold;font-size:11px;margin-bottom: 10px;">1. For IT Provisional <?php echo FinancialYears::model()->find('STATUS=1')->NAME?> Toggle, click Employee Name & Press ( q )</p>
+				<p style="text-align: center;font-weight bold;font-size:11px;margin-bottom: 10px;">2. For navigation among employees use arrow (<mark class="unicode" data-char-info="" style="color: black;">←</mark>&nbsp;&nbsp;<mark class="unicode" data-char-info="U+2192: RIGHTWARDS ARROW" style="color: black;">→</mark>) keys</p>
 				<input type="hidden" name="SalaryDetails[IS_SALARY_BILL]" value="1"/>
 				<?php
 				if($bill->BILL_TYPE == 1){
@@ -128,17 +130,17 @@
 			<div id="employee-container" style="position:relative;border: 1px solid #ccc;background-color: #f1f1f1;height: 50px;">
 			<a href="javascript:void(0);" style="position: absolute;left: 0;width: 50px;height: 49px;background: #ccc;font-size: 30px;padding: 7px 10px;border: 1px solid #999;text-align: center;font-weight: bold;color: #000;" id="btn-prev"><i class="fa fa-angle-left"></i></a>
 			<div style="position: absolute;right: 50px;left:50px;overflow:hidden;">
-				<ul class="tab" id="tab" style="width:<?php echo count($employees)*200;?>px; min-width:400px;">    
+				<ul class="tab" id="tab" style="width:<?php echo count($employees)*300;?>px; min-width:400px;">    
 				<?php 
 					$i=0;
 					foreach($employees as $employee){ 
 						if($i == 0){
 							?>
-								<li><a href="javascript:void(0)" class="tablinks" onclick="openEmployeeSalaryDetails(event, <?php echo $employee->ID?>)" style="border-left: 1px solid #999;border-right: 1px solid #999;"><?php echo $employee->NAME?></a></li>
+								<li id="tablink-<?php echo $employee->ID?>" onclick="openEmployeeSalaryDetails(<?php echo $employee->ID?>)" ><a href="javascript:void(0)" class="tablinks" style="border-left: 1px solid #999;border-right: 1px solid #999;"><?php echo $employee->NAME?></a></li>
 							<?php
 						} else {
 							?>
-								<li><a href="javascript:void(0)" class="tablinks" onclick="openEmployeeSalaryDetails(event, <?php echo $employee->ID?>)" style="border-right: 1px solid #999;"><?php echo $employee->NAME?></a></li>
+								<li id="tablink-<?php echo $employee->ID?>" onclick="openEmployeeSalaryDetails(<?php echo $employee->ID?>)" ><a href="javascript:void(0)" class="tablinks"style="border-right: 1px solid #999;"><?php echo $employee->NAME?></a></li>
 							<?php
 						}
 						$i++;
@@ -217,7 +219,7 @@
 					</table>
 					<table style="background:#ecebeb;" class='ded-comp-<?php echo $employee->ID;?> table'>
 						<tr>
-							<td><b class="one-label">I.T.: </b><input type='text' class="ded-inc-amount" name="SalaryDetails[<?php echo $employee->ID?>][IT]" value='<?php echo $salary->IT ? $salary->IT : 0?>' placeholder='I.T.'></td>
+							<td><b class="one-label">I.T.: </b><input type='number' id="income-tax" class="ded-inc-amount" name="SalaryDetails[<?php echo $employee->ID?>][IT]" value='<?php echo $salary->IT ? $salary->IT : 0?>' placeholder='I.T.'></td>
 							<td><b class="one-label">C.G.H.S.: </b><input type='text' class="ded-inc-amount" name="SalaryDetails[<?php echo $employee->ID?>][CGHS]" value='<?php echo $salary->CGHS ? $salary->CGHS : 0?>' placeholder='C.G.H.S'></td>
 							<td><b class="one-label">L.F.: </b><input type='text' class="ded-inc-amount" name="SalaryDetails[<?php echo $employee->ID?>][LF]" value='<?php echo $salary->LF ? $salary->LF : 0?>' placeholder='L.F.'></td>
 							<td><b class="one-label">C.G.E.I.S.: </b><input type='text' class="ded-inc-amount" name="SalaryDetails[<?php echo $employee->ID?>][CGEGIS]" value='<?php echo $salary->CGEGIS ? $salary->CGEGIS : 0?>' placeholder='C.G.E.I.S.'></td>
@@ -464,20 +466,37 @@
 		}
 	</style>
 	<script>
+	var startTab = 0,
+		activeTab = 0,
+		endTab = 0;
 	$(document).ready(function(){
+		loadTabs();
 		$('#btn-prev').click(function(){
+			if(activeTab == startTab)
+				return;
+			
 			var marginleft = parseInt(document.getElementById('tab').style.marginLeft),
 				left = parseInt(marginleft ? marginleft : 0);
 			//if(left > 100){
-				document.getElementById('tab').style.marginLeft = (left + 100) + "px";
+				document.getElementById('tab').style.marginLeft = (left + 300) + "px";
 			//}
+			if($("#tablink-"+activeTab).prev().length){
+				$("#tablink-"+activeTab).prev().trigger('click');
+			}
 		});
 		$('#btn-next').click(function(){
+			if(activeTab == endTab)
+				return;
+			
 			var marginleft = document.getElementById('tab').style.marginLeft,
 				left = parseInt(marginleft ? marginleft : 0);
 			//if(left > 0){
-				document.getElementById('tab').style.marginLeft = (left - 100) + "px";
+				document.getElementById('tab').style.marginLeft = (left - 300) + "px";
 			//}
+			
+			if($("#tablink-"+activeTab).next().length){
+				$("#tablink-"+activeTab).next().trigger('click');
+			}
 		});
 		$('.basic-amount').keyup(function(){
 			var container = $(this).parents('table'), basic = 0;
@@ -595,6 +614,13 @@
 		});
 	});
 	
+	function loadTabs (){ 
+		$("ul.tab li:first").trigger('click');
+		startTab = parseInt($("ul.tab li:first").attr('id').split('-')[1]);
+		endTab = parseInt($("ul.tab li:last").attr('id').split('-')[1]);
+		activeTab = startTab;
+	}
+	
 	function search(){
 		var input, filter, ul, li, a, i;
 		input = document.getElementById('textSearch');
@@ -611,6 +637,8 @@
 				li[i].style.display = "none";
 			}
 		}
+		
+		$("#tab").css("marginLeft", "0px");
 	}
 
 	
@@ -622,7 +650,7 @@
 			return 0;
 		}
 	}
-	function openEmployeeSalaryDetails(evt, empID) {
+	function openEmployeeSalaryDetails(empID) {
 		var i, tabcontent, tablinks;
 		tabcontent = document.getElementsByClassName("tabcontent");
 		for (i = 0; i < tabcontent.length; i++) {
@@ -633,13 +661,14 @@
 			tablinks[i].className = tablinks[i].className.replace(" active", "");
 		}
 		document.getElementById(empID).style.display = "block";
-		evt.currentTarget.className += " active";
+		$("#tablink-"+empID+" a").addClass("active");
 		
+		activeTab = parseInt(empID);
 		$("#HDFORM16URL").val('<?php echo Yii::app()->createUrl('IncomeTax/Form16', array('type'=>'Dialog'));?>&id='+empID);
 	}
 	
 		
-	document.onkeyup=function(e){debugger;
+	document.onkeyup=function(e){
 		var e = e || window.event; 
 		//e.altKey && 
 		//i key code 73
@@ -647,8 +676,16 @@
 			if($("#HDFORM16URL").val() != ""){
 				$("#form-16-panel iframe").attr('src', $("#HDFORM16URL").val());
 				$("#form-16-panel").toggle();  
+				$("#"+activeTab+" #income-tax").focus();
 			}
 			return false;
+		}
+		if(e.which == 37) {
+			$('#btn-prev').trigger('click');
+			return false;
+		}
+		if(e.which == 39) {
+			$('#btn-next').trigger('click');
 		}
 	}
 	

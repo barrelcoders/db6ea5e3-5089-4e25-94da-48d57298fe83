@@ -546,6 +546,7 @@
 				</p>
 			</div>
 		</div>
+		<?php if($model->PFMS_STATUS != "Passed"){?>
 		<div class="form-group row">
 			<label class="col-sm-2 form-control-label"></label>
 			<div class="col-sm-10">
@@ -555,6 +556,7 @@
 				</p>
 			</div>
 		</div>
+		<?php } ?>
 	<?php $this->endWidget(); ?>
 <script>
 	var FIANANCIAL_YEAR = '<?php echo FinancialYears::model()->find('STATUS=1')->NAME; ?>',
