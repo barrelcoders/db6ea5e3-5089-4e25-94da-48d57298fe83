@@ -69,7 +69,7 @@
 		<td class="no-border"></td>
 		<td colspan="5">
 			<span style="float:left;padding-left: 10px;">(i) Actual HRA</span>
-			<span style="float:right;padding-right: 10px;"> = <?php echo $TOTAL_SALARIES[0]['HRA']?></span>
+			<span style="float:right;padding-right: 10px;"> = <?php echo $ACTUAL_HRA?></span>
 		</td>
 	</tr>
 	<tr class="no-border">
@@ -78,7 +78,7 @@
 		<td class="no-border"></td>
 		<td colspan="5">
 			<span style="float:left;padding-left: 10px;">(ii) Rent paid in excess of 10% of Salary</span>.
-			<span style="float:right;padding-right: 10px;"> = <?php echo max(0, round($TOTAL_RENT - (0.1*($TOTAL_SALARIES[0]['BASIC'] + $TOTAL_SALARIES[0]['DA']))))?></span>
+			<span style="float:right;padding-right: 10px;"> = <?php echo $RENT_PAID_EXCESS_OF_TEN_PERCENT; ?></span>
 		</td>
 	</tr>
 	<tr class="no-border">
@@ -87,7 +87,7 @@
 		<td class="no-border"></td>
 		<td colspan="5">
 			<span style="float:left;padding-left: 10px;">(iii) 40% of Salary = </span>
-			<span style="float:right;padding-right: 10px;"> = <?php echo round(0.4*($TOTAL_SALARIES[0]['BASIC'] + $TOTAL_SALARIES[0]['DA']))?></span>
+			<span style="float:right;padding-right: 10px;"> = <?php echo $FOURTY_PERCENT_OF_SALARY;?></span>
 		</td>
 	</tr>
 	<tr class="no-border">
@@ -115,16 +115,16 @@
 	<tr class="no-border">
 		<td colspan="2">H.R.A.EXEMPTION *</td>
 		<td colspan="2">RENT per Annum</td>
-		<td><?php echo $TOTAL_RENT;?></td>
+		<td><?php echo $RENT_PAID;?></td>
 		<td>(Minus)</td>
-		<td><?php echo $TOTAL_SALARIES[0]['HRA'] - $TOTAL_RENT;?></td>
+		<td><?php echo "-".$TOTAL_RENT;?></td>
 		<td class="no-border"></td>
 		<td colspan="2" class="left-text">(1) Mandatory CPF cont.</td>
 		<td colspan="2"><?php echo $TOTAL_SALARIES[0]['CPF'];?></td>
 	</tr>
 	<tr class="no-border">
 		<td colspan="6" class="left-text">Govt. Contribution in CPF (equal to Govt. Servant's cont.)</td>
-		<td><?php echo $TOTAL_SALARIES[0]['CPF']?></td>
+		<td><?php echo "-".$TOTAL_CPF_EMPLOYEE?></td>
 		<td class="no-border"></td>
 		<td colspan="2" class="left-text">(2) CPF cont. from Arr.</td>
 		<td colspan="2"><?php echo $TOTAL_DA_TA_ARREAR_CPF;?></td>
@@ -152,7 +152,7 @@
 	<tr class="no-border">
 		<td colspan="2" class="no-border"></td>
 		<td colspan="4" class="left-text"> Tr. Allow (u/s. 10(14)</td>
-		<td><?php echo $TOTAL_SALARIES[0]['TA']?></td>
+		<td><?php echo $TA_ALLOWED?></td>
 	</tr>
 	<tr class="no-border">
 		<td colspan="2" class="no-border"></td>
