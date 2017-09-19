@@ -67,7 +67,7 @@ class EmployeeController extends Controller
 	}
 	
 	public function actionOPSSalaryBillEmployees(){
-		$employees = Employee::model()->findAllByAttributes(array('PENSION_TYPE'=>'OPS', 'IS_TRANSFERRED'=>0, 'IS_RETIRED'=>0, 'IS_PERMANENT'=>1));
+		$employees = Employee::model()->findAllByAttributes(array('PENSION_TYPE'=>'OPS', 'IS_TRANSFERRED'=>0, 'IS_RETIRED'=>0, 'IS_PERMANENT'=>1, 'IS_SUSPENDED'=>0));
 		$result = array();
 		foreach($employees as $employee){
 			array_push($result, array('id'=>$employee->ID, 'value'=>$employee->ID, 'label'=>$employee->NAME));
@@ -76,7 +76,7 @@ class EmployeeController extends Controller
 	}
 	
 	public function actionNPSSalaryBillEmployees(){
-		$employees = Employee::model()->findAllByAttributes(array('PENSION_TYPE'=>'NPS', 'IS_TRANSFERRED'=>0, 'IS_RETIRED'=>0, 'IS_PERMANENT'=>1));
+		$employees = Employee::model()->findAllByAttributes(array('PENSION_TYPE'=>'NPS', 'IS_TRANSFERRED'=>0, 'IS_RETIRED'=>0, 'IS_PERMANENT'=>1, 'IS_SUSPENDED'=>0));
 		$result = array();
 		foreach($employees as $employee){
 			array_push($result, array('id'=>$employee->ID, 'value'=>$employee->ID, 'label'=>$employee->NAME));
@@ -181,6 +181,44 @@ class EmployeeController extends Controller
 			}
 		}
 		$this->render('generateLPC',array(
+			'model'=>$model,
+		));
+	}
+	
+	public function actionSuspendEmployee(){
+		$model=new Employee;
+		
+		if(isset($_POST['Employee']))
+		{
+			$model=$this->loadModel($_POST['Employee']['ID']);
+			if($_POST['Employee']['ACTION'] == "SUSPEND"){
+				if(Employee::model()->exists('IS_SUSPENDED=1 AND ID='.$model->ID)){
+					echo "<script type='text/javascript'>alert('".$model->NAME.", ".Designations::model()->findByPK($model->DESIGNATION_ID_FK)->DESIGNATION." already suspended');</script>";
+				}
+				else{
+					$model->IS_SUSPENDED = 1;
+					$model->SUSPENSION_DATE = $_POST['Employee']['SUSPENSION_DATE'] ? $_POST['Employee']['SUSPENSION_DATE'] : NULL;
+					$model->SUSPENSION_ORDER = $_POST['Employee']['SUSPENSION_ORDER'];
+					if($model->save(false)){
+						echo "<script type='text/javascript'>alert('".$model->NAME.", ".Designations::model()->findByPK($model->DESIGNATION_ID_FK)->DESIGNATION." suspended successfully');</script>";
+					}
+				}
+			}
+			else if($_POST['Employee']['ACTION'] == "REVOKE"){
+				if(Employee::model()->exists('IS_SUSPENDED=0 AND ID='.$model->ID)){
+					echo "<script type='text/javascript'>alert('".$model->NAME.", ".Designations::model()->findByPK($model->DESIGNATION_ID_FK)->DESIGNATION." suspension already revoked');</script>";
+				}
+				else{
+					$model->IS_SUSPENDED = 0;
+					$model->SUSPENSION_DATE = $_POST['Employee']['SUSPENSION_DATE'] ? $_POST['Employee']['SUSPENSION_DATE'] : NULL;
+					$model->SUSPENSION_ORDER = $_POST['Employee']['SUSPENSION_ORDER'];
+					if($model->save(false)){
+						echo "<script type='text/javascript'>alert('".$model->NAME.", ".Designations::model()->findByPK($model->DESIGNATION_ID_FK)->DESIGNATION." suspension revoked successfully');</script>";
+					}
+				}
+			}
+		}
+		$this->render('suspendEmployee',array(
 			'model'=>$model,
 		));
 	}

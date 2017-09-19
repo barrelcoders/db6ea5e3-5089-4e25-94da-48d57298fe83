@@ -193,6 +193,7 @@ class Bill extends CActiveRecord
 		$criteria->compare('IS_RECOVERY_BILL',$this->IS_RECOVERY_BILL,true);
 		$criteria->compare('IS_DA_ARREAR_BILL',$this->IS_DA_ARREAR_BILL,true);
 		$criteria->compare('IS_MULTIPLE_MONTH',$this->IS_MULTIPLE_MONTH,true);
+		$criteria->compare('PASSED_DATE', isset($data['PASSED_DATE']) ? date('Y-m-d', strtotime($data['PASSED_DATE'])) : "" ,true);
 		$criteria->compare('MONTH_END',$this->MONTH_END,true);
 		$criteria->compare('YEAR_END',$this->YEAR_END,true);
 		$criteria->order = 'CREATION_DATE DESC';

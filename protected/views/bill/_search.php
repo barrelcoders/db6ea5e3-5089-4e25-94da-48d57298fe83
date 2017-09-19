@@ -65,19 +65,9 @@
 				<?php echo $form->labelEx($model,'PASSED_DATE', array('class'=>'col-sm-2 form-control-label')); ?>
 				<div class="col-sm-10">
 					<p class="form-control-static">
-						<?php 
-							$this->widget('zii.widgets.jui.CJuiDatePicker',array(
-								'model'=>$model,
-								'attribute'=>'PASSED_DATE',
-								'options'=>array(
-									'dateFormat'=>'yy-mm-dd',
-									'showAnim'=>'fold',
-								),
-								'htmlOptions'=>array(
-									'style'=>'height:20px;',
-									'value'=> $model->PASSED_DATE
-								),
-							));	?>
+						<input type="date" name="Bill[PASSED_DATE]" id="Bill_PASSED_DATE" 
+							value="<?php echo (strtotime($model->PASSED_DATE) ? date('Y-m-d', strtotime($model->PASSED_DATE)) : date('Y-m-d'));?>">
+				
 					</p>
 				</div>
 			</div>

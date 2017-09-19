@@ -66,7 +66,7 @@
 						</div>
 						<ul style="background: rgb(204, 204, 204);padding: 10px;height: 300px;overflow-y: scroll;">
 						<?php
-							$employees = Employee::model()->findAllByAttributes(array('PENSION_TYPE'=>'NPS', 'IS_PERMANENT'=>1, 'IS_TRANSFERRED'=>0));
+							$employees = Employee::model()->findAllByAttributes(array('PENSION_TYPE'=>'NPS', 'IS_PERMANENT'=>1, 'IS_TRANSFERRED'=>0, 'IS_SUSPENDED'=>0));
 							foreach($employees as $employee){
 								?>
 									<li><input type="checkBox" name="Bill[Employee][NPS][]" value="<?php echo $employee->ID;?>"><span><?php echo $employee->NAME.", ".Designations::model()->findByPK($employee->DESIGNATION_ID_FK)->DESIGNATION;?></span></li>
@@ -81,7 +81,7 @@
 						</div>
 						<ul style="background: rgb(204, 204, 204);padding: 10px;height: 300px;overflow-y: scroll;">
 						<?php
-							$employees = Employee::model()->findAllByAttributes(array('PENSION_TYPE'=>'OPS', 'IS_PERMANENT'=>1, 'IS_TRANSFERRED'=>0));
+							$employees = Employee::model()->findAllByAttributes(array('PENSION_TYPE'=>'OPS', 'IS_PERMANENT'=>1, 'IS_TRANSFERRED'=>0, 'IS_SUSPENDED'=>0));
 							foreach($employees as $employee){
 								?>
 									<li><input type="checkBox" name="Bill[Employee][OPS][]" value="<?php echo $employee->ID;?>"><span><?php echo $employee->NAME.", ".Designations::model()->findByPK($employee->DESIGNATION_ID_FK)->DESIGNATION;?></span></li>
@@ -96,7 +96,7 @@
 						</div>
 						<ul style="background: rgb(204, 204, 204);padding: 10px;height: 300px;overflow-y: scroll;">
 						<?php
-							$employees = Employee::model()->findAllByAttributes(array('PENSION_TYPE'=>'NPS', 'IS_PERMANENT'=>1, 'IS_TRANSFERRED'=>0, 'BONUS_ELIGIBLE'=>1));
+							$employees = Employee::model()->findAllByAttributes(array('PENSION_TYPE'=>'NPS', 'IS_PERMANENT'=>1, 'IS_TRANSFERRED'=>0, 'BONUS_ELIGIBLE'=>1, 'IS_SUSPENDED'=>0));
 							foreach($employees as $employee){
 								?>
 									<li><input type="checkBox" name="Bill[Employee][NPS_BONUS][]" value="<?php echo $employee->ID;?>"><span><?php echo $employee->NAME.", ".Designations::model()->findByPK($employee->DESIGNATION_ID_FK)->DESIGNATION;?></span></li>
@@ -111,7 +111,7 @@
 						</div>
 						<ul style="background: rgb(204, 204, 204);padding: 10px;height: 300px;overflow-y: scroll;">
 						<?php
-							$employees = Employee::model()->findAllByAttributes(array('PENSION_TYPE'=>'OPS', 'IS_PERMANENT'=>1, 'IS_TRANSFERRED'=>0, 'BONUS_ELIGIBLE'=>1));
+							$employees = Employee::model()->findAllByAttributes(array('PENSION_TYPE'=>'OPS', 'IS_PERMANENT'=>1, 'IS_TRANSFERRED'=>0, 'BONUS_ELIGIBLE'=>1, 'IS_SUSPENDED'=>0));
 							foreach($employees as $employee){
 								?>
 									<li><input type="checkBox" name="Bill[Employee][OPS_BONUS][]" value="<?php echo $employee->ID;?>"><span><?php echo $employee->NAME.", ".Designations::model()->findByPK($employee->DESIGNATION_ID_FK)->DESIGNATION;?></span></li>
@@ -126,7 +126,7 @@
 						</div>
 						<ul style="background: rgb(204, 204, 204);padding: 10px;height: 300px;overflow-y: scroll;">
 						<?php
-							$employees = Employee::model()->findAllByAttributes(array('IS_PERMANENT'=>1, 'IS_TRANSFERRED'=>0, 'UA_ELIGIBLE'=>1));
+							$employees = Employee::model()->findAllByAttributes(array('IS_PERMANENT'=>1, 'IS_TRANSFERRED'=>0, 'UA_ELIGIBLE'=>1, 'IS_SUSPENDED'=>0));
 							foreach($employees as $employee){
 								?>
 									<li><input type="checkBox" name="Bill[Employee][UA][]" value="<?php echo $employee->ID;?>"><span><?php echo $employee->NAME.", ".Designations::model()->findByPK($employee->DESIGNATION_ID_FK)->DESIGNATION;?></span></li>
@@ -141,7 +141,7 @@
 						</div>
 						<ul style="background: rgb(204, 204, 204);padding: 10px;height: 300px;overflow-y: scroll;">
 						<?php
-							$employees = Employee::model()->findAllByAttributes(array('IS_PERMANENT'=>1, 'IS_TRANSFERRED'=>0));
+							$employees = Employee::model()->findAllByAttributes(array('IS_PERMANENT'=>1, 'IS_TRANSFERRED'=>0, 'IS_SUSPENDED'=>0));
 							foreach($employees as $employee){
 								?>
 									<li><input type="checkBox" name="Bill[Employee][MEDICAL][]" value="<?php echo $employee->ID;?>"><span><?php echo $employee->NAME.", ".Designations::model()->findByPK($employee->DESIGNATION_ID_FK)->DESIGNATION;?></span></li>
@@ -156,7 +156,7 @@
 						</div>
 						<ul style="background: rgb(204, 204, 204);padding: 10px;height: 300px;overflow-y: scroll;">
 						<?php
-							$employees = Employee::model()->findAllByAttributes(array('IS_PERMANENT'=>1, 'IS_TRANSFERRED'=>0));
+							$employees = Employee::model()->findAllByAttributes(array('IS_PERMANENT'=>1, 'IS_TRANSFERRED'=>0, 'IS_SUSPENDED'=>0));
 							foreach($employees as $employee){
 								?>
 									<li><input type="checkBox" name="Bill[Employee][DTE][]" value="<?php echo $employee->ID;?>" ><span><?php echo $employee->NAME.", ".Designations::model()->findByPK($employee->DESIGNATION_ID_FK)->DESIGNATION;?></span><br/></li>
@@ -171,7 +171,7 @@
 						</div>
 						<ul style="background: rgb(204, 204, 204);padding: 10px;height: 300px;overflow-y: scroll;">
 						<?php
-							$employees = Employee::model()->findAllByAttributes(array('IS_PERMANENT'=>0, 'IS_TRANSFERRED'=>0));
+							$employees = Employee::model()->findAllByAttributes(array('IS_PERMANENT'=>0, 'IS_TRANSFERRED'=>0, 'IS_SUSPENDED'=>0));
 							foreach($employees as $employee){
 								?>
 									<li><input type="checkBox" name="Bill[Employee][WAGES][]" value="<?php echo $employee->ID;?>" ><span><?php echo $employee->NAME.", ".Designations::model()->findByPK($employee->DESIGNATION_ID_FK)->DESIGNATION;?></span></li>

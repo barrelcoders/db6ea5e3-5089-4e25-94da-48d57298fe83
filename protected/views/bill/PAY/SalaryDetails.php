@@ -107,7 +107,7 @@
 						$employees = Employee::model()->findAll($criteria);
 					}
 					else{
-						$employees = Employee::model()->findAllByAttributes(array('PENSION_TYPE'=>'OPS', 'IS_TRANSFERRED'=>0, 'IS_RETIRED'=>0, 'IS_PERMANENT'=>1));
+						$employees = Employee::model()->findAllByAttributes(array('PENSION_TYPE'=>'OPS', 'IS_TRANSFERRED'=>0, 'IS_RETIRED'=>0, 'IS_PERMANENT'=>1, 'IS_SUSPENDED'=>0));
 					}
 					$DATA_URL = Yii::app()->createUrl('Employee/OPSSalaryBillEmployees');
 				}
@@ -121,7 +121,7 @@
 						$employees = Employee::model()->findAll($criteria);
 					}
 					else{
-						$employees = Employee::model()->findAllByAttributes(array('PENSION_TYPE'=>'NPS', 'IS_TRANSFERRED'=>0, 'IS_RETIRED'=>0, 'IS_PERMANENT'=>1));
+						$employees = Employee::model()->findAllByAttributes(array('PENSION_TYPE'=>'NPS', 'IS_TRANSFERRED'=>0, 'IS_RETIRED'=>0, 'IS_PERMANENT'=>1, 'IS_SUSPENDED'=>0));
 					}
 					$DATA_URL = Yii::app()->createUrl('Employee/NPSSalaryBillEmployees');
 				}
