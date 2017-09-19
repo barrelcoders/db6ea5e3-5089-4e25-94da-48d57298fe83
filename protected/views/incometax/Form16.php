@@ -340,7 +340,6 @@
 		$PAN_NUMBER = $employee->PAN;
 		
 		$REMAINING_MONTHS = remainingMonthsForIT($periods, $id);
-		
 		if($TAX_REMAINING <= 0){
 			$IT_FOR_REMAINING_MONTHS = getNilParts($REMAINING_MONTHS);
 		}
@@ -348,13 +347,11 @@
 			$IT_FOR_REMAINING_MONTHS = getParts($TAX_REMAINING, $REMAINING_MONTHS);
 		}
 		
-		
-		for($i=$REMAINING_MONTHS,$j=0; $i<count($SALARIES); $i++){
-			if($SALARIES[$i]['IT'] == 0){ 
-				$SALARIES[$i]['IT'] = $IT_FOR_REMAINING_MONTHS[$j];
-				$j++;
-			}
+		for($i=(count($SALARIES) - $REMAINING_MONTHS),$j=0; $i<count($SALARIES); $i++){
+			$SALARIES[$i]['IT'] = $IT_FOR_REMAINING_MONTHS[$j];
+			$j++;
 		}
+		
 		
 		$TOTAL_SALARIES = getSalaryTotal($SALARIES);
 		$TAX_PAID_FROM_SALARY = $TOTAL_SALARIES[0]['IT'];
