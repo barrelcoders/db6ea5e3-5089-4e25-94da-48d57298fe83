@@ -50,7 +50,7 @@
 </table>
 
 <p style="text-align: center; margin-top: 10px;"><b><?php echo $this->amountToWord($AMOUNT_BANK);?><b></p>
-
+<?php if($model->BILL_TYPE == 1 || $model->BILL_TYPE == 2 ){?>
 <div style="width:900px;margin:10px auto 0 auto;">
 	<table style="border: 1px solid #FFF;border-spacing:0px;">
 		<tr>
@@ -103,6 +103,7 @@
 		</tr>
 	</table>
 </div>
+<?php } ?>
 <div style="font-weight: bold; width:400px; float: right;text-align:center; margin-top:100px;margin-right:-10px;">
 	<p>(<?php echo Employee::model()->findByPK($master['DEPT_ADMIN_EMPLOYEE'])->NAME;?>)</p>
 	<p><?php echo Designations::model()->findByPK(Employee::model()->findByPK($master['DEPT_ADMIN_EMPLOYEE'])->DESIGNATION_ID_FK)->DESIGNATION;?></p>

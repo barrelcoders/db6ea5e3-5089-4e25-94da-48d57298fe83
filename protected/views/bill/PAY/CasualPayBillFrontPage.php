@@ -27,6 +27,11 @@
 <div><span style="font-weight: bold;">Ministry/Department/ Office of:  </span><span style="text-decoration: underline"><?php echo $master->OFFICE_NAME;?></span></div>	<br>
 <div ><span style="font-weight: bold;">Detailed Bill of Contigent Charges for the month of </span><span style="text-decoration: underline"><?php echo date('M-Y', strtotime($model->CREATION_DATE));?></span></div>	<br>
 <div><span style="font-weight: bold;">Head of Account  </span><span style="text-decoration: underline"><?php echo BillType::model()->findByPK($model->BILL_TYPE)->TYPE;?></span></div><br>
+<style>
+table.mandate{width: 100%;height:100%;border-collapse: collapse;}
+.mandate tr, .mandate td{border: 1px solid #000;border-collapse: collapse;}
+.mandate td{text-align: center;}
+</style>
 <table class="one-table">
 	<tr>
 		<th style="width: 20%;">Number of <br>Sub - Voucher </th>
@@ -40,31 +45,49 @@
 		<td style="vertical-align: top;position:relative">Towards <?php echo $model->BILL_TITLE;?>.
 		The details are enclosed with this bill.
 		<br/><br/>
-		<br/><br/><br/>
 		<b><?php echo $this->amountToWord(SalaryDetails::model()->find('BILL_ID_FK='.$model->ID)->AMOUNT_BANK);?></b><br>
 		
 		<p><br><b>MANDATE FORM</b></p><br>
-		<p><b>MICR: </b><?php echo Employee::model()->findByPK(OtherBillEmployees::model()->find('BILL_ID='.$model->ID)->EMPLOYEE_ID)->MICR;?></p><br>
-		<p><b>ACCOUNT NO: </b><?php echo Employee::model()->findByPK(OtherBillEmployees::model()->find('BILL_ID='.$model->ID)->EMPLOYEE_ID)->ACCOUNT_NO;?></p><br>
-		<p><b>IFSC CODE: </b><?php echo Employee::model()->findByPK(OtherBillEmployees::model()->find('BILL_ID='.$model->ID)->EMPLOYEE_ID)->IFSC;?></p><br>
+		<table class="mandate">
+			<tr>
+				<th>NAME</th>
+				<th>MICR</th>
+				<th>ACCOUNT NO</th>
+				<th>IFSC</th>
+			</tr>
+		<?php 
+			$employees = explode(",", OtherBillEmployees::model()->find('BILL_ID='.$model->ID)->EMPLOYEE_ID);
+			foreach($employees as $id){
+				?>
+				<tr>
+					<td><?php echo Employee::model()->findByPK($id)->NAME;?></td>
+					<td><?php echo Employee::model()->findByPK($id)->MICR;?></td>
+					<td><?php echo Employee::model()->findByPK($id)->ACCOUNT_NO;?></td>
+					<td><?php echo Employee::model()->findByPK($id)->IFSC;?></td>
+				</tr>
+				<?php
+			}
 		
-		<span style="position: absolute;right: 10px;top: 260px;"><b>Deduction: Professional Tax</b></span>
-		<span style="position: absolute;right: 10px;top: 300px;"><b>Amount Payable</b></span>
+		?>
+		</table>
+		
+		<span style="position: absolute;right: 10px;top: 370px;"><b>Deduction: Professional Tax</b></span>
+		<span style="position: absolute;right: 10px;top: 410px;"><b>Amount Payable</b></span>
 		<span style="position: absolute;right: 10px;bottom: 10px;"><b>Carried Over...</b></span>
 		</td>
 		<td style="vertical-align: top;position:relative">
-			<?php echo $model->BILL_AMOUNT;?><span style="display: block;margin-top: 200px;"><?php echo $model->BILL_AMOUNT;?>
-			<span style="display: block;margin-top: 20px;"></span><?php echo SalaryDetails::model()->find('BILL_ID_FK='.$model->ID)->PT;?>
-			<span style="display: block;margin-top: 20px;"></span><?php echo SalaryDetails::model()->find('BILL_ID_FK='.$model->ID)->AMOUNT_BANK;?>
-			
-			<span style="border-bottom: 1px solid;width: 180px;position: absolute;transform: rotate(111deg);top: 115px;left: -46px;"></span>
-			<span style="border-bottom: 1px solid;width: 80px;position: absolute;top: 209px;left: 0px;"></span>
-			<span style="border-bottom: 1px solid;width: 80px;position: absolute;top: 254px;left: 0px;"></span>
+			<?php echo $model->BILL_AMOUNT;?><span style="display: block;margin-top: 310px;"><?php echo $model->BILL_AMOUNT;?>
+			<span style="display: block;margin-top: 20px;"></span><?php echo Yii::app()->db->createCommand("SELECT SUM(PT) as PT FROM tbl_salary_details WHERE BILL_ID_FK = $model->ID;")->queryRow()['PT'];?>
+			<span style="display: block;margin-top: 20px;"></span><?php echo Yii::app()->db->createCommand("SELECT SUM(AMOUNT_BANK) as AMOUNT_BANK FROM tbl_salary_details WHERE BILL_ID_FK = $model->ID;")->queryRow()['AMOUNT_BANK'];?>
+			<span style="border-bottom: 1px solid;width: 180px;position: absolute;transform: rotate(111deg);top: 215px;left: -46px;"></span>
+			<span style="border-bottom: 1px solid;width: 80px;position: absolute;top: 395px;left: 0px;"></span>
+			<span style="border-bottom: 1px solid;width: 80px;position: absolute;top: 430px;left: 0px;"></span>
 		</td>
-		<td style="vertical-align: top;position:relative">00<span  style="display: block;margin-top: 200px;">00</span>
+		<td style="vertical-align: top;position:relative">00<span  style="display: block;margin-top: 310px;">00</span>
 		<span style="display: block;margin-top: 20px;">00</span>
 		<span style="display: block;margin-top: 20px;">00</span>
-		<span style="border-bottom: 1px solid;width: 80px;position: absolute;top: 280px;left: -50px;"></span>
+		<span style="border-bottom: 1px solid;width: 80px;position: absolute;top: 325px;left: -60px;"></span>
+		<span style="border-bottom: 1px solid;width: 80px;position: absolute;top: 359px;left: -60px;"></span>
 		</td>
 	</tr>
 </table>

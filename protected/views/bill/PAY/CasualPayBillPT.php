@@ -47,7 +47,7 @@
 </table>
 
 <h4 style="text-align:center;margin-top: 50px;"><?php echo $this->amountToWord(Yii::app()->db->createCommand("SELECT SUM(PT) as PT FROM tbl_salary_details WHERE BILL_ID_FK = $model->ID;")->queryRow()['PT']);?></h4>
-
+<!--
 <div style="width: 400px; margin: 0 auto; font-size: 20px; margin-top:100px;">
 	<?php $appropiations = Yii::app()->db->createCommand("SELECT * FROM tbl_appropiation_register WHERE BILL_NO = $model->ID")->queryRow(); ?>
 	<h4 style="text-decoration: underline;">Appropiation</h4>
@@ -56,6 +56,7 @@
 	<p><b>Expenditure Including Bill: </b>Rs. <?php echo $appropiations['EXPENDITURE_INC_BILL'];?>/-</p>
 	<p><b>Balance: </b>Rs. <?php echo $appropiations['BALANCE'];?>/-</p>
 </div>
+-->
 <div style="font-weight: bold; width:400px; float: right;text-align:center; margin-top:100px;margin-right:-10px;">
 	<p>(<?php echo Employee::model()->findByPK($master['DEPT_ADMIN_EMPLOYEE'])->NAME;?>)</p>
 	<p><?php echo Designations::model()->findByPK(Employee::model()->findByPK($master['DEPT_ADMIN_EMPLOYEE'])->DESIGNATION_ID_FK)->DESIGNATION;?></p>

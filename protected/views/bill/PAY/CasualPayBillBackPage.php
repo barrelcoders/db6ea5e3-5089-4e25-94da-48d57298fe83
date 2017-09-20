@@ -47,10 +47,10 @@ not granted any compensatory leave </p><br>
 <?php
 	$Appropriation = AppropiationRegister::model()->find('BILL_NO='.$model->ID);
 ?>
-<p>Appropriation for the current year Rs.<span style="text-decoration: underline"><?php echo Budget::model()->findByPK(7)->AMOUNT;?>/-</span></p>
-<p>Expenditure including this bill: Rs.<span style="text-decoration: underline"><?php echo $Appropriation->EXPENDITURE_INC_BILL;?>/-</span></p>
-<p>Amount of work bill annexed: Rs.<span style="text-decoration: underline"><?php echo $model->BILL_AMOUNT;?>/- (Including PT)</span></p>	
-<p>Balance available: Rs.<span style="text-decoration: underline"><?php echo $Appropriation->BALANCE;?>/-</span></p>
+<p>Appropriation for the current year Rs.<span style="text-decoration: underline"><?php //echo Budget::model()->findByPK(7)->AMOUNT;?>...................................................../-</span></p>
+<p>Expenditure including this bill: Rs.<span style="text-decoration: underline"><?php //echo $Appropriation->EXPENDITURE_INC_BILL;?>...................................................../-</span></p>
+<p>Amount of work bill annexed: Rs.<span style="text-decoration: underline"><?php //echo $model->BILL_AMOUNT;?>...................................................../- (Including PT)</span></p>	
+<p>Balance available: Rs.<span style="text-decoration: underline"><?php //echo $Appropriation->BALANCE;?>...................................................../-</span></p>
 <p style="text-align: right;">Signature & Designation</p>
 <p style="text-align: right;padding-bottom: 10px;border-bottom: 1px solid #000;">of the Drawing Officer</p>
 <p style="padding-top:10px">Passed for the payment of Rs.<span style="text-decoration: underline"><?php echo $model->BILL_AMOUNT;?></span> Rupees <span style="text-decoration: underline"><?php echo $this->amountInWords?></span></p>

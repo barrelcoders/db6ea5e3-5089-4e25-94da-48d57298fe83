@@ -1,6 +1,6 @@
 <link href="<?php echo Yii::app()->request->baseUrl; ?>/css/oneadmin.css" rel="stylesheet">
 <?php
-	$monthName = array('1'=>'January', '2'=>'February', '3'=>'March', '4'=>'April', '5'=>'May', '6'=>'June', '7'=>'July', '8'=>'August', '9'=>'September', '10'=>'October', '11'=>'November', '12'=>'December');
+	$monthName = array('1'=>'JAN', '2'=>'FEB', '3'=>'MAR', '4'=>'APR', '5'=>'MAY', '6'=>'JUN', '7'=>'JUL', '8'=>'AUG', '9'=>'SEP', '10'=>'OCT', '11'=>'NOV', '12'=>'DEC');
 	$monthNameHindi = array('1'=>'जनवरी', '2'=>'फ़रवरी', '3'=>'मार्च', '4'=>'अप्रैल', '5'=>'मई', '6'=>'जून', '7'=>'जुलाई', '8'=>'अगस्त', '9'=>'सितंबर', '10'=>'अक्टूबर', '11'=>'नवंबर', '12'=>'दिसंबर'); 
 	$master = Master::model()->findByPK(1);
 ?>
@@ -29,7 +29,16 @@
 </div>
 <br><br><br>
 <p style="margin-bottom: 4px;font-size: 20px;">In exercise of the power vested under Schedule V of the Delegation of Financial Power Rules, 1978, the Joint Commissioner, Central Tax, Banaglore - North Commissionerate, Bangalore, is
-pleased to sanction an expenditure of Rs. <?php echo $model->BILL_AMOUNT;?>/- <?php echo $this->amountToWord($model->BILL_AMOUNT);?> towards the Wages for <?php echo Employee::model()->findByPK(OtherBillEmployees::model()->find('BILL_ID='.$model->ID)->EMPLOYEE_ID)->NAME;?>, <?php echo Designations::model()->findByPK(Employee::model()->findByPK(OtherBillEmployees::model()->find('BILL_ID='.$model->ID)->EMPLOYEE_ID)->DESIGNATION_ID_FK)->DESIGNATION; ?>
+pleased to sanction an expenditure of Rs. <?php echo $model->BILL_AMOUNT;?>/- <?php echo $this->amountToWord($model->BILL_AMOUNT);?> towards the Wages for 
+<?php 
+	$employees = explode(",", OtherBillEmployees::model()->find('BILL_ID='.$model->ID)->EMPLOYEE_ID);
+	$emp_names = array();
+	foreach($employees as $id){
+		array_push($emp_names, Employee::model()->findByPK($id)->NAME);
+	}
+?>
+<?php echo implode(", ", $emp_names);?>, 
+<?php echo Designations::model()->findByPK(Employee::model()->findByPK(OtherBillEmployees::model()->find('BILL_ID='.$model->ID)->EMPLOYEE_ID)->DESIGNATION_ID_FK)->DESIGNATION; ?>
  for the month of <?php echo $monthName[$model->MONTH];?>-<?php echo $model->YEAR;?></p><br>
 <p style="margin-bottom: 4px;font-size: 20px;">The above expenditure is debitable to the main head Wages and the expenditure should be met from within the Budget Grant for the year <?php $financialYear = FinancialYears::model()->find('STATUS=1'); echo $financialYear->NAME;?></p>
 <br><br>

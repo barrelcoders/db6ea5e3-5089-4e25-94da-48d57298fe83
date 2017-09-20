@@ -27,6 +27,11 @@
 <div><span style="font-weight: bold;">Ministry/Department/ Office of:  </span><span style="text-decoration: underline"><?php echo $master->OFFICE_NAME;?></span></div>	<br>
 <div ><span style="font-weight: bold;">Detailed Bill of Contigent Charges for the month of </span><span style="text-decoration: underline"><?php echo date('M-Y', strtotime($model->CREATION_DATE));?></span></div>	<br>
 <div><span style="font-weight: bold;">Head of Account  </span><span style="text-decoration: underline"><?php echo BillType::model()->findByPK($model->BILL_TYPE)->TYPE;?></span></div><br>
+<style>
+table.mandate{width: 100%;height:100%;border-collapse: collapse;}
+.mandate tr, .mandate td{border: 1px solid #000;border-collapse: collapse;}
+.mandate td{text-align: center;}
+</style>
 <table class="one-table">
 	<tr>
 		<th style="width: 20%;">Number of <br>Sub - Voucher </th>
@@ -40,18 +45,41 @@
 		<td style="vertical-align: top;position:relative">Towards deduction of Professional Tax from <?php echo $model->BILL_TITLE;?>.
 		The details are enclosed with this bill.
 		<br/><br/>
-		<br/><br/><br/>
-		<b><?php echo $this->amountToWord(SalaryDetails::model()->find('BILL_ID_FK='.$model->ID)->PT);?></b><br>
+		<?php $PT = Yii::app()->db->createCommand("SELECT SUM(PT) as PT FROM tbl_salary_details WHERE BILL_ID_FK = $model->ID;")->queryRow()['PT'];?>
+		<b><?php echo $this->amountToWord($PT);?></b><br><br>
+		<table class="mandate">
+			<tr>
+				<th>NAME</th>
+				<th>DESIGNATION</th>
+				<th>PT</th>
+			</tr>
+		<?php 
+			$employees = explode(",", OtherBillEmployees::model()->find('BILL_ID='.$model->ID)->EMPLOYEE_ID);
+			foreach($employees as $id){
+				?>
+				<tr>
+					<td><?php echo Employee::model()->findByPK($id)->NAME;?></td>
+					<td><?php echo Designations::model()->findByPK(Employee::model()->findByPK($id)->DESIGNATION_ID_FK)->DESIGNATION;?></td>
+					<td><?php echo Yii::app()->db->createCommand("SELECT PT FROM tbl_salary_details WHERE EMPLOYEE_ID_FK=".$id." AND BILL_ID_FK = $model->ID;")->queryRow()['PT'];?></td>
+				</tr>
+				<?php
+			}
+		
+		?>
+		</table>
+		<br><p>Cheque may be issued in favor of : <?php echo Vendors::model()->findByPK(13)->NAME;?></p>
+		<span style="position: absolute;right: 10px;top: 310px;"><b>Amount Payable</b></span>
 		<span style="position: absolute;right: 10px;bottom: 10px;"><b>Carried Over...</b></span>
 		</td>
 		<td style="vertical-align: top;position:relative">
-			<?php echo SalaryDetails::model()->find('BILL_ID_FK='.$model->ID)->PT;?><span style="display: block;margin-top: 200px;"><?php echo SalaryDetails::model()->find('BILL_ID_FK='.$model->ID)->PT;?>
+			<?php echo $PT;?>
+			<span style="display: block;margin-top: 285px;"><?php echo $PT;?>
 			
 			<span style="border-bottom: 1px solid;width: 180px;position: absolute;transform: rotate(111deg);top: 115px;left: -46px;"></span>
-			<span style="border-bottom: 1px solid;width: 80px;position: absolute;top: 209px;left: 0px;"></span>
-			<span style="border-bottom: 1px solid;width: 80px;position: absolute;top: 254px;left: 0px;"></span>
+			<span style="border-bottom: 1px solid;width: 80px;position: absolute;top: 300px;left: 0px;"></span>
+			<span style="border-bottom: 1px solid;width: 80px;position: absolute;top: 335px;left: 0px;"></span>
 		</td>
-		<td style="vertical-align: top;position:relative">00<span  style="display: block;margin-top: 200px;">00</span>
+		<td style="vertical-align: top;position:relative">00<span  style="display: block;margin-top: 285px;">00</span>
 		</td>
 	</tr>
 </table>
