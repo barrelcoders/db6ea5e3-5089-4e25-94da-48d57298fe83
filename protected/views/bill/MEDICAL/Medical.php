@@ -188,7 +188,7 @@ $monthName = array('1'=>'January', '2'=>'February', '3'=>'March', '4'=>'April', 
 		<td style="vertical-align: top;"></td>
 	</tr>
 </table>
-<br><br><br>
+<br>
 <p>Net Amount required for payment (In words) <span style="text-decoration: underline"><?php echo $this->amountToWord($model->BILL_AMOUNT)?></span> </p><br><br>
 <p>Passed for Rs <span style="text-decoration: underline"><?php $model->BILL_AMOUNT?> <span style="text-decoration: underline">/-<?php echo $this->amountToWord($model->BILL_AMOUNT)?></span> </p>
 <br/><br/>
