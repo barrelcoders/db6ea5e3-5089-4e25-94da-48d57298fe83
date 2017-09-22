@@ -39,7 +39,7 @@ $this->breadcrumbs=array(
 							return date('d-m-Y', strtotime($data->DOB));
 					}
 				),
-				array(
+				/*array(
 					'header'=>'ENTRY',
 					'type'=>'raw',
 					'value'=>function ($data){ 
@@ -49,7 +49,7 @@ $this->breadcrumbs=array(
 						}
 						return $content;
 					}
-				),
+				),*/
 				array(
 					'header'=>'DESIGNATION',
 					'name'=>'DESIGNATION_ID_FK',
@@ -58,7 +58,7 @@ $this->breadcrumbs=array(
 							return Designations::model()->findByPK($data->DESIGNATION_ID_FK)->DESIGNATION;
 					}
 				), 
-				array(
+				/*array(
 					'name'=>'PRESENT_PROMOTION_DATE',
 					'type'=>'raw',
 					'value'=>function ($data){ 
@@ -85,24 +85,46 @@ $this->breadcrumbs=array(
 							return (string)$difference->y;
 					}
 				),
-				/*array(
+				array(
 					'header'=>'GROUP',
 					'name'=>'GROUP_ID_FK',
 					'type'=>'raw',
 					'value'=>function ($data){ 
 							return Groups::model()->findByPK($data->GROUP_ID_FK)->GROUP_NAME;
 					}
-				), 
+				),
 				array(
-					'header'=>'GRADE PAY',
-					'name'=>'GRADE_PAY_ID_FK',
+					'header'=>'Pay Matrix',
+					'name'=>'PAY_MATRIX_ID_FK',
 					'type'=>'raw',
 					'value'=>function ($data){ 
-							return PayBands::model()->findByPK($data->GRADE_PAY_ID_FK)->DESCRIPTION;
+							$matrix = "";
+							if($data->PAY_MATRIX_ID_FK != 0){
+								$matrix = PayMatrix::model()->findByPK($data->PAY_MATRIX_ID_FK);
+								$matrix = "Basic: ".$matrix->BASIC." (Level: ".$matrix->LEVEL." Index: ".$matrix->INDEX.")";
+							}
+							
+							return $matrix;
 					}
-				), 
+				), */
 				'PENSION_TYPE',
-				'PENSION_ACC_NO',*/
+				'PENSION_ACC_NO',
+				array(
+					'name'=>'PAY_MATRIX_ID_FK',
+					'type'=>'raw',
+					'id' => 'PAY_MATRIX_ID_FK',
+					'value'=>function($data){
+						$matrix = "";
+						if($data->PAY_MATRIX_ID_FK == 0){
+							$matrix = "<input type='hidden' value='$data->ID'>" .CHtml::dropDownList('PAY_MATRIX_ID_FK', null, CHtml::listData(PayMatrix::model()->findAll(), 'ID', 'TEXT'), 
+							array('options'=>array($data->PAY_MATRIX_ID_FK => array('selected'=>true)), 'class'=>'slPayMatrix'));
+						}
+						else{
+							$matrix = PayMatrix::model()->findByPK($data->PAY_MATRIX_ID_FK)->TEXT;
+						}
+						return $matrix;
+					}
+				),
 				array(
 					'class'=>'CButtonColumn',
 					'htmlOptions' => array('style'=>'width:100px'),
@@ -156,4 +178,22 @@ $this->breadcrumbs=array(
 	a{color:#000; text-decoration: none;border:none !important;margin-right: 5px;}
 	a:hover{color:#000;text-decoration: underline;}
 </style>
+<script>
 
+$(document).ready(function(){
+	$('.slPayMatrix').change(function(){
+		var element = $(this), matrix = element.val(), emp_id = element.prev().val();
+		$.post('<?php echo Yii::app()->createUrl('Employee/SetEmployeeMatrix')?>', { 'matrix': matrix, 'emp_id': emp_id}, function(result) {
+			var data = result.split("|");
+			if(data[0] == 'SUCCESS'){
+				element.parent().html(data[1]);
+			}
+			else{
+				alert('Error updating Pay Matrix, Please try again later');
+			}
+		   
+		});
+		
+	});	
+});
+</script>

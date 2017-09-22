@@ -58,10 +58,16 @@
 			</div>
 		</div>
 		<div class="form-group row">
-			<?php echo $form->labelEx($model,'GRADE_PAY_ID_FK', array('class'=>'col-sm-2 form-control-label')); ?>
+			<?php echo $form->labelEx($model,'PAY_MATRIX_ID_FK', array('class'=>'col-sm-2 form-control-label')); ?>
 			<div class="col-sm-10">
 				<p class="form-control-static">
-					<?php echo Paybands::model()->findByPK($model->GRADE_PAY_ID_FK)->DESCRIPTION; ?>
+					<?php 
+						$matrix = "";
+						if(($model->PAY_MATRIX_ID_FK != 0)){
+							$matrix = PayMatrix::model()->findByPK($model->PAY_MATRIX_ID_FK)->TEXT;
+						}
+						echo $matrix;
+					?>
 				</p>
 			</div>
 		</div>

@@ -21,8 +21,8 @@
 	<?php echo CHtml::encode($data->DESIGNATION_ID_FK); ?>
 	<br />
 
-	<b><?php echo CHtml::encode($data->getAttributeLabel('GRADE_PAY_ID_FK')); ?>:</b>
-	<?php echo CHtml::encode($data->GRADE_PAY_ID_FK); ?>
+	<b><?php echo CHtml::encode($data->getAttributeLabel('PAY_MATRIX_ID_FK')); ?>:</b>
+	<?php echo CHtml::encode($data->PAY_MATRIX_ID_FK); ?>
 	<br />
 
 	<b><?php echo CHtml::encode($data->getAttributeLabel('DOI')); ?>:</b>

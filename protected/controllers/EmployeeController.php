@@ -34,6 +34,19 @@ class EmployeeController extends Controller
 			),
 		);
 	}
+	
+	public function actionSetEmployeeMatrix(){
+		if(isset($_POST['matrix']) && isset($_POST['emp_id'])){
+			$model = Employee::model()->findByPK($_POST['emp_id']);
+			$model->PAY_MATRIX_ID_FK = $_POST['matrix'];
+			if($model->save(false)){
+				echo "SUCCESS|".PayMatrix::model()->findByPK($_POST['matrix'])->TEXT;exit;
+			}
+			else{
+				echo "ERROR";exit;
+			}	
+		}
+	}
 		
 	public function actionView($id)
 	{

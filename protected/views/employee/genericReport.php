@@ -59,8 +59,12 @@
 					if($value == 'DESIGNATION_ID_FK'){
 						echo ($employee[$value] == 0) ? "": Designations::model()->findByPK($employee[$value])->DESIGNATION."<br/>".Designations::model()->findByPK($employee[$value])->DESIGNATION_HINDI;
 					}
-					else if($value == 'GRADE_PAY_ID_FK'){
-						echo ($employee[$value] == 0) ? "": PayBands::model()->findByPK($employee[$value])->GRADE_PAY;
+					else if($value == 'PAY_MATRIX_ID_FK'){
+						$matrix = "";
+						if(($employee[$value] != 0)){
+							$matrix = PayMatrix::model()->findByPK($employee[$value])->TEXT;
+						}
+						echo $matrix;
 					}
 					else if($value == 'GROUP_ID_FK'){
 						echo ($employee[$value] == 0) ? "": Groups::model()->findByPK($employee[$value])->GROUP_NAME;

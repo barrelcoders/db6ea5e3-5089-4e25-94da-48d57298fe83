@@ -103,7 +103,8 @@
 	}
 	</script>
 
-	<?php $form=$this->beginWidget('CActiveForm', array(
+	<?php 
+	$form=$this->beginWidget('CActiveForm', array(
 		'id'=>'employee-form',
 		'enableAjaxValidation'=>false,
 	)); 
@@ -170,6 +171,23 @@
 						<?php echo $form->dropDownList($model,'GRADE_PAY_ID_FK',CHtml::listData(Paybands::model()->findAll(), 'ID', 'DESCRIPTION'), array(
 					'options' => array("'".$model->GRADE_PAY_ID_FK."'" => array('selected'=>true)),
 					'disabled'=>Yii::app()->controller->action->id == 'update')); ?>
+					</p>
+				</div>
+			</div>
+			<div class="form-group row">
+				<?php echo $form->labelEx($model,'PAY_MATRIX_ID_FK', array('class'=>'col-sm-2 form-control-label')); ?>
+				<div class="col-sm-10">
+					<p class="form-control-static">
+						<select name="Employee[PAY_MATRIX_ID_FK]" id="Employee_PAY_MATRIX_ID_FK">
+							<?php 
+								$records=PayMatrix::model()->findAll();
+								foreach($records as $record){
+									?>
+									<option <?php echo ($model->PAY_MATRIX_ID_FK == $record->ID) ? "selected" : "";?> value="<?php echo $record->ID; ?>"><?php echo $record->TEXT;?></option>
+									<?php
+								}
+							?>
+						</select>
 					</p>
 				</div>
 			</div>

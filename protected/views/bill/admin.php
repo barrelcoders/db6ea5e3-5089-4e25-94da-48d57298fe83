@@ -84,7 +84,7 @@ table.table.table-bordered.table-hover{font-size: 14px;}
 					'name'=>'BILL_AMOUNT',
 					'type'=>'raw',
 					'value'=>function ($data){ 
-							return $data->BILL_AMOUNT;
+						return $data->BILL_AMOUNT;
 					}
 				), 
 			),

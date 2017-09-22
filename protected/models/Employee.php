@@ -44,16 +44,16 @@ class Employee extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('NAME, DESIGNATION_ID_FK, GRADE_PAY_ID_FK, PENSION_ACC_NO, GROUP_ID_FK, NAME_HINDI, PERMISSION', 'required'),
+			array('NAME, DESIGNATION_ID_FK, GRADE_PAY_ID_FK, PAY_MATRIX_ID_FK, PENSION_ACC_NO, GROUP_ID_FK, NAME_HINDI, PERMISSION', 'required'),
 			array('NAME, NAME_HINDI', 'length', 'max'=>100),
-			array('DESIGNATION_ID_FK, GRADE_PAY_ID_FK, GROUP_ID_FK, JOIN_DESIGNATION_ID_FK', 'length', 'max'=>10),
+			array('DESIGNATION_ID_FK, GRADE_PAY_ID_FK, PAY_MATRIX_ID_FK, GROUP_ID_FK, JOIN_DESIGNATION_ID_FK', 'length', 'max'=>10),
 			array('IS_SUSPENDED, IS_PERMANENT, STATUS, IS_TRANSFERRED, IS_RETIRED', 'length', 'max'=>3),
 			array('PENSION_ACC_NO, PENSION_TYPE, MICR, ACCOUNT_NO, IFSC, PAN, CATEGORY, GENDER, ORG_JOIN_TIME, DEPT_RELIEF_TIME, DEPT_JOIN_TIME, PERMISSION, SERVICE_BOOK_VOL', 'length', 'max'=>45),
 			array('DEPT_JOIN_DATE, DEPT_RELIEF_DATE, ORG_JOIN_DATE, PRESENT_PROMOTION_DATE', 'date', 'format'=>'yyyy-MM-dd', 'allowEmpty'=>true),
 			array('DEPT_JOIN_DATE, DEPT_RELIEF_DATE, ORG_JOIN_DATE', 'default', 'setOnEmpty'=>true, 'value'=>'' ),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('ID, NAME, DEPT_JOIN_DATE, DEPT_RELIEF_DATE, ORG_JOIN_DATE, ORG_RETIRE_DATE, DESIGNATION_ID_FK, GRADE_PAY_ID_FK, DOI, PENSION_ACC_NO, FOLIO_NO, GROUP_ID_FK, DOB, NAME_HINDI, 
+			array('ID, NAME, DEPT_JOIN_DATE, DEPT_RELIEF_DATE, ORG_JOIN_DATE, ORG_RETIRE_DATE, DESIGNATION_ID_FK, GRADE_PAY_ID_FK, PAY_MATRIX_ID_FK, DOI, PENSION_ACC_NO, FOLIO_NO, GROUP_ID_FK, DOB, NAME_HINDI, 
 			PENSION_TYPE, MICR, ACCOUNT_NO, IFSC, PAN, IS_PERMANENT, STATUS, CATEGORY, IS_TRANSFERRED, IS_RETIRED, GENDER, PERMISSION, SUSPENSION_ORDER, SUSPENSION_DATE', 'safe', 'on'=>'search'),
 		);
 	}
@@ -86,6 +86,7 @@ class Employee extends CActiveRecord
 			'NAME' => 'Name',
 			'DESIGNATION_ID_FK' => 'Designation',
 			'GRADE_PAY_ID_FK' => 'Grade Pay',
+			'PAY_MATRIX_ID_FK' => 'Pay Matrix',
 			'DOI' => 'DOI',
 			'PENSION_ACC_NO' => 'Pension Account No',
 			'FOLIO_NO' => 'Folio No',
@@ -123,7 +124,8 @@ class Employee extends CActiveRecord
 			'SUSPENSION_DATE'=>'Suspend/Revoke Date',
 		);
 	}
-
+	
+	
 	/**
 	 * Retrieves a list of models based on the current search/filter conditions.
 	 *
@@ -146,6 +148,7 @@ class Employee extends CActiveRecord
 		$criteria->compare('NAME',$this->NAME,true);
 		$criteria->compare('DESIGNATION_ID_FK',$this->DESIGNATION_ID_FK,true);
 		$criteria->compare('GRADE_PAY_ID_FK',$this->GRADE_PAY_ID_FK,true);
+		$criteria->compare('PAY_MATRIX_ID_FK',$this->PAY_MATRIX_ID_FK,true);
 		$criteria->compare('DOI',$this->DOI,true);
 		$criteria->compare('PENSION_ACC_NO',$this->PENSION_ACC_NO,true);
 		$criteria->compare('FOLIO_NO',$this->FOLIO_NO,true);

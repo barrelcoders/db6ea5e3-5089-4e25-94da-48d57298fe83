@@ -63,20 +63,20 @@
 			<th>9</th>
 		</tr>
 		<?php
-			$Paybands = Paybands::model()->findAll(array('order'=>'ID DESC'));
+			$PayMatrixes = PayMatrix::model()->findAll(array('order'=>'ID DESC'));
 			$i=1;
-			foreach($Paybands as $Payband){
-				if(Employee::model()->exists('IS_TRANSFERRED=0 AND IS_RETIRED=0 AND GRADE_PAY_ID_FK='.$Payband->ID)){
+			foreach($PayMatrixes as $PayMatrix){
+				if(Employee::model()->exists('IS_TRANSFERRED=0 AND IS_RETIRED=0 AND PAY_MATRIX_ID_FK='.$PayMatrix->ID)){
 				?>
 					<tr>
 						<td><?php echo $i;?></td>
-						<td><?php echo $Payband->PAY_DETAILS;?></td>
-						<td><?php echo $Payband->GRADE_PAY;?></td>
+						<td><?php echo $PayMatrix->PAY_BAND;?></td>
+						<td><?php echo $PayMatrix->GRADE_PAY;?></td>
 						<td>Regular</td>
-						<td><?php echo $Payband->GROUP; ?></td>
-						<td><?php echo $Payband->GRADE_TYPE; ?></td>
-						<td><?php echo $Payband->SANCTIONED_POST; ?></td>
-						<td><?php echo Employee::model()->count('IS_TRANSFERRED=0 AND IS_RETIRED=0 AND GRADE_PAY_ID_FK='.$Payband->ID);?></td>
+						<td><?php echo $PayMatrix->BASIC; ?></td>
+						<td><?php echo "(Level : ".$PayMatrix->LEVEL.", Index: ".$PayMatrix->INDEX.")"; ?></td>
+						<td><?php //echo $PayMatrix->SANCTIONED_POST; ?></td>
+						<td><?php echo Employee::model()->count('IS_TRANSFERRED=0 AND IS_RETIRED=0 AND PAY_MATRIX_ID_FK='.$PayMatrix->ID);?></td>
 						<td></td>
 					</tr>
 				<?php
