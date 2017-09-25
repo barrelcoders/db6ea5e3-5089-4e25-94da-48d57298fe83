@@ -180,6 +180,21 @@
 						?>
 						</ul>
 					</div>
+					<div id="wages-bonus-emp" class="small-container"  style="display:none;">
+						<div style="background: #333;padding: 5px;">
+							<input type="text" class="wages-bonus-list-search" size="100" placeholder="SEARCH NAME" onkeyup="search(this, 'wages-bonus-emp');"/><span style="float: right;color: #FFF;"><input type="checkBox" class="wages-bonus-select-all" onclick="selectList('wages-bonus-emp');"> SELECT ALL</span>
+						</div>
+						<ul style="background: rgb(204, 204, 204);padding: 10px;height: 300px;overflow-y: scroll;">
+						<?php
+							$employees = Employee::model()->findAllByAttributes(array('IS_PERMANENT'=>0, 'IS_TRANSFERRED'=>0, 'IS_SUSPENDED'=>0, 'BONUS_ELIGIBLE'=>1));
+							foreach($employees as $employee){
+								?>
+									<li><input type="checkBox" name="Bill[Employee][WAGES_BONUS][]" value="<?php echo $employee->ID;?>" ><span><?php echo $employee->NAME.", ".Designations::model()->findByPK($employee->DESIGNATION_ID_FK)->DESIGNATION;?></span></li>
+								<?php
+							}
+						?>
+						</ul>
+					</div>
 			</div>
 		</div>
 		

@@ -351,7 +351,7 @@ class BillController extends Controller
 							$CEAModel->save(false);
 						}
 					}
-					if(isset($_POST['Bill']['IS_BONUS_BILL']) && $_POST['Bill']['IS_BONUS_BILL'] == 1){
+					if(isset($_POST['Bill']['IS_BONUS_BILL']) && $_POST['Bill']['IS_BONUS_BILL'] == 1 && ($_POST['Bill']['BILL_TYPE'] == 1 || $_POST['Bill']['BILL_TYPE'] == 2)){
 						$OtherBillEmployees = new OtherBillEmployees;
 						$OtherBillEmployees->BILL_ID = $model->ID;
 						if($_POST['Bill']['BILL_TYPE'] == 1 )
@@ -405,7 +405,12 @@ class BillController extends Controller
 					if(isset($_POST['Bill']['BILL_TYPE']) && $_POST['Bill']['BILL_TYPE'] == 8){
 						$OtherBillEmployees = new OtherBillEmployees;
 						$OtherBillEmployees->BILL_ID = $model->ID;
-						$OtherBillEmployees->EMPLOYEE_ID = implode(",", $_POST['Bill']['Employee']['WAGES']);
+						if(isset($_POST['Bill']['IS_BONUS_BILL']) && $_POST['Bill']['IS_BONUS_BILL'] == 1){
+							$OtherBillEmployees->EMPLOYEE_ID = implode(",", $_POST['Bill']['Employee']['WAGES_BONUS']);
+						}
+						else{
+							$OtherBillEmployees->EMPLOYEE_ID = implode(",", $_POST['Bill']['Employee']['WAGES']);
+						}
 						$OtherBillEmployees->save(false);
 					}
 					/*if(isset($_POST['Bill']['BILL_ENTRY_COUNT'])){
@@ -794,6 +799,7 @@ class BillController extends Controller
 	public function actionCasualPTBillBackPage($id){$this->layout='//layouts/column1';$model = $this->loadModel($id);$this->render('PAY/CasualPTBillBackPage',array('model'=>$model,));}
 	public function actionCasualPayBillSanctionOrder($id){$this->layout='//layouts/column1';$model = $this->loadModel($id);$this->render('PAY/CasualPayBillSanctionOrder',array('model'=>$model,));}
 	public function actionCasualPayBillInner($id){$this->layout='//layouts/column1';$model = $this->loadModel($id);$this->render('PAY/CasualPayBillInner',array('model'=>$model,));}
+	public function actionCasualBonusBillInner($id){$this->layout='//layouts/column1';$model = $this->loadModel($id);$this->render('PAY/CasualBonusBillInner',array('model'=>$model,));}
 	public function actionCasualPayBillPT($id){$this->layout='//layouts/column1';$model = $this->loadModel($id);$this->render('PAY/CasualPayBillPT',array('model'=>$model,));}
 	public function actionHBA_INTEREST($id){$this->layout='//layouts/column1';$model = $this->loadModel($id);$this->render('PAY/HBA_INTEREST',array('model'=>$model,));}
 	public function actionFAN_INTEREST($id){$this->layout='//layouts/column1';$model = $this->loadModel($id);$this->render('PAY/FAN_INTEREST',array('model'=>$model,));}

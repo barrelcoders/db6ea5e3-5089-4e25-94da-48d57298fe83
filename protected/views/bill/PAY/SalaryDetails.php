@@ -75,7 +75,8 @@
 			</div>
 			<?php
 			$employees = array();
-			if($bill->IS_ARREAR_BILL == 1 || $bill->IS_DA_ARREAR_BILL == 1 || $bill->IS_CEA_BILL == 1 || $bill->IS_BONUS_BILL == 1 || $bill->IS_UA_BILL == 1 || $bill->IS_LTC_CLAIM_BILL == 1 ||  $bill->IS_LTC_ADVANCE_BILL == 1 || $bill->IS_EL_ENCASHMENT_BILL == 1 || $bill->IS_RECOVERY_BILL == 1){
+			if($bill->BILL_TYPE != 8 && ($bill->IS_ARREAR_BILL == 1 || $bill->IS_DA_ARREAR_BILL == 1 || $bill->IS_CEA_BILL == 1 || $bill->IS_BONUS_BILL == 1 || $bill->IS_UA_BILL == 1 || $bill->IS_LTC_CLAIM_BILL == 1 
+				||  $bill->IS_LTC_ADVANCE_BILL == 1 || $bill->IS_EL_ENCASHMENT_BILL == 1 || $bill->IS_RECOVERY_BILL == 1)){
 				$OtherBillEmployees = explode(",", OtherBillEmployees::model()->findByAttributes(array('BILL_ID'=>$model->ID))->EMPLOYEE_ID);
 				$employees = Employee::model()->findAllByAttributes(array('ID'=>$OtherBillEmployees));
 				$DATA_URL = Yii::app()->createUrl('Employee/OtherBillEmployees', array('BILL_ID'=>$model->ID));
@@ -83,12 +84,20 @@
 				<input type="hidden" name="SalaryDetails[IS_SALARY_BILL]" value="0"/>
 				<?php
 			}
-			else if($bill->BILL_TYPE == 8){
+			else if($bill->BILL_TYPE == 8 && $bill->BILL_SUB_TYPE == 37){
 				$OtherBillEmployees = explode(",", OtherBillEmployees::model()->findByAttributes(array('BILL_ID'=>$model->ID))->EMPLOYEE_ID);
 				$employees = Employee::model()->findAllByAttributes(array('ID'=>$OtherBillEmployees));
 				$DATA_URL = Yii::app()->createUrl('Employee/WagesBillEmployees', array('BILL_ID'=>$model->ID));
 				?>
 				<input type="hidden" name="SalaryDetails[IS_SALARY_BILL]" value="1"/>
+				<?php
+			}
+			else if($bill->BILL_TYPE == 8 && $bill->BILL_SUB_TYPE == 51){
+				$OtherBillEmployees = explode(",", OtherBillEmployees::model()->findByAttributes(array('BILL_ID'=>$model->ID))->EMPLOYEE_ID);
+				$employees = Employee::model()->findAllByAttributes(array('ID'=>$OtherBillEmployees));
+				$DATA_URL = Yii::app()->createUrl('Employee/WagesBillEmployees', array('BILL_ID'=>$model->ID));
+				?>
+				<input type="hidden" name="SalaryDetails[IS_SALARY_BILL]" value="0"/>
 				<?php
 			}
 			else{

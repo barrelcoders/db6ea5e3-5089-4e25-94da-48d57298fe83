@@ -44,7 +44,8 @@ var SALARY_OPS_BILL = 1,
 	OE_Diesel = 11,
 	OE_Telephones = 12,
 	OE_Electricity_Charges = 13,
-	OE_Misc_Office_Expenses = 14;
+	OE_Misc_Office_Expenses = 14,
+	WAGES_AD_BONUS_BILL = 51;
 	
 	
 	
@@ -414,6 +415,23 @@ $(document).ready(function(){
 				$("#PFMS_BILL_NO_SECTION").show();
 				$("#CER_NO_SECTION").show();
 				$('#txtBillTitle').val($("#Bill_BILL_SUB_TYPE option:selected").text()+" in R/O OPS Staff of "+DEPT_NAME);
+			}
+			if(bill_sub_type == WAGES_AD_BONUS_BILL){
+				$('#txtBillTitle').val("Wages in respect of  "+DEPT_NAME+" for the month of "+MONTH_YEAR);
+				//var register_count = parseInt($("#BILL_REGISTER_COUNT").val());
+				//$("#Bill_BILL_NO").val("WPB/"+zeroPad((register_count+1), 2)+"/"+FIANANCIAL_YEAR+" dt "+TODAY_DATE);
+				//$("#Bill_PT_DED_BILL_NO").val("WPB/"+zeroPad((register_count+2), 2)+"/"+FIANANCIAL_YEAR+" dt "+TODAY_DATE);
+				//$("#BILL_ENTRY_COUNT").val(2);
+				$("#wages-bonus-emp").show();
+				$("#BILL_NO_SECTION").show();
+				$("#BILL_TITLE_SECTION").show();
+				$("#MONTH_SECTION").show();
+				$("#YEAR_SECTION").show();
+				$("#CREATION_DATE_SECTION").show();
+				$("#FILE_NO_SECTION").show();
+				$("#PFMS_BILL_NO_SECTION").show();
+				$("#IS_BONUS_BILL").val(1);
+				$('#txtBillTitle').val($("#Bill_BILL_SUB_TYPE option:selected").text()+" in R/O Casual Labour Staff of "+DEPT_NAME);
 			}
 		}
 		else if(bill_type == OE_BILL){
@@ -826,6 +844,17 @@ $(document).ready(function(){
 			$('#txtBillTitle').val("Wages in respect of staff of "+DEPT_NAME+" for the month of ");
 		}
 	});
+	$('#wages-bonus-emp ul input[type=checkbox]').change(function(){
+		if($(this).is(":checked")) {
+			var empID = $(this).val(),
+				empName = $(this).next('span').html();
+			$('#txtBillTitle').val("Wages in respect of "+empName+" of  "+DEPT_NAME+" for the month of ");
+		}
+		else{
+			$('#txtBillTitle').val("Wages in respect of staff of "+DEPT_NAME+" for the month of ");
+		}
+	});
+	
 	/*$('#IS_MULTIPLE_MONTH').change(function(){
 		if($(this).is(":checked")){
 			$("#IS_MULTIPLE_MONTH").val(1);
@@ -1083,6 +1112,17 @@ function loadFormOnUpdate(){
 				$("#FILE_NO_SECTION").show();
 				$("#PFMS_BILL_NO_SECTION").show();
 				$("#CER_NO_SECTION").show();
+			}
+			if(CURRENT_BILL_SUB_TYPE == WAGES_AD_BONUS_BILL){
+				$("#wages-bonus-emp").show();
+				$("#BILL_NO_SECTION").show();
+				$("#BILL_TITLE_SECTION").show();
+				$("#MONTH_SECTION").show();
+				$("#YEAR_SECTION").show();
+				$("#CREATION_DATE_SECTION").show();
+				$("#FILE_NO_SECTION").show();
+				$("#PFMS_BILL_NO_SECTION").show();
+				$("#IS_BONUS_BILL").val(1);
 			}
 		}
 		else if(CURRENT_BILL_TYPE == OE_BILL){
@@ -1349,6 +1389,7 @@ function resetBiilSelection(){
 	$("#ua-emp").hide();
 	$("#dte-emp").hide();
 	$("#wages-emp").hide();
+	$("#wages-bonus-emp").hide();
 	$('#medical-emp').hide();
 	$("#ceabills").hide();
 	$("#oebills").hide();
