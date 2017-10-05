@@ -16,26 +16,30 @@
 	</thead>
 	<?php 
 		$i = 1;	
-		$employees = Yii::app()->db->createCommand("SELECT ID FROM tbl_employee ORDER BY DESIGNATION_ID_FK DESC")->queryAll();
-		$employeesIds = array();
-		foreach($employees as $employee) array_push($employeesIds, $employee['ID']);
-		$criteria=new CDbCriteria;
-		$criteria->order="FIELD(EMPLOYEE_ID_FK, ".implode( ", ", $employeesIds ).")";
-		$criteria->condition = "BILL_ID_FK=$model->ID";
-		$criteria->addInCondition('EMPLOYEE_ID_FK', $employeesIds);
-		$salaries = SalaryDetails::model()->findAll($criteria);
+		$criteria = new CDbCriteria();
+		$criteria->select = 't.EMPLOYEE_ID_FK';
+		$criteria->condition = 't.BILL_ID_FK='.$model->ID;
+		$criteria->group = 't.EMPLOYEE_ID_FK';
+		$criteria->join='INNER JOIN tbl_employee e ON e.ID = t.EMPLOYEE_ID_FK';
+		$criteria->order = 'e.DESIGNATION_ID_FK DESC';
+		$employeesInSalary = SalaryDetails::model()->findAll($criteria);
 	?>
 	<tbody>
-		<?php foreach ($salaries as $salary) { ?>
-		<tr>
-			<td class="small-xxx left-br right-br"><?php echo $i; ?></td>
-			<td class="small right-br"><b><?php echo Employee::model()->findByPK($salary->EMPLOYEE_ID_FK)->PENSION_ACC_NO;?></b></td>
-			<td class="small right-br"><b><?php echo Employee::model()->findByPK($salary->EMPLOYEE_ID_FK)->NAME;?></b></td>
-			<td class="small right-br"><b><?php echo $salary->CPF_TIER_I;?></b></td>
-		</tr>
 		<?php 
-			$i++;
-		} ?>
+			foreach ($employeesInSalary as $employee) {
+				?>
+					<tr>
+						<td class="small-xxx left-br right-br"><?php echo $i; ?></td>
+						<td class="small right-br"><b><?php echo Employee::model()->findByPK($employee->EMPLOYEE_ID_FK)->PENSION_ACC_NO;?></b></td>
+						<td class="small right-br"><b><?php echo Employee::model()->findByPK($employee->EMPLOYEE_ID_FK)->NAME;?></b></td>
+						<td class="small-xx">
+							<?php echo Yii::app()->db->createCommand("SELECT SUM(CPF_TIER_I) as CPF_TIER_I FROM tbl_salary_details WHERE 
+							BILL_ID_FK = $model->ID AND EMPLOYEE_ID_FK=".$employee->EMPLOYEE_ID_FK)->queryRow()['CPF_TIER_I']; ?></td>
+					</tr>
+				<?php
+				$i++;
+			}
+		?>
 	</tbody>
 	<tfoot>
 		<tr>

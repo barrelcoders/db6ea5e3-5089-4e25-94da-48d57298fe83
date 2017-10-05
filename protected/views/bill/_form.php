@@ -475,32 +475,28 @@
 		</div>
 		<div class="form-group row" id="MONTH_SECTION">
 			<label class="col-sm-2 form-control-label">MONTH/YEAR
-			<!--<p id="multiple-month-choice"><input type="checkbox" id="IS_MULTIPLE_MONTH" name="Bill[IS_MULTIPLE_MONTH]"> Multiple</p>-->
+			<p id="MULTI_MONTH_CHOICE"><input type="checkbox" id="IS_MULTIPLE_MONTH" name="Bill[IS_MULTIPLE_MONTH]"> Multiple</p>
 			</label>
 			<div class="col-sm-10">
-				<?php $months = array(''=>'', '1'=>'January','2'=>'February', '3'=>'March', '4'=>'April', '5'=>'May', '6'=>'June', '7'=>'July',
-									'8'=>'August', '9'=>'September', '10'=>'October', '11'=>'November', '12'=>'December',);
-					 $years = array(''=>'', '2016'=>'2016', '2017'=>'2017', '2018'=>'2018', '2019'=>'2019', '2020'=>'2020', '2021'=>'2021');?>
+				<?php 
+					$months = array(''=>'', '1'=>'January','2'=>'February', '3'=>'March', '4'=>'April', '5'=>'May', '6'=>'June', '7'=>'July', '8'=>'August', '9'=>'September', '10'=>'October', '11'=>'November', '12'=>'December',);
+					$years = array(''=>'', '2016'=>'2016', '2017'=>'2017', '2018'=>'2018', '2019'=>'2019', '2020'=>'2020', '2021'=>'2021');
+				?>
 				<p class="form-control-static">
-					<?php echo $form->dropDownList($model,'MONTH',$months, array(
-																	'options' => array(ltrim(date('m'), '0') => array('selected'=>true)),
-																	'disabled'=>Yii::app()->controller->action->id == 'update',
-																	'style'=>'width: 150px;'
-																));
-							echo $form->dropDownList($model,'YEAR',$years, array('disabled'=>Yii::app()->controller->action->id == 'update',
-											'options' => array(date('Y') => array('selected'=>true)),'style'=>'width: 150px;'));
-
-																?>
+					<?php 
+						echo $form->dropDownList($model,'MONTH',$months, array('options' => array(ltrim(date('m'), '0') => array('selected'=>true)), 'disabled'=>Yii::app()->controller->action->id == 'update', 'style'=>'width: 150px;'));
+						echo $form->dropDownList($model,'YEAR',$years, array('disabled'=>Yii::app()->controller->action->id == 'update','options' => array(date('Y') => array('selected'=>true)),'style'=>'width: 150px;'));
+					?>
 				</p>
 			</div>
-			<!--<div class="col-sm-10" style="display:none;" id="multiple-month">
+			<div class="col-sm-10" style="display:none;" id="MULTI_MONTH">
 				<p class="form-control-static">
 					<?php 
 						echo $form->dropDownList($model,'MONTH_END',$months, array('options' => array(ltrim(date('m'), '0') => array('selected'=>true)), 'disabled'=>Yii::app()->controller->action->id == 'update', 'style'=>'width: 150px;'));
 						echo $form->dropDownList($model,'YEAR_END', $years, array('options' => array(date('Y') => array('selected'=>true)), 'disabled'=>Yii::app()->controller->action->id == 'update','style'=>'width: 150px;'));
 					?>
 				</p>
-			</div>-->
+			</div>
 		</div>
 		<div class="form-group row" id="CREATION_DATE_SECTION">
 			<?php echo $form->labelEx($model,'CREATION_DATE', array('class'=>'col-sm-2 form-control-label')); ?>

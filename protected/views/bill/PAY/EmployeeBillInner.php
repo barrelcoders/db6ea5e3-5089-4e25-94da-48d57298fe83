@@ -4,6 +4,8 @@
 <script type="text/javascript">window.onload = function() { window.print(); }</script>
 <?php
 	$master = Master::model()->findByPK(1);
+	$periods = $this->getBillPeriods($model->ID);
+	$total_months = count($periods);
 ?>
 <h2 style="text-transform: uppercase;text-align:center;"><?php echo $model->BILL_TITLE; ?></h2>
 <h2 style="text-transform: uppercase;text-align: center">BILL NO: <?php echo $model->BILL_NO; ?></h2><br>
@@ -13,7 +15,10 @@
 			<th class="small-xxx left-br right-br">S.No.</th>
 			<th class="small-x right-br">NAME</th>
 			<th class="small-x right-br">DESIGNATION</th>
-			<th class="small-xx right-br">BASIC</th>
+			<?php if($model->IS_MULTIPLE_MONTH) {?>
+			<th class="small-xx right-br">MONTH</th>
+			<?php } ?>
+			<th class="small-x right-br">BASIC</th>
 			<th class="small-xxx right-br">SP</th>
 			<th class="small-xx right-br">HRA</th>
 			<th class="small-xx right-br">DA</th>
@@ -36,71 +41,126 @@
 			<th class="small-xxx right-br">PT</th>
 			<th class="small-xx right-br">OTHER DED.</th>
 			<th class="small-x  right-br">AMOUNT BANK</th>
-			<!--<th class="small-xx">Pay in PB</th>
-			<th class="small-xxx">GP</th>-->
-			<!--<th class="small-xx">PP</th>
-			<th class="small-xx">CCA</th>-->
-			<!--<th class="small-xxx">FAN</th>
-			<th class="small-xxx">FLOOD</th>
-			<th class="small-xxx">FEST</th>-->
 		</tr>
 	</thead>
 	<?php 
 		$i = 1;	
-		$employees = Yii::app()->db->createCommand("SELECT ID FROM tbl_employee ORDER BY DESIGNATION_ID_FK DESC")->queryAll();
-		$employeesIds = array();
-		foreach($employees as $employee) array_push($employeesIds, $employee['ID']);
-		$criteria=new CDbCriteria;
-		$criteria->order="FIELD(EMPLOYEE_ID_FK, ".implode( ", ", $employeesIds ).")";
-		$criteria->condition = "BILL_ID_FK=$model->ID";
-		$criteria->addInCondition('EMPLOYEE_ID_FK', $employeesIds);
-		$salaries = SalaryDetails::model()->findAll($criteria);
+		
+		$criteria = new CDbCriteria();
+		$criteria->select = 't.EMPLOYEE_ID_FK';
+		$criteria->condition = 't.BILL_ID_FK='.$model->ID;
+		$criteria->group = 't.EMPLOYEE_ID_FK';
+		$criteria->join='INNER JOIN tbl_employee e ON e.ID = t.EMPLOYEE_ID_FK';
+		$criteria->order = 'e.DESIGNATION_ID_FK DESC';
+		$employeesInSalary = SalaryDetails::model()->findAll($criteria);
 	?>
 	<tbody>
-		<?php foreach ($salaries as $salary) { ?>
-		<tr>
-			<td class="small-xxx left-br right-br"><?php echo $i; ?></td>
-			<td class="small-x right-br"><b><?php echo Employee::model()->findByPK($salary->EMPLOYEE_ID_FK)->NAME.'<br/>('.Employee::model()->findByPK($salary->EMPLOYEE_ID_FK)->NAME_HINDI.')';?></b></td>
-			<td class="small-x right-br"><b><?php echo Designations::model()->findByPK(Employee::model()->findByPK($salary->EMPLOYEE_ID_FK)->DESIGNATION_ID_FK)->DESIGNATION.'<br/>('.Designations::model()->findByPK(Employee::model()->findByPK($salary->EMPLOYEE_ID_FK)->DESIGNATION_ID_FK)->DESIGNATION_HINDI.')';?></b></td>
-			<td class="small-xx right-br"><?php echo $salary->BASIC; ?></td>
-			<td class="small-xxx right-br"><?php echo $salary->SP; ?></td>
-			<td class="small-xx right-br"><?php echo $salary->HRA; ?></td>
-			<td class="small-xx right-br"><?php echo $salary->DA; ?></td>
-			<td class="small-xx right-br"><?php echo $salary->TA; ?></td>
-			<td class="small-xxx right-br"><?php echo $salary->WA; ?></td>
-			<td class="small-xx right-br"><?php echo $salary->GROSS; ?></td>
-			<td class="small-xxx right-br"><?php echo $salary->IT; ?></td>
-			<td class="small-xxx right-br"><b><?php echo $salary->CGHS;?></b></td>
-			<td class="small-xxx right-br"><b><?php echo $salary->LF;?></b></td>
-			<td class="small-xxx right-br"><?php echo $salary->CGEGIS; ?></td>
-			<td class="small-xx right-br"><?php echo $salary->CPF_TIER_I; ?></td>
-			<td class="small-xx right-br"><?php echo $salary->CPF_TIER_II; ?></td>
-			<td class="small-xxx right-br"><?php echo $salary->HBA_EMI; ?></td>
-			<td class="small-xxx right-br"><?php echo $salary->MCA_EMI; ?></td>
-			<td class="small-xxx right-br"><?php echo $salary->MISC; ?></td>
-			<td class="small-xxx right-br"><?php echo $salary->COURT_ATTACHMENT; ?></td>
-			<td class="small-xxx right-br"><?php echo $salary->PLI; ?></td>
-			<td class="small-xx right-br"><?php echo $salary->DED; ?></td>
-			<td class="small-xx right-br"><?php echo $salary->NET; ?></td>
-			<td class="small-xxx right-br"><?php echo $salary->PT; ?></td>
-			<td class="small-xx right-br"><?php echo $salary->OTHER_DED; ?></td>
-			<td class="small-x right-br"><?php echo $salary->AMOUNT_BANK; ?></td>
-			<!--<td class="small-xxx"><?php echo $salary->GP; ?></td>
-			<td class="small-xx right-br left-br"><?php echo $salary->BASIC + $salary->GP; ?></td>
-			<td class="small-xx"><?php echo $salary->PP; ?></td>
-			<!--<td class="small-xxx"><?php echo $salary->FAN_EMI; ?></td>
-			<td class="small-xxx"><?php echo $salary->FLOOD_EMI; ?></td>
-			<td class="small-xxx"><?php echo $salary->FEST_EMI; ?></td>
-			<td class="small-xx"><?php echo $salary->CCA; ?></td>-->
-		</tr>
-		<?php 
-			$i++;
+		<?php foreach ($employeesInSalary as $employee) {
+				$j=1;
+				foreach($periods as $period){
+					$salary = SalaryDetails::model()->find("t.EMPLOYEE_ID_FK=".$employee->EMPLOYEE_ID_FK." AND t.BILL_ID_FK=".$model->ID." AND t.MONTH=".$period['MONTH']." AND t.YEAR=".$period['YEAR']);
+					if($model->IS_MULTIPLE_MONTH) { 
+						if($j==1){ ?>
+							<tr>
+								<td rowspan="<?php echo $total_months;?>" class="small-xxx left-br right-br"><?php echo $i; ?></td>
+								<td rowspan="<?php echo $total_months;?>" class="small-x right-br"><b><?php echo Employee::model()->findByPK($salary->EMPLOYEE_ID_FK)->NAME.'<br/>('.Employee::model()->findByPK($salary->EMPLOYEE_ID_FK)->NAME_HINDI.')';?></b></td>
+								<td rowspan="<?php echo $total_months;?>" class="small-x right-br"><b><?php echo Designations::model()->findByPK(Employee::model()->findByPK($salary->EMPLOYEE_ID_FK)->DESIGNATION_ID_FK)->DESIGNATION.'<br/>('.Designations::model()->findByPK(Employee::model()->findByPK($salary->EMPLOYEE_ID_FK)->DESIGNATION_ID_FK)->DESIGNATION_HINDI.')';?></b></td>
+								<td class="small-xx right-br"><?php echo $period['FORMAT']; ?></td>
+								<td class="small-xx right-br"><?php echo $salary->BASIC; ?></td>
+								<td class="small-xxx right-br"><?php echo $salary->SP; ?></td>
+								<td class="small-xx right-br"><?php echo $salary->HRA; ?></td>
+								<td class="small-xx right-br"><?php echo $salary->DA; ?></td>
+								<td class="small-xx right-br"><?php echo $salary->TA; ?></td>
+								<td class="small-xxx right-br"><?php echo $salary->WA; ?></td>
+								<td class="small-xx right-br"><?php echo $salary->GROSS; ?></td>
+								<td class="small-xxx right-br"><?php echo $salary->IT; ?></td>
+								<td class="small-xxx right-br"><b><?php echo $salary->CGHS;?></b></td>
+								<td class="small-xxx right-br"><b><?php echo $salary->LF;?></b></td>
+								<td class="small-xxx right-br"><?php echo $salary->CGEGIS; ?></td>
+								<td class="small-xx right-br"><?php echo $salary->CPF_TIER_I; ?></td>
+								<td class="small-xx right-br"><?php echo $salary->CPF_TIER_II; ?></td>
+								<td class="small-xxx right-br"><?php echo $salary->HBA_EMI; ?></td>
+								<td class="small-xxx right-br"><?php echo $salary->MCA_EMI; ?></td>
+								<td class="small-xxx right-br"><?php echo $salary->MISC; ?></td>
+								<td class="small-xxx right-br"><?php echo $salary->COURT_ATTACHMENT; ?></td>
+								<td class="small-xxx right-br"><?php echo $salary->PLI; ?></td>
+								<td class="small-xx right-br"><?php echo $salary->DED; ?></td>
+								<td class="small-xx right-br"><?php echo $salary->NET; ?></td>
+								<td class="small-xxx right-br"><?php echo $salary->PT; ?></td>
+								<td class="small-xx right-br"><?php echo $salary->OTHER_DED; ?></td>
+								<td class="small-x right-br"><?php echo $salary->AMOUNT_BANK; ?></td>
+							</tr>
+						<?php } else { ?>
+							<tr>
+								<td class="small-xx right-br"><?php echo $period['FORMAT']; ?></td>
+								<td class="small-xx right-br"><?php echo $salary->BASIC; ?></td>
+								<td class="small-xxx right-br"><?php echo $salary->SP; ?></td>
+								<td class="small-xx right-br"><?php echo $salary->HRA; ?></td>
+								<td class="small-xx right-br"><?php echo $salary->DA; ?></td>
+								<td class="small-xx right-br"><?php echo $salary->TA; ?></td>
+								<td class="small-xxx right-br"><?php echo $salary->WA; ?></td>
+								<td class="small-xx right-br"><?php echo $salary->GROSS; ?></td>
+								<td class="small-xxx right-br"><?php echo $salary->IT; ?></td>
+								<td class="small-xxx right-br"><b><?php echo $salary->CGHS;?></b></td>
+								<td class="small-xxx right-br"><b><?php echo $salary->LF;?></b></td>
+								<td class="small-xxx right-br"><?php echo $salary->CGEGIS; ?></td>
+								<td class="small-xx right-br"><?php echo $salary->CPF_TIER_I; ?></td>
+								<td class="small-xx right-br"><?php echo $salary->CPF_TIER_II; ?></td>
+								<td class="small-xxx right-br"><?php echo $salary->HBA_EMI; ?></td>
+								<td class="small-xxx right-br"><?php echo $salary->MCA_EMI; ?></td>
+								<td class="small-xxx right-br"><?php echo $salary->MISC; ?></td>
+								<td class="small-xxx right-br"><?php echo $salary->COURT_ATTACHMENT; ?></td>
+								<td class="small-xxx right-br"><?php echo $salary->PLI; ?></td>
+								<td class="small-xx right-br"><?php echo $salary->DED; ?></td>
+								<td class="small-xx right-br"><?php echo $salary->NET; ?></td>
+								<td class="small-xxx right-br"><?php echo $salary->PT; ?></td>
+								<td class="small-xx right-br"><?php echo $salary->OTHER_DED; ?></td>
+								<td class="small-x right-br"><?php echo $salary->AMOUNT_BANK; ?></td>
+							</tr>
+							<?php
+						}
+						$j++;
+					} else { ?>
+						<tr>
+							<td class="small-xxx left-br right-br"><?php echo $i; ?></td>
+							<td class="small-x right-br"><b><?php echo Employee::model()->findByPK($salary->EMPLOYEE_ID_FK)->NAME.'<br/>('.Employee::model()->findByPK($salary->EMPLOYEE_ID_FK)->NAME_HINDI.')';?></b></td>
+							<td class="small-x right-br"><b><?php echo Designations::model()->findByPK(Employee::model()->findByPK($salary->EMPLOYEE_ID_FK)->DESIGNATION_ID_FK)->DESIGNATION.'<br/>('.Designations::model()->findByPK(Employee::model()->findByPK($salary->EMPLOYEE_ID_FK)->DESIGNATION_ID_FK)->DESIGNATION_HINDI.')';?></b></td>
+							<td class="small-xx right-br"><?php echo $salary->BASIC; ?></td>
+							<td class="small-xxx right-br"><?php echo $salary->SP; ?></td>
+							<td class="small-xx right-br"><?php echo $salary->HRA; ?></td>
+							<td class="small-xx right-br"><?php echo $salary->DA; ?></td>
+							<td class="small-xx right-br"><?php echo $salary->TA; ?></td>
+							<td class="small-xxx right-br"><?php echo $salary->WA; ?></td>
+							<td class="small-xx right-br"><?php echo $salary->GROSS; ?></td>
+							<td class="small-xxx right-br"><?php echo $salary->IT; ?></td>
+							<td class="small-xxx right-br"><b><?php echo $salary->CGHS;?></b></td>
+							<td class="small-xxx right-br"><b><?php echo $salary->LF;?></b></td>
+							<td class="small-xxx right-br"><?php echo $salary->CGEGIS; ?></td>
+							<td class="small-xx right-br"><?php echo $salary->CPF_TIER_I; ?></td>
+							<td class="small-xx right-br"><?php echo $salary->CPF_TIER_II; ?></td>
+							<td class="small-xxx right-br"><?php echo $salary->HBA_EMI; ?></td>
+							<td class="small-xxx right-br"><?php echo $salary->MCA_EMI; ?></td>
+							<td class="small-xxx right-br"><?php echo $salary->MISC; ?></td>
+							<td class="small-xxx right-br"><?php echo $salary->COURT_ATTACHMENT; ?></td>
+							<td class="small-xxx right-br"><?php echo $salary->PLI; ?></td>
+							<td class="small-xx right-br"><?php echo $salary->DED; ?></td>
+							<td class="small-xx right-br"><?php echo $salary->NET; ?></td>
+							<td class="small-xxx right-br"><?php echo $salary->PT; ?></td>
+							<td class="small-xx right-br"><?php echo $salary->OTHER_DED; ?></td>
+							<td class="small-x right-br"><?php echo $salary->AMOUNT_BANK; ?></td>
+						</tr>
+					<?php }  ?>
+			<?php } ?>
+		<?php  $i++; 
 		} ?>
 	</tbody>
 	<tfoot>
 		<th class="small-xxx left-br right-br"></th>
 		<th class="small-x right-br"></th>
 		<th class="small-x right-br"></th>
+		<?php if($model->IS_MULTIPLE_MONTH) {?>
+		<th class="small-x right-br"></th>
+		<?php } ?>
 		<th class="small-xx right-br"><?php $BASIC = Yii::app()->db->createCommand("SELECT SUM(BASIC) as BASIC FROM tbl_salary_details WHERE BILL_ID_FK = $model->ID;")->queryRow()['BASIC'];echo $BASIC;?></th>
 		<th class="small-xxx right-br"><?php echo Yii::app()->db->createCommand("SELECT SUM(SP) as SP FROM tbl_salary_details WHERE BILL_ID_FK = $model->ID;")->queryRow()['SP'];?></th>
 		<th class="small-xx right-br"><?php echo Yii::app()->db->createCommand("SELECT SUM(HRA) as HRA FROM tbl_salary_details WHERE BILL_ID_FK = $model->ID;")->queryRow()['HRA'];?></th>
@@ -123,15 +183,7 @@
 		<th class="small-xx right-br"><?php echo Yii::app()->db->createCommand("SELECT SUM(NET) as NET FROM tbl_salary_details WHERE BILL_ID_FK = $model->ID;")->queryRow()['NET'];?></th>
 		<th class="small-xxx right-br"><?php echo Yii::app()->db->createCommand("SELECT SUM(PT) as PT FROM tbl_salary_details WHERE BILL_ID_FK = $model->ID;")->queryRow()['PT'];?></th>
 		<th class="small-xx right-br"><?php echo Yii::app()->db->createCommand("SELECT SUM(OTHER_DED) as OTHER_DED FROM tbl_salary_details WHERE BILL_ID_FK = $model->ID;")->queryRow()['OTHER_DED'];?></th>
-		<th class="small-x right-br"><?php $AMOUNT_BANK = Yii::app()->db->createCommand("SELECT SUM(AMOUNT_BANK) as AMOUNT_BANK FROM tbl_salary_details WHERE BILL_ID_FK = $model->ID;")->queryRow()['AMOUNT_BANK']; echo $AMOUNT_BANK; ?></th><!--<th class="small-xxx"><?php $GP = Yii::app()->db->createCommand("SELECT SUM(GP) as GP FROM tbl_salary_details WHERE BILL_ID_FK = $model->ID;")->queryRow()['GP'];echo $GP;?></th>
-		<?php //$BASIC = Yii::app()->db->createCommand("SELECT SUM(BASIC) as BASIC FROM tbl_salary_details WHERE BILL_ID_FK = $model->ID;")->queryRow()['BASIC'];?>
-		<?php //$GP = Yii::app()->db->createCommand("SELECT SUM(GP) as GP FROM tbl_salary_details WHERE BILL_ID_FK = $model->ID;")->queryRow()['GP'];?>
-		<th class="small-xx right-br left-br"><?php echo $BASIC + $GP;?></th>
-		<th class="small-xx"><?php echo Yii::app()->db->createCommand("SELECT SUM(CCA) as CCA FROM tbl_salary_details WHERE BILL_ID_FK = $model->ID;")->queryRow()['CCA'];?></th>
-		<th class="small-xx"><?php echo Yii::app()->db->createCommand("SELECT SUM(PP) as PP FROM tbl_salary_details WHERE BILL_ID_FK = $model->ID;")->queryRow()['PP'];?></th>-->
-		<!--<th class="small-xxx"><?php echo Yii::app()->db->createCommand("SELECT SUM(FAN_EMI) as FAN_EMI FROM tbl_salary_details WHERE BILL_ID_FK = $model->ID;")->queryRow()['FAN_EMI'];?></th>
-		<th class="small-xxx"><?php echo Yii::app()->db->createCommand("SELECT SUM(FLOOD_EMI) as FLOOD_EMI FROM tbl_salary_details WHERE BILL_ID_FK = $model->ID;")->queryRow()['FLOOD_EMI'];?></th>
-		<th class="small-xxx"><?php echo Yii::app()->db->createCommand("SELECT SUM(FEST_EMI) as FEST_EMI FROM tbl_salary_details WHERE BILL_ID_FK = $model->ID;")->queryRow()['FEST_EMI'];?></th>-->
+		<th class="small-x right-br"><?php $AMOUNT_BANK = Yii::app()->db->createCommand("SELECT SUM(AMOUNT_BANK) as AMOUNT_BANK FROM tbl_salary_details WHERE BILL_ID_FK = $model->ID;")->queryRow()['AMOUNT_BANK']; echo $AMOUNT_BANK; ?></th>
 	</tfoot>
 </table>
 
@@ -208,17 +260,19 @@
 	<ol>
 		<?php 
 			$i=1;
-			foreach ($salaries as $salary) { 
-				if($salary->REMARKS !=""){
-		?>
-			<li>
-				<p style="font-weight: bold;padding-left: 50px;margin-bottom:10px;"><?php echo $i.".  ";?><?php echo Employee::model()->findByPK($salary->EMPLOYEE_ID_FK)->NAME.", ".Designations::model()->findByPK(Employee::model()->findByPK($salary->EMPLOYEE_ID_FK)->DESIGNATION_ID_FK)->DESIGNATION;?></p>
-				<p style="padding-left: 100px;margin-bottom:10px;"><?php echo $salary->REMARKS; ?></p>
-			</li>
-		<?php
-					$i++;
+			foreach ($employeesInSalary as $employee) {
+				foreach($periods as $period){
+					$salary = SalaryDetails::model()->find("t.EMPLOYEE_ID_FK=".$employee->EMPLOYEE_ID_FK." AND t.BILL_ID_FK=".$model->ID." AND t.MONTH=".$period['MONTH']." AND t.YEAR=".$period['YEAR']);
+					if($salary->REMARKS !=""){
+				?>
+					<li>
+						<p style="font-weight: bold;padding-left: 50px;margin-bottom:10px;"><?php echo $i.".  ";?><?php echo Employee::model()->findByPK($salary->EMPLOYEE_ID_FK)->NAME.", ".Designations::model()->findByPK(Employee::model()->findByPK($salary->EMPLOYEE_ID_FK)->DESIGNATION_ID_FK)->DESIGNATION;?></p>
+						<p style="padding-left: 100px;margin-bottom:10px;"><?php echo $salary->REMARKS; ?></p>
+					</li>
+				<?php
+					}
 				}
-			} 
+			}
 		?>
 	</ol>
 </div>

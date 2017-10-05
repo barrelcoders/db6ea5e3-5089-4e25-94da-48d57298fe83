@@ -157,6 +157,27 @@ class BillController extends Controller
 		));
 	}
 	
+	public function getBillPeriods($id){
+		$bill = Bill::model()->findByPK($id);
+		$periods = array();
+		
+		if($bill->IS_MULTIPLE_MONTH){
+			$start    = (new DateTime($bill->YEAR.'-'.$bill->MONTH.'-01'))->modify('first day of this month');
+			$end      = (new DateTime($bill->YEAR_END.'-'.$bill->MONTH_END.'-01'))->modify('last day of this month');
+			$interval = DateInterval::createFromDateString('1 month');
+			$intervals   = new DatePeriod($start, $interval, $end);
+
+			foreach ($intervals as $int) {
+				array_push($periods, array('FORMAT'=> $int->format("M-Y"), 'MONTH'=>$int->format("n"), 'YEAR'=>$int->format("Y")));
+			}
+		}
+		else{
+			$int    = (new DateTime($bill->YEAR.'-'.$bill->MONTH.'-01'))->modify('first day of this month');
+			array_push($periods, array('FORMAT'=> $int->format("M-Y"), 'MONTH'=>$int->format("n"), 'YEAR'=>$int->format("Y")));
+		}
+		
+		return $periods;
+	}
 	
 	public function actionSalaryDetails($id)
 	{
@@ -164,53 +185,61 @@ class BillController extends Controller
 		//echo "<pre>";print_r($_POST['SalaryDetails']);echo "</pre>";exit;
 		if(isset($_POST['SalaryDetails']['save']) && isset($_POST['SalaryDetails']) && isset($_POST['SalaryInfo'])){
 			//echo "<pre>";print_r($_POST['SalaryDetails']);echo "</pre>";exit;
-			$month = $_POST['SalaryInfo']['MONTH'];
-			$year = $_POST['SalaryInfo']['YEAR'];
-			$bill_id = $_POST['SalaryInfo']['BILL_ID'];
+			$bill_id = Bill::model()->findByPK($_POST['SalaryInfo']['BILL_ID'])->ID;
+			$periods = $this->getBillPeriods($id);
 			$salaries = $_POST['SalaryDetails'];
 			
 			foreach($salaries as $salary){
-				if(isset($salary['GROSS']) && isset($salary['NET']) && isset($salary['DED'])){
-					$SalaryDetails = array();
-					if(SalaryDetails::model()->exists('BILL_ID_FK='.$bill_id.' AND EMPLOYEE_ID_FK='.$salary['EMP_ID'])){
-						$SalaryDetails = SalaryDetails::model()->findByAttributes(array('EMPLOYEE_ID_FK'=>$salary['EMP_ID'], 'BILL_ID_FK'=>$bill_id));
-					}
-					else{
-						$SalaryDetails = new SalaryDetails;
-					}
-					$SalaryDetails->attributes = $salary;
-					$SalaryDetails->EMPLOYEE_ID_FK = $salary['EMP_ID'];
-					$SalaryDetails->BILL_ID_FK = $bill_id;
-					$SalaryDetails->MONTH = $month;
-					$SalaryDetails->YEAR = $year;
-					$SalaryDetails->GROSS = $salary['GROSS'];
-					$SalaryDetails->NET = $salary['NET'];
-					$SalaryDetails->DED = $salary['DED'];
-					$SalaryDetails->IS_SALARY_BILL = $_POST['SalaryDetails']['IS_SALARY_BILL'];
-					$SalaryDetails->IS_HBA_RECOVERY = isset($salary['IS_HBA_RECOVERY']) ? $salary['IS_HBA_RECOVERY'] : 0;
-					$SalaryDetails->IS_MCA_RECOVERY = isset($salary['IS_MCA_RECOVERY']) ? $salary['IS_MCA_RECOVERY'] : 0;
-					$SalaryDetails->IS_FEST_RECOVERY = isset($salary['IS_FEST_RECOVERY']) ? $salary['IS_FEST_RECOVERY'] : 0;
-					$SalaryDetails->IS_CYCLE_RECOVERY = isset($salary['IS_CYCLE_RECOVERY']) ? $salary['IS_CYCLE_RECOVERY'] : 0;
-					$SalaryDetails->IS_FLOOD_RECOVERY = isset($salary['IS_FLOOD_RECOVERY']) ? $salary['IS_FLOOD_RECOVERY'] : 0;
-					$SalaryDetails->IS_FAN_RECOVERY = isset($salary['IS_FAN_RECOVERY']) ? $salary['IS_FAN_RECOVERY'] : 0;
-					if(isset($_POST['SalaryDetails'][$salary['EMP_ID']]['UA'])){
-						$SalaryDetails->UA = $_POST['SalaryDetails'][$salary['EMP_ID']]['UA'];
-					}
-					if(isset($_POST['SalaryDetails'][$salary['EMP_ID']]['BONUS'])){
-						$SalaryDetails->BONUS = $_POST['SalaryDetails'][$salary['EMP_ID']]['BONUS'];
-					}
+				if(isset($salary['EMP_ID'])){
+					$EMPLOYEE_ID = $salary['EMP_ID'];
+					foreach($periods as $period){
+						$MONTH = $period['MONTH'];
+						$YEAR = $period['YEAR'];
 					
-					if(isset($_POST['SalaryDetails'][$salary['EMP_ID']]['CEA'])){
-						$SalaryDetails->CEA = $_POST['SalaryDetails'][$salary['EMP_ID']]['CEA'];
+						if(isset($salary[$YEAR][$MONTH])){
+							$SalaryDetails = null;
+							$PAY_DETAILS = $salary[$YEAR][$MONTH];
+							
+							if(SalaryDetails::model()->exists('BILL_ID_FK='.$bill_id.' AND EMPLOYEE_ID_FK='.$EMPLOYEE_ID.' AND MONTH='.$MONTH.' AND YEAR='.$YEAR)){
+								$SalaryDetails = SalaryDetails::model()->find('BILL_ID_FK='.$bill_id.' AND EMPLOYEE_ID_FK='.$EMPLOYEE_ID.' AND MONTH='.$MONTH.' AND YEAR='.$YEAR);
+							}
+							else{
+								$SalaryDetails = new SalaryDetails;
+							}
+							
+							$SalaryDetails->IS_SALARY_BILL = $_POST['SalaryDetails']['IS_SALARY_BILL'];
+							$SalaryDetails->EMPLOYEE_ID_FK = $EMPLOYEE_ID;
+							$SalaryDetails->BILL_ID_FK = $bill_id;
+							$SalaryDetails->attributes = $PAY_DETAILS;
+							$SalaryDetails->GROSS = $PAY_DETAILS['GROSS'];
+							$SalaryDetails->NET = $PAY_DETAILS['NET'];
+							$SalaryDetails->DED = $PAY_DETAILS['DED'];
+							$SalaryDetails->MONTH = $MONTH;
+							$SalaryDetails->YEAR = $YEAR;
+							$SalaryDetails->IS_HBA_RECOVERY = isset($PAY_DETAILS['IS_HBA_RECOVERY']) ? $PAY_DETAILS['IS_HBA_RECOVERY'] : 0;
+							$SalaryDetails->IS_MCA_RECOVERY = isset($PAY_DETAILS['IS_MCA_RECOVERY']) ? $PAY_DETAILS['IS_MCA_RECOVERY'] : 0;
+							$SalaryDetails->IS_FEST_RECOVERY = isset($PAY_DETAILS['IS_FEST_RECOVERY']) ? $PAY_DETAILS['IS_FEST_RECOVERY'] : 0;
+							$SalaryDetails->IS_CYCLE_RECOVERY = isset($PAY_DETAILS['IS_CYCLE_RECOVERY']) ? $PAY_DETAILS['IS_CYCLE_RECOVERY'] : 0;
+							$SalaryDetails->IS_FLOOD_RECOVERY = isset($PAY_DETAILS['IS_FLOOD_RECOVERY']) ? $PAY_DETAILS['IS_FLOOD_RECOVERY'] : 0;
+							$SalaryDetails->IS_FAN_RECOVERY = isset($PAY_DETAILS['IS_FAN_RECOVERY']) ? $PAY_DETAILS['IS_FAN_RECOVERY'] : 0;
+							
+							if(isset($PAY_DETAILS['UA'])){
+								$SalaryDetails->UA = $PAY_DETAILS['UA'];
+							}
+							if(isset($PAY_DETAILS['BONUS'])){
+								$SalaryDetails->BONUS = $PAY_DETAILS['BONUS'];
+							}
+							if(isset($PAY_DETAILS['CEA'])){
+								$SalaryDetails->CEA = $PAY_DETAILS['CEA'];
+							}
+							if(isset($PAY_DETAILS['LTC_HTC'])){
+								$SalaryDetails->LTC_HTC_GROSS = isset($PAY_DETAILS['LTC_HTC_GROSS']) ? $PAY_DETAILS['LTC_HTC_GROSS'] : 0;
+								$SalaryDetails->LTC_HTC_ADVANCE = isset($PAY_DETAILS['LTC_HTC_ADVANCE']) ? $PAY_DETAILS['LTC_HTC_ADVANCE'] : 0;
+								$SalaryDetails->LTC_HTC = $PAY_DETAILS['LTC_HTC'];
+							}
+							$SalaryDetails->save(false);
+						}
 					}
-					
-					if(isset($_POST['SalaryDetails'][$salary['EMP_ID']]['LTC_HTC'])){
-						$SalaryDetails->LTC_HTC_GROSS = isset($_POST['SalaryDetails'][$salary['EMP_ID']]['LTC_HTC_GROSS']) ? $_POST['SalaryDetails'][$salary['EMP_ID']]['LTC_HTC_GROSS'] : 0;
-						$SalaryDetails->LTC_HTC_ADVANCE = isset($_POST['SalaryDetails'][$salary['EMP_ID']]['LTC_HTC_ADVANCE']) ? $_POST['SalaryDetails'][$salary['EMP_ID']]['LTC_HTC_ADVANCE'] : 0;
-						$SalaryDetails->LTC_HTC = $_POST['SalaryDetails'][$salary['EMP_ID']]['LTC_HTC'];
-					}
-					
-					$SalaryDetails->save(false);	
 				}
 			}
 			
@@ -218,10 +247,7 @@ class BillController extends Controller
 		}
 		
 		if(isset($_POST['SalaryDetails']['submit']) && isset($_POST['SalaryDetails']) && isset($_POST['SalaryInfo'])){
-			$month = $_POST['SalaryInfo']['MONTH'];
-			$year = $_POST['SalaryInfo']['YEAR'];
-			$bill_id = $_POST['SalaryInfo']['BILL_ID'];
-			$salaries = $_POST['SalaryDetails'];
+			$bill_id = Bill::model()->findByPK($_POST['SalaryInfo']['BILL_ID'])->ID;
 			if(Bill::model()->findByPK(SalaryDetails::model()->find('BILL_ID_FK='.$bill_id)->BILL_ID_FK)->BILL_TYPE == 8){
 				$BUDGET_ID = 7;
 			}
@@ -746,15 +772,15 @@ class BillController extends Controller
 	public function actionEmployeeBillFront($id){$this->layout='//layouts/column1';$model = $this->loadModel($id);$this->render('PAY/EmployeeBillFront',array('model'=>$model,));}
 	public function actionEmployeeBillInner($id){$this->layout='//layouts/column1';$model = $this->loadModel($id);$this->amountInWords = $this->amountToWord($model->BILL_AMOUNT);$this->render('PAY/EmployeeBillInner',array('model'=>$model,));}
 	public function actionEmployeeBillPart1($id){$this->layout='//layouts/column1';$model = $this->loadModel($id);$this->amountInWords = $this->amountToWord($model->BILL_AMOUNT);$this->render('PAY/EmployeeBillPart1',array('model'=>$model,));}
-	public function actionCEAEmployeeBillPart1($id){$this->layout='//layouts/column1';$model = $this->loadModel($id);$this->amountInWords = $this->amountToWord($model->BILL_AMOUNT);$this->render('PAY/CEABillPart1',array('model'=>$model,));}
+	public function actionEmployeeCEABillInner($id){$this->layout='//layouts/column1';$model = $this->loadModel($id);$this->amountInWords = $this->amountToWord($model->BILL_AMOUNT);$this->render('PAY/EmployeeCEABillInner',array('model'=>$model,));}
 	public function actionCEASanctionOrder($id){$this->layout='//layouts/column1';$model = $this->loadModel($id);$this->amountInWords = $this->amountToWord($model->BILL_AMOUNT);$this->render('PAY/CEASanctionOrder',array('model'=>$model,));}
 	public function actionEmployeeBillPart2($id){$this->layout='//layouts/column1';$model = $this->loadModel($id);$this->render('PAY/EmployeeBillPart2',array('model'=>$model,));}
 	public function actionDAArrearBillPart1($id){$this->layout='//layouts/column1';$model = $this->loadModel($id);$this->render('PAY/DAArrearBillPart1',array('model'=>$model,));}
-	public function actionBonusEmployeeBillPart1($id){$this->layout='//layouts/column1';$model = $this->loadModel($id);$this->amountInWords = $this->amountToWord($model->BILL_AMOUNT);$this->render('PAY/BonusEmployeeBillPart1',array('model'=>$model,));}
-	public function actionUAEmployeeBillPart1($id){$this->layout='//layouts/column1';$model = $this->loadModel($id);$this->amountInWords = $this->amountToWord($model->BILL_AMOUNT);$this->render('PAY/UAEmployeeBillPart1',array('model'=>$model,));}
+	public function actionEmployeeBonusBillInner($id){$this->layout='//layouts/column1';$model = $this->loadModel($id);$this->amountInWords = $this->amountToWord($model->BILL_AMOUNT);$this->render('PAY/EmployeeBonusBillInner',array('model'=>$model,));}
+	public function actionEmployeeUABillInner($id){$this->layout='//layouts/column1';$model = $this->loadModel($id);$this->amountInWords = $this->amountToWord($model->BILL_AMOUNT);$this->render('PAY/EmployeeUABillInner',array('model'=>$model,));}
 	public function actionUANoteSheet($id){$this->layout='//layouts/column1';$model = $this->loadModel($id);$this->amountInWords = $this->amountToWord($model->BILL_AMOUNT);$this->render('PAY/UANoteSheet',array('model'=>$model,));}	
 	public function actionUASanctionOrder($id){$this->layout='//layouts/column1';$model = $this->loadModel($id);$this->amountInWords = $this->amountToWord($model->BILL_AMOUNT);$this->render('PAY/UASanctionOrder',array('model'=>$model,));}
-	public function actionELEncashEmployeeBillPart1($id){$this->layout='//layouts/column1';$model = $this->loadModel($id);$this->amountInWords = $this->amountToWord($model->BILL_AMOUNT);$this->render('PAY/ELEncashEmployeeBillPart1',array('model'=>$model,));}
+	public function actionEmployeeELEncashBillInner($id){$this->layout='//layouts/column1';$model = $this->loadModel($id);$this->amountInWords = $this->amountToWord($model->BILL_AMOUNT);$this->render('PAY/EmployeeELEncashBillInner',array('model'=>$model,));}
 	public function actionNillBillFront($id){$this->layout='//layouts/column1';$model = $this->loadModel($id);$this->render('PAY/NillBillFront',array('model'=>$model,));}
 	public function actionNillBillCPF($id){$this->layout='//layouts/column1';$model = $this->loadModel($id);$this->render('PAY/NillBillCPF',array('model'=>$model,));}
 	public function actionNillBillInner($id){$this->layout='//layouts/column1';$model = $this->loadModel($id);$this->render('PAY/NillBillInner',array('model'=>$model,));}

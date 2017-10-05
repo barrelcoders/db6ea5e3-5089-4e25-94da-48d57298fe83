@@ -1,8 +1,10 @@
 <link href="<?php echo Yii::app()->request->baseUrl; ?>/css/oneadmin.css" rel="stylesheet">
 <style>*{font-size: 15px;}</style>
 <script type="text/javascript">window.onload = function() { window.print(); }</script>
-<?php
+<?php 
 	$master = Master::model()->findByPK(1);
+	$periods = $this->getBillPeriods($model->ID);
+	$total_months = count($periods); 
 ?>
 <h2 style="text-transform: uppercase;text-align:center;"><?php echo $model->BILL_TITLE; ?> FOR THE MONTH OF <?php echo date('M-Y', strtotime($model->CREATION_DATE))?></h2>
 <h2 style="text-transform: uppercase;text-align: center">BILL NO: <?php echo $model->BILL_NO; ?></h2>

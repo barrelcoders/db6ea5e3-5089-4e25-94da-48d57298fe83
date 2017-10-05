@@ -1,11 +1,11 @@
 <?php
 
-	$months = array(3,4,5,6);
-	$js_array = json_encode($months);
-	$monthFields = array('JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN', 'JUL', 'AUG', 'SEP', 'OCT', 'NOV', 'DEC');
+	$periods = array('3-2017','4-2017','5-2017','6-2017');
+	$js_array = json_encode($periods);
+	$monthNames = array('JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN', 'JUL', 'AUG', 'SEP', 'OCT', 'NOV', 'DEC');
 	$year = 2017;
 
-	echo "<script>var months = $js_array;</script>";
+	echo "<script>var periods = $js_array;</script>";
 	
 	$form=$this->beginWidget('CActiveForm', array(
 		'id'=>'supplementary-salary-details-form',
@@ -16,105 +16,104 @@
 		<div class="col-sm-12">
 			<h3><?php echo Employee::model()->findByPK($this->ID)->NAME.", ".Designations::model()->findByPK(Employee::model()->findByPK($this->ID)->DESIGNATION_ID_FK)->DESIGNATION; ?></h3>
 			<p class="form-control-static">
-				<?php echo CHtml::submitButton('Save Salary '.$monthFields[$months[0]-1].'-'.$monthFields[$months[count($months)-1]-1].' '.$year, array('class'=>'btn btn-inline', 'style'=>'float:right;')); ?>
+				<?php 
+					$startPeriod = $periods[0];
+					$endPeriod = $periods[count($periods)-1];
+					$startMonth = $monthNames[explode("-", $startPeriod)[0]];
+					$endMonth = $monthNames[explode("-", $endPeriod)[0]];
+					$startYear = explode("-", $startPeriod)[1];
+					$endYear = explode("-", $endPeriod)[1];
+					echo CHtml::submitButton('Save Salary '.$startMonth.'-'.$startYear.' to '.$endMonth.'-'.$endYear, array('class'=>'btn btn-inline', 'style'=>'float:right;')); ?>
 			</p>
 		</div>
 	</div>
 	<div class="form-group">
 	<?php
-		foreach($months as $month){
-			$salary = SupplementarySalaryDetails::model()->find('EMPLOYEE_ID_FK='.$this->ID.' AND MONTH='.$month.' AND YEAR='.$year);
-			if($salary){
-				?>
-				<b><?php echo $monthFields[$month-1]."-".$year?></b>
-				<input type="hidden" name="SupplementarySalaryDetails[<?php echo $month;?>][MONTH]" value="<?php echo $month?>"/>
-				<input type="hidden" name="SupplementarySalaryDetails[<?php echo $month;?>][YEAR]" value="<?php echo $year?>"/>
-				<table class="table table-bordered table-hover" style="margin-bottom: 10px;" id="<?php echo $month;?>">
-					<tr>
-						<td>BASIC: <input type="text" size="10" name="SupplementarySalaryDetails[<?php echo $month;?>][BASIC]" data-type="BASIC" class="gross-inc-amount basic-amount" value="<?php echo $salary->BASIC;?>" placeholder="BASIC"/></td>
-						<td>SP: <input type="text" size="10" name="SupplementarySalaryDetails[<?php echo $month;?>][SP]" data-type="SP" class="gross-inc-amount" value="<?php echo $salary->SP;?>" placeholder="SP"/></td>
-						<td>PP: <input type="text" size="10" name="SupplementarySalaryDetails[<?php echo $month;?>][PP]" data-type="PP" class="gross-inc-amount" value="<?php echo $salary->PP;?>" placeholder="PP"/></td>
-						<td>CCA: <input type="text" size="10" name="SupplementarySalaryDetails[<?php echo $month;?>][CCA]" data-type="CCA" class="gross-inc-amount" value="<?php echo $salary->CCA;?>" placeholder="CCA"/></td>
-						<td>HRA: <input type="text" size="10" name="SupplementarySalaryDetails[<?php echo $month;?>][HRA]" data-type="HRA" class="gross-inc-amount hra-amount" value="<?php echo $salary->HRA;?>" placeholder="HRA"/></td>
-						<td>DA: <input type="text" size="10" name="SupplementarySalaryDetails[<?php echo $month;?>][DA]" data-type="DA" class="gross-inc-amount da-amount" value="<?php echo $salary->DA;?>" placeholder="DA"/></td>
-						<td>TA: <input type="text" size="10" name="SupplementarySalaryDetails[<?php echo $month;?>][TA]" data-type="TA" class="gross-inc-amount" value="<?php echo $salary->TA;?>" placeholder="TA"/></td>
-						<td>WA: <input type="text" size="10" name="SupplementarySalaryDetails[<?php echo $month;?>][WA]" data-type="WA" class="gross-inc-amount" value="<?php echo $salary->WA;?>" placeholder="WA"/></td>
-					</tr>
-					<tr>
-						<td>IT: <input type="text" size="10" name="SupplementarySalaryDetails[<?php echo $month;?>][IT]" data-type="IT" class="ded-inc-amount" value="<?php echo $salary->IT;?>" placeholder="IT"/></td>
-						<td>CGHS: <input type="text" size="10" name="SupplementarySalaryDetails[<?php echo $month;?>][CGHS]" data-type="CGHS" class="ded-inc-amount" value="<?php echo $salary->CGHS;?>" placeholder="CGHS"/></td>
-						<td>LF: <input type="text" size="10" name="SupplementarySalaryDetails[<?php echo $month;?>][LF]" data-type="LF" class="ded-inc-amount" value="<?php echo $salary->LF;?>" placeholder="LF"/></td>
-						<td>CGEGIS: <input type="text" size="10" name="SupplementarySalaryDetails[<?php echo $month;?>][CGEGIS]" data-type="CGEGIS" class="ded-inc-amount" value="<?php echo $salary->CGEGIS;?>" placeholder="CGEGIS"/></td>
-						<td><?php echo ( Employee::model()->findByPK($this->ID)->PENSION_TYPE == 'OPS' ) ? "GPFC" : "CPF TIER I"; ?>: <input type="text" size="10" name="SupplementarySalaryDetails[<?php echo $month;?>][CPF_TIER_I]" data-type="CPF_TIER_I" class="ded-inc-amount  cpf-1-amount" value="<?php echo $salary->CPF_TIER_I;?>" placeholder="<?php echo ( Employee::model()->findByPK($this->ID)->PENSION_TYPE == 'OPS' ) ? "GPFC" : "CPF TIER I"; ?>"/></td>
-						<td><?php echo ( Employee::model()->findByPK($this->ID)->PENSION_TYPE == 'OPS' ) ? "GPFR" : "CPF TIER II"; ?>: <input type="text" size="10" name="SupplementarySalaryDetails[<?php echo $month;?>][CPF_TIER_II]" data-type="CPF_TIER_II" class="ded-inc-amount" value="<?php echo $salary->CPF_TIER_II;?>" placeholder="<?php echo ( Employee::model()->findByPK($this->ID)->PENSION_TYPE == 'OPS' ) ? "GPFR" : "CPF TIER II"; ?>"/></td>
-						<td>HBA: <input type="text" size="10" name="SupplementarySalaryDetails[<?php echo $month;?>][HBA_EMI]" data-type="HBA_EMI" class="ded-inc-amount" value="<?php echo $salary->HBA_EMI;?>" placeholder="HBA"/></td>
-						<td>MCA: <input type="text" size="10" name="SupplementarySalaryDetails[<?php echo $month;?>][MCA_EMI]" data-type="MCA_EMI" class="ded-inc-amount" value="<?php echo $salary->MCA_EMI;?>" placeholder="MCA"/></td>
-					</tr>
-					<tr>
-						<td>MISC: <input type="text" size="10" name="SupplementarySalaryDetails[<?php echo $month;?>][MISC]" data-type="MISC" class="ded-inc-amount" value="<?php echo $salary->MISC;?>" placeholder="MISC"/></td>
-						<td>PLI: <input type="text" size="10" name="SupplementarySalaryDetails[<?php echo $month;?>][PLI]" data-type="PLI" class="ded-inc-amount" value="<?php echo $salary->PLI;?>" placeholder="PLI"/></td>
-						<td>COURT: <input type="text" size="10" name="SupplementarySalaryDetails[<?php echo $month;?>][COURT]" data-type="COURT" class="ded-inc-amount" value="<?php echo $salary->COURT_ATTACHMENT;?>" placeholder="COURT"/></td>
-						<td>PT: <input type="text" size="10" name="SupplementarySalaryDetails[<?php echo $month;?>][PT]" data-type="PT" class="pt-ded-inc-amount" value="<?php echo $salary->PT;?>" placeholder="PT"/></td>
-						<td>CCS: <input type="text" size="10" name="SupplementarySalaryDetails[<?php echo $month;?>][CCS]" data-type="CCS" class="other-ded-inc-amount" value="<?php echo $salary->CCS;?>" placeholder="CCS"/></td>
-						<td>LIC: <input type="text" size="10" name="SupplementarySalaryDetails[<?php echo $month;?>][LIC]" data-type="LIC" class="other-ded-inc-amount" value="<?php echo $salary->LIC;?>" placeholder="LIC"/></td>
-						<td>ASSOSC SUB.: <input type="text" size="10" name="SupplementarySalaryDetails[<?php echo $month;?>][ASSOSC_SUB]" data-type="ASSOSC_SUB" class="other-ded-inc-amount" value="<?php echo $salary->ASSOSC_SUB;?>" placeholder="ASSOSC SUB"/></td>
-					</tr>
-					<tr>
-						<td>GROSS: <input type="text" size="10" id='gross-components' name="SupplementarySalaryDetails[<?php echo $month;?>][GROSS]" value="<?php echo $salary->GROSS;?>" placeholder="GROSS"/></td>
-						<td>DED: <input type="text" size="10" id='ded-components' name="SupplementarySalaryDetails[<?php echo $month;?>][DED]" value="<?php echo $salary->DED;?>" placeholder="DED"/></td>
-						<td>NET: <input type="text" size="10" id='net-components' name="SupplementarySalaryDetails[<?php echo $month;?>][NET]" value="<?php echo $salary->NET;?>" placeholder="NET"/></td>
-						<td>OTHER DED: <input type="text" size="10" id='other-ded-components' name="SupplementarySalaryDetails[<?php echo $month;?>][OTHER_DED]" value="<?php echo $salary->OTHER_DED;?>" placeholder="OTHER DED"/></td>
-						<td>AMT. BANK: <input type="text" size="10" id='credit-component' name="SupplementarySalaryDetails[<?php echo $month;?>][AMOUNT_BANK]" value="<?php echo $salary->AMOUNT_BANK;?>" placeholder="AMOUNT BANK"/></td>
-					</tr>
-				</table>
-				
-				<?php
+		foreach($periods as $period){
+			$month = explode("-",$period)[0];
+			$year = explode("-",$period)[1];
+			if(SupplementarySalaryDetails::model()->exists('EMPLOYEE_ID_FK='.$this->ID.' AND MONTH='.$month.' AND YEAR='.$year)){
+				$salary = SupplementarySalaryDetails::model()->find('EMPLOYEE_ID_FK='.$this->ID.' AND MONTH='.$month.' AND YEAR='.$year);
 			}
 			else{
-				?>
-				<b><?php echo $monthFields[$month-1]."-".$year?></b>
-				<input type="hidden" name="SupplementarySalaryDetails[<?php echo $month;?>][MONTH]" value="<?php echo $month?>"/>
-				<input type="hidden" name="SupplementarySalaryDetails[<?php echo $month;?>][YEAR]" value="<?php echo $year?>"/>
-				<table class="table table-bordered table-hover" style="margin-bottom: 10px;" id="<?php echo $month;?>">
-					<tr>
-						<td>BASIC: <input type="text" size="10" name="SupplementarySalaryDetails[<?php echo $month;?>][BASIC]" data-type="BASIC" class="gross-inc-amount basic-amount" value="0" placeholder="BASIC"/></td>
-						<td>SP: <input type="text" size="10" name="SupplementarySalaryDetails[<?php echo $month;?>][SP]" data-type="SP" class="gross-inc-amount" value="0" placeholder="SP"/></td>
-						<td>PP: <input type="text" size="10" name="SupplementarySalaryDetails[<?php echo $month;?>][PP]" data-type="PP" class="gross-inc-amount" value="0" placeholder="PP"/></td>
-						<td>CCA: <input type="text" size="10" name="SupplementarySalaryDetails[<?php echo $month;?>][CCA]" data-type="CCA" class="gross-inc-amount" value="0" placeholder="CCA"/></td>
-						<td>HRA: <input type="text" size="10" name="SupplementarySalaryDetails[<?php echo $month;?>][HRA]" data-type="HRA" class="gross-inc-amount hra-amount" value="0" placeholder="HRA"/></td>
-						<td>DA: <input type="text" size="10" name="SupplementarySalaryDetails[<?php echo $month;?>][DA]" data-type="DA" class="gross-inc-amount da-amount" value="0" placeholder="DA"/></td>
-						<td>TA: <input type="text" size="10" name="SupplementarySalaryDetails[<?php echo $month;?>][TA]" data-type="TA" class="gross-inc-amount" value="0" placeholder="TA"/></td>
-						<td>WA: <input type="text" size="10" name="SupplementarySalaryDetails[<?php echo $month;?>][WA]" data-type="WA" class="gross-inc-amount" value="0" placeholder="WA"/></td>
-					</tr>
-					<tr>
-						<td>IT: <input type="text" size="10" name="SupplementarySalaryDetails[<?php echo $month;?>][IT]" data-type="IT" class="ded-inc-amount" value="0" placeholder="IT"/></td>
-						<td>CGHS: <input type="text" size="10" name="SupplementarySalaryDetails[<?php echo $month;?>][CGHS]" data-type="CGHS" class="ded-inc-amount" value="0" placeholder="CGHS"/></td>
-						<td>LF: <input type="text" size="10" name="SupplementarySalaryDetails[<?php echo $month;?>][LF]" data-type="LF" class="ded-inc-amount" value="0" placeholder="LF"/></td>
-						<td>CGEGIS: <input type="text" size="10" name="SupplementarySalaryDetails[<?php echo $month;?>][CGEGIS]" data-type="CGEGIS" class="ded-inc-amount" value="0" placeholder="CGEGIS"/></td>
-						<td><?php echo ( Employee::model()->findByPK($this->ID)->PENSION_TYPE == 'OPS' ) ? "GPFC" : "CPF TIER I"; ?>: <input type="text" size="10" name="SupplementarySalaryDetails[<?php echo $month;?>][CPF_TIER_I]" data-type="CPF_TIER_I" class="ded-inc-amount  cpf-1-amount" value="0" placeholder="<?php echo ( Employee::model()->findByPK($this->ID)->PENSION_TYPE == 'OPS' ) ? "GPFC" : "CPF TIER I"; ?>"/></td>
-						<td><?php echo ( Employee::model()->findByPK($this->ID)->PENSION_TYPE == 'OPS' ) ? "GPFR" : "CPF TIER II"; ?>: <input type="text" size="10" name="SupplementarySalaryDetails[<?php echo $month;?>][CPF_TIER_II]" data-type="CPF_TIER_II" class="ded-inc-amount" value="0" placeholder="<?php echo ( Employee::model()->findByPK($this->ID)->PENSION_TYPE == 'OPS' ) ? "GPFR" : "CPF TIER II"; ?>"/></td>
-						<td>HBA: <input type="text" size="10" name="SupplementarySalaryDetails[<?php echo $month;?>][HBA_EMI]" data-type="HBA_EMI" class="ded-inc-amount" value="0" placeholder="HBA"/></td>
-						<td>MCA: <input type="text" size="10" name="SupplementarySalaryDetails[<?php echo $month;?>][MCA_EMI]" data-type="MCA_EMI" class="ded-inc-amount" value="0" placeholder="MCA"/></td>
-					</tr>
-					<tr>
-						<td>MISC: <input type="text" size="10" name="SupplementarySalaryDetails[<?php echo $month;?>][MISC]" data-type="MISC" class="ded-inc-amount" value="0" placeholder="MISC"/></td>
-						<td>PLI: <input type="text" size="10" name="SupplementarySalaryDetails[<?php echo $month;?>][PLI]" data-type="PLI" class="ded-inc-amount" value="0" placeholder="PLI"/></td>
-						<td>COURT: <input type="text" size="10" name="SupplementarySalaryDetails[<?php echo $month;?>][COURT]" data-type="COURT" class="ded-inc-amount" class="ded-inc-amount" value="0" placeholder="COURT"/></td>
-						<td>PT: <input type="text" size="10" name="SupplementarySalaryDetails[<?php echo $month;?>][PT]" data-type="PT" class="pt-ded-inc-amount" value="0" placeholder="PT"/></td>
-						<td>CCS: <input type="text" size="10" name="SupplementarySalaryDetails[<?php echo $month;?>][CCS]" data-type="CCS" class="other-ded-inc-amount" value="0" placeholder="CCS"/></td>
-						<td>LIC: <input type="text" size="10" name="SupplementarySalaryDetails[<?php echo $month;?>][LIC]" data-type="LIC" class="other-ded-inc-amount" value="0" placeholder="LIC"/></td>
-						<td>ASSOSC SUB.: <input type="text" size="10" name="SupplementarySalaryDetails[<?php echo $month;?>][ASSOSC_SUB]" data-type="ASSOSC_SUB" class="other-ded-inc-amount" value="0" placeholder="ASSOSC SUB"/></td>
-					</tr>
-					<tr>
-						<td>GROSS: <input type="text" size="10" id='gross-components' name="SupplementarySalaryDetails[<?php echo $month;?>][GROSS]" value="0" placeholder="GROSS"/></td>
-						<td>DED: <input type="text" size="10" id='ded-components' name="SupplementarySalaryDetails[<?php echo $month;?>][DED]" value="0" placeholder="DED"/></td>
-						<td>NET: <input type="text" size="10" id='net-components' name="SupplementarySalaryDetails[<?php echo $month;?>][NET]" value="0" placeholder="NET"/></td>
-						<td>OTHER DED: <input type="text" size="10" id='other-ded-components' name="SupplementarySalaryDetails[<?php echo $month;?>][OTHER_DED]" value="0" placeholder="OTHER DED"/></td>
-						<td>AMT. BANK: <input type="text" size="10" id='credit-component' name="SupplementarySalaryDetails[<?php echo $month;?>][AMOUNT_BANK]" value="0" placeholder="AMOUNT BANK"/></td>
-					</tr>
-				</table>
-				<?php
+				$salary = SalaryDetails::model();
 			}
+			?>
+			<b><?php echo $monthNames[$month-1]."-".$year?></b>
+			<input type="hidden" name="SupplementarySalaryDetails[<?php echo $month;?>][MONTH]" value="<?php echo $month?>"/>
+			<input type="hidden" name="SupplementarySalaryDetails[<?php echo $month;?>][YEAR]" value="<?php echo $year?>"/>
+			<table class="table table-bordered table-hover" style="margin-bottom: 10px;" id="<?php echo $month;?>">
+				<tr>
+					<td>BASIC: <input type="text" size="10" name="SupplementarySalaryDetails[<?php echo $month;?>][BASIC]" data-type="BASIC" class="gross-inc-amount basic-amount" value="<?php echo $salary->BASIC ? $salary->BASIC : 0;?>" placeholder="BASIC"/></td>
+					<td>SP: <input type="text" size="10" name="SupplementarySalaryDetails[<?php echo $month;?>][SP]" data-type="SP" class="gross-inc-amount" value="<?php echo $salary->SP ? $salary->SP : 0;?>" placeholder="SP"/></td>
+					<td>PP: <input type="text" size="10" name="SupplementarySalaryDetails[<?php echo $month;?>][PP]" data-type="PP" class="gross-inc-amount" value="<?php echo $salary->PP ? $salary->PP : 0;?>" placeholder="PP"/></td>
+					<td>CCA: <input type="text" size="10" name="SupplementarySalaryDetails[<?php echo $month;?>][CCA]" data-type="CCA" class="gross-inc-amount" value="<?php echo $salary->CCA ? $salary->CCA : 0;?>" placeholder="CCA"/></td>
+					<td>HRA: <input type="text" size="10" name="SupplementarySalaryDetails[<?php echo $month;?>][HRA]" data-type="HRA" class="gross-inc-amount hra-amount" value="<?php echo $salary->HRA ? $salary->HRA : 0;?>" placeholder="HRA"/></td>
+					<td>DA: <input type="text" size="10" name="SupplementarySalaryDetails[<?php echo $month;?>][DA]" data-type="DA" class="gross-inc-amount da-amount" value="<?php echo $salary->DA ? $salary->DA : 0;?>" placeholder="DA"/></td>
+					<td>TA: <input type="text" size="10" name="SupplementarySalaryDetails[<?php echo $month;?>][TA]" data-type="TA" class="gross-inc-amount" value="<?php echo $salary->TA ? $salary->TA : 0;?>" placeholder="TA"/></td>
+					<td>WA: <input type="text" size="10" name="SupplementarySalaryDetails[<?php echo $month;?>][WA]" data-type="WA" class="gross-inc-amount" value="<?php echo $salary->WA ? $salary->WA : 0;?>" placeholder="WA"/></td>
+				</tr>
+				<tr>
+					<td>IT: <input type="text" size="10" name="SupplementarySalaryDetails[<?php echo $month;?>][IT]" data-type="IT" class="ded-inc-amount" value="<?php echo $salary->IT ? $salary->IT : 0;?>" placeholder="IT"/></td>
+					<td>CGHS: <input type="text" size="10" name="SupplementarySalaryDetails[<?php echo $month;?>][CGHS]" data-type="CGHS" class="ded-inc-amount" value="<?php echo $salary->CGHS ? $salary->CGHS : 0;?>" placeholder="CGHS"/></td>
+					<td>LF: <input type="text" size="10" name="SupplementarySalaryDetails[<?php echo $month;?>][LF]" data-type="LF" class="ded-inc-amount" value="<?php echo $salary->LF ? $salary->LF : 0;?>" placeholder="LF"/></td>
+					<td>CGEGIS: <input type="text" size="10" name="SupplementarySalaryDetails[<?php echo $month;?>][CGEGIS]" data-type="CGEGIS" class="ded-inc-amount" value="<?php echo $salary->CGEGIS ? $salary->CGEGIS : 0;?>" placeholder="CGEGIS"/></td>
+					<td><?php echo ( Employee::model()->findByPK($this->ID)->PENSION_TYPE == 'OPS' ) ? "GPFC" : "CPF TIER I"; ?>: <input type="text" size="10" name="SupplementarySalaryDetails[<?php echo $month;?>][CPF_TIER_I]" data-type="CPF_TIER_I" class="ded-inc-amount  cpf-1-amount" value="<?php echo $salary->CPF_TIER_I ? $salary->CPF_TIER_I : 0;?>" placeholder="<?php echo ( Employee::model()->findByPK($this->ID)->PENSION_TYPE == 'OPS' ) ? "GPFC" : "CPF TIER I"; ?>"/></td>
+					<td><?php echo ( Employee::model()->findByPK($this->ID)->PENSION_TYPE == 'OPS' ) ? "GPFR" : "CPF TIER II"; ?>: <input type="text" size="10" name="SupplementarySalaryDetails[<?php echo $month;?>][CPF_TIER_II]" data-type="CPF_TIER_II" class="ded-inc-amount" value="<?php echo $salary->CPF_TIER_II ? $salary->CPF_TIER_II : 0;?>" placeholder="<?php echo ( Employee::model()->findByPK($this->ID)->PENSION_TYPE == 'OPS' ) ? "GPFR" : "CPF TIER II"; ?>"/></td>
+					<td>MISC: <input type="text" size="10" name="SupplementarySalaryDetails[<?php echo $month;?>][MISC]" data-type="MISC" class="ded-inc-amount" value="<?php echo $salary->MISC ? $salary->MISC : 0;?>" placeholder="MISC"/></td>
+					<td>PLI: <input type="text" size="10" name="SupplementarySalaryDetails[<?php echo $month;?>][PLI]" data-type="PLI" class="ded-inc-amount" value="<?php echo $salary->PLI ? $salary->PLI : 0;?>" placeholder="PLI"/></td>
+				</tr>
+				<tr>
+					<td>COURT: <input type="text" size="10" name="SupplementarySalaryDetails[<?php echo $month;?>][COURT]" data-type="COURT" class="ded-inc-amount" value="<?php echo $salary->COURT_ATTACHMENT ? $salary->COURT_ATTACHMENT : 0;?>" placeholder="COURT"/></td>
+					<td>PT: <input type="text" size="10" name="SupplementarySalaryDetails[<?php echo $month;?>][PT]" data-type="PT" class="pt-ded-inc-amount" value="<?php echo $salary->PT ? $salary->PT : 0;?>" placeholder="PT"/></td>
+					<td>CCS: <input type="text" size="10" name="SupplementarySalaryDetails[<?php echo $month;?>][CCS]" data-type="CCS" class="other-ded-inc-amount" value="<?php echo $salary->CCS ? $salary->CCS : 0;?>" placeholder="CCS"/></td>
+					<td>LIC: <input type="text" size="10" name="SupplementarySalaryDetails[<?php echo $month;?>][LIC]" data-type="LIC" class="other-ded-inc-amount" value="<?php echo $salary->LIC ? $salary->LIC : 0;?>" placeholder="LIC"/></td>
+					<td>ASSOSC SUB.: <input type="text" size="10" name="SupplementarySalaryDetails[<?php echo $month;?>][ASSOSC_SUB]" data-type="ASSOSC_SUB" class="other-ded-inc-amount" value="<?php echo $salary->ASSOSC_SUB ? $salary->ASSOSC_SUB : 0;?>" placeholder="ASSOSC SUB"/></td>
+					<td>JAYAMAHAL: <input type="text" size="10" name="SupplementarySalaryDetails[<?php echo $month;?>][MAINT_JAYAMAHAL]" data-type="MAINT_JAYAMAHAL" class="other-ded-inc-amount" value="<?php echo $salary->MAINT_JAYAMAHAL ? $salary->MAINT_JAYAMAHAL : 0;?>" placeholder="MAINT. JAYAMAHAL"/></td>
+					<td>MADIWALA: <input type="text" size="10" name="SupplementarySalaryDetails[<?php echo $month;?>][MAINT_MADIWALA]" data-type="MAINT_MADIWALA" class="other-ded-inc-amount" value="<?php echo $salary->MAINT_MADIWALA ? $salary->MAINT_MADIWALA : 0;?>" placeholder="MAINT. MADIWALA"/></td>				
+					<td></td>
+				</tr>
+				<tr>
+					<td>HBA</td>
+					<td>
+						INTEREST:
+						<select name="SupplementarySalaryDetails[<?php echo $month?>][IS_HBA_RECOVERY]" >
+							<option value="0" <?php echo ($salary->IS_HBA_RECOVERY && ($salary->IS_HBA_RECOVERY == 0)) ? "selected" : "";?>>NO</option>
+							<option value="1" <?php echo ($salary->IS_HBA_RECOVERY && ($salary->IS_HBA_RECOVERY == 1)) ? "selected" : "";?>>YES</option>
+						</select>
+					</td>
+					<td>TOTAL: <input type="text" size="10" name="SupplementarySalaryDetails[<?php echo $month;?>][HBA_TOTAL]" data-type="HBA_TOTAL" value="<?php echo $salary->HBA_TOTAL ? $salary->HBA_TOTAL : 0;?>" placeholder="TOTAL" class="hba-total"/></td>
+					<td>INSTALLMENT: <input type="text" size="10" name="SupplementarySalaryDetails[<?php echo $month;?>][HBA_INST]" data-type="HBA_INST" value="<?php echo $salary->HBA_INST ? $salary->HBA_INST : 0;?>" placeholder="INSTALLMENT" class="increment-field hba-inst"/></td>
+					<td>EMI: <input type="text" size="10" name="SupplementarySalaryDetails[<?php echo $month;?>][HBA_EMI]" data-type="HBA_EMI" class="ded-inc-amount hba-emi" value="<?php echo $salary->HBA_EMI ? $salary->HBA_EMI : 0;?>" placeholder="EMI"/></td>
+					<td>BALANCE: <input type="text" size="10" name="SupplementarySalaryDetails[<?php echo $month;?>][HBA_BAL]" data-type="HBA_BAL" value="<?php echo $salary->HBA_BAL ? $salary->HBA_BAL : 0;?>" placeholder="BALANCE" class="hba-bal non-populated-field"/></td>
+					<td></td><td></td>
+				</tr>
+				<tr>
+					<td>MCA</td>
+					<td>
+						INTEREST:
+						<select name="SupplementarySalaryDetails[<?php echo $month?>][IS_MCA_RECOVERY]" >
+							<option value="0" <?php echo ($salary->IS_MCA_RECOVERY == 0) ? "selected" : "";?>>NO</option>
+							<option value="1" <?php echo ($salary->IS_MCA_RECOVERY == 1) ? "selected" : "";?>>YES</option>
+						</select>
+					</td>
+					<td>TOTAL: <input type="text" size="10" name="SupplementarySalaryDetails[<?php echo $month;?>][MCA_TOTAL]" data-type="MCA_TOTAL" value="<?php echo $salary->MCA_TOTAL ? $salary->MCA_TOTAL : 0;?>" placeholder="TOTAL" class="mca-total"/></td>
+					<td>INSTALLMENT: <input type="text" size="10" name="SupplementarySalaryDetails[<?php echo $month;?>][MCA_INST]" data-type="MCA_INST" value="<?php echo $salary->MCA_INST ? $salary->MCA_INST : 0;?>" placeholder="INSTALLMENT" class="increment-field mca-inst"/></td>
+					<td>EMI: <input type="text" size="10" name="SupplementarySalaryDetails[<?php echo $month;?>][MCA_EMI]" data-type="MCA_EMI" class="ded-inc-amount mca-emi" value="<?php echo $salary->MCA_EMI ? $salary->MCA_EMI : 0;?>" placeholder="EMI"/></td>
+					<td>BALANCE: <input type="text" size="10" name="SupplementarySalaryDetails[<?php echo $month;?>][MCA_BAL]" data-type="MCA_BAL" value="<?php echo $salary->MCA_BAL ? $salary->MCA_BAL : 0;?>" placeholder="BALANCE" class="mca-bal non-populated-field"/></td>
+					<td></td><td></td>
+				</tr>
+				<tr>
+					<td>GROSS: <input type="text" size="10" id='gross-components' name="SupplementarySalaryDetails[<?php echo $month;?>][GROSS]" value="<?php echo $salary->GROSS ? $salary->GROSS : 0;?>" placeholder="GROSS"/></td>
+					<td>DED: <input type="text" size="10" id='ded-components' name="SupplementarySalaryDetails[<?php echo $month;?>][DED]" value="<?php echo $salary->DED ? $salary->DED : 0;?>" placeholder="DED"/></td>
+					<td>NET: <input type="text" size="10" id='net-components' name="SupplementarySalaryDetails[<?php echo $month;?>][NET]" value="<?php echo $salary->NET ? $salary->NET : 0;?>" placeholder="NET"/></td>
+					<td>OTHER DED: <input type="text" size="10" id='other-ded-components' name="SupplementarySalaryDetails[<?php echo $month;?>][OTHER_DED]" value="<?php echo $salary->OTHER_DED ? $salary->OTHER_DED : 0;?>" placeholder="OTHER DED"/></td>
+					<td>AMT. BANK: <input type="text" size="10" id='credit-component' name="SupplementarySalaryDetails[<?php echo $month;?>][AMOUNT_BANK]" value="<?php echo $salary->AMOUNT_BANK ? $salary->AMOUNT_BANK : 0;?>" placeholder="AMOUNT BANK"/></td>
+					<td></td><td></td><td></td>
+				</tr>
+			</table>
+			
+			<?php
 		}
 	?>
 	</div>
@@ -125,15 +124,31 @@
 <script>
 $(document).ready(function(){
 	$("[data-type]").keyup(function(){
+		if($(this).hasClass('non-populated-field'))
+			return;
+		
+		
 		var attribute = $(this).attr('data-type');
 		parent = $(this).parents('table').attr('id');
 		
-		$(GetDependentSelector(attribute, parent)).val($(this).val());
+		var selectedElements = GetDependentSelector(attribute, parent);
+			
+		if($(this).hasClass('increment-field') && parseInt($(this).val()) != 0){
+			var elementValue = parseInt($(this).val());
+			for(var i=0; i<= selectedElements.length-1; i++){
+				elementValue++;
+				$(selectedElements[i]).val(elementValue);
+			}
+		}
+		else{
+			selectedString = selectedElements.join(",");
+			$(selectedString).val($(this).val());
+		}
 		
 		selfWithDependentSelector = GetSelftWithDependentSelector(attribute, parent);
 		
 		if($(this).hasClass('basic-amount')){
-			$(GetSelftWithDependentSelector(attribute, parent)).each(function(){
+			$(selfWithDependentSelector).each(function(){
 				BasicValueChange(this);
 			});
 		}
@@ -143,47 +158,43 @@ $(document).ready(function(){
 			});
 		}
 		if($(this).hasClass('ded-inc-amount')){
-			$(GetSelftWithDependentSelector(attribute, parent)).each(function(){
+			$(selfWithDependentSelector).each(function(){
 				DeductionValueChange(this);
 			});
 		}
 		if($(this).hasClass('other-ded-inc-amount')){
-			$(GetSelftWithDependentSelector(attribute, parent)).each(function(){
+			$(selfWithDependentSelector).each(function(){
 				OtherDeductionValueChange(this);
 			});
 		}
 		if($(this).hasClass('pt-ded-inc-amount')){
-			$(GetSelftWithDependentSelector(attribute, parent)).each(function(){
+			$(selfWithDependentSelector).each(function(){
 				PTDeductionChange(this);
 			});
 		}
+		if($(this).hasClass('hba-total') || $(this).hasClass('hba-inst') || $(this).hasClass('hba-emi')){
+			$(selfWithDependentSelector).each(function(){
+				HBAValueChange(this);
+			});
+		}
+		if($(this).hasClass('mca-total') || $(this).hasClass('mca-inst') || $(this).hasClass('mca-emi')){
+			$(selfWithDependentSelector).each(function(){
+				MCAValueChange(this);
+			});
+		}
 	});
-	
-	
-	/*$('.basic-amount').keyup(function(){
-		BasicValueChange(this);
-	});
-	
-	$('.gross-inc-amount').keyup(function(){
-		GrossValueChange(this);
-	});
-
-	$('.ded-inc-amount').keyup(function(){
-		DeductionValueChange(this);
-	});
-	
-	$('.other-ded-inc-amount').keyup(function(){
-		OtherDeductionValueChange(this);
-	});	
-	
-	$('.pt-ded-inc-amount').keyup(function(){
-		PTDeductionChange(this);
-	});*/
-		
 });
+function getMonths(){
+	var months = [];
+	for(var i=0; i<=periods.length-1; i++){
+		months[i] = periods[i].split('-')[0];
+	}
+	return months;
+}
 function GetDependentSelector(attribute, parent){
 	selectedElements = [];
 	
+	var months = getMonths();
 	for(var i=0; i<=months.length-1; i++){
 		if(months[i] == parent){
 			break;
@@ -196,12 +207,13 @@ function GetDependentSelector(attribute, parent){
 		selectedElements.push("table#"+months[i]+" [data-type="+attribute+"] ");
 	}
 	
-	selectedString = selectedElements.join(",");
-	return selectedString;
+	
+	return selectedElements;
 }
 function GetSelftWithDependentSelector(attribute, parent){
 	selectedElements = [];
 	
+	var months = getMonths();
 	for(var i=0; i<=months.length-1; i++){
 		if(months[i] == parent){
 			break;
@@ -284,9 +296,33 @@ function OtherDeductionValueChange(field){
 	otherDeductionComponentElement.val(total);
 	creditComponentElement.val(grossComponentElement.val() - getElementValue(ptDeductionComponentElement) - getElementValue(deductionComponentElement) - getElementValue(otherDeductionComponentElement));
 }
+function HBAValueChange(field){
+	var container = $(field).parents('table'), total = 0,
+		totalElement = $(container).find('.hba-total'),
+		installmentElement = $(container).find('.hba-inst'),
+		emiElement = $(container).find('.hba-emi'),
+		balanceElement = $(container).find('.hba-bal');
+	
+	if(parseInt(totalElement.val()) > 0 && parseInt(installmentElement.val()) > 0 && parseInt(emiElement.val()) > 0){
+		balanceElement.val(getElementValue(totalElement) - (getElementValue(installmentElement) * getElementValue(emiElement)));
+	}
+}
+function MCAValueChange(field){
+	var container = $(field).parents('table'), total = 0,
+		totalElement = $(container).find('.mca-total'),
+		installmentElement = $(container).find('.mca-inst'),
+		emiElement = $(container).find('.mca-emi'),
+		balanceElement = $(container).find('.mca-bal');
+	
+	if(parseInt(totalElement.val()) > 0 && parseInt(installmentElement.val()) > 0 && parseInt(emiElement.val()) > 0){
+		balanceElement.val(getElementValue(totalElement) - (getElementValue(installmentElement) * getElementValue(emiElement)));
+	}
+}
+
+
 function getElementValue(element){
 	if(element.length > 0){
-		return element.val();
+		return parseInt(element.val());
 	}
 	else{
 		return 0;

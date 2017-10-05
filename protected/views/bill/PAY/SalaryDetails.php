@@ -34,18 +34,20 @@
 	if(isset($_REQUEST['id'])){
 		$bill = Bill::model()->findByPK($_REQUEST['id']);
 		?>
-			<table class="table">
+			 <table class="table table-bordered table-hover" style="margin-bottom: 10px;">
 				<tr>
-					<td colspan="2">
+					<td colspan="5">
 						<a href="<?php echo Yii::app()->createUrl('bill/update', array('id'=>$bill->ID))?>"><?php echo $bill->BILL_TITLE; ?></a>
+					</td>
+					<td colspan="3">
 						<span style="float: right;"><?php echo $bill->BILL_NO; ?></span>
 					</td>
 				</tr>
-				<?php if($bill->IS_ARREAR_BILL == 1 || $bill->IS_DA_ARREAR_BILL == 1 || $bill->IS_CEA_BILL == 1 || $bill->IS_BONUS_BILL == 1 || $bill->IS_UA_BILL == 1 || $bill->IS_LTC_CLAIM_BILL == 1 ||  $bill->IS_LTC_ADVANCE_BILL == 1 || $bill->IS_EL_ENCASHMENT_BILL == 1 || $bill->IS_RECOVERY_BILL == 1){ ?>
+				<?php if($bill->IS_SALARY_HEAD_OTHER_BILL || $bill->IS_WAGES_HEAD_OTHER_BILL){ ?>
 				<form id="bill-form" action="<?php echo Yii::app()->createUrl('Bill/update', array('id'=>$bill->ID, 'isSalaryHead'=>1))?>" method="post">
 					<tr>
-						<td ><b class="one-label">PFMS BILL NO: </b><input size="100" maxlength="100" name="Bill[PFMS_BILL_NO]" id="Bill_PFMS_BILL_NO" value="<?php echo Bill::model()->findByPK($bill->ID)->PFMS_BILL_NO;?>" type="text" style="line-height:30px;font-size: 20px;width: 80%;" ></td>
-						<td ><input class="btn btn-success" type="submit" name="yt0" value="SAVE PFMS BILL NO"></td>
+						<td colspan="5"><b class="one-label">PFMS BILL NO: </b> <input size="100" maxlength="100" name="Bill[PFMS_BILL_NO]" id="Bill_PFMS_BILL_NO"  value="<?php echo Bill::model()->findByPK($bill->ID)->PFMS_BILL_NO;?>" type="text" style="line-height:30px;font-size: 20px;width: 80%;" ></td>
+						<td colspan="3"><input class="btn btn-success" type="submit" name="yt0" value="SAVE PFMS BILL NO"></td>
 					</tr>
 				</form>
 				<?php } ?>
@@ -73,40 +75,15 @@
 					</p>
 				</div>
 			</div>
+			<p style="text-align: center;font-weight bold;font-size:11px;margin-bottom: 10px;">2. For navigation among employees use arrow (<mark class="unicode" data-char-info="" style="color: black;">←</mark>&nbsp;&nbsp;<mark class="unicode" data-char-info="U+2192: RIGHTWARDS ARROW" style="color: black;">→</mark>) keys</p>
 			<?php
 			$employees = array();
-			if($bill->BILL_TYPE != 8 && ($bill->IS_ARREAR_BILL == 1 || $bill->IS_DA_ARREAR_BILL == 1 || $bill->IS_CEA_BILL == 1 || $bill->IS_BONUS_BILL == 1 || $bill->IS_UA_BILL == 1 || $bill->IS_LTC_CLAIM_BILL == 1 
-				||  $bill->IS_LTC_ADVANCE_BILL == 1 || $bill->IS_EL_ENCASHMENT_BILL == 1 || $bill->IS_RECOVERY_BILL == 1)){
-				$OtherBillEmployees = explode(",", OtherBillEmployees::model()->findByAttributes(array('BILL_ID'=>$model->ID))->EMPLOYEE_ID);
-				$employees = Employee::model()->findAllByAttributes(array('ID'=>$OtherBillEmployees));
-				$DATA_URL = Yii::app()->createUrl('Employee/OtherBillEmployees', array('BILL_ID'=>$model->ID));
-				?>
-				<input type="hidden" name="SalaryDetails[IS_SALARY_BILL]" value="0"/>
-				<?php
-			}
-			else if($bill->BILL_TYPE == 8 && $bill->BILL_SUB_TYPE == 37){
-				$OtherBillEmployees = explode(",", OtherBillEmployees::model()->findByAttributes(array('BILL_ID'=>$model->ID))->EMPLOYEE_ID);
-				$employees = Employee::model()->findAllByAttributes(array('ID'=>$OtherBillEmployees));
-				$DATA_URL = Yii::app()->createUrl('Employee/WagesBillEmployees', array('BILL_ID'=>$model->ID));
-				?>
-				<input type="hidden" name="SalaryDetails[IS_SALARY_BILL]" value="1"/>
-				<?php
-			}
-			else if($bill->BILL_TYPE == 8 && $bill->BILL_SUB_TYPE == 51){
-				$OtherBillEmployees = explode(",", OtherBillEmployees::model()->findByAttributes(array('BILL_ID'=>$model->ID))->EMPLOYEE_ID);
-				$employees = Employee::model()->findAllByAttributes(array('ID'=>$OtherBillEmployees));
-				$DATA_URL = Yii::app()->createUrl('Employee/WagesBillEmployees', array('BILL_ID'=>$model->ID));
-				?>
-				<input type="hidden" name="SalaryDetails[IS_SALARY_BILL]" value="0"/>
-				<?php
-			}
-			else{
-				?>
+			if($bill->IS_SALARY_HEAD_PAY_BILL){ 
+			?>
 				<p style="text-align: center;font-weight bold;font-size:11px;margin-bottom: 10px;">1. For IT Provisional <?php echo FinancialYears::model()->find('STATUS=1')->NAME?> Toggle, click Employee Name & Press ( q )</p>
-				<p style="text-align: center;font-weight bold;font-size:11px;margin-bottom: 10px;">2. For navigation among employees use arrow (<mark class="unicode" data-char-info="" style="color: black;">←</mark>&nbsp;&nbsp;<mark class="unicode" data-char-info="U+2192: RIGHTWARDS ARROW" style="color: black;">→</mark>) keys</p>
 				<input type="hidden" name="SalaryDetails[IS_SALARY_BILL]" value="1"/>
 				<?php
-				if($bill->BILL_TYPE == 1){
+				if($bill->IS_OPS_PAY_BILL){
 					if(SalaryDetails::model()->exists('BILL_ID_FK='.$model->ID)){
 						$salaries = SalaryDetails::model()->findAllByAttributes(array('BILL_ID_FK'=>$model->ID));
 						$salaryBillEmployees = array();foreach($salaries as $salary){array_push($salaryBillEmployees, $salary->EMPLOYEE_ID_FK);}
@@ -120,7 +97,7 @@
 					}
 					$DATA_URL = Yii::app()->createUrl('Employee/OPSSalaryBillEmployees');
 				}
-				if($bill->BILL_TYPE == 2){
+				if($bill->IS_NPS_PAY_BILL){
 					if(SalaryDetails::model()->exists('BILL_ID_FK='.$model->ID)){
 						$salaries = SalaryDetails::model()->findAllByAttributes(array('BILL_ID_FK'=>$model->ID));
 						$salaryBillEmployees = array();foreach($salaries as $salary){array_push($salaryBillEmployees, $salary->EMPLOYEE_ID_FK);}
@@ -135,7 +112,24 @@
 					$DATA_URL = Yii::app()->createUrl('Employee/NPSSalaryBillEmployees');
 				}
 			}
-			?>
+			if($bill->IS_WAGES_HEAD_PAY_BILL){
+				$OtherBillEmployees = explode(",", OtherBillEmployees::model()->findByAttributes(array('BILL_ID'=>$model->ID))->EMPLOYEE_ID);
+				$employees = Employee::model()->findAllByAttributes(array('ID'=>$OtherBillEmployees));
+				$DATA_URL = Yii::app()->createUrl('Employee/WagesBillEmployees', array('BILL_ID'=>$model->ID));
+				?>
+				<p style="text-align: center;font-weight bold;font-size:11px;margin-bottom: 10px;">1. For IT Provisional <?php echo FinancialYears::model()->find('STATUS=1')->NAME?> Toggle, click Employee Name & Press ( q )</p>
+				<input type="hidden" name="SalaryDetails[IS_SALARY_BILL]" value="1"/>
+				<?php
+			}
+			if($bill->IS_SALARY_HEAD_OTHER_BILL || $bill->IS_WAGES_HEAD_OTHER_BILL){ 
+				$OtherBillEmployees = explode(",", OtherBillEmployees::model()->findByAttributes(array('BILL_ID'=>$model->ID))->EMPLOYEE_ID);
+				$employees = Employee::model()->findAllByAttributes(array('ID'=>$OtherBillEmployees));
+				$DATA_URL = Yii::app()->createUrl('Employee/OtherBillEmployees', array('BILL_ID'=>$model->ID));
+				?>
+				<input type="hidden" name="SalaryDetails[IS_SALARY_BILL]" value="0"/>
+				<?php
+			}?>
+			<input type="hidden" value="<?php echo $bill->ID?>" name="SalaryInfo[BILL_ID]">
 			<div id="employee-container" style="position:relative;border: 1px solid #ccc;background-color: #f1f1f1;height: 50px;">
 			<a href="javascript:void(0);" style="position: absolute;left: 0;width: 50px;height: 49px;background: #ccc;font-size: 30px;padding: 7px 10px;border: 1px solid #999;text-align: center;font-weight: bold;color: #000;" id="btn-prev"><i class="fa fa-angle-left"></i></a>
 			<div style="position: absolute;right: 50px;left:50px;overflow:hidden;">
@@ -159,10 +153,33 @@
 			<a href="javascript:void(0);" style="position: absolute;right: 0;width: 50px;height: 49px;background: #ccc;font-size: 30px;padding: 7px 10px;border: 1px solid #999;text-align: center;font-weight: bold;color: #000;"  id="btn-next"><i class="fa  fa-angle-right"></i></a>
 			</div>
 			<?php
+				$periods = array();
+				$js_periods = array();
+				if($bill->IS_MULTIPLE_MONTH){
+					$start    = (new DateTime($bill->YEAR.'-'.$bill->MONTH.'-01'))->modify('first day of this month');
+					$end      = (new DateTime($bill->YEAR_END.'-'.$bill->MONTH_END.'-01'))->modify('last day of this month');
+					$interval = DateInterval::createFromDateString('1 month');
+					$intervals   = new DatePeriod($start, $interval, $end);
+
+					foreach ($intervals as $int) {
+						array_push($periods, array('FORMAT'=> $int->format("M-Y"), 'MONTH'=>$int->format("n"), 'YEAR'=>$int->format("Y")));
+						array_push($js_periods, $int->format("n").'-'.$int->format("Y"));
+					}
+				}
+				else{
+					$int    = (new DateTime($bill->YEAR.'-'.$bill->MONTH.'-01'))->modify('first day of this month');
+					array_push($periods, array('FORMAT'=> $int->format("M-Y"), 'MONTH'=>$int->format("n"), 'YEAR'=>$int->format("Y")));
+					array_push($js_periods, $int->format("n").'-'.$int->format("Y"));
+				}
+				
+				$js_array = json_encode($js_periods);
+				
+			?>
+			<?php
 			foreach($employees as $employee){ ?>
 				<div id="<?php echo $employee->ID?>" class="tabcontent" >
 				  <h1 style='margin-top:10px;'><?php echo $employee->NAME_HINDI?>, <?php echo Designations::model()->findByPK($employee->DESIGNATION_ID_FK)->DESIGNATION_HINDI?></h1>
-				  <table class="table">
+				  <table class="table table-bordered table-hover" style="margin-bottom: 10px;">
 					<tr>
 						<td><b class="one-label">Group: </b><span style="float: right;"><?php echo Groups::model()->findByPK($employee->GROUP_ID_FK)->GROUP_NAME; ?></span></td>
 						<td><b class="one-label">Pay Matrix: </b><span style="float: right;">
@@ -174,323 +191,273 @@
 							}
 							echo $matrix; ?></span>
 						</td>
-						<td><b class="one-label">DOI: </b><span style="float: right;"><?php echo date('d/m/Y',strtotime($employee->DOI))?></span></td>
-					</tr>
-					<tr>
-						<td><b class="one-label">MICR: </b><span style="float: right;"><?php echo $employee->MICR?></span></td>
-						<td><b class="one-label">Account No: </b><span style="float: right;"><?php echo $employee->ACCOUNT_NO?></span></td>
+						<td><b class="one-label">DOI: </b><span style="float: right;"><?php echo date('d M, Y',strtotime($employee->DOI))?></span></td>
+						<td colspan="2"><b class="one-label">MICR: </b><span style="float: right;"><?php echo $employee->MICR?></span></td>
+						<td colspan="2"><b class="one-label">Account No: </b><span style="float: right;"><?php echo $employee->ACCOUNT_NO?></span></td>
 						<td><b class="one-label">IFSC: </b><span style="float: right;"><?php echo $employee->IFSC?></span></td>
 					</tr>
-					</table>
-				<?php 
-				
-				if($bill->IS_ARREAR_BILL == 1 || $bill->IS_CEA_BILL == 1 || $bill->IS_BONUS_BILL == 1 || $bill->IS_UA_BILL == 1 || $bill->IS_LTC_CLAIM_BILL == 1 ||  $bill->IS_LTC_ADVANCE_BILL == 1 || $bill->IS_EL_ENCASHMENT_BILL == 1 || $bill->IS_RECOVERY_BILL == 1 ){
-					if(SalaryDetails::model()->exists('EMPLOYEE_ID_FK='.$employee->ID.' AND BILL_ID_FK='.$bill->ID)){
-						$salary = SalaryDetails::model()->findByAttributes(array('EMPLOYEE_ID_FK'=>$employee->ID, 'BILL_ID_FK'=>$bill->ID));
-					}
-					else{
-						$salary = SalaryDetails::model();
-					}
-				}
-				else if($bill->BILL_TYPE == 1 || $bill->BILL_TYPE == 2 || $bill->BILL_TYPE == 8){
-					if(SalaryDetails::model()->exists('EMPLOYEE_ID_FK='.$employee->ID.' AND BILL_ID_FK='.$bill->ID. ' AND IS_SALARY_BILL = 1')){
-						$salary = SalaryDetails::model()->findByAttributes(array('EMPLOYEE_ID_FK'=>$employee->ID, 'BILL_ID_FK'=>$bill->ID, 'IS_SALARY_BILL'=>1));
-					}
-					else if(SalaryDetails::model()->exists('IS_SALARY_BILL = 1 AND EMPLOYEE_ID_FK='.$employee->ID.' AND YEAR='.(($bill->MONTH==1) ? ($bill->YEAR - 1 ) : $bill->YEAR).' AND MONTH='.(($bill->MONTH==1) ? 12 : ($bill->MONTH - 1)))){
-						$salary = SalaryDetails::model()->findByAttributes(array('EMPLOYEE_ID_FK'=>$employee->ID, 'MONTH'=>(($bill->MONTH==1) ? 12 : ($bill->MONTH - 1)), 'YEAR'=>(($bill->MONTH==1) ? ($bill->YEAR - 1 ) : $bill->YEAR), 'IS_SALARY_BILL'=>1));
-					}
-					else{
-						$salary = SalaryDetails::model();
-					}
-				}					
-				else{
-					$salary = SalaryDetails::model();
-				}
-				
-				?>
-					<input type="hidden" value="<?php echo $bill->MONTH?>" name="SalaryInfo[MONTH]">
-					<input type="hidden" value="<?php echo $bill->YEAR?>" name="SalaryInfo[YEAR]">
-					<input type="hidden" value="<?php echo $bill->ID?>" name="SalaryInfo[BILL_ID]">
-					<input type="hidden" value="<?php echo $employee->ID?>" name="SalaryDetails[<?php echo $employee->ID?>][EMP_ID]">
-					<?php if(!$bill->IS_CEA_BILL && !$bill->IS_BONUS_BILL && !$bill->IS_UA_BILL && !$bill->IS_LTC_ADVANCE_BILL && !$bill->IS_LTC_CLAIM_BILL && !$bill->IS_EL_ENCASHMENT_BILL && !$bill->IS_RECOVERY_BILL ) {?>
-					<table class='gross-comp-<?php echo $employee->ID;?> table'>
-						<tr>
-							<td><b class="one-label">Basic: </b><input type='text' class="gross-inc-amount basic-amount" name="SalaryDetails[<?php echo $employee->ID?>][BASIC]" value='<?php echo $salary->BASIC ? $salary->BASIC : 0; ?>' placeholder='BASIC'></td>
-							<td><b class="one-label">G.P.: </b><input type='text'  class="gross-inc-amount gp-amount" name="SalaryDetails[<?php echo $employee->ID?>][GP]" value='<?php echo $salary->GP ? $salary->GP : 0?>' placeholder='G.P.'></td>
-							<td><b class="one-label">Total: </b><input type='text' id='total-amount' value='<?php echo $salary->BASIC + $salary->GP?>' placeholder='TOTAL'></td>
-							<td><b class="one-label">S.P.: </b><input type='text'  class="gross-inc-amount" name="SalaryDetails[<?php echo $employee->ID?>][SP]" value='<?php echo $salary->SP ? $salary->SP : 0; ?>' placeholder='S.P.'></td>
-							<td><b class="one-label">P.P.: </b><input type='text'  class="gross-inc-amount" name="SalaryDetails[<?php echo $employee->ID?>][PP]" value='<?php echo $salary->PP ? $salary->PP : 0;?>' placeholder='P.P.'></td>
-						</tr>
-						<tr>
-							<td><b class="one-label">C.C.A.: </b><input type='text' class="gross-inc-amount" name="SalaryDetails[<?php echo $employee->ID?>][CCA]" value='<?php echo $salary->CCA ? $salary->CCA : 0?>' placeholder='C.C.A.'></td>
-							<td><b class="one-label">H.R.A.: </b><input type='text' class="gross-inc-amount hra-amount" name="SalaryDetails[<?php echo $employee->ID?>][HRA]" value='<?php echo $salary->HRA ? $salary->HRA : 0?>' placeholder='H.R.A'></td>
-							<td><b class="one-label">D.A.: </b><input type='text'   class="gross-inc-amount da-amount" name="SalaryDetails[<?php echo $employee->ID?>][DA]" value='<?php echo $salary->DA ? $salary->DA : 0?>' placeholder='D.A.'></td>
-							<td><b class="one-label">T.A.: </b><input type='text'   class="gross-inc-amount" name="SalaryDetails[<?php echo $employee->ID?>][TA]" value='<?php echo $salary->TA ? $salary->TA : 0?>' placeholder='T.A.'></td>
-							<td><b class="one-label">W.A.: </b><input type='text'   class="gross-inc-amount" name="SalaryDetails[<?php echo $employee->ID?>][WA]" value='<?php echo $salary->WA ? $salary->WA : 0?>' placeholder='W.A.'></td>
-						</tr>
-					</table>
-					<table style="background:#ecebeb;" class='ded-comp-<?php echo $employee->ID;?> table'>
-						<tr>
-							<td><b class="one-label">I.T.: </b><input type='number' id="income-tax" class="ded-inc-amount" name="SalaryDetails[<?php echo $employee->ID?>][IT]" value='<?php echo $salary->IT ? $salary->IT : 0?>' placeholder='I.T.'></td>
-							<td><b class="one-label">C.G.H.S.: </b><input type='text' class="ded-inc-amount" name="SalaryDetails[<?php echo $employee->ID?>][CGHS]" value='<?php echo $salary->CGHS ? $salary->CGHS : 0?>' placeholder='C.G.H.S'></td>
-							<td><b class="one-label">L.F.: </b><input type='text' class="ded-inc-amount" name="SalaryDetails[<?php echo $employee->ID?>][LF]" value='<?php echo $salary->LF ? $salary->LF : 0?>' placeholder='L.F.'></td>
-							<td><b class="one-label">C.G.E.I.S.: </b><input type='text' class="ded-inc-amount" name="SalaryDetails[<?php echo $employee->ID?>][CGEGIS]" value='<?php echo $salary->CGEGIS ? $salary->CGEGIS : 0?>' placeholder='C.G.E.I.S.'></td>
-							<td><b class="one-label">C.P.F. Tier I: </b><input type='text' class="ded-inc-amount cpf-1-amount" name="SalaryDetails[<?php echo $employee->ID?>][CPF_TIER_I]" value='<?php echo $salary->CPF_TIER_I ? $salary->CPF_TIER_I : 0?>' placeholder='C.P.F. Tier I'></td>
-						</tr>
-						<?php 
-							$pli = 0;
-							if($salary->BILL_ID_FK == $model->ID){									
-								$pli = $salary->PLI;
+				  </table>
+				  <input type="hidden" value="<?php echo $employee->ID?>" name="SalaryDetails[<?php echo $employee->ID?>][EMP_ID]">
+				  <input type="hidden" value="<?php echo Employee::model()->findByPK($employee->ID)->PENSION_TYPE?>" id="PENSION_TYPE" name="SalaryDetails[<?php echo $employee->ID?>][PENSION_TYPE]">
+				  
+				  <?php
+					foreach($periods as $period){
+						$month = $period['MONTH'];
+						$year = $period['YEAR'];
+						if($bill->IS_SALARY_HEAD_PAY_BILL || $bill->IS_WAGES_HEAD_PAY_BILL){
+							if(SalaryDetails::model()->exists('EMPLOYEE_ID_FK='.$employee->ID.' AND BILL_ID_FK='.$bill->ID.' AND IS_SALARY_BILL = 1')){
+								$salary = SalaryDetails::model()->find('EMPLOYEE_ID_FK='.$employee->ID.' AND BILL_ID_FK='.$bill->ID.' AND IS_SALARY_BILL = 1');
 							}
-							if($pli == 0){
-								$data = EmployeePLIPolicies::model()->findBySql('SELECT SUM(AMOUNT) as AMOUNT FROM tbl_employee_pli_policies WHERE STATUS=1 AND EMPLOYEE_ID_FK='.$employee->ID, array());
-								$pli  = intVal($data['AMOUNT']);
+							else if(SalaryDetails::model()->exists('IS_SALARY_BILL = 1 AND EMPLOYEE_ID_FK='.$employee->ID.' AND YEAR='.(($period['MONTH'] ==1) ? ($period['YEAR'] - 1 ) : $period['YEAR']).' AND MONTH='.(($period['MONTH'] ==1) ? 12 : ($period['MONTH'] - 1)))){
+								$salary = SalaryDetails::model()->find('IS_SALARY_BILL = 1 AND EMPLOYEE_ID_FK='.$employee->ID.' AND YEAR='.(($period['MONTH'] ==1) ? ($period['YEAR'] - 1 ) : $period['YEAR']).' AND MONTH='.(($period['MONTH'] ==1) ? 12 : ($period['MONTH'] - 1)));
 							}
+							else{
+								$salary = SalaryDetails::model();
+							}
+						}
+						else if($bill->IS_SALARY_HEAD_OTHER_BILL || $bill->IS_WAGES_HEAD_OTHER_BILL){
+							if($bill->IS_SALARY_HEAD_PAY_ARREAR_BILL){
+								if(SalaryDetails::model()->exists('EMPLOYEE_ID_FK='.$employee->ID.' AND BILL_ID_FK='.$bill->ID.' AND MONTH='.$month.' AND YEAR='.$year)){
+									$salary = SalaryDetails::model()->find('EMPLOYEE_ID_FK='.$employee->ID.' AND BILL_ID_FK='.$bill->ID.' AND MONTH='.$month.' AND YEAR='.$year);
+								}
+								else if(SalaryDetails::model()->exists('EMPLOYEE_ID_FK='.$employee->ID.' AND MONTH='.$month.' AND YEAR='.$year.' AND IS_SALARY_BILL = 1')){
+									$salary = SalaryDetails::model()->find('EMPLOYEE_ID_FK='.$employee->ID.' AND MONTH='.$month.' AND YEAR='.$year.' AND IS_SALARY_BILL = 1');
+								}
+								else{
+									$salary = SalaryDetails::model();
+								}
+							}
+							else if($bill->IS_SALARY_HEAD_DA_ARREAR_BILL){
+								if(SalaryDetails::model()->exists('EMPLOYEE_ID_FK='.$employee->ID.' AND BILL_ID_FK='.$bill->ID.' AND MONTH='.$month.' AND YEAR='.$year)){
+									$salary = SalaryDetails::model()->find('EMPLOYEE_ID_FK='.$employee->ID.' AND BILL_ID_FK='.$bill->ID.' AND MONTH='.$month.' AND YEAR='.$year);
+								}
+								else if(SalaryDetails::model()->exists('EMPLOYEE_ID_FK='.$employee->ID.' AND MONTH='.$month.' AND YEAR='.$year.' AND IS_SALARY_BILL = 1')){
+									$salary = SalaryDetails::model()->find('EMPLOYEE_ID_FK='.$employee->ID.' AND MONTH='.$month.' AND YEAR='.$year.' AND IS_SALARY_BILL = 1');
+								}
+								else{
+									$salary = SalaryDetails::model();
+								}
+							}
+							else{
+								if(SalaryDetails::model()->exists('EMPLOYEE_ID_FK='.$employee->ID.' AND BILL_ID_FK='.$bill->ID)){
+									$salary = SalaryDetails::model()->findByAttributes(array('EMPLOYEE_ID_FK'=>$employee->ID, 'BILL_ID_FK'=>$bill->ID));
+								}
+								else{
+									$salary = SalaryDetails::model();
+								}
+							}
+						}				
+						else{
+							$salary = SalaryDetails::model();
+						}
 						?>
-						<tr>
-							<td><b class="one-label">C.P.F. Tier II: </b><input type='text' class="ded-inc-amount" name="SalaryDetails[<?php echo $employee->ID?>][CPF_TIER_II]" value='<?php echo $salary->CPF_TIER_II ? $salary->CPF_TIER_II : 0?>' placeholder='C.P.F. Tier II'></td>
-							<td><b class="one-label">P.L.I.: </b><input type='text' class="ded-inc-amount" name="SalaryDetails[<?php echo $employee->ID?>][PLI]" value='<?php echo $pli; ?>' placeholder='P.L.I.'></td>
-							<td><b class="one-label">MISC.: </b><input type='text' class="ded-inc-amount" name="SalaryDetails[<?php echo $employee->ID?>][MISC]" value='<?php echo $salary->MISC ? $salary->MISC:0 ?>' placeholder='MISC.'></td>
-							<td><b class="one-label">COURT: </b><input type='text' class="ded-inc-amount" name="SalaryDetails[<?php echo $employee->ID?>][COURT_ATTACHMENT]" value='<?php echo $salary->COURT_ATTACHMENT ? $salary->COURT_ATTACHMENT : 0?>' placeholder='COURT'></td>
-							<td><b class="one-label">P.T.: </b><input type='text' id="pt-ded-inc-amount" name="SalaryDetails[<?php echo $employee->ID?>][PT]" value='<?php echo $salary->PT ? $salary->PT : 0?>' placeholder='P.T.'></td>
-						</tr>
-						<?php 
-							$lic = 0;
-							if($salary->BILL_ID_FK == $model->ID){
-								$lic = $salary->LIC;
-							} 
-							if($lic == 0){
-								$data = EmployeeLICPolicies::model()->findBySql('SELECT SUM(AMOUNT) as AMOUNT FROM tbl_employee_lic_policies WHERE STATUS=1 AND EMPLOYEE_ID_FK='.$employee->ID, array());
-								$lic  = intVal($data['AMOUNT']);
-							}
-						?>
-						<tr>
-							<td><b class="one-label">L.I.C: </b><input type='text' class="other-ded-inc-amount" name="SalaryDetails[<?php echo $employee->ID?>][LIC]" value='<?php echo $lic; ?>' placeholder='L.I.C.'></td>
-							<td><b class="one-label">C.C.S: </b><input type='text'  class="other-ded-inc-amount" name="SalaryDetails[<?php echo $employee->ID?>][CCS]" value='<?php echo $salary->CCS ? $salary->CCS : 0?>' placeholder='C.C.S.'></td>
-							<td><b class="one-label">ASSOC SUB: </b><input type='text' class="other-ded-inc-amount" name="SalaryDetails[<?php echo $employee->ID?>][ASSOSC_SUB]" value='<?php echo $salary->ASSOSC_SUB ? $salary->ASSOSC_SUB : 0?>' placeholder='Association Subscription'></td>
-							<td><b class="one-label">MAINT. (JAYAMAHAL): </b><input type='text' class="other-ded-inc-amount" name="SalaryDetails[<?php echo $employee->ID?>][MAINT_JAYAMAHAL]" value='<?php echo $salary->MAINT_JAYAMAHAL ? $salary->MAINT_JAYAMAHAL : 0?>' placeholder='MAINT. (MADIWALA)'></td>
-							<td><b class="one-label">MAINT. (MADIWALA): </b><input type='text' class="other-ded-inc-amount" name="SalaryDetails[<?php echo $employee->ID?>][MAINT_MADIWALA]" value='<?php echo $salary->MAINT_MADIWALA ? $salary->MAINT_MADIWALA : 0?>' placeholder='MAINT. (MADIWALA)'></td>
-						</tr>
-						<tr>
-							<td colspan="5"><b class="one-label">REMARKS: </b><textarea style="width:100%;" name="SalaryDetails[<?php echo $employee->ID?>][REMARKS]" placeholder='REMARKS'><?php echo $salary->REMARKS ? $salary->REMARKS : ""?></textarea></td>
-						</tr>
-					</table>
-					<div>
-						<table class="table">
+						<table class="table table-bordered table-hover" style="margin-bottom: 10px;">
 							<tr>
-								<td>HBA</td>
-								<td>
-									<b class="one-label">INTEREST: </b>
-									<select name="SalaryDetails[<?php echo $employee->ID?>][IS_HBA_RECOVERY]" >
-										<option value="0" <?php echo ($salary->IS_HBA_RECOVERY == 0) ? "selected" : "";?>>NO</option>
-										<option value="1" <?php echo ($salary->IS_HBA_RECOVERY == 1) ? "selected" : "";?>>YES</option>
-									</select>
-								</td>
-								<td>
-									<b class="one-label">TOTAL: </b>
-									<input type='text' name="SalaryDetails[<?php echo $employee->ID?>][HBA_TOTAL]" value='<?php echo $salary->HBA_TOTAL ? $salary->HBA_TOTAL : 0?>' placeholder='TOTAL'>
-								</td>
-								<td>
-									<b class="one-label">INSTALLMENT NO: </b>
-									<input type='text' name="SalaryDetails[<?php echo $employee->ID?>][HBA_INST]" value='<?php echo $salary->HBA_INST ? $salary->HBA_INST : 0?>' placeholder='INSTALLMENT NO'>
-								</td>
-								<td>
-									<b class="one-label">EMI: </b>
-									<input type='text' class="ded-inc-amount" name="SalaryDetails[<?php echo $employee->ID?>][HBA_EMI]" 
-									value='<?php echo $salary->HBA_EMI ? $salary->HBA_EMI : 0?>' placeholder='EMI'>
-								</td>
-								<td>
-									<b class="one-label">BALANCE: </b>
-									<input type='text' name="SalaryDetails[<?php echo $employee->ID?>][HBA_BAL]" value='<?php echo $salary->HBA_BAL ? $salary->HBA_BAL : 0?>' 
-									placeholder='BALANCE'>
-								</td>
+								<td colspan="8"><b><?php echo $period['FORMAT']?></b></td>
 							</tr>
 						</table>
-						
-						<table class="table">
-							<tr>
-								<td>MCA</td>
-								<td>
-									<b class="one-label">INTEREST: </b>
-									<select name="SalaryDetails[<?php echo $employee->ID?>][IS_MCA_RECOVERY]" >
-										<option value="0" <?php echo ($salary->IS_MCA_RECOVERY == 0) ? "selected" : "";?>>NO</option>
-										<option value="1" <?php echo ($salary->IS_MCA_RECOVERY == 1) ? "selected" : "";?>>YES</option>
-									</select>
-								</td>
-								<td>
-									<b class="one-label">TOTAL: </b>
-									<input type='text' name="SalaryDetails[<?php echo $employee->ID?>][MCA_TOTAL]" 
-									value='<?php echo $salary->MCA_TOTAL ? $salary->MCA_TOTAL: 0?>' placeholder='TOTAL'>
-								</td>
-								<td>
-									<b class="one-label">INSTALLMENT NO: </b>
-									<input name="SalaryDetails[<?php echo $employee->ID?>][MCA_INST]" type='text' 
-									value='<?php echo $salary->MCA_INST ? $salary->MCA_INST : 0?>' placeholder='INSTALLMENT NO'>
-								</td>
-								<td>
-									<b class="one-label">EMI: </b>
-									<input type='text' class="ded-inc-amount" name="SalaryDetails[<?php echo $employee->ID?>][MCA_EMI]" 
-									value='<?php echo $salary->MCA_EMI ? $salary->MCA_EMI : 0?>' placeholder='EMI'>
-								</td>
-								<td>
-									<b class="one-label">BALANCE: </b>
-									<input type='text' name="SalaryDetails[<?php echo $employee->ID?>][MCA_BAL]" 
-									value='<?php echo $salary->MCA_BAL ? $salary->MCA_BAL :0?>' placeholder='BALANCE'>
-								</td>
-							</tr>
-						</table>
-						<!--<table class="table small-table">
-							<tr><th style="text-align:center;">FESTIVAL ADVANCE</th></tr>
-							<tr><td><b class="one-label">INTEREST: </b><select name="SalaryDetails[<?php echo $employee->ID?>][IS_FEST_RECOVERY]" ><option value="0" <?php echo ($salary->IS_FEST_RECOVERY == 0) ? "selected" : "";?>>NO</option><option value="1" <?php echo ($salary->IS_FEST_RECOVERY == 1) ? "selected" : "";?>>YES</option></select></td></tr>
-							<tr><td><b class="one-label">TOTAL: </b><input type='text' name="SalaryDetails[<?php echo $employee->ID?>][FEST_TOTAL]" value='<?php echo $salary->FEST_TOTAL ? $salary->FEST_TOTAL : 0?>' placeholder='TOTAL'></td></tr>
-							<tr><td><b class="one-label">INSTALLMENT NO: </b><input type='text' name="SalaryDetails[<?php echo $employee->ID?>][FEST_INST]" value='<?php echo $salary->FEST_INST ? $salary->FEST_INST : 0?>' placeholder='INSTALLMENT NO'></td></tr>
-							<tr><td><b class="one-label">EMI: </b><input type='text' class="ded-inc-amount" name="SalaryDetails[<?php echo $employee->ID?>][FEST_EMI]" value='<?php echo $salary->FEST_EMI ? $salary->FEST_EMI : 0?>' placeholder='EMI'></td></tr>
-							<tr><td><b class="one-label">BALANCE: </b><input type='text' name="SalaryDetails[<?php echo $employee->ID?>][FEST_BAL]" value='<?php echo $salary->FEST_BAL ? $salary->FEST_BAL :0?>' placeholder='BALANCE'></td></tr>
-						</table>
-						<table class="table small-table">
-							<tr><th style="text-align:center;">CYCLE ADVANCE</th></tr>
-							<tr><td><b class="one-label">INTEREST: </b><select name="SalaryDetails[<?php echo $employee->ID?>][IS_CYCLE_RECOVERY]" ><option value="0" <?php echo ($salary->IS_CYCLE_RECOVERY == 0) ? "selected" : "";?>>NO</option><option value="1" <?php echo ($salary->IS_CYCLE_RECOVERY == 1) ? "selected" : "";?>>YES</option></select></td></tr>
-							<tr><td><b class="one-label">TOTAL: </b><input type='text' name="SalaryDetails[<?php echo $employee->ID?>][CYCLE_TOTAL]" value='<?php echo $salary->CYCLE_TOTAL ? $salary->CYCLE_TOTAL :0?>' placeholder='TOTAL'></td></tr>
-							<tr><td><b class="one-label">INSTALLMENT NO: </b><input type='text' name="SalaryDetails[<?php echo $employee->ID?>][CYCLE_INST]" value='<?php echo $salary->CYCLE_INST ? $salary->CYCLE_INST :0?>' placeholder='INSTALLMENT NO'></td></tr>
-							<tr><td><b class="one-label">EMI: </b><input type='text' class="ded-inc-amountt" name="SalaryDetails[<?php echo $employee->ID?>][CYCLE_EMI]" value='<?php echo $salary->CYCLE_EMI ? $salary->CYCLE_EMI : 0?>' placeholder='EMI'></td></tr>
-							<tr><td><b class="one-label">BALANCE: </b><input type='text' name="SalaryDetails[<?php echo $employee->ID?>][CYCLE_BAL]" value='<?php echo $salary->CYCLE_BAL ? $salary->CYCLE_BAL :0?>' placeholder='BALANCE'></td></tr>
-						</table>
-						<table class="table small-table">
-							<tr><th style="text-align:center;">FLOOD ADVANCE</th></tr>
-							<tr><td><b class="one-label">INTEREST: </b><select name="SalaryDetails[<?php echo $employee->ID?>][IS_FLOOD_RECOVERY]" ><option value="0" <?php echo ($salary->IS_FLOOD_RECOVERY == 0) ? "selected" : "";?>>NO</option><option value="1" <?php echo ($salary->IS_FLOOD_RECOVERY == 1) ? "selected" : "";?>>YES</option></select></td></tr>
-							<tr><td><b class="one-label">TOTAL: </b><input type='text' name="SalaryDetails[<?php echo $employee->ID?>][FLOOD_TOTAL]" value='<?php echo $salary->FLOOD_TOTAL ? $salary->FLOOD_TOTAL : 0?>' placeholder='TOTAL'></td></tr>
-							<tr><td><b class="one-label">INSTALLMENT NO: </b><input type='text' name="SalaryDetails[<?php echo $employee->ID?>][FLOOD_INST]" value='<?php echo $salary->FLOOD_INST ? $salary->FLOOD_INST :0?>' placeholder='INSTALLMENT NO'></td></tr>
-							<tr><td><b class="one-label">EMI: </b><input type='text' class="ded-inc-amountt" name="SalaryDetails[<?php echo $employee->ID?>][FLOOD_EMI]" value='<?php echo $salary->FLOOD_EMI ? $salary->FLOOD_EMI : 0?>' placeholder='EMI'></td></tr>
-							<tr><td><b class="one-label">BALANCE: </b><input type='text' name="SalaryDetails[<?php echo $employee->ID?>][FLOOD_BAL]" value='<?php echo $salary->FLOOD_BAL ? $salary->FLOOD_BAL :0?>' placeholder='BALANCE'></td></tr>
-						</table>
-						<table class="table small-table">
-							<tr><th style="text-align:center;">FAN ADVANCE</th></tr>
-							<tr><td><b class="one-label">INTEREST: </b><select name="SalaryDetails[<?php echo $employee->ID?>][IS_FAN_RECOVERY]" ><option value="0" <?php echo ($salary->IS_FAN_RECOVERY == 0) ? "selected" : "";?>>NO</option><option value="1" <?php echo ($salary->IS_FAN_RECOVERY == 1) ? "selected" : "";?>>YES</option></select></td></tr>
-							<tr><td><b class="one-label">TOTAL: </b><input type='text' name="SalaryDetails[<?php echo $employee->ID?>][FAN_TOTAL]" value='<?php echo $salary->FAN_TOTAL ? $salary->FAN_TOTAL : 0?>' placeholder='TOTAL'></td></tr>
-							<tr><td><b class="one-label">INSTALLMENT NO: </b><input type='text' name="SalaryDetails[<?php echo $employee->ID?>][FAN_INST]" value='<?php echo $salary->FAN_INST ? $salary->FAN_INST :0?>' placeholder='INSTALLMENT NO'></td></tr>
-							<tr><td><b class="one-label">EMI: </b><input type='text' class="ded-inc-amountt" name="SalaryDetails[<?php echo $employee->ID?>][FAN_EMI]" value='<?php echo $salary->FAN_EMI ? $salary->FAN_EMI : 0?>' placeholder='EMI'></td></tr>
-							<tr><td><b class="one-label">BALANCE: </b><input type='text' name="SalaryDetails[<?php echo $employee->ID?>][FAN_BAL]" value='<?php echo $salary->FAN_BAL ? $salary->FAN_BAL :0?>' placeholder='BALANCE'></td></tr>
-						</table>-->
-					</div>
-					<table class="table">
-						<tr>
-							<td><b class="one-label">GROSS: </b><input type='text' id='gross-components' name="SalaryDetails[<?php echo $employee->ID?>][GROSS]" value='<?php echo $salary->GROSS ? $salary->GROSS : 0?>' placeholder='GROSS'></td>
-							<td><b class="one-label">Deduction: </b><input type='text' id='ded-components' name="SalaryDetails[<?php echo $employee->ID?>][DED]" value='<?php echo $salary->DED ? $salary->DED : 0?>' placeholder='Deduction'></td>
-							<td><b class="one-label">NET: </b><input type='text' id='net-components' name="SalaryDetails[<?php echo $employee->ID?>][NET]" value='<?php echo $salary->NET ? $salary->NET : 0?>' placeholder='NET'></td>
-						</tr>
-						<tr>
-							<td><b class="one-label">Other Deduction: </b><input type='text' id='other-ded-components' name="SalaryDetails[<?php echo $employee->ID?>][OTHER_DED]" value='<?php echo $salary->OTHER_DED ? $salary->OTHER_DED : 0?>' placeholder='OTHER DEUCTION'></td>
-							<td><b class="one-label">Amount credit to Bank: </b><input type='text' id='credit-component' name="SalaryDetails[<?php echo $employee->ID?>][AMOUNT_BANK]" value='<?php echo $salary->AMOUNT_BANK ? $salary->AMOUNT_BANK : 0?>' placeholder='AMOUNT TO BANK'></td>
-						</tr>
-					</table>
-					<?php } ?>
-					<?php if($bill->IS_BONUS_BILL) {?>
-					<table class='gross-comp-<?php echo $employee->ID;?> table'>
-						<tr>
-							<td><b class="one-label">BONUS: </b><input type='text' class="gross-inc-amount" name="SalaryDetails[<?php echo $employee->ID?>][BONUS]" value='<?php echo $salary->BONUS ? $salary->BONUS : 0?>' placeholder='C.C.A.'></td>
-						</tr>
-					</table>
-					<table class='gross-comp-<?php echo $employee->ID;?> table'>
-						<tr>
-							<td><b class="one-label">GROSS: </b><input readonly  type='text' id='gross-components' name="SalaryDetails[<?php echo $employee->ID?>][GROSS]" value='<?php echo $salary->GROSS ? $salary->GROSS : 0?>' placeholder='GROSS'></td>
-							<td><b class="one-label">Deduction: </b><input readonly  type='text' id='ded-components' name="SalaryDetails[<?php echo $employee->ID?>][DED]" value='<?php echo $salary->DED ? $salary->DED : 0?>' placeholder='Deduction'></td>
-							<td><b class="one-label">NET: </b><input readonly  type='text' id='net-components' name="SalaryDetails[<?php echo $employee->ID?>][NET]" value='<?php echo $salary->NET ? $salary->NET : 0?>' placeholder='NET'></td>
-							<td><b class="one-label">Amount credit to Bank: </b><input readonly  type='text' id='credit-component' name="SalaryDetails[<?php echo $employee->ID?>][AMOUNT_BANK]" value='<?php echo $salary->AMOUNT_BANK ? $salary->AMOUNT_BANK : 0?>' placeholder='AMOUNT TO BANK'></td>
-						</tr>
-					</table>
-					<?php } ?>
-					<?php if($bill->IS_UA_BILL) {?>
-					<table class='gross-comp-<?php echo $employee->ID;?> table'>
-						<tr>
-							<td><b class="one-label">Uniform Allowance: </b><input type='text' class="gross-inc-amount" name="SalaryDetails[<?php echo $employee->ID?>][UA]" value='<?php echo $salary->UA ? $salary->UA : 0?>' placeholder='C.C.A.'></td>
-						</tr>
-					</table>
-					<table class='gross-comp-<?php echo $employee->ID;?> table'>
-						<tr>
-							<td><b class="one-label">GROSS: </b><input readonly  type='text' id='gross-components' name="SalaryDetails[<?php echo $employee->ID?>][GROSS]" value='<?php echo $salary->GROSS ? $salary->GROSS : 0?>' placeholder='GROSS'></td>
-							<td><b class="one-label">Deduction: </b><input readonly  type='text' id='ded-components' name="SalaryDetails[<?php echo $employee->ID?>][DED]" value='<?php echo $salary->DED ? $salary->DED : 0?>' placeholder='Deduction'></td>
-							<td><b class="one-label">NET: </b><input readonly  type='text' id='net-components' name="SalaryDetails[<?php echo $employee->ID?>][NET]" value='<?php echo $salary->NET ? $salary->NET : 0?>' placeholder='NET'></td>
-							<td><b class="one-label">Amount credit to Bank: </b><input readonly  type='text' id='credit-component' name="SalaryDetails[<?php echo $employee->ID?>][AMOUNT_BANK]" value='<?php echo $salary->AMOUNT_BANK ? $salary->AMOUNT_BANK : 0?>' placeholder='AMOUNT TO BANK'></td>
-						</tr>
-					</table>
-					<?php } ?>
-					<?php if($bill->IS_CEA_BILL) {?>
-					<table class='gross-comp-<?php echo $employee->ID;?> table'>
-						<tr>
-							<td><b class="one-label">Children Education Allowance: </b><input type='text' class="gross-inc-amount" name="SalaryDetails[<?php echo $employee->ID?>][CEA]" value='<?php echo $salary->CEA ? $salary->CEA : 0?>' placeholder='C.E.A.'></td>
-						</tr>
-					</table>
-					<table class='gross-comp-<?php echo $employee->ID;?> table'>
-						<tr>
-							<td><b class="one-label">GROSS: </b><input readonly  type='text' id='gross-components' name="SalaryDetails[<?php echo $employee->ID?>][GROSS]" value='<?php echo $salary->GROSS ? $salary->GROSS : 0?>' placeholder='GROSS'></td>
-							<td><b class="one-label">Deduction: </b><input readonly  type='text' id='ded-components' name="SalaryDetails[<?php echo $employee->ID?>][DED]" value='<?php echo $salary->DED ? $salary->DED : 0?>' placeholder='Deduction'></td>
-							<td><b class="one-label">NET: </b><input readonly  type='text' id='net-components' name="SalaryDetails[<?php echo $employee->ID?>][NET]" value='<?php echo $salary->NET ? $salary->NET : 0?>' placeholder='NET'></td>
-							<td><b class="one-label">Amount credit to Bank: </b><input readonly  type='text' id='credit-component' name="SalaryDetails[<?php echo $employee->ID?>][AMOUNT_BANK]" value='<?php echo $salary->AMOUNT_BANK ? $salary->AMOUNT_BANK : 0?>' placeholder='AMOUNT TO BANK'></td>
-						</tr>
-					</table>
-					<?php } ?>
-					<?php if($bill->IS_LTC_ADVANCE_BILL) {?>
-					<table class='gross-comp-<?php echo $employee->ID;?> table'>
-						<tr>
-							<td><b class="one-label">HTC/LTC ADVANCE: </b><input type='text' class="gross-inc-amount" name="SalaryDetails[<?php echo $employee->ID?>][LTC_HTC]" value='<?php echo $salary->LTC_HTC ? $salary->LTC_HTC : 0?>' placeholder='HTC/LTC ADVANCE'></td>
-						</tr>
-					</table>
-					<table class='gross-comp-<?php echo $employee->ID;?> table'>
-						<tr>
-							<td><b class="one-label">GROSS: </b><input readonly  type='text' id='gross-components' name="SalaryDetails[<?php echo $employee->ID?>][GROSS]" value='<?php echo $salary->GROSS ? $salary->GROSS : 0?>' placeholder='GROSS'></td>
-							<td><b class="one-label">Deduction: </b><input readonly  type='text' id='ded-components' name="SalaryDetails[<?php echo $employee->ID?>][DED]" value='<?php echo $salary->DED ? $salary->DED : 0?>' placeholder='Deduction'></td>
-							<td><b class="one-label">NET: </b><input readonly  type='text' id='net-components' name="SalaryDetails[<?php echo $employee->ID?>][NET]" value='<?php echo $salary->NET ? $salary->NET : 0?>' placeholder='NET'></td>
-							<td><b class="one-label">Amount credit to Bank: </b><input readonly  type='text' id='credit-component' name="SalaryDetails[<?php echo $employee->ID?>][AMOUNT_BANK]" value='<?php echo $salary->AMOUNT_BANK ? $salary->AMOUNT_BANK : 0?>' placeholder='AMOUNT TO BANK'></td>
-						</tr>
-					</table>
-					<?php } ?>
-					<?php if($bill->IS_LTC_CLAIM_BILL) {?>
-					<table class='gross-comp-<?php echo $employee->ID;?> table'>
-						<tr>
-							<td><b class="one-label">HTC/LTC GROSS CLAIM: </b><input type='text' class="gross-inc-amount" name="SalaryDetails[<?php echo $employee->ID?>][LTC_HTC_GROSS]" value='<?php echo $salary->LTC_HTC_GROSS ? $salary->LTC_HTC_GROSS : 0?>' placeholder='GROSS'></td>
-							<td><b class="one-label">HTC/LTC ADVANCE: </b><input type='text' class="ltc-ded-inc-amount" name="SalaryDetails[<?php echo $employee->ID?>][LTC_HTC_ADVANCE]" value='<?php echo $salary->LTC_HTC_ADVANCE ? $salary->LTC_HTC_ADVANCE : 0?>' placeholder='ADVANCE'></td>
-							<td><b class="one-label">HTC/LTC NET AMOUNT: </b><input type='text' id="ltc-credit-component" name="SalaryDetails[<?php echo $employee->ID?>][LTC_HTC]" value='<?php echo $salary->LTC_HTC ? $salary->LTC_HTC : 0?>' placeholder='CLAIM AMOUNT'></td>
-						</tr>
-					</table>
-					<table class='gross-comp-<?php echo $employee->ID;?> table'>
-						<tr>
-							<td><b class="one-label">GROSS: </b><input readonly  type='text' id='gross-components' name="SalaryDetails[<?php echo $employee->ID?>][GROSS]" value='<?php echo $salary->GROSS ? $salary->GROSS : 0?>' placeholder='GROSS'></td>
-							<td><b class="one-label">Deduction: </b><input readonly  type='text' id='ded-components' name="SalaryDetails[<?php echo $employee->ID?>][DED]" value='<?php echo $salary->DED ? $salary->DED : 0?>' placeholder='Deduction'></td>
-							<td><b class="one-label">NET: </b><input readonly  type='text' id='net-components' name="SalaryDetails[<?php echo $employee->ID?>][NET]" value='<?php echo $salary->NET ? $salary->NET : 0?>' placeholder='NET'></td>
-							<td><b class="one-label">Amount credit to Bank: </b><input readonly  type='text' id='credit-component' name="SalaryDetails[<?php echo $employee->ID?>][AMOUNT_BANK]" value='<?php echo $salary->AMOUNT_BANK ? $salary->AMOUNT_BANK : 0?>' placeholder='AMOUNT TO BANK'></td>
-						</tr>
-					</table>
-					<?php } ?>
-					<?php if($bill->IS_EL_ENCASHMENT_BILL) {?>
-					<table class='gross-comp-<?php echo $employee->ID;?> table'>
-						<tr>
-							<td><b class="one-label">EL ENCASHMENT: </b><input type='text' class="gross-inc-amount" name="SalaryDetails[<?php echo $employee->ID?>][EL_ENCASHMENT]" value='<?php echo $salary->EL_ENCASHMENT ? $salary->EL_ENCASHMENT : 0?>' placeholder='EL ENCASHMENT'></td>
-						</tr>
-					</table>
-					<table class='gross-comp-<?php echo $employee->ID;?> table'>
-						<tr>
-							<td><b class="one-label">GROSS: </b><input readonly  type='text' id='gross-components' name="SalaryDetails[<?php echo $employee->ID?>][GROSS]" value='<?php echo $salary->GROSS ? $salary->GROSS : 0?>' placeholder='GROSS'></td>
-							<td><b class="one-label">Deduction: </b><input readonly  type='text' id='ded-components' name="SalaryDetails[<?php echo $employee->ID?>][DED]" value='<?php echo $salary->DED ? $salary->DED : 0?>' placeholder='Deduction'></td>
-							<td><b class="one-label">NET: </b><input readonly  type='text' id='net-components' name="SalaryDetails[<?php echo $employee->ID?>][NET]" value='<?php echo $salary->NET ? $salary->NET : 0?>' placeholder='NET'></td>
-							<td><b class="one-label">Amount credit to Bank: </b><input readonly  type='text' id='credit-component' name="SalaryDetails[<?php echo $employee->ID?>][AMOUNT_BANK]" value='<?php echo $salary->AMOUNT_BANK ? $salary->AMOUNT_BANK : 0?>' placeholder='AMOUNT TO BANK'></td>
-						</tr>
-					</table>
-					<?php } ?>
-					<?php if($bill->IS_RECOVERY_BILL) {?>
-					<table class='gross-comp-<?php echo $employee->ID;?> table'>
-						<tr>
-							<td><b class="one-label">RECOVERY: </b><input type='text' class="ded-inc-amount" name="SalaryDetails[<?php echo $employee->ID?>][RECOVERY]" value='<?php echo $salary->RECOVERY ? $salary->RECOVERY : 0?>' placeholder='RECOVERY'></td>
-						</tr>
-					</table>
-					<table class='gross-comp-<?php echo $employee->ID;?> table'>
-						<tr>
-							<td><b class="one-label">GROSS: </b><input readonly  type='text' id='gross-components' name="SalaryDetails[<?php echo $employee->ID?>][GROSS]" value='<?php echo $salary->GROSS ? $salary->GROSS : 0?>' placeholder='GROSS'></td>
-							<td><b class="one-label">Deduction: </b><input readonly  type='text' id='ded-components' name="SalaryDetails[<?php echo $employee->ID?>][DED]" value='<?php echo $salary->DED ? $salary->DED : 0?>' placeholder='Deduction'></td>
-							<td><b class="one-label">NET: </b><input readonly  type='text' id='net-components' name="SalaryDetails[<?php echo $employee->ID?>][NET]" value='<?php echo $salary->NET ? $salary->NET : 0?>' placeholder='NET'></td>
-							<td><b class="one-label">Amount credit to Bank: </b><input readonly  type='text' id='credit-component' name="SalaryDetails[<?php echo $employee->ID?>][AMOUNT_BANK]" value='<?php echo $salary->AMOUNT_BANK ? $salary->AMOUNT_BANK : 0?>' placeholder='AMOUNT TO BANK'></td>
-						</tr>
-					</table>
-					<?php } ?>
+						<?php  if($bill->IS_SALARY_HEAD_PAY_BILL || $bill->IS_WAGES_HEAD_PAY_BILL || $bill->IS_ARREAR_BILL) { ?>
+							<input type="hidden" name="SalaryDetails[<?php echo $employee->ID?>][<?php echo $year;?>][<?php echo $month;?>][MONTH]" value="<?php echo $month?>"/>
+							<input type="hidden" name="SalaryDetails[<?php echo $employee->ID?>][<?php echo $year;?>][<?php echo $month;?>][YEAR]" value="<?php echo $year?>"/>
+							<table class="table table-bordered table-hover" style="margin-bottom: 10px;" id="<?php echo $month."-".$year;?>">
+								<tr>
+									<td>BASIC: <input type="text" size="10" name="SalaryDetails[<?php echo $employee->ID?>][<?php echo $year;?>][<?php echo $month;?>][BASIC]" data-type="BASIC" class="gross-inc-amount basic-amount" value="<?php echo $salary->BASIC ? $salary->BASIC : 0;?>" placeholder="BASIC"/></td>
+									<td>SP: <input type="text" size="10" name="SalaryDetails[<?php echo $employee->ID?>][<?php echo $year;?>][<?php echo $month;?>][SP]" data-type="SP" class="gross-inc-amount" value="<?php echo $salary->SP ? $salary->SP : 0;?>" placeholder="SP"/></td>
+									<td>PP: <input type="text" size="10" name="SalaryDetails[<?php echo $employee->ID?>][<?php echo $year;?>][<?php echo $month;?>][PP]" data-type="PP" class="gross-inc-amount" value="<?php echo $salary->PP ? $salary->PP : 0;?>" placeholder="PP"/></td>
+									<td>CCA: <input type="text" size="10" name="SalaryDetails[<?php echo $employee->ID?>][<?php echo $year;?>][<?php echo $month;?>][CCA]" data-type="CCA" class="gross-inc-amount" value="<?php echo $salary->CCA ? $salary->CCA : 0;?>" placeholder="CCA"/></td>
+									<td>HRA: <input type="text" size="10" name="SalaryDetails[<?php echo $employee->ID?>][<?php echo $year;?>][<?php echo $month;?>][HRA]" data-type="HRA" class="gross-inc-amount hra-amount" value="<?php echo $salary->HRA ? $salary->HRA : 0;?>" placeholder="HRA"/></td>
+									<td>DA: <input type="text" size="10" name="SalaryDetails[<?php echo $employee->ID?>][<?php echo $year;?>][<?php echo $month;?>][DA]" data-type="DA" class="gross-inc-amount da-amount" value="<?php echo $salary->DA ? $salary->DA : 0;?>" placeholder="DA"/></td>
+									<td>TA: <input type="text" size="10" name="SalaryDetails[<?php echo $employee->ID?>][<?php echo $year;?>][<?php echo $month;?>][TA]" data-type="TA" class="gross-inc-amount" value="<?php echo $salary->TA ? $salary->TA : 0;?>" placeholder="TA"/></td>
+									<td>WA: <input type="text" size="10" name="SalaryDetails[<?php echo $employee->ID?>][<?php echo $year;?>][<?php echo $month;?>][WA]" data-type="WA" class="gross-inc-amount" value="<?php echo $salary->WA ? $salary->WA : 0;?>" placeholder="WA"/></td>
+								</tr>
+								<tr>
+									<td>IT: <input type="text" size="10" name="SalaryDetails[<?php echo $employee->ID?>][<?php echo $year;?>][<?php echo $month;?>][IT]" data-type="IT" class="ded-inc-amount" value="<?php echo $salary->IT ? $salary->IT : 0;?>" placeholder="IT"/></td>
+									<td>CGHS: <input type="text" size="10" name="SalaryDetails[<?php echo $employee->ID?>][<?php echo $year;?>][<?php echo $month;?>][CGHS]" data-type="CGHS" class="ded-inc-amount" value="<?php echo $salary->CGHS ? $salary->CGHS : 0;?>" placeholder="CGHS"/></td>
+									<td>LF: <input type="text" size="10" name="SalaryDetails[<?php echo $employee->ID?>][<?php echo $year;?>][<?php echo $month;?>][LF]" data-type="LF" class="ded-inc-amount" value="<?php echo $salary->LF ? $salary->LF : 0;?>" placeholder="LF"/></td>
+									<td>CGEGIS: <input type="text" size="10" name="SalaryDetails[<?php echo $employee->ID?>][<?php echo $year;?>][<?php echo $month;?>][CGEGIS]" data-type="CGEGIS" class="ded-inc-amount" value="<?php echo $salary->CGEGIS ? $salary->CGEGIS : 0;?>" placeholder="CGEGIS"/></td>
+									<td><?php echo ( $employee->PENSION_TYPE == 'OPS' ) ? "GPFC" : "CPF TIER I"; ?>: <input type="text" size="10" name="SalaryDetails[<?php echo $employee->ID?>][<?php echo $year;?>][<?php echo $month;?>][CPF_TIER_I]" data-type="CPF_TIER_I" class="ded-inc-amount  cpf-1-amount" value="<?php echo $salary->CPF_TIER_I ? $salary->CPF_TIER_I : 0;?>" placeholder="<?php echo ( $employee->PENSION_TYPE == 'OPS' ) ? "GPFC" : "CPF TIER I"; ?>"/></td>
+									<td><?php echo ( $employee->PENSION_TYPE == 'OPS' ) ? "GPFR" : "CPF TIER II"; ?>: <input type="text" size="10" name="SalaryDetails[<?php echo $employee->ID?>][<?php echo $year;?>][<?php echo $month;?>][CPF_TIER_II]" data-type="CPF_TIER_II" class="ded-inc-amount" value="<?php echo $salary->CPF_TIER_II ? $salary->CPF_TIER_II : 0;?>" placeholder="<?php echo ( $employee->PENSION_TYPE == 'OPS' ) ? "GPFR" : "CPF TIER II"; ?>"/></td>
+									<td>MISC: <input type="text" size="10" name="SalaryDetails[<?php echo $employee->ID?>][<?php echo $year;?>][<?php echo $month;?>][MISC]" data-type="MISC" class="ded-inc-amount" value="<?php echo $salary->MISC ? $salary->MISC : 0;?>" placeholder="MISC"/></td>
+									<?php 
+										$pli = 0;
+										if($salary->BILL_ID_FK == $bill->ID){									
+											$pli = $salary->PLI;
+										}
+										if($pli == 0){
+											$data = EmployeePLIPolicies::model()->findBySql('SELECT SUM(AMOUNT) as AMOUNT FROM tbl_employee_pli_policies WHERE STATUS=1 AND EMPLOYEE_ID_FK='.$employee->ID, array());
+											$pli  = intVal($data['AMOUNT']);
+										}
+									?>
+									<td>PLI: <input type="text" size="10" name="SalaryDetails[<?php echo $employee->ID?>][<?php echo $year;?>][<?php echo $month;?>][PLI]" data-type="PLI" class="ded-inc-amount" value="<?php echo $pli;?>" placeholder="PLI"/></td>
+								</tr>
+								<tr>
+									<td>COURT: <input type="text" size="10" name="SalaryDetails[<?php echo $employee->ID?>][<?php echo $year;?>][<?php echo $month;?>][COURT]" data-type="COURT" class="ded-inc-amount" value="<?php echo $salary->COURT_ATTACHMENT ? $salary->COURT_ATTACHMENT : 0;?>" placeholder="COURT"/></td>
+									<td>PT: <input type="text" size="10" name="SalaryDetails[<?php echo $employee->ID?>][<?php echo $year;?>][<?php echo $month;?>][PT]" data-type="PT" class="pt-ded-inc-amount" value="<?php echo $salary->PT ? $salary->PT : 0;?>" placeholder="PT"/></td>
+									<td>CCS: <input type="text" size="10" name="SalaryDetails[<?php echo $employee->ID?>][<?php echo $year;?>][<?php echo $month;?>][CCS]" data-type="CCS" class="other-ded-inc-amount" value="<?php echo $salary->CCS ? $salary->CCS : 0;?>" placeholder="CCS"/></td>
+									<?php 
+										$lic = 0;
+										if($salary->BILL_ID_FK == $model->ID){
+											$lic = $salary->LIC;
+										} 
+										if($lic == 0){
+											$data = EmployeeLICPolicies::model()->findBySql('SELECT SUM(AMOUNT) as AMOUNT FROM tbl_employee_lic_policies WHERE STATUS=1 AND EMPLOYEE_ID_FK='.$employee->ID, array());
+											$lic  = intVal($data['AMOUNT']);
+										}
+									?>
+									<td>LIC: <input type="text" size="10" name="SalaryDetails[<?php echo $employee->ID?>][<?php echo $year;?>][<?php echo $month;?>][LIC]" data-type="LIC" class="other-ded-inc-amount" value="<?php echo $lic;?>" placeholder="LIC"/></td>
+									<td>ASSOSC SUB.: <input type="text" size="10" name="SalaryDetails[<?php echo $employee->ID?>][<?php echo $year;?>][<?php echo $month;?>][ASSOSC_SUB]" data-type="ASSOSC_SUB" class="other-ded-inc-amount" value="<?php echo $salary->ASSOSC_SUB ? $salary->ASSOSC_SUB : 0;?>" placeholder="ASSOSC SUB"/></td>
+									<td>JAYAMAHAL: <input type="text" size="10" name="SalaryDetails[<?php echo $employee->ID?>][<?php echo $year;?>][<?php echo $month;?>][MAINT_JAYAMAHAL]" data-type="MAINT_JAYAMAHAL" class="other-ded-inc-amount" value="<?php echo $salary->MAINT_JAYAMAHAL ? $salary->MAINT_JAYAMAHAL : 0;?>" placeholder="MAINT. JAYAMAHAL"/></td>
+									<td>MADIWALA: <input type="text" size="10" name="SalaryDetails[<?php echo $employee->ID?>][<?php echo $year;?>][<?php echo $month;?>][MAINT_MADIWALA]" data-type="MAINT_MADIWALA" class="other-ded-inc-amount" value="<?php echo $salary->MAINT_MADIWALA ? $salary->MAINT_MADIWALA : 0;?>" placeholder="MAINT. MADIWALA"/></td>				
+									<td></td>
+								</tr>
+								<tr>
+									<td>HBA</td>
+									<td>
+										INTEREST:
+										<select name="SalaryDetails[<?php echo $employee->ID?>][<?php echo $month?>][IS_HBA_RECOVERY]" >
+											<option value="0" <?php echo ($salary->IS_HBA_RECOVERY && ($salary->IS_HBA_RECOVERY == 0)) ? "selected" : "";?>>NO</option>
+											<option value="1" <?php echo ($salary->IS_HBA_RECOVERY && ($salary->IS_HBA_RECOVERY == 1)) ? "selected" : "";?>>YES</option>
+										</select>
+									</td>
+									<td>TOTAL: <input type="text" size="10" name="SalaryDetails[<?php echo $employee->ID?>][<?php echo $year;?>][<?php echo $month;?>][HBA_TOTAL]" data-type="HBA_TOTAL" value="<?php echo $salary->HBA_TOTAL ? $salary->HBA_TOTAL : 0;?>" placeholder="TOTAL" class="hba-total"/></td>
+									<td>INSTALLMENT: <input type="text" size="10" name="SalaryDetails[<?php echo $employee->ID?>][<?php echo $year;?>][<?php echo $month;?>][HBA_INST]" data-type="HBA_INST" value="<?php echo $salary->HBA_INST ? $salary->HBA_INST : 0;?>" placeholder="INSTALLMENT" class="increment-field hba-inst"/></td>
+									<td>EMI: <input type="text" size="10" name="SalaryDetails[<?php echo $employee->ID?>][<?php echo $year;?>][<?php echo $month;?>][HBA_EMI]" data-type="HBA_EMI" class="ded-inc-amount hba-emi" value="<?php echo $salary->HBA_EMI ? $salary->HBA_EMI : 0;?>" placeholder="EMI"/></td>
+									<td>BALANCE: <input type="text" size="10" name="SalaryDetails[<?php echo $employee->ID?>][<?php echo $year;?>][<?php echo $month;?>][HBA_BAL]" data-type="HBA_BAL" value="<?php echo $salary->HBA_BAL ? $salary->HBA_BAL : 0;?>" placeholder="BALANCE" class="hba-bal non-populated-field"/></td>
+									<td></td><td></td>
+								</tr>
+								<tr>
+									<td>MCA</td>
+									<td>
+										INTEREST:
+										<select name="SalaryDetails[<?php echo $employee->ID?>][<?php echo $month?>][IS_MCA_RECOVERY]" >
+											<option value="0" <?php echo ($salary->IS_MCA_RECOVERY == 0) ? "selected" : "";?>>NO</option>
+											<option value="1" <?php echo ($salary->IS_MCA_RECOVERY == 1) ? "selected" : "";?>>YES</option>
+										</select>
+									</td>
+									<td>TOTAL: <input type="text" size="10" name="SalaryDetails[<?php echo $employee->ID?>][<?php echo $year;?>][<?php echo $month;?>][MCA_TOTAL]" data-type="MCA_TOTAL" value="<?php echo $salary->MCA_TOTAL ? $salary->MCA_TOTAL : 0;?>" placeholder="TOTAL" class="mca-total"/></td>
+									<td>INSTALLMENT: <input type="text" size="10" name="SalaryDetails[<?php echo $employee->ID?>][<?php echo $year;?>][<?php echo $month;?>][MCA_INST]" data-type="MCA_INST" value="<?php echo $salary->MCA_INST ? $salary->MCA_INST : 0;?>" placeholder="INSTALLMENT" class="increment-field mca-inst"/></td>
+									<td>EMI: <input type="text" size="10" name="SalaryDetails[<?php echo $employee->ID?>][<?php echo $year;?>][<?php echo $month;?>][MCA_EMI]" data-type="MCA_EMI" class="ded-inc-amount mca-emi" value="<?php echo $salary->MCA_EMI ? $salary->MCA_EMI : 0;?>" placeholder="EMI"/></td>
+									<td>BALANCE: <input type="text" size="10" name="SalaryDetails[<?php echo $employee->ID?>][<?php echo $year;?>][<?php echo $month;?>][MCA_BAL]" data-type="MCA_BAL" value="<?php echo $salary->MCA_BAL ? $salary->MCA_BAL : 0;?>" placeholder="BALANCE" class="mca-bal non-populated-field"/></td>
+									<td></td><td></td>
+								</tr>
+								<tr>
+									<td>GROSS: <input type="text" size="10" id='gross-components' name="SalaryDetails[<?php echo $employee->ID?>][<?php echo $year;?>][<?php echo $month;?>][GROSS]" value="<?php echo $salary->GROSS ? $salary->GROSS : 0;?>" placeholder="GROSS"/></td>
+									<td>DED: <input type="text" size="10" id='ded-components' name="SalaryDetails[<?php echo $employee->ID?>][<?php echo $year;?>][<?php echo $month;?>][DED]" value="<?php echo $salary->DED ? $salary->DED : 0;?>" placeholder="DED"/></td>
+									<td>NET: <input type="text" size="10" id='net-components' name="SalaryDetails[<?php echo $employee->ID?>][<?php echo $year;?>][<?php echo $month;?>][NET]" value="<?php echo $salary->NET ? $salary->NET : 0;?>" placeholder="NET"/></td>
+									<td>OTHER DED: <input type="text" size="10" id='other-ded-components' name="SalaryDetails[<?php echo $employee->ID?>][<?php echo $year;?>][<?php echo $month;?>][OTHER_DED]" value="<?php echo $salary->OTHER_DED ? $salary->OTHER_DED : 0;?>" placeholder="OTHER DED"/></td>
+									<td>AMT. BANK: <input type="text" size="10" id='credit-component' name="SalaryDetails[<?php echo $employee->ID?>][<?php echo $year;?>][<?php echo $month;?>][AMOUNT_BANK]" value="<?php echo $salary->AMOUNT_BANK ? $salary->AMOUNT_BANK : 0;?>" placeholder="AMOUNT BANK"/></td>
+									<td></td><td></td><td></td>
+								</tr>
+							</table>
+						<?php } ?>
+						<?php  if($bill->IS_DA_ARREAR_BILL) { ?>
+							<input type="hidden" name="SalaryDetails[<?php echo $employee->ID?>][<?php echo $year;?>][<?php echo $month;?>][MONTH]" value="<?php echo $month?>"/>
+							<input type="hidden" name="SalaryDetails[<?php echo $employee->ID?>][<?php echo $year;?>][<?php echo $month;?>][YEAR]" value="<?php echo $year?>"/>
+							<table class="table table-bordered table-hover" style="margin-bottom: 10px;" id="<?php echo $month."-".$year;?>">
+								<tr>
+									<td>BASIC: <span class="field-value"><?php echo $salary->BASIC ? $salary->BASIC : 0;?></span></td>
+									<td>DA: <input type="text" size="10" name="SalaryDetails[<?php echo $employee->ID?>][<?php echo $year;?>][<?php echo $month;?>][DA]" data-type="DA" class="gross-inc-amount da-amount" value="<?php echo $salary->DA ? $salary->DA : 0;?>" placeholder="DA"/></td>
+									<?php if($employee->PENSION_TYPE == "NPS") {?>
+									<td>CPF TIER I: <input type="text" size="10" name="SalaryDetails[<?php echo $employee->ID?>][<?php echo $year;?>][<?php echo $month;?>][CPF_TIER_I]" data-type="CPF_TIER_I" class="ded-inc-amount  cpf-1-amount" value="<?php echo $salary->CPF_TIER_I ? $salary->CPF_TIER_I : 0;?>" placeholder="CPF TIER I"/></td>
+									<?php } else if($employee->PENSION_TYPE == "OPS") {?>
+									<?php } ?>
+									<td>GROSS: <input type="text" size="10" id='gross-components' name="SalaryDetails[<?php echo $employee->ID?>][<?php echo $year;?>][<?php echo $month;?>][GROSS]" value="<?php echo $salary->GROSS ? $salary->GROSS : 0;?>" placeholder="GROSS"/></td>
+									<td>DED: <input type="text" size="10" id='ded-components' name="SalaryDetails[<?php echo $employee->ID?>][<?php echo $year;?>][<?php echo $month;?>][DED]" value="<?php echo $salary->DED ? $salary->DED : 0;?>" placeholder="DED"/></td>
+									<td>NET: <input type="text" size="10" id='net-components' name="SalaryDetails[<?php echo $employee->ID?>][<?php echo $year;?>][<?php echo $month;?>][NET]" value="<?php echo $salary->NET ? $salary->NET : 0;?>" placeholder="NET"/></td>
+									<td>OTHER DED: <input type="text" size="10" id='other-ded-components' name="SalaryDetails[<?php echo $employee->ID?>][<?php echo $year;?>][<?php echo $month;?>][OTHER_DED]" value="<?php echo $salary->OTHER_DED ? $salary->OTHER_DED : 0;?>" placeholder="OTHER DED"/></td>
+									<td>AMT. BANK: <input type="text" size="10" id='credit-component' name="SalaryDetails[<?php echo $employee->ID?>][<?php echo $year;?>][<?php echo $month;?>][AMOUNT_BANK]" value="<?php echo $salary->AMOUNT_BANK ? $salary->AMOUNT_BANK : 0;?>" placeholder="AMOUNT BANK"/></td>
+								</tr>
+							</table>
+						<?php } ?>
+						<?php if($bill->IS_BONUS_BILL) {?>
+							<table class="table table-bordered table-hover" style="margin-bottom: 10px;" id="<?php echo $month."-".$year;?>">
+								<tr>
+									<td>BONUS: <input type="text" size="10" name="SalaryDetails[<?php echo $employee->ID?>][<?php echo $year;?>][<?php echo $month;?>][BONUS]" data-type="BONUS" class="gross-inc-amount" value="<?php echo $salary->BONUS ? $salary->BONUS : 0;?>" placeholder="BONUS"/></td>
+									<td>GROSS: <input type="text" size="10" id='gross-components' name="SalaryDetails[<?php echo $employee->ID?>][<?php echo $year;?>][<?php echo $month;?>][GROSS]" value="<?php echo $salary->GROSS ? $salary->GROSS : 0;?>" placeholder="GROSS"/></td>
+									<td>DED: <input type="text" size="10" id='ded-components' name="SalaryDetails[<?php echo $employee->ID?>][<?php echo $year;?>][<?php echo $month;?>][DED]" value="<?php echo $salary->DED ? $salary->DED : 0;?>" placeholder="DED"/></td>
+									<td>NET: <input type="text" size="10" id='net-components' name="SalaryDetails[<?php echo $employee->ID?>][<?php echo $year;?>][<?php echo $month;?>][NET]" value="<?php echo $salary->NET ? $salary->NET : 0;?>" placeholder="NET"/></td>
+									<td>OTHER DED: <input type="text" size="10" id='other-ded-components' name="SalaryDetails[<?php echo $employee->ID?>][<?php echo $year;?>][<?php echo $month;?>][OTHER_DED]" value="<?php echo $salary->OTHER_DED ? $salary->OTHER_DED : 0;?>" placeholder="OTHER DED"/></td>
+									<td>AMT. BANK: <input type="text" size="10" id='credit-component' name="SalaryDetails[<?php echo $employee->ID?>][<?php echo $year;?>][<?php echo $month;?>][AMOUNT_BANK]" value="<?php echo $salary->AMOUNT_BANK ? $salary->AMOUNT_BANK : 0;?>" placeholder="AMOUNT BANK"/></td>
+								</tr>
+							</table>
+						<?php } ?>
+						<?php if($bill->IS_UA_BILL) {?>
+							<table class="table table-bordered table-hover" style="margin-bottom: 10px;" id="<?php echo $month."-".$year;?>">
+								<tr>
+									<td>Uniform Allowance: <input type="text" size="10" name="SalaryDetails[<?php echo $employee->ID?>][<?php echo $year;?>][<?php echo $month;?>][UA]" data-type="UA" class="gross-inc-amount" value="<?php echo $salary->UA ? $salary->UA : 0;?>" placeholder="UA"/></td>
+									<td>GROSS: <input type="text" size="10" id='gross-components' name="SalaryDetails[<?php echo $employee->ID?>][<?php echo $year;?>][<?php echo $month;?>][GROSS]" value="<?php echo $salary->GROSS ? $salary->GROSS : 0;?>" placeholder="GROSS"/></td>
+									<td>DED: <input type="text" size="10" id='ded-components' name="SalaryDetails[<?php echo $employee->ID?>][<?php echo $year;?>][<?php echo $month;?>][DED]" value="<?php echo $salary->DED ? $salary->DED : 0;?>" placeholder="DED"/></td>
+									<td>NET: <input type="text" size="10" id='net-components' name="SalaryDetails[<?php echo $employee->ID?>][<?php echo $year;?>][<?php echo $month;?>][NET]" value="<?php echo $salary->NET ? $salary->NET : 0;?>" placeholder="NET"/></td>
+									<td>OTHER DED: <input type="text" size="10" id='other-ded-components' name="SalaryDetails[<?php echo $employee->ID?>][<?php echo $year;?>][<?php echo $month;?>][OTHER_DED]" value="<?php echo $salary->OTHER_DED ? $salary->OTHER_DED : 0;?>" placeholder="OTHER DED"/></td>
+									<td>AMT. BANK: <input type="text" size="10" id='credit-component' name="SalaryDetails[<?php echo $employee->ID?>][<?php echo $year;?>][<?php echo $month;?>][AMOUNT_BANK]" value="<?php echo $salary->AMOUNT_BANK ? $salary->AMOUNT_BANK : 0;?>" placeholder="AMOUNT BANK"/></td>
+								</tr>
+							</table>
+						<?php } ?>
+						<?php if($bill->IS_CEA_BILL) {?>
+							<table class="table table-bordered table-hover" style="margin-bottom: 10px;" id="<?php echo $month."-".$year;?>">
+								<tr>
+									<td>Children Education Allowance: <input type="text" size="10" name="SalaryDetails[<?php echo $employee->ID?>][<?php echo $year;?>][<?php echo $month;?>][CEA]" data-type="CEA" class="gross-inc-amount" value="<?php echo $salary->CEA ? $salary->CEA : 0;?>" placeholder="C.E.A."/></td>
+									<td>GROSS: <input type="text" size="10" id='gross-components' name="SalaryDetails[<?php echo $employee->ID?>][<?php echo $year;?>][<?php echo $month;?>][GROSS]" value="<?php echo $salary->GROSS ? $salary->GROSS : 0;?>" placeholder="GROSS"/></td>
+									<td>DED: <input type="text" size="10" id='ded-components' name="SalaryDetails[<?php echo $employee->ID?>][<?php echo $year;?>][<?php echo $month;?>][DED]" value="<?php echo $salary->DED ? $salary->DED : 0;?>" placeholder="DED"/></td>
+									<td>NET: <input type="text" size="10" id='net-components' name="SalaryDetails[<?php echo $employee->ID?>][<?php echo $year;?>][<?php echo $month;?>][NET]" value="<?php echo $salary->NET ? $salary->NET : 0;?>" placeholder="NET"/></td>
+									<td>OTHER DED: <input type="text" size="10" id='other-ded-components' name="SalaryDetails[<?php echo $employee->ID?>][<?php echo $year;?>][<?php echo $month;?>][OTHER_DED]" value="<?php echo $salary->OTHER_DED ? $salary->OTHER_DED : 0;?>" placeholder="OTHER DED"/></td>
+									<td>AMT. BANK: <input type="text" size="10" id='credit-component' name="SalaryDetails[<?php echo $employee->ID?>][<?php echo $year;?>][<?php echo $month;?>][AMOUNT_BANK]" value="<?php echo $salary->AMOUNT_BANK ? $salary->AMOUNT_BANK : 0;?>" placeholder="AMOUNT BANK"/></td>
+								</tr>
+							</table>
+						<?php } ?>
+						<?php if($bill->IS_LTC_ADVANCE_BILL) {?>
+							<table class="table table-bordered table-hover" style="margin-bottom: 10px;" id="<?php echo $month."-".$year;?>">
+								<tr>
+									<td>HTC/LTC ADVANCE: <input type="text" size="10" name="SalaryDetails[<?php echo $employee->ID?>][<?php echo $year;?>][<?php echo $month;?>][LTC_HTC]" data-type="LTC_HTC" class="gross-inc-amount" value="<?php echo $salary->LTC_HTC ? $salary->LTC_HTC : 0;?>" placeholder="HTC/LTC ADVANCE."/></td>
+									<td>GROSS: <input type="text" size="10" id='gross-components' name="SalaryDetails[<?php echo $employee->ID?>][<?php echo $year;?>][<?php echo $month;?>][GROSS]" value="<?php echo $salary->GROSS ? $salary->GROSS : 0;?>" placeholder="GROSS"/></td>
+									<td>DED: <input type="text" size="10" id='ded-components' name="SalaryDetails[<?php echo $employee->ID?>][<?php echo $year;?>][<?php echo $month;?>][DED]" value="<?php echo $salary->DED ? $salary->DED : 0;?>" placeholder="DED"/></td>
+									<td>NET: <input type="text" size="10" id='net-components' name="SalaryDetails[<?php echo $employee->ID?>][<?php echo $year;?>][<?php echo $month;?>][NET]" value="<?php echo $salary->NET ? $salary->NET : 0;?>" placeholder="NET"/></td>
+									<td>OTHER DED: <input type="text" size="10" id='other-ded-components' name="SalaryDetails[<?php echo $employee->ID?>][<?php echo $year;?>][<?php echo $month;?>][OTHER_DED]" value="<?php echo $salary->OTHER_DED ? $salary->OTHER_DED : 0;?>" placeholder="OTHER DED"/></td>
+									<td>AMT. BANK: <input type="text" size="10" id='credit-component' name="SalaryDetails[<?php echo $employee->ID?>][<?php echo $year;?>][<?php echo $month;?>][AMOUNT_BANK]" value="<?php echo $salary->AMOUNT_BANK ? $salary->AMOUNT_BANK : 0;?>" placeholder="AMOUNT BANK"/></td>
+								</tr>
+							</table>
+						<?php } ?>
+						<?php if($bill->IS_LTC_CLAIM_BILL) {?>
+							<table class="table table-bordered table-hover" style="margin-bottom: 10px;" id="<?php echo $month."-".$year;?>">
+								<tr>
+									<td>GROSS CLAIM: <input type='text' size="10" class="gross-inc-amount" name="SalaryDetails[<?php echo $employee->ID?>][LTC_HTC_GROSS]" data-type="LTC_HTC_GROSS" value='<?php echo $salary->LTC_HTC_GROSS ? $salary->LTC_HTC_GROSS : 0?>' placeholder='GROSS'></td>
+									<td>ADVANCE: <input type='text' size="10" class="ltc-ded-inc-amount" name="SalaryDetails[<?php echo $employee->ID?>][LTC_HTC_ADVANCE]" data-type="LTC_HTC_ADVANCE" value='<?php echo $salary->LTC_HTC_ADVANCE ? $salary->LTC_HTC_ADVANCE : 0?>' placeholder='ADVANCE'></td>
+									<td>NET AMOUNT: <input type='text' size="10" id="ltc-credit-component" name="SalaryDetails[<?php echo $employee->ID?>][LTC_HTC]" data-type="LTC_HTC" value='<?php echo $salary->LTC_HTC ? $salary->LTC_HTC : 0?>' placeholder='CLAIM AMOUNT'></td>
+									<td>GROSS: <input type="text" size="10" id='gross-components' name="SalaryDetails[<?php echo $employee->ID?>][<?php echo $year;?>][<?php echo $month;?>][GROSS]" value="<?php echo $salary->GROSS ? $salary->GROSS : 0;?>" placeholder="GROSS"/></td>
+									<td>DED: <input type="text" size="10" id='ded-components' name="SalaryDetails[<?php echo $employee->ID?>][<?php echo $year;?>][<?php echo $month;?>][DED]" value="<?php echo $salary->DED ? $salary->DED : 0;?>" placeholder="DED"/></td>
+									<td>NET: <input type="text" size="10" id='net-components' name="SalaryDetails[<?php echo $employee->ID?>][<?php echo $year;?>][<?php echo $month;?>][NET]" value="<?php echo $salary->NET ? $salary->NET : 0;?>" placeholder="NET"/></td>
+									<td>OTHER DED: <input type="text" size="10" id='other-ded-components' name="SalaryDetails[<?php echo $employee->ID?>][<?php echo $year;?>][<?php echo $month;?>][OTHER_DED]" value="<?php echo $salary->OTHER_DED ? $salary->OTHER_DED : 0;?>" placeholder="OTHER DED"/></td>
+									<td>AMT. BANK: <input type="text" size="10" id='credit-component' name="SalaryDetails[<?php echo $employee->ID?>][<?php echo $year;?>][<?php echo $month;?>][AMOUNT_BANK]" value="<?php echo $salary->AMOUNT_BANK ? $salary->AMOUNT_BANK : 0;?>" placeholder="AMOUNT BANK"/></td>
+								</tr>
+							</table>
+						<?php } ?>
+						<?php if($bill->IS_EL_ENCASHMENT_BILL) {?>
+							<table class="table table-bordered table-hover" style="margin-bottom: 10px;" id="<?php echo $month."-".$year;?>">
+								<tr>
+									<td>EL ENCASHMENT: <input type="text" size="10" name="SalaryDetails[<?php echo $employee->ID?>][<?php echo $year;?>][<?php echo $month;?>][EL_ENCASHMENT]" data-type="EL_ENCASHMENT" class="gross-inc-amount" value="<?php echo $salary->EL_ENCASHMENT ? $salary->EL_ENCASHMENT : 0;?>" placeholder="EL ENCASHMENT"/></td>
+									<td>GROSS: <input type="text" size="10" id='gross-components' name="SalaryDetails[<?php echo $employee->ID?>][<?php echo $year;?>][<?php echo $month;?>][GROSS]" value="<?php echo $salary->GROSS ? $salary->GROSS : 0;?>" placeholder="GROSS"/></td>
+									<td>DED: <input type="text" size="10" id='ded-components' name="SalaryDetails[<?php echo $employee->ID?>][<?php echo $year;?>][<?php echo $month;?>][DED]" value="<?php echo $salary->DED ? $salary->DED : 0;?>" placeholder="DED"/></td>
+									<td>NET: <input type="text" size="10" id='net-components' name="SalaryDetails[<?php echo $employee->ID?>][<?php echo $year;?>][<?php echo $month;?>][NET]" value="<?php echo $salary->NET ? $salary->NET : 0;?>" placeholder="NET"/></td>
+									<td>OTHER DED: <input type="text" size="10" id='other-ded-components' name="SalaryDetails[<?php echo $employee->ID?>][<?php echo $year;?>][<?php echo $month;?>][OTHER_DED]" value="<?php echo $salary->OTHER_DED ? $salary->OTHER_DED : 0;?>" placeholder="OTHER DED"/></td>
+									<td>AMT. BANK: <input type="text" size="10" id='credit-component' name="SalaryDetails[<?php echo $employee->ID?>][<?php echo $year;?>][<?php echo $month;?>][AMOUNT_BANK]" value="<?php echo $salary->AMOUNT_BANK ? $salary->AMOUNT_BANK : 0;?>" placeholder="AMOUNT BANK"/></td>
+								</tr>
+							</table>
+						<?php } ?>
+						<?php if($bill->IS_RECOVERY_BILL) {?>
+							<table class="table table-bordered table-hover" style="margin-bottom: 10px;" id="<?php echo $month."-".$year;?>">
+								<tr>
+									<td>RECOVERY: <input type="text" size="10" name="SalaryDetails[<?php echo $employee->ID?>][<?php echo $year;?>][<?php echo $month;?>][RECOVERY]" data-type="RECOVERY" class="gross-inc-amount" value="<?php echo $salary->RECOVERY ? $salary->RECOVERY : 0;?>" placeholder="RECOVERY"/></td>
+									<td>GROSS: <input type="text" size="10" id='gross-components' name="SalaryDetails[<?php echo $employee->ID?>][<?php echo $year;?>][<?php echo $month;?>][GROSS]" value="<?php echo $salary->GROSS ? $salary->GROSS : 0;?>" placeholder="GROSS"/></td>
+									<td>DED: <input type="text" size="10" id='ded-components' name="SalaryDetails[<?php echo $employee->ID?>][<?php echo $year;?>][<?php echo $month;?>][DED]" value="<?php echo $salary->DED ? $salary->DED : 0;?>" placeholder="DED"/></td>
+									<td>NET: <input type="text" size="10" id='net-components' name="SalaryDetails[<?php echo $employee->ID?>][<?php echo $year;?>][<?php echo $month;?>][NET]" value="<?php echo $salary->NET ? $salary->NET : 0;?>" placeholder="NET"/></td>
+									<td>OTHER DED: <input type="text" size="10" id='other-ded-components' name="SalaryDetails[<?php echo $employee->ID?>][<?php echo $year;?>][<?php echo $month;?>][OTHER_DED]" value="<?php echo $salary->OTHER_DED ? $salary->OTHER_DED : 0;?>" placeholder="OTHER DED"/></td>
+									<td>AMT. BANK: <input type="text" size="10" id='credit-component' name="SalaryDetails[<?php echo $employee->ID?>][<?php echo $year;?>][<?php echo $month;?>][AMOUNT_BANK]" value="<?php echo $salary->AMOUNT_BANK ? $salary->AMOUNT_BANK : 0;?>" placeholder="AMOUNT BANK"/></td>
+								</tr>
+							</table>
+						<?php } ?>
+					<?php
+					}
+				  ?>
 				</div>
 				<?php
 			} ?>
@@ -498,33 +465,27 @@
 	<?php } ?>
 	</div>
 </div>
+<?php echo "<script>var periods = $js_array;</script>";?>
 
-	<style>
-		.one-label{
-			width:140px;
-			display: inline-block;
-		}
-		.table{
-			width:100%;
-			background:#ecebeb;
-			border: 1px solid #ccc;
-			margin: 10px 0;
-		}
-		.table td{
-			padding-bottom: 5px;
-			padding-right: 5px;
-		}
-		.table.small-table{
-			width: 20%;
-			float: left;
-			display: inline-block;
-			margin-top: 30px;
-		}
-		input{
-			float: right;
-		}
-	</style>
-	<script>
+<style>
+	.one-label{
+		width:140px;
+		display: inline-block;
+	}
+	.table.small-table{
+		width: 20%;
+		float: left;
+		display: inline-block;
+		margin-top: 30px;
+	}
+	input{
+		float: right;
+	}
+	.field-value{
+		float: right;
+	}
+</style>
+<script type="text/javascript">
 	var startTab = 0,
 		activeTab = 0,
 		endTab = 0;
@@ -557,119 +518,83 @@
 				$("#tablink-"+activeTab).next().trigger('click');
 			}
 		});
-		$('.basic-amount').keyup(function(){
-			var container = $(this).parents('table'), basic = 0;
-			basic = parseInt($(container).find('.basic-amount').val());
-			$(container).parent().find('#total-amount').val(basic);
-		});
 		
-		$('#pt-ded-inc-amount').keyup(function(){
-			var container = $(this).parents('table'), total = 0,
-				grossComponentElement = $(container).parent().find('#gross-components'),
-				deductionComponentElement = $(container).find('#ded-components'),
-				creditComponentElement = $(container).parent().find('#credit-component'),
-				ptDeductionComponentElement = $(container).parent().find('#pt-ded-inc-amount'),
-				otherDeductionComponentElement = $(container).parent().find('#other-ded-components');
-				
-			creditComponentElement.val(grossComponentElement.val() - getElementValue(ptDeductionComponentElement) - getElementValue(deductionComponentElement) - getElementValue(otherDeductionComponentElement));
-		});
-		
-		$('.ded-components').keyup(function(){
-			var container = $(this).parents('table'), total = 0,
-				grossComponentElement = $(container).parent().find('#gross-components'),
-				deductionComponentElement = $(this),
-				netComponentElement = $(container).parent().find('#net-components'),
-				creditComponentElement = $(container).parent().find('#credit-component'),
-				ptDeductionComponentElement = $(container).parent().find('#pt-ded-inc-amount'),
-				otherDeductionComponentElement = $(container).parent().find('#other-ded-components');
+		$("[data-type]").keyup(function(){
+			if($(this).hasClass('non-populated-field'))
+				return;
 			
-			netComponentElement.val(grossComponentElement.val() - getElementValue(deductionComponentElement));
-			creditComponentElement.val(grossComponentElement.val() - getElementValue(ptDeductionComponentElement) - getElementValue(deductionComponentElement) - getElementValue(otherDeductionComponentElement));
-		});
-		
-		$('.gross-inc-amount').keyup(function(){
-			var container = $(this).parents('table'), total = 0,
-				grossComponentElement = $(container).parent().find('#gross-components'),
-				deductionComponentElement = $(container).parent().find('#ded-components'),
-				ptDeductionComponentElement = $(container).parent().find('#pt-ded-inc-amount'),
-				otherDeductionComponentElement = $(container).parent().find('#other-ded-components')
-				netComponentElement = $(container).parent().find('#net-components'),
-				creditComponentElement = $(container).parent().find('#credit-component');
-				
-			$(container).find('.gross-inc-amount').each(function (index, element) {
-				total += parseInt($(element).val());
-			});
 			
-			grossComponentElement.val(total);
-			netComponentElement.val(grossComponentElement.val() - getElementValue(deductionComponentElement));
-			creditComponentElement.val(grossComponentElement.val() - getElementValue(ptDeductionComponentElement) - getElementValue(deductionComponentElement) - getElementValue(otherDeductionComponentElement));
-		});
-		
-		$('.ded-inc-amount').keyup(function(){
-			var container = $(this).parents('.tabcontent'), total = 0,
-				grossComponentElement = $(container).find('#gross-components'),
-				deductionComponentElement = $(container).find('#ded-components'),
-				ptDeductionComponentElement = $(container).find('#pt-ded-inc-amount'),
-				otherDeductionComponentElement = $(container).find('#other-ded-components'),
-				netComponentElement = $(container).find('#net-components'),
-				creditComponentElement = $(container).find('#credit-component');
-				
-			$(container).find('.ded-inc-amount').each(function (index, element) {
-				total += parseInt($(element).val());
-			});
+			var attribute = $(this).attr('data-type');
+			monthParent = $(this).parents('table').attr('id'),
+			employeeParent = $(this).parents('div.tabcontent').attr('id');
 			
-			deductionComponentElement.val(total);
-			netComponentElement.val(grossComponentElement.val() - getElementValue(deductionComponentElement));
-			creditComponentElement.val(grossComponentElement.val() - getElementValue(ptDeductionComponentElement) - getElementValue(deductionComponentElement) - getElementValue(otherDeductionComponentElement));
-		});
-		
-		$('.ltc-ded-inc-amount').keyup(function(){
-			var container = $(this).parents('.tabcontent'), total = 0,
-				grossComponentElement = $(container).find('#gross-components'),
-				deductionComponentElement = $(container).find('#ded-components'),
-				netComponentElement = $(container).find('#net-components'),
-				ltcCreditComponentElement = $(container).find('#ltc-credit-component'),
-				creditComponentElement = $(container).find('#credit-component');
+			var selectedElements = GetDependentSelector(attribute, monthParent, employeeParent);
 				
-			$(container).find('.ltc-ded-inc-amount').each(function (index, element) {
-				total += parseInt($(element).val());
-			});
-			
-			deductionComponentElement.val(total);
-			netComponentElement.val(grossComponentElement.val() - getElementValue(deductionComponentElement));
-			creditComponentElement.val(grossComponentElement.val() - getElementValue(deductionComponentElement));
-			ltcCreditComponentElement.val(grossComponentElement.val() - getElementValue(deductionComponentElement));
-		});
-
-		$('.other-ded-inc-amount').keyup(function(){
-			var container = $(this).parents('table'), total = 0,
-				grossComponentElement = $(container).parent().find('#gross-components'),
-				deductionComponentElement = $(container).parent().find('#ded-components'),
-				ptDeductionComponentElement = $(container).parent().find('#pt-ded-inc-amount'),
-				otherDeductionComponentElement = $(container).parent().find('#other-ded-components'),
-				creditComponentElement = $(container).parent().find('#credit-component');
-				
-				
-			$(container).find('.other-ded-inc-amount').each(function (index, element) {
-				total += parseInt($(element).val());
-			});
-			
-			otherDeductionComponentElement.val(total);
-			creditComponentElement.val(grossComponentElement.val() - getElementValue(ptDeductionComponentElement) - getElementValue(deductionComponentElement) - getElementValue(otherDeductionComponentElement));
-		});	
-		
-		$('.tabcontent .basic-amount').keyup(function(){
-			$tabContent = $(this).parents('.tabcontent'); 
-			var IS_NPS_BILL = <?php echo ($bill->BILL_TYPE == 2) ? 1 : 0; ?>;
-			$tabContent.find('.hra-amount').val(Math.round(parseInt($(this).val())*0.24));
-			$tabContent.find('.da-amount').val(Math.round(parseInt($(this).val())*0.04));
-			if(IS_NPS_BILL){
-				$tabContent.find('.cpf-1-amount').val(Math.round((parseInt($tabContent.find('.da-amount').val()) + parseInt($(this).val()))*0.1));
+			if($(this).hasClass('increment-field') && parseInt($(this).val()) != 0){
+				var elementValue = parseInt($(this).val());
+				for(var i=0; i<= selectedElements.length-1; i++){
+					elementValue++;
+					$(selectedElements[i]).val(elementValue);
+				}
 			}
-		});
+			else{
+				selectedString = selectedElements.join(",");
+				$(selectedString).val($(this).val());
+			}
 			
-		$("#form-16-panel-close").click(function(){
-			$("#form-16-panel").hide();
+			selfWithDependentSelector = GetSelftWithDependentSelector(attribute, monthParent, employeeParent);
+			
+			if($(this).hasClass('basic-amount')){
+				BasicValueChange(this);
+			}
+			if($(this).hasClass('gross-inc-amount')){
+				$(selfWithDependentSelector).each(function(){
+					GrossValueChange(this);
+					DeductionValueChange(this);
+					OtherDeductionValueChange(this);
+					PTDeductionChange(this);
+					LTCDeductionValueChange(this);
+				});
+			}
+			
+			if($(this).hasClass('ded-inc-amount')){
+				$(selfWithDependentSelector).each(function(){
+					DeductionValueChange(this);
+				});
+			}
+			if($(this).hasClass('other-ded-inc-amount')){
+				$(selfWithDependentSelector).each(function(){
+					OtherDeductionValueChange(this);
+				});
+			}
+			if($(this).hasClass('pt-ded-inc-amount')){
+				$(selfWithDependentSelector).each(function(){
+					PTDeductionChange(this);
+				});
+			}
+			if($(this).hasClass('ltc-ded-inc-amount')){
+				$(selfWithDependentSelector).each(function(){
+					LTCDeductionValueChange(this);
+				});
+			}
+			if($(this).hasClass('hba-total') || $(this).hasClass('hba-inst') || $(this).hasClass('hba-emi')){
+				$(selfWithDependentSelector).each(function(){
+					GrossValueChange(this);
+					DeductionValueChange(this);
+					OtherDeductionValueChange(this);
+					PTDeductionChange(this);
+					HBAValueChange(this);
+				});
+			}
+			if($(this).hasClass('mca-total') || $(this).hasClass('mca-inst') || $(this).hasClass('mca-emi')){
+				$(selfWithDependentSelector).each(function(){
+					GrossValueChange(this);
+					DeductionValueChange(this);
+					OtherDeductionValueChange(this);
+					PTDeductionChange(this);
+					MCAValueChange(this);
+				});
+			}
 		});
 	});
 	
@@ -679,7 +604,6 @@
 		endTab = parseInt($("ul.tab li:last").attr('id').split('-')[1]);
 		activeTab = startTab;
 	}
-	
 	function search(){
 		var input, filter, ul, li, a, i;
 		input = document.getElementById('textSearch');
@@ -699,14 +623,155 @@
 		
 		$("#tab").css("marginLeft", "0px");
 	}
-
-	
-	function getElementValue(element){
-		if(element.length > 0){
-			return element.val();
+	function getMonths(){
+		return periods;
+	}
+	function GetDependentSelector(attribute, monthParent, employeeParent){
+		selectedElements = [];
+		
+		var months = getMonths();
+		for(var i=0; i<=months.length-1; i++){
+			if(months[i] == monthParent){
+				break;
+			}
 		}
-		else{
-			return 0;
+		
+		i=i+1;
+		
+		for(; i<=months.length-1; i++){
+			selectedElements.push("div#"+employeeParent+" table#"+months[i]+" [data-type="+attribute+"] ");
+		}
+		
+		
+		return selectedElements;
+	}
+	function GetSelftWithDependentSelector(attribute, monthParent, employeeParent){
+		selectedElements = [];
+		
+		var months = getMonths();
+		for(var i=0; i<=months.length-1; i++){
+			if(months[i] == monthParent){
+				break;
+			}
+		}
+		
+		for(; i<=months.length-1; i++){
+			selectedElements.push("div#"+employeeParent+" table#"+months[i]+" [data-type="+attribute+"] ");
+		}
+		
+		selectedString = selectedElements.join(",");
+		return selectedString;
+	}
+	function PTDeductionChange(field){
+		var container = $(field).parents('table'), total = 0,
+			grossComponentElement = $(container).parent().find('#gross-components'),
+			deductionComponentElement = $(container).find('#ded-components'),
+			netComponentElement = $(container).parent().find('#net-components'),
+			creditComponentElement = $(container).parent().find('#credit-component'),
+			ptDeductionComponentElement = $(container).parent().find('.pt-ded-inc-amount'),
+			otherDeductionComponentElement = $(container).parent().find('#other-ded-components');
+		creditComponentElement.val(grossComponentElement.val() - getElementValue(ptDeductionComponentElement) - getElementValue(deductionComponentElement) - getElementValue(otherDeductionComponentElement));
+	}
+	function GrossValueChange(field){
+		var container = $(field).parents('table'), total = 0,
+			grossComponentElement = $(container).find('#gross-components'),
+			deductionComponentElement = $(container).find('#ded-components'),
+			ptDeductionComponentElement = $(container).find('.pt-ded-inc-amount'),
+			otherDeductionComponentElement = $(container).find('#other-ded-components')
+			netComponentElement = $(container).find('#net-components'),
+			creditComponentElement = $(container).find('#credit-component');
+			
+		$(container).find('.gross-inc-amount').each(function (index, element) {
+			total += parseInt($(element).val());
+		});
+		
+		grossComponentElement.val(total);
+		netComponentElement.val(grossComponentElement.val() - getElementValue(deductionComponentElement));
+		creditComponentElement.val(grossComponentElement.val() - getElementValue(ptDeductionComponentElement) - getElementValue(deductionComponentElement) - getElementValue(otherDeductionComponentElement));
+	}
+	function DeductionValueChange(field){
+		var container = $(field).parents('table'), total = 0,
+			grossComponentElement = $(container).find('#gross-components'),
+			deductionComponentElement = $(container).find('#ded-components'),
+			ptDeductionComponentElement = $(container).find('.pt-ded-inc-amount'),
+			otherDeductionComponentElement = $(container).find('#other-ded-components'),
+			netComponentElement = $(container).find('#net-components'),
+			creditComponentElement = $(container).find('#credit-component');
+			
+		$(container).find('.ded-inc-amount').each(function (index, element) {
+			total += parseInt($(element).val());
+		});
+		
+		deductionComponentElement.val(total);
+		netComponentElement.val(grossComponentElement.val() - getElementValue(deductionComponentElement));
+		creditComponentElement.val(grossComponentElement.val() - getElementValue(ptDeductionComponentElement) - getElementValue(deductionComponentElement) - getElementValue(otherDeductionComponentElement));
+	}
+	function LTCDeductionValueChange(field){
+		var container = $(field).parents('table'), total = 0,
+			grossComponentElement = $(container).find('#gross-components'),
+			deductionComponentElement = $(container).find('#ded-components'),
+			netComponentElement = $(container).find('#net-components'),
+			ltcCreditComponentElement = $(container).find('#ltc-credit-component'),
+			otherDeductionComponentElement = $(container).find('#other-ded-components'),
+			creditComponentElement = $(container).find('#credit-component');
+			
+		$(container).find('.ltc-ded-inc-amount').each(function (index, element) {
+			total += parseInt($(element).val());
+		});
+		
+		deductionComponentElement.val(total);
+		netComponentElement.val(grossComponentElement.val() - getElementValue(deductionComponentElement));
+		creditComponentElement.val(grossComponentElement.val() - getElementValue(deductionComponentElement));
+		ltcCreditComponentElement.val(grossComponentElement.val() - getElementValue(deductionComponentElement));
+	}
+	function BasicValueChange(field){
+		var container = $(field).parents('table')
+		hraComponentElement = $(container).find('.hra-amount'),
+		daComponentElement = $(container).find('.da-amount'),
+		cpfComponentElement = $(container).find('.cpf-1-amount'); 
+			
+		hraComponentElement.val(Math.round(parseInt($(field).val())*0.24));
+		daComponentElement.val(Math.round(parseInt($(field).val())*0.04));
+		if(container.find("#PENSION_TYPE").val() == "NPS"){
+			cpfComponentElement.val(Math.round(parseInt(getElementValue(daComponentElement)) + parseInt(getElementValue(field)*0.1)));
+		}
+	}
+	function OtherDeductionValueChange(field){
+		var container = $(field).parents('table'), total = 0,
+			grossComponentElement = $(container).find('#gross-components'),
+			deductionComponentElement = $(container).find('#ded-components'),
+			ptDeductionComponentElement = $(container).find('.pt-ded-inc-amount'),
+			otherDeductionComponentElement = $(container).find('#other-ded-components'),
+			creditComponentElement = $(container).find('#credit-component');
+			
+			
+		$(container).find('.other-ded-inc-amount').each(function (index, element) {
+			total += parseInt($(element).val());
+		});
+		
+		otherDeductionComponentElement.val(total);
+		creditComponentElement.val(grossComponentElement.val() - getElementValue(ptDeductionComponentElement) - getElementValue(deductionComponentElement) - getElementValue(otherDeductionComponentElement));
+	}
+	function HBAValueChange(field){
+		var container = $(field).parents('table'), total = 0,
+			totalElement = $(container).find('.hba-total'),
+			installmentElement = $(container).find('.hba-inst'),
+			emiElement = $(container).find('.hba-emi'),
+			balanceElement = $(container).find('.hba-bal');
+		
+		if(parseInt(totalElement.val()) > 0 && parseInt(installmentElement.val()) > 0 && parseInt(emiElement.val()) > 0){
+			balanceElement.val(getElementValue(totalElement) - (getElementValue(installmentElement) * getElementValue(emiElement)));
+		}
+	}
+	function MCAValueChange(field){
+		var container = $(field).parents('table'), total = 0,
+			totalElement = $(container).find('.mca-total'),
+			installmentElement = $(container).find('.mca-inst'),
+			emiElement = $(container).find('.mca-emi'),
+			balanceElement = $(container).find('.mca-bal');
+		
+		if(parseInt(totalElement.val()) > 0 && parseInt(installmentElement.val()) > 0 && parseInt(emiElement.val()) > 0){
+			balanceElement.val(getElementValue(totalElement) - (getElementValue(installmentElement) * getElementValue(emiElement)));
 		}
 	}
 	function openEmployeeSalaryDetails(empID) {
@@ -725,8 +790,6 @@
 		activeTab = parseInt(empID);
 		$("#HDFORM16URL").val('<?php echo Yii::app()->createUrl('IncomeTax/Form16', array('type'=>'Dialog'));?>&id='+empID);
 	}
-	
-		
 	document.onkeyup=function(e){
 		var e = e || window.event; 
 		//e.altKey && 
@@ -747,5 +810,13 @@
 			$('#btn-next').trigger('click');
 		}
 	}
-	
+	function getElementValue(element){
+		if(element.length > 0){
+			return parseInt(element.val());
+		}
+		else{
+			return 0;
+		}
+	}
+
 </script>

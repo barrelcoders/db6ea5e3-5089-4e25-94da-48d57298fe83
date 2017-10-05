@@ -1,7 +1,9 @@
 <link href="<?php echo Yii::app()->request->baseUrl; ?>/css/oneadmin.css" rel="stylesheet">
 <script type="text/javascript">window.onload = function() { window.print(); }</script>
-<?php
+<?php 
 	$master = Master::model()->findByPK(1);
+	$periods = $this->getBillPeriods($model->ID);
+	$total_months = count($periods); 
 ?>
 <h2 style="text-transform: uppercase;text-align:center;"><?php echo $model->BILL_TITLE; ?> FOR THE MONTH OF <?php echo date('M-Y', strtotime($model->CREATION_DATE))?></h2>
 <h2 style="text-transform: uppercase;text-align: center">BILL NO: <?php echo $model->BILL_NO; ?></h2>
@@ -15,35 +17,40 @@
 			<th class="small-xx">GROSS</th>
 			<th class="small-xx right-br left-br">DEDUCTION</th>
 			<th class="small-xx right-br">NET</th>
-			<th class="small-xx left-br">AMOUNT CREDIT TO BANK</th>
+			<th class="small-xx ">AMOUNT CREDIT TO BANK</th>
 		</tr>
 	</thead>
+
+	<tbody>
 	<?php 
 		$i = 1;	
-		$employees = Yii::app()->db->createCommand("SELECT ID FROM tbl_employee ORDER BY DESIGNATION_ID_FK DESC")->queryAll();
-		$employeesIds = array();
-		foreach($employees as $employee) array_push($employeesIds, $employee['ID']);
-		$criteria=new CDbCriteria;
-		$criteria->order="FIELD(EMPLOYEE_ID_FK, ".implode( ", ", $employeesIds ).")";
-		$criteria->condition = "BILL_ID_FK=$model->ID AND YEAR=$model->YEAR AND $model->MONTH";
-		$criteria->addInCondition('EMPLOYEE_ID_FK', $employeesIds);
-		$salaries = SalaryDetails::model()->findAll($criteria);
-	?>
-	<tbody>
-		<?php foreach ($salaries as $salary) { ?>
-		<tr>
-			<td class="small-xxx right-br"><?php echo $i; ?></td>
-			<td class="small right-br"><b><?php echo Employee::model()->findByPK($salary->EMPLOYEE_ID_FK)->NAME.'<br/>('.Employee::model()->findByPK($salary->EMPLOYEE_ID_FK)->NAME_HINDI.')';?></b></td>
-			<td class="small right-br"><b><?php echo Designations::model()->findByPK(Employee::model()->findByPK($salary->EMPLOYEE_ID_FK)->DESIGNATION_ID_FK)->DESIGNATION.'<br/>('.Designations::model()->findByPK(Employee::model()->findByPK($salary->EMPLOYEE_ID_FK)->DESIGNATION_ID_FK)->DESIGNATION_HINDI.')';?></b></td>
-			<td class="small-xx"><?php echo $salary->BONUS; ?></td>
-			<td class="small-xx"><?php echo $salary->GROSS; ?></td>
-			<td class="small-xx right-br left-br"><?php echo $salary->DED; ?></td>
-			<td class="small-xx right-br"><?php echo $salary->NET; ?></td>
-			<td class="small-xx left-br"><?php echo $salary->AMOUNT_BANK; ?></td>
-		</tr>
-		<?php 
+		$criteria = new CDbCriteria();
+		$criteria->select = 't.EMPLOYEE_ID_FK';
+		$criteria->condition = 't.BILL_ID_FK='.$model->ID;
+		$criteria->group = 't.EMPLOYEE_ID_FK';
+		$criteria->join='INNER JOIN tbl_employee e ON e.ID = t.EMPLOYEE_ID_FK';
+		$criteria->order = 'e.DESIGNATION_ID_FK DESC';
+		$employeesInSalary = SalaryDetails::model()->findAll($criteria);
+		
+		foreach ($employeesInSalary as $employee) {
+			foreach($periods as $period){
+				$salary = SalaryDetails::model()->find("t.EMPLOYEE_ID_FK=".$employee->EMPLOYEE_ID_FK." AND t.BILL_ID_FK=".$model->ID." AND t.MONTH=".$period['MONTH']." AND t.YEAR=".$period['YEAR']);
+				?>
+					<tr>
+						<td class="small-xxx right-br"><?php echo $i; ?></td>
+						<td class="small right-br"><b><?php echo Employee::model()->findByPK($salary->EMPLOYEE_ID_FK)->NAME.'<br/>('.Employee::model()->findByPK($salary->EMPLOYEE_ID_FK)->NAME_HINDI.')';?></b></td>
+						<td class="small right-br"><b><?php echo Designations::model()->findByPK(Employee::model()->findByPK($salary->EMPLOYEE_ID_FK)->DESIGNATION_ID_FK)->DESIGNATION.'<br/>('.Designations::model()->findByPK(Employee::model()->findByPK($salary->EMPLOYEE_ID_FK)->DESIGNATION_ID_FK)->DESIGNATION_HINDI.')';?></b></td>
+						<td class="small-xx"><?php echo $salary->BONUS; ?></td>
+						<td class="small-xx"><?php echo $salary->GROSS; ?></td>
+						<td class="small-xx right-br left-br"><?php echo $salary->DED; ?></td>
+						<td class="small-xx right-br"><?php echo $salary->NET; ?></td>
+						<td class="small-xx "><?php echo $salary->AMOUNT_BANK; ?></td>
+					</tr>
+				<?php
+			}
 			$i++;
-		} ?>
+		}
+	?>
 	</tbody>
 	<tfoot>
 		<th class="small-xxx right-br"></th>

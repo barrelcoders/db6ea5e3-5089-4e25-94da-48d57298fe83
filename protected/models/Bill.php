@@ -48,7 +48,7 @@ class Bill extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('BILL_NO, MONTH, YEAR, CREATION_DATE, BILL_TYPE, BILL_TITLE, PFMS_STATUS', 'required'),
+			array('BILL_NO, MONTH, YEAR, MONTH_END, YEAR_END, CREATION_DATE, BILL_TYPE, BILL_TITLE, PFMS_STATUS', 'required'),
 			array('BILL_NO, PT_DED_BILL_NO, LIC_DED_BILL_NO, NILL_BILL_NO, PFMS_BILL_NO, FILE_NO', 'length', 'max'=>100),
 			array('BILL_TITLE', 'length', 'max'=>500),
 			array('BILL_TYPE, BILL_SUB_TYPE, VENDOR_ID', 'length', 'max'=>10),
@@ -77,6 +77,49 @@ class Bill extends CActiveRecord
 		);
 	}
 	
+	public function getIS_SALARY_HEAD_PAY_BILL()
+    {
+      return (($this->BILL_TYPE == 1 ||  $this->BILL_TYPE == 2) && ($this->IS_ARREAR_BILL == 0 && $this->IS_DA_ARREAR_BILL == 0 && $this->IS_CEA_BILL == 0 && $this->IS_BONUS_BILL == 0 && 
+			$this->IS_UA_BILL == 0 && $this->IS_LTC_CLAIM_BILL == 0 && $this->IS_LTC_ADVANCE_BILL == 0 && $this->IS_EL_ENCASHMENT_BILL == 0 && $this->IS_RECOVERY_BILL == 0));
+    }
+	
+	public function getIS_OPS_PAY_BILL()
+    {
+      return (($this->BILL_TYPE == 1) && ($this->IS_ARREAR_BILL == 0 && $this->IS_DA_ARREAR_BILL == 0 && $this->IS_CEA_BILL == 0 && $this->IS_BONUS_BILL == 0 && 
+			$this->IS_UA_BILL == 0 && $this->IS_LTC_CLAIM_BILL == 0 && $this->IS_LTC_ADVANCE_BILL == 0 && $this->IS_EL_ENCASHMENT_BILL == 0 && $this->IS_RECOVERY_BILL == 0));
+    }
+	
+	public function getIS_NPS_PAY_BILL()
+    {
+      return (($this->BILL_TYPE == 2) && ($this->IS_ARREAR_BILL == 0 && $this->IS_DA_ARREAR_BILL == 0 && $this->IS_CEA_BILL == 0 && $this->IS_BONUS_BILL == 0 && 
+			$this->IS_UA_BILL == 0 && $this->IS_LTC_CLAIM_BILL == 0 && $this->IS_LTC_ADVANCE_BILL == 0 && $this->IS_EL_ENCASHMENT_BILL == 0 && $this->IS_RECOVERY_BILL == 0));
+    }
+	
+	public function getIS_SALARY_HEAD_OTHER_BILL()
+    {
+      return (($this->BILL_TYPE == 1 ||  $this->BILL_TYPE == 2) && ($this->IS_ARREAR_BILL == 1 || $this->IS_DA_ARREAR_BILL == 1 || $this->IS_CEA_BILL == 1 || $this->IS_BONUS_BILL == 1 || 
+			$this->IS_UA_BILL == 1 || $this->IS_LTC_CLAIM_BILL == 1 ||  $this->IS_LTC_ADVANCE_BILL == 1 || $this->IS_EL_ENCASHMENT_BILL == 1 || $this->IS_RECOVERY_BILL == 1));
+    }
+	
+	public function getIS_WAGES_HEAD_PAY_BILL()
+    {
+       return (($this->BILL_TYPE == 8) && ($this->IS_ARREAR_BILL == 0 && $this->IS_DA_ARREAR_BILL == 0 && $this->IS_CEA_BILL == 0 && $this->IS_BONUS_BILL == 0 && 
+			$this->IS_UA_BILL == 0 && $this->IS_LTC_CLAIM_BILL == 0 && $this->IS_LTC_ADVANCE_BILL == 0 && $this->IS_EL_ENCASHMENT_BILL == 0 && $this->IS_RECOVERY_BILL == 0));
+    }
+	
+	public function getIS_WAGES_HEAD_OTHER_BILL()
+    {
+      return  (($this->BILL_TYPE == 8) && ($this->IS_ARREAR_BILL == 1 || $this->IS_DA_ARREAR_BILL == 1 || $this->IS_CEA_BILL == 1 || $this->IS_BONUS_BILL == 1 || 
+			$this->IS_UA_BILL == 1 || $this->IS_LTC_CLAIM_BILL == 1 ||  $this->IS_LTC_ADVANCE_BILL == 1 || $this->IS_EL_ENCASHMENT_BILL == 1 || $this->IS_RECOVERY_BILL == 1));
+    }
+	
+	public function getIS_SALARY_HEAD_PAY_ARREAR_BILL(){
+		return (($this->BILL_TYPE == 1 ||  $this->BILL_TYPE == 2) && ($this->IS_ARREAR_BILL == 1));
+	}
+	
+	public function getIS_SALARY_HEAD_DA_ARREAR_BILL(){
+		return (($this->BILL_TYPE == 1 ||  $this->BILL_TYPE == 2) && ($this->IS_DA_ARREAR_BILL == 1));
+	}
 	
 	public function GetBillSubType($id)
 	{
