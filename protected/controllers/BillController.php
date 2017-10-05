@@ -211,9 +211,9 @@ class BillController extends Controller
 							$SalaryDetails->EMPLOYEE_ID_FK = $EMPLOYEE_ID;
 							$SalaryDetails->BILL_ID_FK = $bill_id;
 							$SalaryDetails->attributes = $PAY_DETAILS;
-							$SalaryDetails->GROSS = $PAY_DETAILS['GROSS'];
-							$SalaryDetails->NET = $PAY_DETAILS['NET'];
-							$SalaryDetails->DED = $PAY_DETAILS['DED'];
+							$SalaryDetails->GROSS = isset($PAY_DETAILS['GROSS']) ? $PAY_DETAILS['GROSS'] : 0;
+							$SalaryDetails->NET = isset($PAY_DETAILS['NET']) ? $PAY_DETAILS['NET'] : 0;
+							$SalaryDetails->DED = isset($PAY_DETAILS['DED']) ? $PAY_DETAILS['DED'] : 0;
 							$SalaryDetails->MONTH = $MONTH;
 							$SalaryDetails->YEAR = $YEAR;
 							$SalaryDetails->IS_HBA_RECOVERY = isset($PAY_DETAILS['IS_HBA_RECOVERY']) ? $PAY_DETAILS['IS_HBA_RECOVERY'] : 0;
@@ -775,7 +775,7 @@ class BillController extends Controller
 	public function actionEmployeeCEABillInner($id){$this->layout='//layouts/column1';$model = $this->loadModel($id);$this->amountInWords = $this->amountToWord($model->BILL_AMOUNT);$this->render('PAY/EmployeeCEABillInner',array('model'=>$model,));}
 	public function actionCEASanctionOrder($id){$this->layout='//layouts/column1';$model = $this->loadModel($id);$this->amountInWords = $this->amountToWord($model->BILL_AMOUNT);$this->render('PAY/CEASanctionOrder',array('model'=>$model,));}
 	public function actionEmployeeBillPart2($id){$this->layout='//layouts/column1';$model = $this->loadModel($id);$this->render('PAY/EmployeeBillPart2',array('model'=>$model,));}
-	public function actionDAArrearBillPart1($id){$this->layout='//layouts/column1';$model = $this->loadModel($id);$this->render('PAY/DAArrearBillPart1',array('model'=>$model,));}
+	public function actionDAArrearWorkSheet($id){$this->layout='//layouts/column1';$model = $this->loadModel($id);$this->render('PAY/DAArrearWorkSheet',array('model'=>$model,));}
 	public function actionEmployeeBonusBillInner($id){$this->layout='//layouts/column1';$model = $this->loadModel($id);$this->amountInWords = $this->amountToWord($model->BILL_AMOUNT);$this->render('PAY/EmployeeBonusBillInner',array('model'=>$model,));}
 	public function actionEmployeeUABillInner($id){$this->layout='//layouts/column1';$model = $this->loadModel($id);$this->amountInWords = $this->amountToWord($model->BILL_AMOUNT);$this->render('PAY/EmployeeUABillInner',array('model'=>$model,));}
 	public function actionUANoteSheet($id){$this->layout='//layouts/column1';$model = $this->loadModel($id);$this->amountInWords = $this->amountToWord($model->BILL_AMOUNT);$this->render('PAY/UANoteSheet',array('model'=>$model,));}	
