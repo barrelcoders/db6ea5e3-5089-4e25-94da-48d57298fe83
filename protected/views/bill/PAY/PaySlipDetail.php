@@ -165,7 +165,7 @@
 			
 			<tr>
 				<td colspan="6">
-					<div style="font-weight: bold; width:500px; float: right;text-align:center; margin-top:240px;margin-right:-10px;">
+					<div style="font-weight: bold; width:500px; float: right;text-align:center; margin-top:160;margin-right:-10px;">
 					<?php
 						if(Employee::model()->findByPK($salary->EMPLOYEE_ID_FK)->DESIGNATION_ID_FK > 14){
 					?>
