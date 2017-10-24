@@ -17,30 +17,20 @@
 				Other Incomes
 			</header>
 			<div class="card-block display-table col-sm-12" style="min-height: 100px">
-				<div class="col-sm-4">
-					<div class="form-group row">
-						<?php echo $form->labelEx($model,'HRA', array('class'=>'col-sm-8 form-control-label')); ?>
-						<div class="col-sm-4">
-							<p class="form-control-static">
-								<?php echo $form->textField($model,'HRA',array('size'=>10,'maxlength'=>100, 'value'=>$model->HRA, 'style'=>'text-transform: uppercase;')); ?>
-							</p>
-						</div>
-					</div>
-				</div>
-				<div class="col-sm-4">
+				<div class="col-sm-6">
 					<div class="form-group row">
 						<?php echo $form->labelEx($model,'OTHER_INCOME', array('class'=>'col-sm-8 form-control-label')); ?>
-						<div class="col-sm-4">
+						<div class="col-sm-6">
 							<p class="form-control-static">
 								<?php echo $form->textField($model,'OTHER_INCOME',array('size'=>10,'maxlength'=>100, 'value'=>$model->OTHER_INCOME, 'style'=>'text-transform: uppercase;')); ?>
 							</p>
 						</div>
 					</div>
 				</div>
-				<div class="col-sm-4">
+				<div class="col-sm-6">
 					<div class="form-group row">
 						<?php echo $form->labelEx($model,'HOUSE_INCOME', array('class'=>'col-sm-8 form-control-label')); ?>
-						<div class="col-sm-4">
+						<div class="col-sm-6">
 							<p class="form-control-static">
 								<?php echo $form->textField($model,'HOUSE_INCOME',array('size'=>10,'maxlength'=>100, 'value'=>$model->HOUSE_INCOME, 'style'=>'text-transform: uppercase;')); ?>
 							</p>
@@ -129,6 +119,14 @@
 				EXEMPTIONS under Ch. VI- A
 			</header>
 			<div class="card-block display-table col-sm-12" style="min-height: 300px">
+				<div class="form-group row">
+					<?php echo $form->labelEx($model,'HRA', array('class'=>'col-sm-8 form-control-label')); ?>
+					<div class="col-sm-4">
+						<p class="form-control-static">
+							<?php echo $form->textField($model,'HRA',array('size'=>10,'maxlength'=>100, 'value'=>$model->HRA, 'style'=>'text-transform: uppercase;')); ?>
+						</p>
+					</div>
+				</div>
 				<div class="form-group row">
 					<?php echo $form->labelEx($model,'MEDICAL_INSURANCE', array('class'=>'col-sm-8 form-control-label')); ?>
 					<div class="col-sm-4">

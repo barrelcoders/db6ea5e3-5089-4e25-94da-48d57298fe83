@@ -19,8 +19,8 @@
 				<?php 
 					$startPeriod = $periods[0];
 					$endPeriod = $periods[count($periods)-1];
-					$startMonth = $monthNames[explode("-", $startPeriod)[0]];
-					$endMonth = $monthNames[explode("-", $endPeriod)[0]];
+					$startMonth = $monthNames[explode("-", $startPeriod)[0] - 1];
+					$endMonth = $monthNames[explode("-", $endPeriod)[0] - 1];
 					$startYear = explode("-", $startPeriod)[1];
 					$endYear = explode("-", $endPeriod)[1];
 					echo CHtml::submitButton('Save Salary '.$startMonth.'-'.$startYear.' to '.$endMonth.'-'.$endYear, array('class'=>'btn btn-inline', 'style'=>'float:right;')); ?>

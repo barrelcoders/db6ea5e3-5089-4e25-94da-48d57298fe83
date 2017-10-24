@@ -10,6 +10,7 @@
 			<th class="small right-br">SALARY BILL NO</th>
 			<th class="small right-br">NET SALARY</th>
 			<th class="small-xx right-br">PT </th>
+			<th class="small-xx right-br">COURT ATTACHMENT</th>
 			<th class="small-xx right-br">TOTAL DEDUCTIONS</th>
 			<th class="small-xx right-br">AMOUNT TO BE CREDITED TO BANK</th>
 		</tr>
@@ -20,7 +21,8 @@
 			<td class="small right-br"><b><?php echo $model->BILL_NO;?></b></td>
 			<td class="small right-br"><b><?php $NET = Yii::app()->db->createCommand("SELECT SUM(NET) as NET FROM tbl_salary_details WHERE BILL_ID_FK = $model->ID AND YEAR = $model->YEAR AND MONTH = $model->MONTH;")->queryRow()['NET']; echo $NET;?></b></td>
 			<td class="small-xx right-br"><?php $PT = Yii::app()->db->createCommand("SELECT SUM(PT) as PT FROM tbl_salary_details WHERE BILL_ID_FK = $model->ID AND YEAR = $model->YEAR AND MONTH = $model->MONTH;")->queryRow()['PT']; echo $PT;?></td>
-			<td class="small-xx right-br"><?php echo $PT ;?></td>
+			<td class="small-xx right-br"><?php $COURT_ATTACHMENT = Yii::app()->db->createCommand("SELECT SUM(COURT_ATTACHMENT) as COURT_ATTACHMENT FROM tbl_salary_details WHERE BILL_ID_FK = $model->ID AND YEAR = $model->YEAR AND MONTH = $model->MONTH;")->queryRow()['COURT_ATTACHMENT']; echo $COURT_ATTACHMENT;?></td>
+			<td class="small-xx right-br"><?php echo $PT + $COURT_ATTACHMENT ;?></td>
 			<td class="small-xx right-br"><?php $AMOUNT_BANK = Yii::app()->db->createCommand("SELECT SUM(AMOUNT_BANK) as AMOUNT_BANK FROM tbl_salary_details WHERE BILL_ID_FK = $model->ID AND YEAR = $model->YEAR AND MONTH = $model->MONTH;")->queryRow()['AMOUNT_BANK']; echo $AMOUNT_BANK;?></td>
 		</tr>
 	</tbody>
@@ -29,14 +31,16 @@
 		<th class="small right-br"></th>
 		<th class="small right-br"><?php $NET = Yii::app()->db->createCommand("SELECT SUM(NET) as NET FROM tbl_salary_details WHERE BILL_ID_FK = $model->ID AND YEAR = $model->YEAR AND MONTH = $model->MONTH;")->queryRow()['NET']; echo $NET;?></th>
 		<th class="small right-br"><?php $PT = Yii::app()->db->createCommand("SELECT SUM(PT) as PT FROM tbl_salary_details WHERE BILL_ID_FK = $model->ID AND YEAR = $model->YEAR AND MONTH = $model->MONTH;")->queryRow()['PT']; echo $PT;?></th>
-		<td class="small-xx right-br"><?php echo $PT;?></td>
-		<td class="small-xx right-br"><?php $AMOUNT_BANK = Yii::app()->db->createCommand("SELECT SUM(AMOUNT_BANK) as AMOUNT_BANK FROM tbl_salary_details WHERE BILL_ID_FK = $model->ID AND YEAR = $model->YEAR AND MONTH = $model->MONTH;")->queryRow()['AMOUNT_BANK']; echo $AMOUNT_BANK;?></td>
+		<th class="small right-br"><?php $COURT_ATTACHMENT = Yii::app()->db->createCommand("SELECT SUM(COURT_ATTACHMENT) as COURT_ATTACHMENT FROM tbl_salary_details WHERE BILL_ID_FK = $model->ID AND YEAR = $model->YEAR AND MONTH = $model->MONTH;")->queryRow()['COURT_ATTACHMENT']; echo $COURT_ATTACHMENT;?></th>
+		<th class="small-xx right-br"><?php echo $PT + $COURT_ATTACHMENT;?></th>
+		<th class="small-xx right-br"><?php $AMOUNT_BANK = Yii::app()->db->createCommand("SELECT SUM(AMOUNT_BANK) as AMOUNT_BANK FROM tbl_salary_details WHERE BILL_ID_FK = $model->ID AND YEAR = $model->YEAR AND MONTH = $model->MONTH;")->queryRow()['AMOUNT_BANK']; echo $AMOUNT_BANK;?></th>
 	</tfoot>
 </table>
 
-<p style="text-align: center; margin-top: 50px;"><b><?php echo $this->amountToWord($PT);?><b></p>
+<p style="text-align: center; margin-top: 50px;"><b><?php echo $this->amountToWord($PT + $COURT_ATTACHMENT);?><b></p>
 <br/><br/><br/><br/>
-<p style="width: 80%;"><span style="font-size: 11px;float: right;margin-right: 10px;display: inline-block;width: 80%;">	1. Cheque may be issued in the name of Asst. Professional Tax Officer, Circle - 10  for Rs. <span style="float: right;font-style: italic;">Rs.<?php echo $PT;?></span></span></p>
+<p style="width: 80%;"><span style="font-size: 11px;float: right;margin-right: 10px;display: inline-block;width: 80%;">	1. Cheque may be issued in the name of <b style="font-weight: bold;">Asst. Professional Tax Officer, Circle - 10</b> for Rs. <?php echo $PT;?>/-</p>
+<p style="width: 80%;"><span style="font-size: 11px;float: right;margin-right: 10px;display: inline-block;width: 80%;">	2. DD may be issued in the name of <b style="font-weight: bold;">PRL. CIVIL JUDGE & JMFC BELGAUM</b> for Rs.<?php echo $COURT_ATTACHMENT;?>/- payble at Belgaum</span></p>
 
 <div style="font-weight: bold; width:400px; float: right;text-align:center; margin-top:100px;margin-right:-10px;">
 	<p>(<?php echo Employee::model()->findByPK($master['DEPT_ADMIN_EMPLOYEE'])->NAME;?>)</p>

@@ -199,7 +199,6 @@ class BillController extends Controller
 						if(isset($salary[$YEAR][$MONTH])){
 							$SalaryDetails = null;
 							$PAY_DETAILS = $salary[$YEAR][$MONTH];
-							
 							if(SalaryDetails::model()->exists('BILL_ID_FK='.$bill_id.' AND EMPLOYEE_ID_FK='.$EMPLOYEE_ID.' AND MONTH='.$MONTH.' AND YEAR='.$YEAR)){
 								$SalaryDetails = SalaryDetails::model()->find('BILL_ID_FK='.$bill_id.' AND EMPLOYEE_ID_FK='.$EMPLOYEE_ID.' AND MONTH='.$MONTH.' AND YEAR='.$YEAR);
 							}
@@ -221,7 +220,7 @@ class BillController extends Controller
 							$SalaryDetails->IS_FEST_RECOVERY = isset($PAY_DETAILS['IS_FEST_RECOVERY']) ? $PAY_DETAILS['IS_FEST_RECOVERY'] : 0;
 							$SalaryDetails->IS_CYCLE_RECOVERY = isset($PAY_DETAILS['IS_CYCLE_RECOVERY']) ? $PAY_DETAILS['IS_CYCLE_RECOVERY'] : 0;
 							$SalaryDetails->IS_FLOOD_RECOVERY = isset($PAY_DETAILS['IS_FLOOD_RECOVERY']) ? $PAY_DETAILS['IS_FLOOD_RECOVERY'] : 0;
-							$SalaryDetails->IS_FAN_RECOVERY = isset($PAY_DETAILS['IS_FAN_RECOVERY']) ? $PAY_DETAILS['IS_FAN_RECOVERY'] : 0;
+							$SalaryDetails->IS_COMP_RECOVERY = isset($PAY_DETAILS['IS_COMP_RECOVERY']) ? $PAY_DETAILS['IS_COMP_RECOVERY'] : 0;
 							
 							if(isset($PAY_DETAILS['UA'])){
 								$SalaryDetails->UA = $PAY_DETAILS['UA'];
@@ -798,7 +797,7 @@ class BillController extends Controller
 	public function actionGPF($id){$this->layout='//layouts/column1';$model = $this->loadModel($id);$this->render('PAY/GPF',array('model'=>$model,));}
 	public function actionLF($id){$this->layout='//layouts/column1';$model = $this->loadModel($id);$this->render('PAY/LF',array('model'=>$model,));}
 	public function actionHBA($id){$this->layout='//layouts/column1';$model = $this->loadModel($id);$this->render('PAY/HBA',array('model'=>$model,));}
-	public function actionFAN($id){$this->layout='//layouts/column1';$model = $this->loadModel($id);$this->render('PAY/FAN',array('model'=>$model,));}
+	public function actionCOMPUTER($id){$this->layout='//layouts/column1';$model = $this->loadModel($id);$this->render('PAY/COMPUTER',array('model'=>$model,));}
 	public function actionFLOOD($id){$this->layout='//layouts/column1';$model = $this->loadModel($id);$this->render('PAY/FLOOD',array('model'=>$model,));}
 	public function actionFEST($id){$this->layout='//layouts/column1';$model = $this->loadModel($id);$this->render('PAY/FEST',array('model'=>$model,));}
 	public function actionMCA($id){$this->layout='//layouts/column1';$model = $this->loadModel($id);$this->render('PAY/MCA',array('model'=>$model,));}
@@ -828,7 +827,7 @@ class BillController extends Controller
 	public function actionCasualBonusBillInner($id){$this->layout='//layouts/column1';$model = $this->loadModel($id);$this->render('PAY/CasualBonusBillInner',array('model'=>$model,));}
 	public function actionCasualPayBillPT($id){$this->layout='//layouts/column1';$model = $this->loadModel($id);$this->render('PAY/CasualPayBillPT',array('model'=>$model,));}
 	public function actionHBA_INTEREST($id){$this->layout='//layouts/column1';$model = $this->loadModel($id);$this->render('PAY/HBA_INTEREST',array('model'=>$model,));}
-	public function actionFAN_INTEREST($id){$this->layout='//layouts/column1';$model = $this->loadModel($id);$this->render('PAY/FAN_INTEREST',array('model'=>$model,));}
+	public function actionCOMPUTER_INTEREST($id){$this->layout='//layouts/column1';$model = $this->loadModel($id);$this->render('PAY/COMPUTER_INTEREST',array('model'=>$model,));}
 	public function actionFLOOD_INTEREST($id){$this->layout='//layouts/column1';$model = $this->loadModel($id);$this->render('PAY/FLOOD_INTEREST',array('model'=>$model,));}
 	public function actionFEST_INTEREST($id){$this->layout='//layouts/column1';$model = $this->loadModel($id);$this->render('PAY/FEST_INTEREST',array('model'=>$model,));}
 	public function actionMCA_INTEREST($id){$this->layout='//layouts/column1';$model = $this->loadModel($id);$this->render('PAY/MCA_INTEREST',array('model'=>$model,));}
