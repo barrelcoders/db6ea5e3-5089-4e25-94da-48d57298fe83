@@ -124,7 +124,7 @@
 	</tr>
 	<tr class="no-border">
 		<td colspan="6" class="left-text">Govt. Contribution in CPF (equal to Govt. Servant's cont.)</td>
-		<td><?php echo "-".$TOTAL_CPF_EMPLOYEE?></td>
+		<td><?php echo $TOTAL_CPF_EMPLOYEE?></td>
 		<td class="no-border"></td>
 		<td colspan="2" class="left-text">(2) CPF cont. from Arr.</td>
 		<td colspan="2"><?php echo $TOTAL_DA_TA_ARREAR_CPF;?></td>
