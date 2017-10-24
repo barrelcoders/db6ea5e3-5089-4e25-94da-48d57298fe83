@@ -800,7 +800,7 @@
 		
 		//taComponentElement.val(UPDATED_TA);
 		if(container.find("#PENSION_TYPE").val() == "NPS"){
-			cpfComponentElement.val(Math.round(parseInt(getElementValue(daComponentElement)) + parseInt(getElementValue(field)*(CPF_RATE/100))));
+			cpfComponentElement.val(Math.round((parseInt(getElementValue(daComponentElement)) + parseInt(getElementValue($(field)))) * (CPF_RATE/100)));
 		}
 	}
 	function OtherDeductionValueChange(field){
