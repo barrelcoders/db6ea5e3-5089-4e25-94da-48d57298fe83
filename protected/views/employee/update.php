@@ -24,8 +24,8 @@ $this->menu=array(
 					<h2><?php echo $model->NAME; ?></h2>
 					<div class="subtitle" style="text-align: right;">
 						<a href="<?php echo Yii::app()->createUrl('Employee/admin')?>" style="float: left;font-size: 15px;">Employees</a>
-						<a class="btn btn-inline" href="<?php echo Yii::app()->createUrl('Investments/update', array('id'=>$model->ID))?>">2017-18 Investments</a>
-						<a class="btn btn-inline" href="<?php echo Yii::app()->createUrl('SupplementarySalaryDetails/update', array('id'=>$model->ID))?>">Mar-Jun 2017 Salary</a>
+						<a class="btn btn-inline" href="<?php echo Yii::app()->createUrl('Investments/update', array('id'=>$model->ID))?>"><?php echo FinancialYears::model()->find('STATUS=1')->NAME; ?>Investments</a>
+						<a class="btn btn-inline" href="<?php echo Yii::app()->createUrl('SupplementarySalaryDetails/update', array('id'=>$model->ID))?>"><?php echo FinancialYears::model()->find('STATUS=1')->NAME; ?> Salaries</a>
 					</div>
 				</div>
 			</div>

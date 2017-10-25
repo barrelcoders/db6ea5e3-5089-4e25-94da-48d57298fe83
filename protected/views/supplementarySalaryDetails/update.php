@@ -25,8 +25,6 @@ $this->menu=array(
 			<div class="tbl-row">
 				<div class="tbl-cell">
 					<div class="subtitle" >	
-						<a class="btn btn-inline" target="_blank" href="<?php echo Yii::app()->createUrl('Investments/update', array('id'=>$this->ID))?>">
-						<?php echo FinancialYears::model()->find("STATUS=1")->NAME ?> Investments</a>
 					</div>
 				</div>
 			</div>

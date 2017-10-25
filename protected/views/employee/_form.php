@@ -192,6 +192,23 @@
 				</div>
 			</div>
 			<div class="form-group row">
+				<?php echo $form->labelEx($model,'POSTING_ID_FK', array('class'=>'col-sm-2 form-control-label')); ?>
+				<div class="col-sm-10">
+					<p class="form-control-static">
+						<select name="Employee[POSTING_ID_FK]" id="Employee_POSTING_ID_FK">
+							<?php 
+								$records=Posting::model()->findAll();
+								foreach($records as $record){
+									?>
+									<option <?php echo ($model->POSTING_ID_FK == $record->ID) ? "selected" : "";?> value="<?php echo $record->ID; ?>"><?php echo $record->PLACE;?></option>
+									<?php
+								}
+							?>
+						</select>
+					</p>
+				</div>
+			</div>
+			<div class="form-group row">
 				<?php echo $form->labelEx($model,'MICR', array('class'=>'col-sm-2 form-control-label')); ?>
 				<div class="col-sm-10">
 					<p class="form-control-static">

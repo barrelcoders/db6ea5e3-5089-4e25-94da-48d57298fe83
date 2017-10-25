@@ -1,6 +1,31 @@
 <?php
 
-	$periods = array('3-2017','4-2017','5-2017','6-2017');
+	$financialYear = FinancialYears::model()->find('STATUS=1');
+	$StartYear = date('Y', strtotime($financialYear->START_DATE));
+	$EndYear = date('Y', strtotime($financialYear->END_DATE));
+	$CurrentFinancialYearPeriods = array('3-'.$StartYear,'4-'.$StartYear,'5-'.$StartYear,'6-'.$StartYear, '7-'.$StartYear, '8-'.$StartYear, '9-'.$StartYear, '10-'.$StartYear, '11-'.$StartYear, '12-'.$StartYear,
+										'1-'.$EndYear, '2-'.$EndYear);
+	
+	$STARTING_PERIOD_OF_SALARY = Yii::app()->db->createCommand("SELECT CONCAT(MONTH, '-', YEAR) AS PERIOD FROM db_oneadmin.tbl_salary_details WHERE EMPLOYEE_ID_FK=".$this->ID." ORDER BY BILL_ID_FK LIMIT 1")->queryRow()['PERIOD']; 
+	$StartIndex = 0;
+	$EndIndex = 0;
+	
+	if($STARTING_PERIOD_OF_SALARY){
+		for($i=0; $i<=count($CurrentFinancialYearPeriods)-1;$i++){
+			if($CurrentFinancialYearPeriods[$i] == $STARTING_PERIOD_OF_SALARY){
+				$EndIndex = $i-1;
+			}
+		}	
+	}
+	else{
+		$EndIndex = count($CurrentFinancialYearPeriods)-1;
+	}
+	
+	$periods = array();
+	for($i=$StartIndex; $i<=$EndIndex;$i++){
+		array_push($periods, $CurrentFinancialYearPeriods[$i]);
+	}
+	
 	$js_array = json_encode($periods);
 	$monthNames = array('JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN', 'JUL', 'AUG', 'SEP', 'OCT', 'NOV', 'DEC');
 	$year = 2017;
@@ -16,6 +41,8 @@
 		<div class="col-sm-12">
 			<h3><?php echo Employee::model()->findByPK($this->ID)->NAME.", ".Designations::model()->findByPK(Employee::model()->findByPK($this->ID)->DESIGNATION_ID_FK)->DESIGNATION; ?></h3>
 			<p class="form-control-static">
+				<a class="btn btn-inline" target="_blank" href="<?php echo Yii::app()->createUrl('Investments/update', array('id'=>$this->ID))?>"><?php echo FinancialYears::model()->find("STATUS=1")->NAME ?> Investments</a>
+				<a class="btn btn-inline" href="<?php echo Yii::app()->createUrl('IncomeTax/SelectEmployeesForForm16');?>" target="_blank">Provisional Form-16 (<?php echo FinancialYears::model()->find('STATUS=1')->NAME;?>)</a>
 				<?php 
 					$startPeriod = $periods[0];
 					$endPeriod = $periods[count($periods)-1];
@@ -23,7 +50,7 @@
 					$endMonth = $monthNames[explode("-", $endPeriod)[0] - 1];
 					$startYear = explode("-", $startPeriod)[1];
 					$endYear = explode("-", $endPeriod)[1];
-					echo CHtml::submitButton('Save Salary '.$startMonth.'-'.$startYear.' to '.$endMonth.'-'.$endYear, array('class'=>'btn btn-inline', 'style'=>'float:right;')); ?>
+					echo CHtml::submitButton('Save Salary '.$startMonth.'-'.$startYear.' to '.$endMonth.'-'.$endYear, array('class'=>'btn btn-inline')); ?>
 			</p>
 		</div>
 	</div>
@@ -36,7 +63,7 @@
 				$salary = SupplementarySalaryDetails::model()->find('EMPLOYEE_ID_FK='.$this->ID.' AND MONTH='.$month.' AND YEAR='.$year);
 			}
 			else{
-				$salary = SalaryDetails::model();
+				$salary = SupplementarySalaryDetails::model();
 			}
 			?>
 			<b><?php echo $monthNames[$month-1]."-".$year?></b>
@@ -76,10 +103,9 @@
 				<tr>
 					<td>HBA</td>
 					<td>
-						INTEREST:
 						<select name="SupplementarySalaryDetails[<?php echo $month?>][IS_HBA_RECOVERY]" >
-							<option value="0" <?php echo ($salary->IS_HBA_RECOVERY && ($salary->IS_HBA_RECOVERY == 0)) ? "selected" : "";?>>NO</option>
-							<option value="1" <?php echo ($salary->IS_HBA_RECOVERY && ($salary->IS_HBA_RECOVERY == 1)) ? "selected" : "";?>>YES</option>
+							<option value="0" <?php echo ($salary->IS_HBA_RECOVERY && ($salary->IS_HBA_RECOVERY == 0)) ? "selected" : "";?>>PRINCIPAL</option>
+							<option value="1" <?php echo ($salary->IS_HBA_RECOVERY && ($salary->IS_HBA_RECOVERY == 1)) ? "selected" : "";?>>INTEREST</option>
 						</select>
 					</td>
 					<td>TOTAL: <input type="text" size="10" name="SupplementarySalaryDetails[<?php echo $month;?>][HBA_TOTAL]" data-type="HBA_TOTAL" value="<?php echo $salary->HBA_TOTAL ? $salary->HBA_TOTAL : 0;?>" placeholder="TOTAL" class="hba-total"/></td>
@@ -91,16 +117,29 @@
 				<tr>
 					<td>MCA</td>
 					<td>
-						INTEREST:
 						<select name="SupplementarySalaryDetails[<?php echo $month?>][IS_MCA_RECOVERY]" >
-							<option value="0" <?php echo ($salary->IS_MCA_RECOVERY == 0) ? "selected" : "";?>>NO</option>
-							<option value="1" <?php echo ($salary->IS_MCA_RECOVERY == 1) ? "selected" : "";?>>YES</option>
+							<option value="0" <?php echo ($salary->IS_MCA_RECOVERY == 0) ? "selected" : "";?>>PRINCIPAL</option>
+							<option value="1" <?php echo ($salary->IS_MCA_RECOVERY == 1) ? "selected" : "";?>>INTEREST</option>
 						</select>
 					</td>
 					<td>TOTAL: <input type="text" size="10" name="SupplementarySalaryDetails[<?php echo $month;?>][MCA_TOTAL]" data-type="MCA_TOTAL" value="<?php echo $salary->MCA_TOTAL ? $salary->MCA_TOTAL : 0;?>" placeholder="TOTAL" class="mca-total"/></td>
 					<td>INSTALLMENT: <input type="text" size="10" name="SupplementarySalaryDetails[<?php echo $month;?>][MCA_INST]" data-type="MCA_INST" value="<?php echo $salary->MCA_INST ? $salary->MCA_INST : 0;?>" placeholder="INSTALLMENT" class="increment-field mca-inst"/></td>
 					<td>EMI: <input type="text" size="10" name="SupplementarySalaryDetails[<?php echo $month;?>][MCA_EMI]" data-type="MCA_EMI" class="ded-inc-amount mca-emi" value="<?php echo $salary->MCA_EMI ? $salary->MCA_EMI : 0;?>" placeholder="EMI"/></td>
 					<td>BALANCE: <input type="text" size="10" name="SupplementarySalaryDetails[<?php echo $month;?>][MCA_BAL]" data-type="MCA_BAL" value="<?php echo $salary->MCA_BAL ? $salary->MCA_BAL : 0;?>" placeholder="BALANCE" class="mca-bal non-populated-field"/></td>
+					<td></td><td></td>
+				</tr>
+				<tr>
+					<td>COMPUTER</td>
+					<td>
+						<select name="SupplementarySalaryDetails[<?php echo $month?>][IS_COMP_RECOVERY]" >
+							<option value="0" <?php echo ($salary->IS_COMP_RECOVERY == 0) ? "selected" : "";?>>PRINCIPAL</option>
+							<option value="1" <?php echo ($salary->IS_COMP_RECOVERY == 1) ? "selected" : "";?>>INTEREST</option>
+						</select>
+					</td>
+					<td>TOTAL: <input type="text" size="10" name="SupplementarySalaryDetails[<?php echo $month;?>][COMP_TOTAL]" data-type="COMP_TOTAL" value="<?php echo $salary->COMP_TOTAL ? $salary->COMP_TOTAL : 0;?>" placeholder="TOTAL" class="comp-total"/></td>
+					<td>INSTALLMENT: <input type="text" size="10" name="SupplementarySalaryDetails[<?php echo $month;?>][COMP_INST]" data-type="COMP_INST" value="<?php echo $salary->COMP_INST ? $salary->COMP_INST : 0;?>" placeholder="INSTALLMENT" class="increment-field comp-inst"/></td>
+					<td>EMI: <input type="text" size="10" name="SupplementarySalaryDetails[<?php echo $month;?>][COMP_EMI]" data-type="COMP_EMI" class="ded-inc-amount comp-emi" value="<?php echo $salary->COMP_EMI ? $salary->COMP_EMI : 0;?>" placeholder="EMI"/></td>
+					<td>BALANCE: <input type="text" size="10" name="SupplementarySalaryDetails[<?php echo $month;?>][COMP_BAL]" data-type="COMP_BAL" value="<?php echo $salary->COMP_BAL ? $salary->COMP_BAL : 0;?>" placeholder="BALANCE" class="comp-bal non-populated-field"/></td>
 					<td></td><td></td>
 				</tr>
 				<tr>
@@ -180,6 +219,11 @@ $(document).ready(function(){
 		if($(this).hasClass('mca-total') || $(this).hasClass('mca-inst') || $(this).hasClass('mca-emi')){
 			$(selfWithDependentSelector).each(function(){
 				MCAValueChange(this);
+			});
+		}
+		if($(this).hasClass('comp-total') || $(this).hasClass('comp-inst') || $(this).hasClass('comp-emi')){
+			$(selfWithDependentSelector).each(function(){
+				COMPValueChange(this);
 			});
 		}
 	});
@@ -319,6 +363,17 @@ function MCAValueChange(field){
 	}
 }
 
+function COMPValueChange(field){
+	var container = $(field).parents('table'), total = 0,
+		totalElement = $(container).find('.comp-total'),
+		installmentElement = $(container).find('.comp-inst'),
+		emiElement = $(container).find('.comp-emi'),
+		balanceElement = $(container).find('.comp-bal');
+	
+	if(parseInt(totalElement.val()) > 0 && parseInt(installmentElement.val()) > 0 && parseInt(emiElement.val()) > 0){
+		balanceElement.val(getElementValue(totalElement) - (getElementValue(installmentElement) * getElementValue(emiElement)));
+	}
+}
 
 function getElementValue(element){
 	if(element.length > 0){

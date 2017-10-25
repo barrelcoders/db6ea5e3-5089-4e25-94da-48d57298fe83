@@ -46,7 +46,7 @@ class Employee extends CActiveRecord
 		return array(
 			array('NAME, DESIGNATION_ID_FK, GRADE_PAY_ID_FK, PAY_MATRIX_ID_FK, PENSION_ACC_NO, GROUP_ID_FK, NAME_HINDI, PERMISSION', 'required'),
 			array('NAME, NAME_HINDI', 'length', 'max'=>100),
-			array('DESIGNATION_ID_FK, GRADE_PAY_ID_FK, PAY_MATRIX_ID_FK, GROUP_ID_FK, JOIN_DESIGNATION_ID_FK', 'length', 'max'=>10),
+			array('DESIGNATION_ID_FK, GRADE_PAY_ID_FK, PAY_MATRIX_ID_FK, GROUP_ID_FK, JOIN_DESIGNATION_ID_FK, POSTING_ID_FK', 'length', 'max'=>10),
 			array('IS_SUSPENDED, IS_PERMANENT, STATUS, IS_TRANSFERRED, IS_RETIRED', 'length', 'max'=>3),
 			array('PENSION_ACC_NO, PENSION_TYPE, MICR, ACCOUNT_NO, IFSC, PAN, CATEGORY, GENDER, ORG_JOIN_TIME, DEPT_RELIEF_TIME, DEPT_JOIN_TIME, PERMISSION, SERVICE_BOOK_VOL', 'length', 'max'=>45),
 			array('DEPT_JOIN_DATE, DEPT_RELIEF_DATE, ORG_JOIN_DATE, PRESENT_PROMOTION_DATE', 'date', 'format'=>'yyyy-MM-dd', 'allowEmpty'=>true),
@@ -54,7 +54,7 @@ class Employee extends CActiveRecord
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
 			array('ID, NAME, DEPT_JOIN_DATE, DEPT_RELIEF_DATE, ORG_JOIN_DATE, ORG_RETIRE_DATE, DESIGNATION_ID_FK, GRADE_PAY_ID_FK, PAY_MATRIX_ID_FK, DOI, PENSION_ACC_NO, FOLIO_NO, GROUP_ID_FK, DOB, NAME_HINDI, 
-			PENSION_TYPE, MICR, ACCOUNT_NO, IFSC, PAN, IS_PERMANENT, STATUS, CATEGORY, IS_TRANSFERRED, IS_RETIRED, GENDER, PERMISSION, SUSPENSION_ORDER, SUSPENSION_DATE', 'safe', 'on'=>'search'),
+			PENSION_TYPE, MICR, ACCOUNT_NO, IFSC, PAN, IS_PERMANENT, STATUS, CATEGORY, IS_TRANSFERRED, IS_RETIRED, POSTING_ID_FK, GENDER, PERMISSION, SUSPENSION_ORDER, SUSPENSION_DATE', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -122,6 +122,7 @@ class Employee extends CActiveRecord
 			'IS_SUSPENDED'=>'Supended',
 			'SUSPENSION_ORDER'=>'Suspend/Revoke Order No.',
 			'SUSPENSION_DATE'=>'Suspend/Revoke Date',
+			'POSTING_ID_FK'=>'Place of Posting'
 		);
 	}
 	
@@ -182,6 +183,7 @@ class Employee extends CActiveRecord
 		$criteria->compare('IS_SUSPENDED',$this->IS_SUSPENDED,true);
 		$criteria->compare('SUSPENSION_ORDER',$this->SUSPENSION_ORDER,true);
 		$criteria->compare('SUSPENSION_DATE',$this->SUSPENSION_DATE,true);
+		$criteria->compare('POSTING_ID_FK',$this->POSTING_ID_FK,true);
 		
 		
 		$criteria->order = 'DESIGNATION_ID_FK DESC';

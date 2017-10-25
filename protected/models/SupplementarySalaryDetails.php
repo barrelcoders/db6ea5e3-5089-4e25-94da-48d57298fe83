@@ -21,7 +21,7 @@
  * @property string $CPF_TIER_II
  * @property string $HBA_EMI
  * @property string $MCA_EMI
- * @property string $FAN_EMI
+ * @property string $COMP_EMI
  * @property string $FLOOD_EMI
  * @property string $CYCLE_EMI
  * @property string $PLI
@@ -48,9 +48,9 @@
  * @property string $LIC
  * @property string $ASSOSC_SUB
  * @property string $REMARKS
- * @property string $FAN_TOTAL
- * @property string $FAN_INST
- * @property string $FAN_BAL
+ * @property string $COMP_TOTAL
+ * @property string $COMP_INST
+ * @property string $COMP_BAL
  * @property string $MONTH
  * @property string $YEAR
  * @property string $GP
@@ -65,7 +65,7 @@
  * @property integer $IS_MCA_RECOVERY
  * @property integer $IS_FLOOD_RECOVERY
  * @property integer $IS_CYCLE_RECOVERY
- * @property integer $IS_FAN_RECOVERY
+ * @property integer $IS_COMP_RECOVERY
  * @property integer $MAINT_MADIWALA
  * @property integer $MAINT_JAYAMAHAL
  * @property string $COURT_ATTACHMENT
@@ -90,14 +90,15 @@ class SupplementarySalaryDetails extends CActiveRecord
 		// will receive user inputs.
 		return array(
 			array('EMPLOYEE_ID_FK, MONTH, YEAR', 'required'),
-			array('GROSS, DED, NET, OTHER_DED, AMOUNT_BANK, IS_SALARY_BILL, IS_FEST_RECOVERY, IS_HBA_RECOVERY, IS_MCA_RECOVERY, IS_FLOOD_RECOVERY, IS_CYCLE_RECOVERY, IS_FAN_RECOVERY, MAINT_MADIWALA, MAINT_JAYAMAHAL', 'numerical', 'integerOnly'=>true),
-			array('EMPLOYEE_ID_FK, BASIC, SP, PP, CCA, HRA, DA, TA, IT, CGHS, LF, CGEGIS, CPF_TIER_I, CPF_TIER_II, HBA_EMI, MCA_EMI, FAN_EMI, FLOOD_EMI, CYCLE_EMI, PLI, MISC, PT, FEST_EMI, HBA_TOTAL, MCA_TOTAL, FLOOD_TOTAL, CYCLE_TOTAL, FEST_TOTAL, HBA_BAL, MCA_BAL, FLOOD_BAL, CYCLE_BAL, WA, CCS, LIC, ASSOSC_SUB, FAN_TOTAL, FAN_BAL, MONTH, YEAR, GP, COURT_ATTACHMENT, EL_ENCASHMENT', 'length', 'max'=>10),
-			array('HBA_INST, MCA_INST, FLOOD_INST, CYCLE_INST, FEST_INST, FAN_INST', 'length', 'max'=>45),
+			array('GROSS, DED, NET, OTHER_DED, AMOUNT_BANK, IS_SALARY_BILL, IS_FEST_RECOVERY, IS_HBA_RECOVERY, IS_MCA_RECOVERY, IS_FLOOD_RECOVERY, IS_CYCLE_RECOVERY, IS_COMP_RECOVERY, MAINT_MADIWALA, MAINT_JAYAMAHAL', 'numerical', 'integerOnly'=>true),
+			array('EMPLOYEE_ID_FK, BASIC, SP, PP, CCA, HRA, DA, TA, IT, CGHS, LF, CGEGIS, CPF_TIER_I, CPF_TIER_II, HBA_EMI, MCA_EMI, COMP_EMI, FLOOD_EMI, CYCLE_EMI, PLI, MISC, PT, FEST_EMI, HBA_TOTAL, 
+			MCA_TOTAL, FLOOD_TOTAL, CYCLE_TOTAL, FEST_TOTAL, HBA_BAL, MCA_BAL, FLOOD_BAL, CYCLE_BAL, WA, CCS, LIC, ASSOSC_SUB, COMP_TOTAL, COMP_BAL, MONTH, YEAR, GP, COURT_ATTACHMENT, EL_ENCASHMENT', 'length', 'max'=>10),
+			array('HBA_INST, MCA_INST, FLOOD_INST, CYCLE_INST, FEST_INST, COMP_INST', 'length', 'max'=>45),
 			array('FEST_BAL', 'length', 'max'=>11),
 			array('REMARKS', 'length', 'max'=>200),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('ID, EMPLOYEE_ID_FK, BASIC, SP, PP, CCA, HRA, DA, TA, IT, CGHS, LF, CGEGIS, CPF_TIER_I, CPF_TIER_II, HBA_EMI, MCA_EMI, FAN_EMI, FLOOD_EMI, CYCLE_EMI, PLI, MISC, PT, FEST_EMI, HBA_TOTAL, MCA_TOTAL, FLOOD_TOTAL, CYCLE_TOTAL, FEST_TOTAL, HBA_INST, MCA_INST, FLOOD_INST, CYCLE_INST, FEST_INST, HBA_BAL, MCA_BAL, FLOOD_BAL, CYCLE_BAL, FEST_BAL, WA, CCS, LIC, ASSOSC_SUB, REMARKS, FAN_TOTAL, FAN_INST, FAN_BAL, MONTH, YEAR, GP, GROSS, DED, NET, OTHER_DED, AMOUNT_BANK, IS_SALARY_BILL, IS_FEST_RECOVERY, IS_HBA_RECOVERY, IS_MCA_RECOVERY, IS_FLOOD_RECOVERY, IS_CYCLE_RECOVERY, IS_FAN_RECOVERY, MAINT_MADIWALA, MAINT_JAYAMAHAL, COURT_ATTACHMENT, EL_ENCASHMENT', 'safe', 'on'=>'search'),
+			array('ID, EMPLOYEE_ID_FK, BASIC, SP, PP, CCA, HRA, DA, TA, IT, CGHS, LF, CGEGIS, CPF_TIER_I, CPF_TIER_II, HBA_EMI, MCA_EMI, COMP_EMI, FLOOD_EMI, CYCLE_EMI, PLI, MISC, PT, FEST_EMI, HBA_TOTAL, MCA_TOTAL, FLOOD_TOTAL, CYCLE_TOTAL, FEST_TOTAL, HBA_INST, MCA_INST, FLOOD_INST, CYCLE_INST, FEST_INST, HBA_BAL, MCA_BAL, FLOOD_BAL, CYCLE_BAL, FEST_BAL, WA, CCS, LIC, ASSOSC_SUB, REMARKS, COMP_TOTAL, COMP_INST, COMP_BAL, MONTH, YEAR, GP, GROSS, DED, NET, OTHER_DED, AMOUNT_BANK, IS_SALARY_BILL, IS_FEST_RECOVERY, IS_HBA_RECOVERY, IS_MCA_RECOVERY, IS_FLOOD_RECOVERY, IS_CYCLE_RECOVERY, IS_COMP_RECOVERY, MAINT_MADIWALA, MAINT_JAYAMAHAL, COURT_ATTACHMENT, EL_ENCASHMENT', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -135,7 +136,7 @@ class SupplementarySalaryDetails extends CActiveRecord
 			'CPF_TIER_II' => 'Cpf Tier Ii',
 			'HBA_EMI' => 'Hba Emi',
 			'MCA_EMI' => 'Mca Emi',
-			'FAN_EMI' => 'Fan Emi',
+			'COMP_EMI' => 'Fan Emi',
 			'FLOOD_EMI' => 'Flood Emi',
 			'CYCLE_EMI' => 'Cycle Emi',
 			'PLI' => 'Pli',
@@ -162,9 +163,9 @@ class SupplementarySalaryDetails extends CActiveRecord
 			'LIC' => 'Lic',
 			'ASSOSC_SUB' => 'Assosc Sub',
 			'REMARKS' => 'Remarks',
-			'FAN_TOTAL' => 'Fan Total',
-			'FAN_INST' => 'Fan Inst',
-			'FAN_BAL' => 'Fan Bal',
+			'COMP_TOTAL' => 'Fan Total',
+			'COMP_INST' => 'Fan Inst',
+			'COMP_BAL' => 'Fan Bal',
 			'MONTH' => 'Month',
 			'YEAR' => 'Year',
 			'GP' => 'Gp',
@@ -179,7 +180,7 @@ class SupplementarySalaryDetails extends CActiveRecord
 			'IS_MCA_RECOVERY' => 'Is Mca Recovery',
 			'IS_FLOOD_RECOVERY' => 'Is Flood Recovery',
 			'IS_CYCLE_RECOVERY' => 'Is Cycle Recovery',
-			'IS_FAN_RECOVERY' => 'Is Fan Recovery',
+			'IS_COMP_RECOVERY' => 'Is Computer Recovery',
 			'MAINT_MADIWALA' => 'Maint Madiwala',
 			'MAINT_JAYAMAHAL' => 'Maint Jayamahal',
 			'COURT_ATTACHMENT' => 'Court Attachment',
@@ -222,7 +223,7 @@ class SupplementarySalaryDetails extends CActiveRecord
 		$criteria->compare('CPF_TIER_II',$this->CPF_TIER_II,true);
 		$criteria->compare('HBA_EMI',$this->HBA_EMI,true);
 		$criteria->compare('MCA_EMI',$this->MCA_EMI,true);
-		$criteria->compare('FAN_EMI',$this->FAN_EMI,true);
+		$criteria->compare('COMP_EMI',$this->COMP_EMI,true);
 		$criteria->compare('FLOOD_EMI',$this->FLOOD_EMI,true);
 		$criteria->compare('CYCLE_EMI',$this->CYCLE_EMI,true);
 		$criteria->compare('PLI',$this->PLI,true);
@@ -249,9 +250,9 @@ class SupplementarySalaryDetails extends CActiveRecord
 		$criteria->compare('LIC',$this->LIC,true);
 		$criteria->compare('ASSOSC_SUB',$this->ASSOSC_SUB,true);
 		$criteria->compare('REMARKS',$this->REMARKS,true);
-		$criteria->compare('FAN_TOTAL',$this->FAN_TOTAL,true);
-		$criteria->compare('FAN_INST',$this->FAN_INST,true);
-		$criteria->compare('FAN_BAL',$this->FAN_BAL,true);
+		$criteria->compare('COMP_TOTAL',$this->COMP_TOTAL,true);
+		$criteria->compare('COMP_INST',$this->COMP_INST,true);
+		$criteria->compare('COMP_BAL',$this->COMP_BAL,true);
 		$criteria->compare('MONTH',$this->MONTH,true);
 		$criteria->compare('YEAR',$this->YEAR,true);
 		$criteria->compare('GP',$this->GP,true);
@@ -266,7 +267,7 @@ class SupplementarySalaryDetails extends CActiveRecord
 		$criteria->compare('IS_MCA_RECOVERY',$this->IS_MCA_RECOVERY);
 		$criteria->compare('IS_FLOOD_RECOVERY',$this->IS_FLOOD_RECOVERY);
 		$criteria->compare('IS_CYCLE_RECOVERY',$this->IS_CYCLE_RECOVERY);
-		$criteria->compare('IS_FAN_RECOVERY',$this->IS_FAN_RECOVERY);
+		$criteria->compare('IS_COMP_RECOVERY',$this->IS_COMP_RECOVERY);
 		$criteria->compare('MAINT_MADIWALA',$this->MAINT_MADIWALA);
 		$criteria->compare('MAINT_JAYAMAHAL',$this->MAINT_JAYAMAHAL);
 		$criteria->compare('COURT_ATTACHMENT',$this->COURT_ATTACHMENT,true);
