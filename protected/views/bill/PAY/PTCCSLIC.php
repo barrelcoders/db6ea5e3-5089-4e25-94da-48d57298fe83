@@ -35,8 +35,8 @@
 		<?php foreach ($salaries as $salary) { ?>
 		<tr>
 			<td class="small-xxx right-br"><?php echo $i; ?></td>
-			<td class="small right-br"><b><?php echo Employee::model()->findByPK($salary->EMPLOYEE_ID_FK)->NAME.'<br/>('.Employee::model()->findByPK($salary->EMPLOYEE_ID_FK)->NAME_HINDI.')';?></b></td>
-			<td class="small right-br"><b><?php echo Designations::model()->findByPK(Employee::model()->findByPK($salary->EMPLOYEE_ID_FK)->DESIGNATION_ID_FK)->DESIGNATION.'<br/>('.Designations::model()->findByPK(Employee::model()->findByPK($salary->EMPLOYEE_ID_FK)->DESIGNATION_ID_FK)->DESIGNATION_HINDI.')';?></b></td>
+			<td class="small right-br"><b><?php echo Employee::model()->findByPK($salary->EMPLOYEE_ID_FK)->NAME;?></b></td>
+			<td class="small right-br"><b><?php echo Designations::model()->findByPK(Employee::model()->findByPK($salary->EMPLOYEE_ID_FK)->DESIGNATION_ID_FK)->DESIGNATION;?></b></td>
 			<td class="small-xx right-br"><?php echo Employee::model()->findByPK($salary->EMPLOYEE_ID_FK)->ACCOUNT_NO; ?></td>
 			<td class="small-xx right-br"><?php echo Employee::model()->findByPK($salary->EMPLOYEE_ID_FK)->MICR; ?></td>
 			<td class="small-xx right-br"><?php echo $salary->NET; ?></td>

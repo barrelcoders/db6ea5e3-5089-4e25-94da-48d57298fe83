@@ -28,7 +28,7 @@ $this->menu=array(
 		<div class="tbl">
 			<div class="tbl-row">
 				<div class="tbl-cell">
-					<h2>Generate Last Pay Certificate</h2>
+					<h2>Generate LPC (On Retired)</h2>
 					<div class="subtitle"></div>
 				</div>
 			</div>
@@ -70,30 +70,23 @@ $this->menu=array(
 			</div>
 		</div>
 		<div class="form-group row">
-			<?php echo $form->labelEx($model,'DEPT_RELIEF_DATE', array('class'=>'col-sm-2 form-control-label')); ?>
+			<?php echo $form->labelEx($model,'ORG_RETIRE_DATE', array('class'=>'col-sm-2 form-control-label')); ?>
 			<div class="col-sm-10">
 				<p class="form-control-static">
-					<input value="<?php echo ($model->DEPT_RELIEF_DATE == "") ? "" : date('Y-m-d', strtotime($model->DEPT_RELIEF_DATE))?>" id="Employee_DEPT_RELIEF_DATE" name="Employee[DEPT_RELIEF_DATE]" type="date">
-					<?php echo $form->dropDownList($model,'DEPT_RELIEF_TIME',array(''=>'', 'F/N'=>'F/N', 'A/N'=>'A/N'), array('options'=>array($model->DEPT_RELIEF_TIME=>array('selected'=>true)))); ?>
+					<input value="<?php echo ($model->ORG_RETIRE_DATE == "") ? "" : date('Y-m-d', strtotime($model->ORG_RETIRE_DATE))?>" id="Employee_ORG_RETIRE_DATE" name="Employee[ORG_RETIRE_DATE]" type="date">
 				</p>
 			</div>
 		</div>
 		<div class="form-group row">
-			<?php echo $form->labelEx($model,'TRANSFERED_TO', array('class'=>'col-sm-2 form-control-label')); ?>
+			<?php echo $form->labelEx($model,'LPC_REMARKS', array('class'=>'col-sm-2 form-control-label')); ?>
 			<div class="col-sm-10">
 				<p class="form-control-static">
-					<?php echo $form->textField($model,'TRANSFERED_TO',array('size'=>60,'maxlength'=>100)); ?>
+					<?php echo $form->textArea($model,'LPC_REMARKS',array('maxlength' => 10000, 'rows' => 6, 'cols' => 50)); ?>
 				</p>
 			</div>
 		</div>
-		<div class="form-group row">
-			<?php echo $form->labelEx($model,'TRANSFER_ORDER', array('class'=>'col-sm-2 form-control-label')); ?>
-			<div class="col-sm-10">
-				<p class="form-control-static">
-					<?php echo $form->textField($model,'TRANSFER_ORDER',array('size'=>60,'maxlength'=>100)); ?>
-				</p>
-			</div>
-		</div>
+		
+		
 		
 		<div class="form-group row">
 			<label class='col-sm-2 form-control-label'></label>
@@ -120,8 +113,8 @@ $this->menu=array(
 		$('#employees li input[type=radio]').change(function(){
 			var empID = $(this).val();
 			
-			$('#LPC').attr('href', '<?php echo Yii::app()->createUrl('Employee/LPC'); ?>'+'&id='+empID);
-			$('#LPCCover').attr('href', '<?php echo Yii::app()->createUrl('Employee/LPCCover'); ?>'+'&id='+empID);
+			$('#LPC').attr('href', '<?php echo Yii::app()->createUrl('Employee/LPC_Retired'); ?>'+'&id='+empID);
+			//$('#LPCCover').attr('href', '<?php echo Yii::app()->createUrl('Employee/LPCCover'); ?>'+'&id='+empID);
 			$('#footer_action').show();
 		});
 		

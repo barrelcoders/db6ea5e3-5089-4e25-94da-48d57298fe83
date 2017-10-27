@@ -6,6 +6,12 @@ $this->breadcrumbs=array(
 	'Employees'=>array('index'),
 	'Manage',
 );
+$employees = Employee::model()->findAll();
+$EMPLOYEE_COUNT = count($employees);
+$FOLIO_ARRAY = array();
+for($i=1; $i<=$EMPLOYEE_COUNT; $i++){
+	$FOLIO_ARRAY[$i]=$i;
+}
 ?>
 <div class="container-fluid">
 	<header class="section-header">
@@ -106,9 +112,42 @@ $this->breadcrumbs=array(
 							
 							return $matrix;
 					}
-				), */
+				),
 				'PENSION_TYPE',
-				'PENSION_ACC_NO',
+				'PENSION_ACC_NO', */
+				array(
+					'name'=>'FOLIO_NO',
+					'type'=>'raw',
+					'id' => 'FOLIO_NO',
+					'value'=>function($data) use($FOLIO_ARRAY){
+						$folio_text = "";
+						if($data->FOLIO_NO == '' || $data->FOLIO_NO == 0){
+							$folio_text = "<input type='hidden' value='$data->ID'>" .
+							CHtml::dropDownList('FOLIO_NO', null, $FOLIO_ARRAY, 
+							array('empty'=>array('0'=>''), 'options'=>array($data->FOLIO_NO => array('selected'=>true)), 'class'=>'slFolio'));
+						}
+						else{
+							$folio_text = $data->FOLIO_NO;
+						}
+						return $folio_text;
+					}
+				),
+				array(
+					'name'=>'POSTING_ID_FK',
+					'type'=>'raw',
+					'id' => 'POSTING_ID_FK',
+					'value'=>function($data){
+						$posting_text = "";
+						if($data->POSTING_ID_FK == 0){
+							$posting_text = "<input type='hidden' value='$data->ID'>" .CHtml::dropDownList('POSTING_ID_FK', null, CHtml::listData(Posting::model()->findAll(), 'ID', 'PLACE'),
+							array('empty'=>array('0'=>''), 'options'=>array($data->POSTING_ID_FK => array('selected'=>true)), 'class'=>'slPosting'));
+						}
+						else{
+							$posting_text = Posting::model()->findByPK($data->POSTING_ID_FK)->PLACE;
+						}
+						return $posting_text;
+					}
+				),
 				array(
 					'name'=>'PAY_MATRIX_ID_FK',
 					'type'=>'raw',
@@ -117,7 +156,7 @@ $this->breadcrumbs=array(
 						$matrix = "";
 						if($data->PAY_MATRIX_ID_FK == 0){
 							$matrix = "<input type='hidden' value='$data->ID'>" .CHtml::dropDownList('PAY_MATRIX_ID_FK', null, CHtml::listData(PayMatrix::model()->findAll(), 'ID', 'TEXT'), 
-							array('options'=>array($data->PAY_MATRIX_ID_FK => array('selected'=>true)), 'class'=>'slPayMatrix'));
+							array('empty'=>array('0'=>''), 'options'=>array($data->PAY_MATRIX_ID_FK => array('selected'=>true)), 'class'=>'slPayMatrix'));
 						}
 						else{
 							$matrix = PayMatrix::model()->findByPK($data->PAY_MATRIX_ID_FK)->TEXT;
@@ -191,9 +230,33 @@ $(document).ready(function(){
 			else{
 				alert('Error updating Pay Matrix, Please try again later');
 			}
-		   
 		});
-		
+	});
+	$('.slPosting').change(function(){
+		var element = $(this), posting = element.val(), emp_id = element.prev().val();
+		$.post('<?php echo Yii::app()->createUrl('Employee/SetPosting')?>', { 'posting': posting, 'emp_id': emp_id}, function(result) {
+			var data = result.split("|");
+			if(data[0] == 'SUCCESS'){
+				element.parent().html(data[1]);
+			}
+			else{
+				alert('Error updating Posting, Please try again later');
+			}
+		});
 	});	
+	$('.slFolio').change(function(){
+		var element = $(this), folio = element.val(), emp_id = element.prev().val();
+		$.post('<?php echo Yii::app()->createUrl('Employee/SetFolio')?>', { 'folio': folio, 'emp_id': emp_id}, function(result) {
+			var data = result.split("|");
+			if(data[0] == 'SUCCESS'){
+				element.parent().html(data[1]);
+			}
+			else{
+				alert('Error updating Folio Number, Please try again later');
+			}
+		});
+	});	
+	
+	
 });
 </script>

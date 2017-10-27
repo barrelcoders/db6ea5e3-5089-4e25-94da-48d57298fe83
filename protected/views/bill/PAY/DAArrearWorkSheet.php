@@ -60,8 +60,8 @@
 						if($j==1){ ?>
 							<tr>
 								<td rowspan="<?php echo $total_months;?>" class="small-xxx left-br right-br"><?php echo $i; ?></td>
-								<td rowspan="<?php echo $total_months;?>" class="small-x right-br"><b><?php echo Employee::model()->findByPK($salary->EMPLOYEE_ID_FK)->NAME.'<br/>('.Employee::model()->findByPK($salary->EMPLOYEE_ID_FK)->NAME_HINDI.')';?></b></td>
-								<td rowspan="<?php echo $total_months;?>" class="small-x right-br"><b><?php echo Designations::model()->findByPK(Employee::model()->findByPK($salary->EMPLOYEE_ID_FK)->DESIGNATION_ID_FK)->DESIGNATION.'<br/>('.Designations::model()->findByPK(Employee::model()->findByPK($salary->EMPLOYEE_ID_FK)->DESIGNATION_ID_FK)->DESIGNATION_HINDI.')';?></b></td>
+								<td rowspan="<?php echo $total_months;?>" class="small-x right-br"><b><?php echo Employee::model()->findByPK($salary->EMPLOYEE_ID_FK)->NAME;?></b></td>
+								<td rowspan="<?php echo $total_months;?>" class="small-x right-br"><b><?php echo Designations::model()->findByPK(Employee::model()->findByPK($salary->EMPLOYEE_ID_FK)->DESIGNATION_ID_FK)->DESIGNATION;?></b></td>
 								<td class="small-xx right-br"><?php echo $period['FORMAT']; ?></td>
 								<td class="small-xx right-br"><?php $BASIC = Yii::app()->db->createCommand("SELECT BASIC as BASIC FROM tbl_salary_details WHERE IS_SALARY_BILL=1 AND YEAR=".$period['YEAR']." AND MONTH=".$period['MONTH'].";")->queryRow()['BASIC']; echo $BASIC;?></td>
 								<td class="small-xx right-br"><?php $DUE_DA = round($BASIC*0.05); echo $DUE_DA; ?></td>

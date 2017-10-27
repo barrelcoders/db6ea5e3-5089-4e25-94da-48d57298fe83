@@ -34,22 +34,30 @@
 	?>
 	<tbody>
 		<?php 
+			$TOTAL_ONLY_IT=0;
+			$TOTAL_ONLY_ECESS=0;
+			$TOTAL_ONLY_HECESS=0;
+			
 			foreach ($employeesInSalary as $employee) {
 				$j=1;
 				foreach($periods as $period){
 					$salary = SalaryDetails::model()->find("t.EMPLOYEE_ID_FK=".$employee->EMPLOYEE_ID_FK." AND t.BILL_ID_FK=".$model->ID." AND t.MONTH=".$period['MONTH']." AND t.YEAR=".$period['YEAR']);
+					$ONLY_IT = round(($salary->IT / 103) * 100);
+					$ONLY_ECESS = round(($salary->IT / 103) * 2);
+					$ONLY_HECESS = round(($salary->IT / 103) * 1);
+					
 					if($model->IS_MULTIPLE_MONTH) { 
 						if($j==1){
 							?>
 								<tr>
 									<td rowspan="<?php echo $total_months;?>" class="small-xxx right-br"><?php echo $i; ?></td>
-									<td rowspan="<?php echo $total_months;?>" class="small right-br"><b><?php echo Employee::model()->findByPK($salary->EMPLOYEE_ID_FK)->NAME.'<br/>('.Employee::model()->findByPK($salary->EMPLOYEE_ID_FK)->NAME_HINDI.')';?></b></td>
-									<td rowspan="<?php echo $total_months;?>" class="small right-br"><b><?php echo Designations::model()->findByPK(Employee::model()->findByPK($salary->EMPLOYEE_ID_FK)->DESIGNATION_ID_FK)->DESIGNATION.'<br/>('.Designations::model()->findByPK(Employee::model()->findByPK($salary->EMPLOYEE_ID_FK)->DESIGNATION_ID_FK)->DESIGNATION_HINDI.')';?></b></td>
+									<td rowspan="<?php echo $total_months;?>" class="small right-br"><b><?php echo Employee::model()->findByPK($salary->EMPLOYEE_ID_FK)->NAME;?></b></td>
+									<td rowspan="<?php echo $total_months;?>" class="small right-br"><b><?php echo Designations::model()->findByPK(Employee::model()->findByPK($salary->EMPLOYEE_ID_FK)->DESIGNATION_ID_FK)->DESIGNATION;?></b></td>
 									<td class="small-xx"><?php echo $period['FORMAT']; ?></td>
 									<td class="small-xx"><?php echo $salary->IT; ?></td>
-									<td class="small-xx"><?php echo round(($salary->IT / 103) * 100); ?></td>
-									<td class="small-xx"><?php echo round(($salary->IT / 103) * 2); ?></td>
-									<td class="small-xx"><?php echo round(($salary->IT / 103) * 1); ?></td>
+									<td class="small-xx"><?php echo $ONLY_IT; ?></td>
+									<td class="small-xx"><?php echo $ONLY_ECESS; ?></td>
+									<td class="small-xx"><?php echo $ONLY_HECESS; ?></td>
 								</tr>
 							<?php
 						}
@@ -58,9 +66,9 @@
 								<tr>
 									<td class="small-xx"><?php echo $period['FORMAT']; ?></td>
 									<td class="small-xx"><?php echo $salary->IT; ?></td>
-									<td class="small-xx"><?php echo round(($salary->IT / 103) * 100); ?></td>
-									<td class="small-xx"><?php echo round(($salary->IT / 103) * 2); ?></td>
-									<td class="small-xx"><?php echo round(($salary->IT / 103) * 1); ?></td>
+									<td class="small-xx"><?php echo $ONLY_IT; ?></td>
+									<td class="small-xx"><?php echo $ONLY_ECESS; ?></td>
+									<td class="small-xx"><?php echo $ONLY_HECESS; ?></td>
 								</tr>
 							<?php
 						}
@@ -69,16 +77,20 @@
 						?>
 							<tr>
 								<td class="small-xxx right-br"><?php echo $i; ?></td>
-								<td class="small right-br"><b><?php echo Employee::model()->findByPK($salary->EMPLOYEE_ID_FK)->NAME.'<br/>('.Employee::model()->findByPK($salary->EMPLOYEE_ID_FK)->NAME_HINDI.')';?></b></td>
-								<td class="small right-br"><b><?php echo Designations::model()->findByPK(Employee::model()->findByPK($salary->EMPLOYEE_ID_FK)->DESIGNATION_ID_FK)->DESIGNATION.'<br/>('.Designations::model()->findByPK(Employee::model()->findByPK($salary->EMPLOYEE_ID_FK)->DESIGNATION_ID_FK)->DESIGNATION_HINDI.')';?></b></td>
+								<td class="small right-br"><b><?php echo Employee::model()->findByPK($salary->EMPLOYEE_ID_FK)->NAME;?></b></td>
+								<td class="small right-br"><b><?php echo Designations::model()->findByPK(Employee::model()->findByPK($salary->EMPLOYEE_ID_FK)->DESIGNATION_ID_FK)->DESIGNATION;?></b></td>
 								<td class="small-xx"><?php echo $salary->IT; ?></td>
-								<td class="small-xx"><?php echo round(($salary->IT / 103) * 100); ?></td>
-								<td class="small-xx"><?php echo round(($salary->IT / 103) * 2); ?></td>
-								<td class="small-xx"><?php echo round(($salary->IT / 103) * 1); ?></td>
+									<td class="small-xx"><?php echo $ONLY_IT; ?></td>
+									<td class="small-xx"><?php echo $ONLY_ECESS; ?></td>
+									<td class="small-xx"><?php echo $ONLY_HECESS; ?></td>
 							</tr>
 						<?php
 					}
 					$j++;
+					
+					$TOTAL_ONLY_IT+=$ONLY_IT;
+					$TOTAL_ONLY_ECESS+=$ONLY_ECESS;
+					$TOTAL_ONLY_HECESS+=$ONLY_HECESS;
 				}
 				$i++;
 			}
@@ -92,9 +104,9 @@
 		<th class="small right-br"></th>
 		<?php } ?>
 		<th class="small-xx"><?php $IT = Yii::app()->db->createCommand("SELECT SUM(IT) as IT FROM tbl_salary_details WHERE BILL_ID_FK = $model->ID AND YEAR = $model->YEAR AND MONTH = $model->MONTH;")->queryRow()['IT']; echo $IT ;?></th>
-		<th class="small-xx"><?php echo round(($IT / 103) * 100);?></th>
-		<th class="small-xx"><?php echo round(($IT / 103) * 2);?></th>
-		<th class="small-xx"><?php echo round(($IT / 103) * 1);?></th>
+		<th class="small-xx"><?php echo $TOTAL_ONLY_IT;?></th>
+		<th class="small-xx"><?php echo $TOTAL_ONLY_ECESS;?></th>
+		<th class="small-xx"><?php echo $TOTAL_ONLY_HECESS;?></th>
 	</tfoot>
 </table>
 

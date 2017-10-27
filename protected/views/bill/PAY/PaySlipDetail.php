@@ -104,6 +104,10 @@
 				<td><b>समूह<br>GROUP</b><span><?php echo Groups::model()->findByPK($employee->GROUP_ID_FK)->GROUP_NAME;?></span></td>
 			</tr>
 			<tr style="background:#e2e2e2;">
+				<td colspan="3"><b>तैनाती<br>POSTING</b><span><?php echo ($employee->POSTING_ID_FK != 0 ) ? Posting::model()->findByPK($employee->POSTING_ID_FK)->PLACE : '';?></span></td>
+				<td colspan="3"><b>पृष्ठ संख्या<br>FOLIO NO</b><span style="text-align: right;"><?php echo $employee->FOLIO_NO;?></span></td>
+			</tr>
+			<tr style="background:#e2e2e2;">
 				<td colspan="3"><b>खाता क्रमांक<br>ACCOUNT NO</b><span><?php echo $employee->ACCOUNT_NO;?></span></td>
 				<td colspan="2"><b>आई एफ एस सी<br>IFSC</b><span><?php echo $employee->IFSC;?></span></td>
 				<td colspan="1"><b>पैन नंबर<br>PAN</b><span><?php echo $employee->PAN;?></span></td>
@@ -134,7 +138,7 @@
 				<td><b><?php echo $employee->PENSION_TYPE == 'OPS' ? 'जी पी एफ आर<br>GPFR' : 'सीपीएफ़ टीयर द्वितीय<br>CPF TIER II'?> </b><span><?php echo $salary->CPF_TIER_II;?></span></td><!--DED-->
 				<td><b>एच बी ए<br>HBA</b><span><?php echo $salary->HBA_EMI;?></span></td><!--DED-->
 				<td><b>एम सी ए<br>MCA</b><span><?php echo $salary->MCA_EMI;?></span></td><!--DED-->
-				<td><b>एफ ए एन<br>FAN</b><span><?php echo $salary->FAN_EMI;?></span></td><!--DED-->
+				<td><b>कंप्यूटर  ए<br>COMP ADV</b><span><?php echo $salary->COMP_EMI;?></span></td><!--DED-->
 				<td><b>साइकिल अग्रिम<br>CYCLE</b><span><?php echo $salary->CYCLE_EMI;?></span></td><!--DED-->
 			</tr>
 			<tr>
@@ -165,7 +169,7 @@
 			
 			<tr>
 				<td colspan="6">
-					<div style="font-weight: bold; width:500px; float: right;text-align:center; margin-top:160;margin-right:-10px;">
+					<div style="font-weight: bold; width:500px; float: right;text-align:center; margin-top:140;margin-right:-10px;">
 					<?php
 						if(Employee::model()->findByPK($salary->EMPLOYEE_ID_FK)->DESIGNATION_ID_FK > 14){
 					?>

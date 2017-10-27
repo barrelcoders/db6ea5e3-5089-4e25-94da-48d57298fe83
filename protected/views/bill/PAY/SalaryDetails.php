@@ -292,7 +292,7 @@
 									<td>PLI: <input type="text" size="10" name="SalaryDetails[<?php echo $employee->ID?>][<?php echo $year;?>][<?php echo $month;?>][PLI]" data-type="PLI" class="ded-inc-amount" value="<?php echo $pli;?>" placeholder="PLI"/></td>
 								</tr>
 								<tr>
-									<td>COURT: <input type="text" size="10" name="SalaryDetails[<?php echo $employee->ID?>][<?php echo $year;?>][<?php echo $month;?>][COURT]" data-type="COURT" class="ded-inc-amount" value="<?php echo $salary->COURT_ATTACHMENT ? $salary->COURT_ATTACHMENT : 0;?>" placeholder="COURT"/></td>
+									<td>COURT: <input type="text" size="10" name="SalaryDetails[<?php echo $employee->ID?>][<?php echo $year;?>][<?php echo $month;?>][COURT_ATTACHMENT]" data-type="COURT_ATTACHMENT" class="ded-inc-amount" value="<?php echo $salary->COURT_ATTACHMENT ? $salary->COURT_ATTACHMENT : 0;?>" placeholder="COURT ATTACHMENT"/></td>
 									<td>PT: <input type="text" size="10" name="SalaryDetails[<?php echo $employee->ID?>][<?php echo $year;?>][<?php echo $month;?>][PT]" data-type="PT" class="pt-ded-inc-amount" value="<?php echo $salary->PT ? $salary->PT : 0;?>" placeholder="PT"/></td>
 									<td>CCS: <input type="text" size="10" name="SalaryDetails[<?php echo $employee->ID?>][<?php echo $year;?>][<?php echo $month;?>][CCS]" data-type="CCS" class="other-ded-inc-amount" value="<?php echo $salary->CCS ? $salary->CCS : 0;?>" placeholder="CCS"/></td>
 									<?php 

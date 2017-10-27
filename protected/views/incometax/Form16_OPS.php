@@ -320,7 +320,7 @@
 		<td colspan="2"><?php echo $FIRST_SLAB_TAX;?></td>
 		<td class="no-border"></td>
 		<td colspan="3" class="left-text">INCOME TAX PAYABLE</td>
-		<td><?php echo $TOTAL_SLAB_TAX;?></td>
+		<td><?php echo $TOTAL_TAX_AFTER_REBATE;?></td>
 	</tr>
 	<tr class="no-border">
 		<td colspan="2" class="left-text">2,50,001/- to 5,00,000/-</td>
@@ -330,7 +330,7 @@
 		<td colspan="2"><?php echo $SECOND_SLAB_TAX;?></td>
 		<td class="no-border"></td>
 		<td colspan="3" class="left-text">3%  Education Cess</td>
-		<td><?php echo $TOTAL_SLAB_TAX_WITH_CESS;?></td>
+		<td><?php echo $TOTAL_TAX_AFTER_REBATE_WITH_CESS;?></td>
 	</tr>
 	<tr class="no-border">
 		<td colspan="2" class="left-text">5,00,001/- to 10,00,000/-</td>
@@ -356,32 +356,34 @@
 	</tr>
 	<tr class="no-border">
 		<td colspan="6" class="no-border">&nbsp;</td>
+		<td class="no-border"></td>
+		<td class="no-border"></td>
+		<td colspan="4" class="left-text">Note:-</td>
 	</tr>
 	<tr class="no-border">
 		<td colspan="5" class="left-text">TOTAL TAX PAYABLE</td>
 		<td><?php echo $GROSS_TAX_PAYABLE;?></td>
 		<td class="no-border"></td>
 		<td class="no-border"></td>
-		<td colspan="4" class="left-text">Note:-</td>
+		<td colspan="4" class="left-text">1.The above calculations are provisional only</td>
 	</tr>
 	<tr class="no-border">
 		<td colspan="5" class="left-text">TAX PAID FROM SALARY</td>
 		<td><?php echo $TAX_PAID_FROM_SALARY;?></td>
 		<td class="no-border"></td>
 		<td class="no-border"></td>
-		<td colspan="4" class="left-text">1.The above calculations are provisional only</td>
+		<td colspan="4" class="left-text">2. Discrepancies if any may be brought to the notice of the DDO immediately.</td>
 	</tr>
 	<tr class="no-border">
 		<td colspan="5" class="left-text"><?php echo $TAX_REMAINING_TEXT;?></td>
 		<td><?php echo $TAX_REMAINING;?></td>
 		<td class="no-border"></td>
 		<td class="no-border"></td>
-		<td colspan="4" class="left-text">2. Discrepancies if any may be brought to the notice of the DDO immediately.</td>
+		<td colspan="4" class="left-text">3. Claims for exemptions will not be considered without documentary evidence</td>
 	</tr>
 	<tr class="no-border">
 		<td colspan="6" class="no-border"></td>
 		<td colspan="2" class="no-border"></td>
-		<td colspan="4" class="left-text">3. Claims for exemptions will not be considered without documentary evidence</td>
 	</tr>
 </table>
 <table>

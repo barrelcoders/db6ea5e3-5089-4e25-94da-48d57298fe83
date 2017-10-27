@@ -130,19 +130,24 @@
 		<td colspan="2"><?php echo $TOTAL_DA_TA_ARREAR_CPF;?></td>
 	</tr>
 	<tr class="no-border">
-		<td colspan="6" class="left-text">HOUSE INCOME**</td>
-		<td><?php echo $TOTAL_HOUSE_INCOME?></td>
+		<td colspan="6" class="left-text">ANY OTHER INCOME (to be specified)</td>
+		<td><?php echo $TOTAL_OTHER_INCOME?></td>
 		<td class="no-border"></td>
 		<td colspan="2" class="left-text">Govt. CPF Cont. (1+2)</td>
 		<td colspan="2"><?php echo $TOTAL_CPF_EMPLOYEE;?></td>
+	</tr>
+	<tr class="no-border">
+		<td colspan="6" class="left-text">HOUSE INCOME**</td>
+		<td><?php echo $TOTAL_HOUSE_INCOME?></td>
+		<td class="no-border"></td>
+		<td colspan="2" class="left-text">CPF</td>
+		<td colspan="2"><?php echo $TOTAL_CPF;?></td>
 	</tr>
 	<tr class="no-border">
 		<td colspan="2" class="right-text no-border">A</td>
 		<td colspan="4" class="left-text">GROSS INCOME</td>
 		<td><?php echo $GROSS_INCOME?></td>
 		<td class="no-border"></td>
-		<td colspan="2" class="left-text">CPF</td>
-		<td colspan="2"><?php echo $TOTAL_CPF;?></td>
 	</tr>
 	<tr class="no-border">
 		<td colspan="2" class="no-border"></td>
@@ -241,65 +246,79 @@
 		<td><?php echo $MUTUAL_FUND;?></td>
 	</tr>
 	<tr class="no-border">
-		<td colspan="2" class="no-border right-text">B</td>
-		<td colspan="4" class="left-text">SAVINGS (U/s.80C)</td>
-		<td><?php echo $NET_SAVING_80C;?></td>
+		<td colspan="2" class="no-border"></td>
+		<td colspan="4" class="left-text">viii) 80-EE (Housing Loans sanctioned during 2013-14)</td>
+		<td><?php echo $HOME_LOAD_EXCESS_2013_14;?></td>
 		<td class="no-border"></td>
 		<td colspan="3" class="left-text">Pension fund (u/s 80-CCC)</td>
 		<td><?php echo $PENSION_FUND;?></td>
 	</tr>
 	<tr class="no-border">
 		<td colspan="2" class="no-border"></td>
-		<td colspan="4" class="left-text">TOTAL DEDUCTIONS</td>
-		<td><?php echo $TOTAL_DEDUCTIONS;?></td>
+		<td colspan="4" class="right-text no-border-bottom">(Addl Exe. upto Rs.1 lakh)</td>
+		<td><?php echo $HOME_LOAD_EXCESS_2013_14_ADDTIONAL;?></td>
 		<td class="no-border"></td>
 		<td colspan="3" class="left-text">CPF (u/s/ 80CCD)</td>
 		<td><?php echo $CPF_809CCD;?></td>
 	</tr>
 	<tr class="no-border">
-		<td colspan="3" class="no-border"></td>
-		<td colspan="3" class="no-border"></td>
-		<td class="no-border"></td>
+		<td colspan="2" class="no-border"></td>
+		<td colspan="4" class="left-text">ix) Bank Interest deduction 80TTA</td>
+		<td><?php echo $BANK_INTEREST_DED_80TTA;?></td>
 		<td class="no-border"></td>
 		<td colspan="3" class="left-text">Stamp Duty/ Registration Charges</td>
 		<td><?php echo $REGISTRY_STAMP;?></td>
 	</tr>
 	<tr class="no-border">
-		<td colspan="3" class="no-border"></td>
-		<td colspan="3" class="no-border"></td>
-		<td class="no-border"></td>
+		<td colspan="2" class="no-border"></td>
+		<td colspan="4" class="left-text">x) Investment NPS under 80CCD(1B)</td>
+		<td><?php echo $NPS_UNDER_80CCD_1B;?></td>
 		<td class="no-border"></td>
 		<td colspan="3" class="left-text">Total</td>
 		<td><?php echo $TOTAL_SAVING_80C;?></td>
 	</tr>
+	
+	
+	
+	
 	<tr class="no-border">
-		<td colspan="2" class="no-border right-text">A-B</td>
-		<td colspan="4" >TOTAL TAXABLE INCOME</td>
-		<td><?php echo $TOTAL_TAXABLE_INCOME;?></td>
+		<td colspan="2" class="no-border right-text">B</td>
+		<td colspan="4" class="left-text">SAVINGS (U/s.80C)</td>
+		<td><?php echo $NET_SAVING_80C;?></td>
 		<td class="no-border"></td>
 		<td colspan="3" class="left-text">Savings (Rest.  to max)</td>
 		<td><?php echo $MIN_SAVING_80C;?></td>
 	</tr>
 	<tr class="no-border">
 		<td colspan="2" class="no-border"></td>
-		<td colspan="4" >(Rounded off to nearest Ten Rupees)</td>
-		<td><?php echo $TOTAL_TAXABLE_INCOME_ROUNDED;?></td>
+		<td colspan="4" class="left-text">TOTAL DEDUCTIONS</td>
+		<td><?php echo $TOTAL_DEDUCTIONS;?></td>
 		<td class="no-border"></td>
 		<td colspan="3" class="left-text">Total Savings under VI-A</td>
 		<td><?php echo $MIN_SAVING_80C;?></td>
 	</tr>
 	<tr class="no-border">
 		<td colspan="3" class="no-border"></td>
-		<td colspan="3"  class="no-border"></td>
+		<td colspan="3" class="no-border"></td>
 		<td class="no-border"></td>
 		<td class="no-border"></td>
 		<td colspan="3" class="left-text">Govt. CPF contr. 80CCD(2)</td>
 		<td><?php echo $TOTAL_CPF_EMPLOYEE;?></td>
 	</tr>
 	<tr class="no-border">
-		<td colspan="8" class="no-border">&nbsp;</td>
+		<td colspan="2" class="no-border right-text">A-B</td>
+		<td colspan="4" >TOTAL TAXABLE INCOME</td>
+		<td><?php echo $TOTAL_TAXABLE_INCOME;?></td>
+		<td class="no-border"></td>
 		<td colspan="3" class="left-text">TOTAL - EXEMPTION</td>
 		<td><?php echo $NET_SAVING_80C;?></td>
+	</tr>
+	<tr class="no-border">
+		<td colspan="2" class="no-border"></td>
+		<td colspan="4" >(Rounded off to nearest Ten Rupees)</td>
+		<td><?php echo $TOTAL_TAXABLE_INCOME_ROUNDED;?></td>
+		<td class="no-border"></td>
+		<td colspan="4" class="no-border"></td>
 	</tr>
 	<tr class="no-border">
 		<td colspan="7" class="no-border">&nbsp;</td>
@@ -327,7 +346,7 @@
 		<td colspan="2"><?php echo $FIRST_SLAB_TAX;?></td>
 		<td class="no-border"></td>
 		<td colspan="3" class="left-text">INCOME TAX PAYABLE</td>
-		<td><?php echo $TOTAL_SLAB_TAX;?></td>
+		<td><?php echo $TOTAL_TAX_AFTER_REBATE;?></td>
 	</tr>
 	<tr class="no-border">
 		<td colspan="2" class="left-text">2,50,001/- to 5,00,000/-</td>
@@ -337,7 +356,7 @@
 		<td colspan="2"><?php echo $SECOND_SLAB_TAX;?></td>
 		<td class="no-border"></td>
 		<td colspan="3" class="left-text">3%  Education Cess</td>
-		<td><?php echo $TOTAL_SLAB_TAX_WITH_CESS;?></td>
+		<td><?php echo $TOTAL_TAX_AFTER_REBATE_WITH_CESS;?></td>
 	</tr>
 	<tr class="no-border">
 		<td colspan="2" class="left-text">5,00,001/- to 10,00,000/-</td>
@@ -363,32 +382,34 @@
 	</tr>
 	<tr class="no-border">
 		<td colspan="6" class="no-border">&nbsp;</td>
+		<td class="no-border"></td>
+		<td class="no-border"></td>
+		<td colspan="4" class="left-text">Note:-</td>
 	</tr>
 	<tr class="no-border">
 		<td colspan="5" class="left-text">TOTAL TAX PAYABLE</td>
 		<td><?php echo $GROSS_TAX_PAYABLE;?></td>
 		<td class="no-border"></td>
 		<td class="no-border"></td>
-		<td colspan="4" class="left-text">Note:-</td>
+		<td colspan="4" class="left-text">1.The above calculations are provisional only</td>
 	</tr>
 	<tr class="no-border">
 		<td colspan="5" class="left-text">TAX PAID FROM SALARY</td>
 		<td><?php echo $TAX_PAID_FROM_SALARY;?></td>
 		<td class="no-border"></td>
 		<td class="no-border"></td>
-		<td colspan="4" class="left-text">1.The above calculations are provisional only</td>
+		<td colspan="4" class="left-text">2. Discrepancies if any may be brought to the notice of the DDO immediately.</td>
 	</tr>
 	<tr class="no-border">
 		<td colspan="5" class="left-text"><?php echo $TAX_REMAINING_TEXT;?></td>
 		<td><?php echo $TAX_REMAINING;?></td>
 		<td class="no-border"></td>
 		<td class="no-border"></td>
-		<td colspan="4" class="left-text">2. Discrepancies if any may be brought to the notice of the DDO immediately.</td>
+		<td colspan="4" class="left-text">3. Claims for exemptions will not be considered without documentary evidence</td>
 	</tr>
 	<tr class="no-border">
 		<td colspan="6" class="no-border"></td>
 		<td colspan="2" class="no-border"></td>
-		<td colspan="4" class="left-text">3. Claims for exemptions will not be considered without documentary evidence</td>
 	</tr>
 </table>
 <table>

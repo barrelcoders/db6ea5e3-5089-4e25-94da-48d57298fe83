@@ -199,6 +199,9 @@ class BillController extends Controller
 						if(isset($salary[$YEAR][$MONTH])){
 							$SalaryDetails = null;
 							$PAY_DETAILS = $salary[$YEAR][$MONTH];
+							if($EMPLOYEE_ID == 49){
+								echo "<pre>";print_r($PAY_DETAILS);echo "</pre>";exit;
+							}
 							if(SalaryDetails::model()->exists('BILL_ID_FK='.$bill_id.' AND EMPLOYEE_ID_FK='.$EMPLOYEE_ID.' AND MONTH='.$MONTH.' AND YEAR='.$YEAR)){
 								$SalaryDetails = SalaryDetails::model()->find('BILL_ID_FK='.$bill_id.' AND EMPLOYEE_ID_FK='.$EMPLOYEE_ID.' AND MONTH='.$MONTH.' AND YEAR='.$YEAR);
 							}

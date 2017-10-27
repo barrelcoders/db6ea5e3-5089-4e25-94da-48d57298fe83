@@ -33,6 +33,7 @@
 			<th class="small-xx right-br"><?php echo ($model->BILL_TYPE == 1) ? "GPF<br>Rec." : "CPF TIER II"?></th>
 			<th class="small-xxx right-br">HBA</th>
 			<th class="small-xxx right-br">MCA</th>
+			<th class="small-xxx right-br">COMP</th>
 			<th class="small-xxx right-br">MISC</th>
 			<th class="small-xxx right-br">COURT</th>
 			<th class="small-xxx right-br">PLI</th>
@@ -63,8 +64,8 @@
 						if($j==1){ ?>
 							<tr>
 								<td rowspan="<?php echo $total_months;?>" class="small-xxx left-br right-br"><?php echo $i; ?></td>
-								<td rowspan="<?php echo $total_months;?>" class="small-x right-br"><b><?php echo Employee::model()->findByPK($salary->EMPLOYEE_ID_FK)->NAME.'<br/>('.Employee::model()->findByPK($salary->EMPLOYEE_ID_FK)->NAME_HINDI.')';?></b></td>
-								<td rowspan="<?php echo $total_months;?>" class="small-x right-br"><b><?php echo Designations::model()->findByPK(Employee::model()->findByPK($salary->EMPLOYEE_ID_FK)->DESIGNATION_ID_FK)->DESIGNATION.'<br/>('.Designations::model()->findByPK(Employee::model()->findByPK($salary->EMPLOYEE_ID_FK)->DESIGNATION_ID_FK)->DESIGNATION_HINDI.')';?></b></td>
+								<td rowspan="<?php echo $total_months;?>" class="small-x right-br"><b><?php echo Employee::model()->findByPK($salary->EMPLOYEE_ID_FK)->NAME;?></b></td>
+								<td rowspan="<?php echo $total_months;?>" class="small-x right-br"><b><?php echo Designations::model()->findByPK(Employee::model()->findByPK($salary->EMPLOYEE_ID_FK)->DESIGNATION_ID_FK)->DESIGNATION;?></b></td>
 								<td class="small-xx right-br"><?php echo $period['FORMAT']; ?></td>
 								<td class="small-xx right-br"><?php echo $salary->BASIC; ?></td>
 								<td class="small-xxx right-br"><?php echo $salary->SP; ?></td>
@@ -81,6 +82,7 @@
 								<td class="small-xx right-br"><?php echo $salary->CPF_TIER_II; ?></td>
 								<td class="small-xxx right-br"><?php echo $salary->HBA_EMI; ?></td>
 								<td class="small-xxx right-br"><?php echo $salary->MCA_EMI; ?></td>
+								<td class="small-xxx right-br"><?php echo $salary->COMP_EMI; ?></td>
 								<td class="small-xxx right-br"><?php echo $salary->MISC; ?></td>
 								<td class="small-xxx right-br"><?php echo $salary->COURT_ATTACHMENT; ?></td>
 								<td class="small-xxx right-br"><?php echo $salary->PLI; ?></td>
@@ -108,6 +110,7 @@
 								<td class="small-xx right-br"><?php echo $salary->CPF_TIER_II; ?></td>
 								<td class="small-xxx right-br"><?php echo $salary->HBA_EMI; ?></td>
 								<td class="small-xxx right-br"><?php echo $salary->MCA_EMI; ?></td>
+								<td class="small-xxx right-br"><?php echo $salary->COMP_EMI; ?></td>
 								<td class="small-xxx right-br"><?php echo $salary->MISC; ?></td>
 								<td class="small-xxx right-br"><?php echo $salary->COURT_ATTACHMENT; ?></td>
 								<td class="small-xxx right-br"><?php echo $salary->PLI; ?></td>
@@ -123,8 +126,8 @@
 					} else { ?>
 						<tr>
 							<td class="small-xxx left-br right-br"><?php echo $i; ?></td>
-							<td class="small-x right-br"><b><?php echo Employee::model()->findByPK($salary->EMPLOYEE_ID_FK)->NAME.'<br/>('.Employee::model()->findByPK($salary->EMPLOYEE_ID_FK)->NAME_HINDI.')';?></b></td>
-							<td class="small-x right-br"><b><?php echo Designations::model()->findByPK(Employee::model()->findByPK($salary->EMPLOYEE_ID_FK)->DESIGNATION_ID_FK)->DESIGNATION.'<br/>('.Designations::model()->findByPK(Employee::model()->findByPK($salary->EMPLOYEE_ID_FK)->DESIGNATION_ID_FK)->DESIGNATION_HINDI.')';?></b></td>
+							<td class="small-x right-br"><b><?php echo Employee::model()->findByPK($salary->EMPLOYEE_ID_FK)->NAME;?></b></td>
+							<td class="small-x right-br"><b><?php echo Designations::model()->findByPK(Employee::model()->findByPK($salary->EMPLOYEE_ID_FK)->DESIGNATION_ID_FK)->DESIGNATION;?></b></td>
 							<td class="small-xx right-br"><?php echo $salary->BASIC; ?></td>
 							<td class="small-xxx right-br"><?php echo $salary->SP; ?></td>
 							<td class="small-xx right-br"><?php echo $salary->HRA; ?></td>
@@ -140,6 +143,7 @@
 							<td class="small-xx right-br"><?php echo $salary->CPF_TIER_II; ?></td>
 							<td class="small-xxx right-br"><?php echo $salary->HBA_EMI; ?></td>
 							<td class="small-xxx right-br"><?php echo $salary->MCA_EMI; ?></td>
+							<td class="small-xxx right-br"><?php echo $salary->COMP_EMI; ?></td>
 							<td class="small-xxx right-br"><?php echo $salary->MISC; ?></td>
 							<td class="small-xxx right-br"><?php echo $salary->COURT_ATTACHMENT; ?></td>
 							<td class="small-xxx right-br"><?php echo $salary->PLI; ?></td>
@@ -176,6 +180,7 @@
 		<th class="small-xx right-br"><?php echo Yii::app()->db->createCommand("SELECT SUM(CPF_TIER_II) as CPF_TIER_II FROM tbl_salary_details WHERE BILL_ID_FK = $model->ID;")->queryRow()['CPF_TIER_II'];?></th>
 		<th class="small-xxx right-br"><?php echo Yii::app()->db->createCommand("SELECT SUM(HBA_EMI) as HBA_EMI FROM tbl_salary_details WHERE BILL_ID_FK = $model->ID;")->queryRow()['HBA_EMI'];?></th>
 		<th class="small-xxx right-br"><?php echo Yii::app()->db->createCommand("SELECT SUM(MCA_EMI) as MCA_EMI FROM tbl_salary_details WHERE BILL_ID_FK = $model->ID;")->queryRow()['MCA_EMI'];?></th>
+		<th class="small-xxx right-br"><?php echo Yii::app()->db->createCommand("SELECT SUM(COMP_EMI) as COMP_EMI FROM tbl_salary_details WHERE BILL_ID_FK = $model->ID;")->queryRow()['COMP_EMI'];?></th>
 		<th class="small-xxx right-br"><?php echo Yii::app()->db->createCommand("SELECT SUM(MISC) as MISC FROM tbl_salary_details WHERE BILL_ID_FK = $model->ID;")->queryRow()['MISC'];?></th>
 		<th class="small-xxx right-br"><?php echo Yii::app()->db->createCommand("SELECT SUM(COURT_ATTACHMENT) as COURT_ATTACHMENT FROM tbl_salary_details WHERE BILL_ID_FK = $model->ID;")->queryRow()['COURT_ATTACHMENT'];?></th>
 		<th class="small-xxx right-br"><?php echo Yii::app()->db->createCommand("SELECT SUM(PLI) as PLI FROM tbl_salary_details WHERE BILL_ID_FK = $model->ID;")->queryRow()['PLI'];?></th>
@@ -230,7 +235,7 @@
 			<td style="width:200px;"></td>
 		</tr>
 		<tr>
-			<td style="width:300px;">OFFICERS ASSOCIATION</td>
+			<td style="width:300px;">MINISTRIAL OFFICERS ASSOCIATION</td>
 			<td style="width:100px;text-align:center;">CNRB0008415</td>
 			<td style="width:300px;text-align:center;">8415101001367</td>
 			<td style="width:200px;">Rs. <?php echo Yii::app()->db->createCommand("SELECT SUM(ASSOSC_SUB) as ASSOSC_SUB FROM tbl_salary_details WHERE BILL_ID_FK = $model->ID AND EMPLOYEE_ID_FK IN (SELECT ID FROM tbl_employee WHERE DESIGNATION_ID_FK IN (9,10,16,17,18));")->queryRow()['ASSOSC_SUB'];?>/-</td>

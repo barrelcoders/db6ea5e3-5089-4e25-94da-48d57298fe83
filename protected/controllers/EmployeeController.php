@@ -28,7 +28,7 @@ class EmployeeController extends Controller
 	{
 		return array(
 			array('allow',  // allow all users to perform 'index' and 'view' actions
-				'actions'=>array('index','view','create','update','admin','delete','Generic', 'generateLPC', 'LPC', 'LICPolicyStatusChange', 'PLIPolicyStatusChange',
+				'actions'=>array('index','view','create','update','admin','delete','Generic', 'generateTransferedLPC', 'GenerateRetiredLPC', 'LPC', 'LICPolicyStatusChange', 'PLIPolicyStatusChange',
 				'OPSSalaryBillEmployees', 'NPSSalaryBillEmployees', 'OtherBillEmployees', 'WagesBillEmployees'),
 				'users'=>array('*'),
 			),
@@ -48,6 +48,32 @@ class EmployeeController extends Controller
 		}
 	}
 		
+	public function actionSetPosting(){
+		if(isset($_POST['posting']) && isset($_POST['emp_id'])){
+			$model = Employee::model()->findByPK($_POST['emp_id']);
+			$model->POSTING_ID_FK = $_POST['posting'];
+			if($model->save(false)){
+				echo "SUCCESS|".Posting::model()->findByPK($_POST['posting'])->PLACE;exit;
+			}
+			else{
+				echo "ERROR";exit;
+			}	
+		}
+	}
+	public function actionSetFolio(){
+		if(isset($_POST['folio']) && isset($_POST['emp_id'])){
+			$model = Employee::model()->findByPK($_POST['emp_id']);
+			$model->FOLIO_NO = $_POST['folio'];
+			if($model->save(false)){
+				echo "SUCCESS|".$model->FOLIO_NO;exit;
+			}
+			else{
+				echo "ERROR";exit;
+			}	
+		}
+	}
+	
+	
 	public function actionView($id)
 	{
 		if(Yii::app()->User->EMPLOYEE_ID != $id && Yii::app()->User->TYPE !='ADMINISTRATION'){
@@ -176,7 +202,7 @@ class EmployeeController extends Controller
 		));
 	}
 	
-	public function actionGenerateLPC(){
+	public function actionGenerateTransferedLPC(){
 		$model=new Employee;
 		
 		if(isset($_POST['Employee']))
@@ -187,16 +213,37 @@ class EmployeeController extends Controller
 			$model->DEPT_RELIEF_TIME = $_POST['Employee']['DEPT_RELIEF_TIME'] ? $_POST['Employee']['DEPT_RELIEF_TIME'] : NULL;
 			$model->TRANSFERED_TO = $_POST['Employee']['TRANSFERED_TO'];
 			$model->TRANSFER_ORDER = $_POST['Employee']['TRANSFER_ORDER'];
+			$model->LPC_REMARKS = $_POST['Employee']['LPC_REMARKS'];
 			
 
 			if($model->save(false)){
 				echo "<script type='text/javascript'>alert('Employee relieved Successfully');</script>";
 			}
 		}
-		$this->render('generateLPC',array(
+		$this->render('generateTransferedLPC',array(
 			'model'=>$model,
 		));
 	}
+	
+	public function actionGenerateRetiredLPC(){
+		$model=new Employee;
+		
+		if(isset($_POST['Employee']))
+		{
+			$model=$this->loadModel($_POST['Employee']['ID']);
+			$model->IS_RETIRED = 1;
+			$model->ORG_RETIRE_DATE = $_POST['Employee']['ORG_RETIRE_DATE'] ? $_POST['Employee']['ORG_RETIRE_DATE'] : NULL;
+			$model->LPC_REMARKS = $_POST['Employee']['LPC_REMARKS'];
+
+			if($model->save(false)){
+				echo "<script type='text/javascript'>alert('Employee retired Successfully');</script>";
+			}
+		}
+		$this->render('generateRetiredLPC',array(
+			'model'=>$model,
+		));
+	}
+	
 	
 	public function actionSuspendEmployee(){
 		$model=new Employee;
@@ -236,11 +283,20 @@ class EmployeeController extends Controller
 		));
 	}
 	
-	public function actionLPC($id){
+	public function actionLPC_Transfered($id){
 		$this->layout='//layouts/column1';
 		$model=$this->loadModel($id);
 		
-		$this->render('LPC',array(
+		$this->render('LPC_Transfered',array(
+			'model'=>$model,
+		));
+	}
+	
+	public function actionLPC_Retired($id){
+		$this->layout='//layouts/column1';
+		$model=$this->loadModel($id);
+		
+		$this->render('LPC_Retired',array(
 			'model'=>$model,
 		));
 	}

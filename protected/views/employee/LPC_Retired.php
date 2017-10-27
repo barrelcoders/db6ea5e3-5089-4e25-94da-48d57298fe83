@@ -5,7 +5,7 @@
 	}
 	$master = Master::model()->findByPK(1);
 	$employee = Employee::model()->findByPK($id);
-	if($employee->IS_TRANSFERRED !=0 && $employee->TRANSFERED_TO !='' && $employee->TRANSFER_ORDER != ''){
+	if($employee->IS_RETIRED !=0){
 ?>
 <style>td {text-align: center;}.one-table.small td, .one-table.small th{font-size: 10px;}</style>
 
@@ -23,8 +23,7 @@
 <li style="font-size: 15px;">Last Pay Certificate of <b><?php echo Employee::model()->findByPK($id)->NAME_HINDI; ?>/ 
 <?php echo Employee::model()->findByPK($id)->NAME?>, <?php echo Designations::model()->findByPK(Employee::model()->findByPK($id)->DESIGNATION_ID_FK)->DESIGNATION; ?></b>, Bangalore. of 
 Ministry / Department / Office  <b><?php echo $master->OFFICE_NAME_HINDI;?>/<?php echo $master->OFFICE_NAME;?></b>
- proceeding on  transfer to  <b><?php echo Employee::model()->findByPK($id)->TRANSFERED_TO;?></b> with reference to  Order <b><?php echo Employee::model()->findByPK($id)->TRANSFER_ORDER;?></b>. 
- He has been relieved in <?php echo Employee::model()->findByPK($id)->DEPT_RELIEF_TIME;?> of <?php echo date('d-M-Y', strtotime(Employee::model()->findByPK($id)->DEPT_RELIEF_DATE));?>.</li>
+ proceeding on retirement</b>. He has been retired on <?php echo date('d-M-Y', strtotime(Employee::model()->findByPK($id)->ORG_RETIRE_DATE));?>.</li>
 <br>
 <table class="one-table" cellmargin="10" style="display: block; clear: both;width: 300px;">
 	<tbody>
@@ -101,8 +100,8 @@ Ministry / Department / Office  <b><?php echo $master->OFFICE_NAME_HINDI;?>/<?ph
 			<td><?php echo $salaryDetails->CCA; ?></td>
 			<td>EDU.CESS</td>
 			<td><?php echo round(($salaryDetails->IT*2)/103); ?></td>
-			<td>FAN Ad.</td>
-			<td><?php echo $salaryDetails->FAN_EMI; ?></td>
+			<td>Computer Adv.</td>
+			<td><?php echo $salaryDetails->COMP_EMI; ?></td>
 		</tr>
 		<tr>
 			<td>HRA</td>
@@ -174,6 +173,7 @@ Ministry / Department / Office  <b><?php echo $master->OFFICE_NAME_HINDI;?>/<?ph
 <li> Details of Income Tax recovered up to the date from the begining of the current financial year are noted in the annexure</li>
 <li> Service for the period <?php echo date('M-Y', strtotime(Employee::model()->findByPK($id)->DEPT_JOIN_DATE));?> to 
 <?php echo date('M-Y', strtotime(Employee::model()->findByPK($id)->DEPT_RELIEF_DATE));?> ( during his/her stay in this office ) has been verified.</li>
+<li><b style="font-weight: bold;">Remarks:</b> <?php echo Employee::model()->findByPK($id)->LPC_REMARKS; ?></li>
 <br>
 <li style="font-size: 15px;font-weight: bold;">वसूली का विवरण/Details of recoveries</p>
 <br>
@@ -253,9 +253,9 @@ each w.e.f. the salary of Feb-2017 onwards.</li>
 			<th>AMOUNT TO BANK</th>
 		</tr>
 <?php
+	$financialYear = FinancialYears::model()->find('STATUS=1');
 	$salaries = YII::app()->db->createCommand("SELECT * FROM tbl_salary_details a, tbl_bill b WHERE b.ID = a.BILL_ID_FK AND a.EMPLOYEE_ID_FK=$id AND
- b.IS_ARREAR_BILL=0 AND b.IS_CEA_BILL=0 AND b.IS_BONUS_BILL=0 AND b.IS_UA_BILL=0 AND b.IS_LTC_CLAIM_BILL=0 AND b.IS_LTC_ADVANCE_BILL=0 AND b.IS_EL_ENCASHMENT_BILL=0 AND b.IS_RECOVERY_BILL=0 
- LIMIT 4;")->queryAll();
+ a.IS_SALARY_BILL=1 AND b.FINANCIAL_YEAR_ID_FK=".$financialYear->ID.";")->queryAll();
 	foreach ($salaries as $salary) {
 	?>
 	<tr>
