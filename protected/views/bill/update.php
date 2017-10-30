@@ -24,7 +24,9 @@ if(isset($_REQUEST['id']) && $_REQUEST['id']){
 			<div class="" style="padding: 0px;margin-top: 100px; width: 230px;padding-top: 0px!important;">
 				<ul class="side-menu-additional-list" style="padding-bottom: 30px;">
 					<?php if($model->IS_SALARY_HEAD_PAY_BILL) {?>
-						<li><a href="<?php echo Yii::app()->createUrl("Bill/SalaryDetails",array("id"=>$id))?>"><span class="tbl-row"><span class="tbl-cell tbl-cell-caption">Salary Details</span></span></a></li><hr>
+						<li><a href="<?php echo Yii::app()->createUrl("Bill/SalaryDetails",array("id"=>$id))?>"><span class="tbl-row"><span class="tbl-cell tbl-cell-caption">Salary Details</span></span></a></li>
+						<li><a href="<?php echo Yii::app()->createUrl("Bill/PayBillValidate",array("id"=>$id))?>"><span class="tbl-row"><span class="tbl-cell tbl-cell-caption">Pay Bill Validate</span></span></a></li><hr>
+						
 						<?php if($model->IS_NPS_PAY_BILL) {?>
 							<h4 style="padding-left:10px;">NILL BILL</h4>
 							<li><a href="<?php echo Yii::app()->createUrl("Bill/NillBillFront",array("id"=>$id))?>" target="_blank"><span class="tbl-row"><span class="tbl-cell tbl-cell-caption">NILL BILL FRONT SHEET</span></span></a></li>
@@ -33,6 +35,7 @@ if(isset($_REQUEST['id']) && $_REQUEST['id']){
 							<li><a href="<?php echo Yii::app()->createUrl("Bill/NillBillPart2",array("id"=>$id))?>" target="_blank"><span class="tbl-row"><span class="tbl-cell tbl-cell-caption">NILL BILL PART 2</span></span></a></li>
 							<li><a href="<?php echo Yii::app()->createUrl("Bill/NillBillCPF",array("id"=>$id))?>" target="_blank"><span class="tbl-row"><span class="tbl-cell tbl-cell-caption">NILL BILL CPF</span></span></a></li>
 							<li><a href="<?php echo Yii::app()->createUrl("Bill/BackSheet",array("id"=>$id))?>" target="_blank"><span class="tbl-row"><span class="tbl-cell tbl-cell-caption">BACK SHEET</span></span></a></li>
+							<li><a href="<?php echo Yii::app()->createUrl("Bill/NillBillToMail",array("id"=>$id))?>" target="_blank"><span class="tbl-row"><span class="tbl-cell tbl-cell-caption">Nill Bill (Mail)</span></span></a></li>
 						<?php } ?>
 						<!--<h4 style="padding-left:10px;">CCS & LIC </h4>
 						<li><a href="<?php echo Yii::app()->createUrl("Bill/CCSLICBillFront",array("id"=>$id))?>" target="_blank"><span class="tbl-row"><span class="tbl-cell tbl-cell-caption">CCS & LIC FRONT SHEET</span></span></a></li>

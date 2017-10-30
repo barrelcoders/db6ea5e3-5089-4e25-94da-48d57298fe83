@@ -199,9 +199,6 @@ class BillController extends Controller
 						if(isset($salary[$YEAR][$MONTH])){
 							$SalaryDetails = null;
 							$PAY_DETAILS = $salary[$YEAR][$MONTH];
-							if($EMPLOYEE_ID == 49){
-								echo "<pre>";print_r($PAY_DETAILS);echo "</pre>";exit;
-							}
 							if(SalaryDetails::model()->exists('BILL_ID_FK='.$bill_id.' AND EMPLOYEE_ID_FK='.$EMPLOYEE_ID.' AND MONTH='.$MONTH.' AND YEAR='.$YEAR)){
 								$SalaryDetails = SalaryDetails::model()->find('BILL_ID_FK='.$bill_id.' AND EMPLOYEE_ID_FK='.$EMPLOYEE_ID.' AND MONTH='.$MONTH.' AND YEAR='.$YEAR);
 							}
@@ -605,6 +602,13 @@ class BillController extends Controller
 		));
 	}
 
+	public function actionPayBillValidate($id){
+		$model = $this->loadModel($id);
+		$this->amountInWords = $this->amountToWord($model->BILL_AMOUNT);
+		$this->render('PAY/PayBillValidate',array('model'=>$model,));
+	}
+	
+	
 	/**
 	 * Updates a particular model.
 	 * If update is successful, the browser will be redirected to the 'view' page.

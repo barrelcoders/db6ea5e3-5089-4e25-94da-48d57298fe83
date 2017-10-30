@@ -238,7 +238,7 @@
 			<td style="width:300px;">MINISTRIAL OFFICERS ASSOCIATION</td>
 			<td style="width:100px;text-align:center;">CNRB0008415</td>
 			<td style="width:300px;text-align:center;">8415101001367</td>
-			<td style="width:200px;">Rs. <?php echo Yii::app()->db->createCommand("SELECT SUM(ASSOSC_SUB) as ASSOSC_SUB FROM tbl_salary_details WHERE BILL_ID_FK = $model->ID AND EMPLOYEE_ID_FK IN (SELECT ID FROM tbl_employee WHERE DESIGNATION_ID_FK IN (9,10,16,17,18));")->queryRow()['ASSOSC_SUB'];?>/-</td>
+			<td style="width:200px;">Rs. <?php echo Yii::app()->db->createCommand("SELECT SUM(ASSOSC_SUB) as ASSOSC_SUB FROM tbl_salary_details WHERE BILL_ID_FK = $model->ID AND EMPLOYEE_ID_FK IN (SELECT ID FROM tbl_employee WHERE DESIGNATION_ID_FK IN (8, 9,10,16,17,18));")->queryRow()['ASSOSC_SUB'];?>/-</td>
 		</tr>
 		<tr>
 			<td style="width:300px;">All India Association of Central Excise Gazetted Officers, Karnataka Unit</td>

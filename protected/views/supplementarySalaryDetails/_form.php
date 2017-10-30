@@ -41,8 +41,8 @@
 		<div class="col-sm-12">
 			<h3><?php echo Employee::model()->findByPK($this->ID)->NAME.", ".Designations::model()->findByPK(Employee::model()->findByPK($this->ID)->DESIGNATION_ID_FK)->DESIGNATION; ?></h3>
 			<p class="form-control-static">
-				<a class="btn btn-inline" target="_blank" href="<?php echo Yii::app()->createUrl('Investments/update', array('id'=>$this->ID))?>"><?php echo FinancialYears::model()->find("STATUS=1")->NAME ?> Investments</a>
-				<a class="btn btn-inline" href="<?php echo Yii::app()->createUrl('IncomeTax/SelectEmployeesForForm16');?>" target="_blank">Provisional Form-16 (<?php echo FinancialYears::model()->find('STATUS=1')->NAME;?>)</a>
+				<a class="btn btn-inline" href="<?php echo Yii::app()->createUrl('Investments/update', array('id'=>$this->ID))?>"><?php echo FinancialYears::model()->find("STATUS=1")->NAME ?> Investments</a>
+				<a class="btn btn-inline" href="<?php echo Yii::app()->createUrl('IncomeTax/SelectEmployeesForForm16');?>" >Provisional Form-16 (<?php echo FinancialYears::model()->find('STATUS=1')->NAME;?>)</a>
 				<?php 
 					$startPeriod = $periods[0];
 					$endPeriod = $periods[count($periods)-1];

@@ -58,7 +58,7 @@ Ministry / Department / Office  <b><?php echo $master->OFFICE_NAME_HINDI;?>/<?ph
 		<tr>
 			<td>BASIC</td>
 			<td><?php echo $salaryDetails->BASIC; ?></td>
-			<td>GPF</td>
+			<td>GPFC</td>
 			<td><?php echo $salaryDetails->CPF_TIER_I; ?></td>
 			<td>HBA</td>
 			<td><?php echo $salaryDetails->HBA_EMI; ?></td>
@@ -66,16 +66,16 @@ Ministry / Department / Office  <b><?php echo $master->OFFICE_NAME_HINDI;?>/<?ph
 		<tr>
 			<td>GRADE PAY</td>
 			<td><?php echo $salaryDetails->GP; ?></td>
-			<td>CGEGIS</td>
-			<td><?php echo $salaryDetails->CGEGIS; ?></td>
+			<td>GPFR</td>
+			<td><?php echo $salaryDetails->CPF_TIER_II; ?></td>
 			<td>Festival Adv</td>
 			<td><?php echo $salaryDetails->FEST_EMI; ?></td>
 		</tr>
 		<tr>
 			<td>FPA</td>
 			<td><?php //echo $salaryDetails->FEST_EMI; ?>0</td>
-			<td>LICENCE FEES</td>
-			<td><?php echo $salaryDetails->LF; ?></td>
+			<td>CGEGIS</td>
+			<td><?php echo $salaryDetails->CGEGIS; ?></td>
 			<td>OMCA</td>
 			<td><?php echo $salaryDetails->MCA_EMI; ?></td>
 		</tr>
@@ -114,8 +114,8 @@ Ministry / Department / Office  <b><?php echo $master->OFFICE_NAME_HINDI;?>/<?ph
 		<tr>
 			<td>TA</td>
 			<td><?php echo $salaryDetails->TA; ?></td>
-			<td>Comp Adv</td>
-			<td>0</td>
+			<td>LICENCE FEES</td>
+			<td><?php echo $salaryDetails->LF; ?></td>
 			<td>Credit Co. So.</td>
 			<td><?php echo $salaryDetails->CCS; ?></td>
 		</tr>
@@ -241,7 +241,8 @@ each w.e.f. the salary of Feb-2017 onwards.</li>
 			<th>TA</th>
 			<th>Gross</th>
 			<th>CGEGIS</th>
-			<th>GPF</th>
+			<th>GPFC</th>
+			<th>GPFR</th>
 			<th>CGHS</th>
 			<th>IT</th>
 			<th>E. Cess</th>
@@ -271,6 +272,7 @@ each w.e.f. the salary of Feb-2017 onwards.</li>
 		<td style="text-align: center;"><?php echo $salary['GROSS'];?></td>
 		<td style="text-align: center;"><?php echo $salary['CGEGIS'];?></td>
 		<td style="text-align: center;"><?php echo $salary['CPF_TIER_I'];?></td>
+		<td style="text-align: center;"><?php echo $salary['CPF_TIER_II'];?></td>
 		<td style="text-align: center;"><?php echo $salary['CGHS'];?></td>
 		<td style="text-align: center;"><?php echo round(($salary['IT']*100)/103); ?></td>
 		<td style="text-align: center;"><?php echo round(($salary['IT']*2)/103); ?></td>

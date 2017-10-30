@@ -130,7 +130,7 @@ $this->menu=array(
 		$('#employees li input[type=radio]').change(function(){
 			var empID = $(this).val();
 			
-			$('#LPC').attr('href', '<?php echo Yii::app()->createUrl('Employee/LPC'); ?>'+'&id='+empID);
+			$('#LPC').attr('href', '<?php echo Yii::app()->createUrl('Employee/LPC_Transfered'); ?>'+'&id='+empID);
 			//$('#LPCCover').attr('href', '<?php echo Yii::app()->createUrl('Employee/LPCCover'); ?>'+'&id='+empID);
 			$('#footer_action').show();
 		});

@@ -51,7 +51,7 @@ table.table.table-bordered.table-hover{font-size: 14px;}
 					'name'=>'BILL_TITLE',
 					'type'=>'raw',
 					'value'=>function ($data){ 
-							return '<a href='.Yii::app()->createUrl('bill/update', array('id'=>$data->ID)).' target="_blank" style="color:#000;border-bottom:none;text-decoration:underline;">'.$data->BILL_TITLE.'</a>';
+							return '<a href='.Yii::app()->createUrl('bill/update', array('id'=>$data->ID)).' style="color:#000;border-bottom:none;text-decoration:underline;">'.$data->BILL_TITLE.'</a>';
 					}
 				), 
 				array(
