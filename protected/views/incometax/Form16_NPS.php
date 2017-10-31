@@ -120,11 +120,11 @@
 		<td><?php echo "-".$TOTAL_RENT;?></td>
 		<td class="no-border"></td>
 		<td colspan="2" class="left-text">(1) Mandatory CPF cont.</td>
-		<td colspan="2"><?php echo $TOTAL_SALARIES[0]['CPF'];?></td>
+		<td colspan="2"><?php echo $MANDATORY_CPF_CONTRIBUTION;?></td>
 	</tr>
 	<tr class="no-border">
 		<td colspan="6" class="left-text">Govt. Contribution in CPF (equal to Govt. Servant's cont.)</td>
-		<td><?php echo $TOTAL_CPF_EMPLOYEE?></td>
+		<td><?php echo $TOTAL_CPF_GOVT?></td>
 		<td class="no-border"></td>
 		<td colspan="2" class="left-text">(2) CPF cont. from Arr.</td>
 		<td colspan="2"><?php echo $TOTAL_DA_TA_ARREAR_CPF;?></td>
@@ -134,7 +134,7 @@
 		<td><?php echo $TOTAL_OTHER_INCOME?></td>
 		<td class="no-border"></td>
 		<td colspan="2" class="left-text">Govt. CPF Cont. (1+2)</td>
-		<td colspan="2"><?php echo $TOTAL_CPF_EMPLOYEE;?></td>
+		<td colspan="2"><?php echo $TOTAL_CPF_GOVT;?></td>
 	</tr>
 	<tr class="no-border">
 		<td colspan="6" class="left-text">HOUSE INCOME**</td>
@@ -179,7 +179,7 @@
 		<td colspan="5">EXEMPTIONS under Ch. VI- A</td>
 		<td class="no-border"></td>
 		<td colspan="3" class="left-text">GPF/CPF</td>
-		<td><?php echo $TOTAL_CPF_EMPLOYEE;?></td>
+		<td><?php echo $CPF_AFTER_81CCD_1B;?></td>
 	</tr>
 	<tr class="no-border">
 		<td colspan="2" class="no-border"></td>
@@ -219,7 +219,7 @@
 		<td><?php echo $EDU_LOAD_INT;?></td>
 		<td class="no-border"></td>
 		<td colspan="3" class="left-text">Home Loan (Principle)</td>
-		<td><?php echo $HOME_LOAD_PR;?></td>
+		<td><?php echo $HOME_LOAN_PR;?></td>
 	</tr>
 	<tr class="no-border">
 		<td colspan="2" class="no-border"></td>
@@ -303,7 +303,7 @@
 		<td class="no-border"></td>
 		<td class="no-border"></td>
 		<td colspan="3" class="left-text">Govt. CPF contr. 80CCD(2)</td>
-		<td><?php echo $TOTAL_CPF_EMPLOYEE;?></td>
+		<td><?php echo $TOTAL_CPF_GOVT;?></td>
 	</tr>
 	<tr class="no-border">
 		<td colspan="2" class="no-border right-text">A-B</td>

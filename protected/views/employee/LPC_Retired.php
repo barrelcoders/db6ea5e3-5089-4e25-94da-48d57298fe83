@@ -50,7 +50,7 @@ Ministry / Department / Office  <b><?php echo $master->OFFICE_NAME_HINDI;?>/<?ph
 
 	$salary = Yii::app()->db->createCommand("SELECT ID, MONTH, YEAR, EMPLOYEE_ID_FK FROM tbl_salary_details WHERE EMPLOYEE_ID_FK=$id ORDER BY ID DESC")->queryRow();
 	echo $monthName[$salary['MONTH']]."-".$salary['YEAR'];
-	$salaryDetails = SalaryDetails::model()->find(array('condition'=>'EMPLOYEE_ID_FK='.$salary['EMPLOYEE_ID_FK'], 'order'=>'ID DESC'));
+	$salaryDetails = SalaryDetails::model()->find(array('condition'=>'EMPLOYEE_ID_FK='.$salary['EMPLOYEE_ID_FK'].' AND IS_SALARY_BILL=1', 'order'=>'ID DESC'));
 	
 ?></li>
 <table class="one-table" cellmargin="10" style="display: block; clear: both;width: 500px;">

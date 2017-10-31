@@ -34,10 +34,21 @@ class IncomeTaxController extends Controller
 		);
 	}
 	
-	public function actionSelectEmployeesForForm16()
+	public function actionSelectEmployeesForForm16($id=0)
 	{
 		$this->layout = '//layouts/contentLayout';
 		$list = array();
+		
+		if($id > 0){
+			$list = array($id);
+			$this->layout='//layouts/column1';
+			
+			$this->render('Form16',array(
+				'list'=>$list,
+				'type'=>'Screen'
+			));
+			exit;
+		}
 		
 		if(isset($_POST['Form16']['submit'])){
 			$list = $_POST['Form16']['Employee'];

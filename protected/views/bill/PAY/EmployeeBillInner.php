@@ -42,6 +42,7 @@
 			<th class="small-xxx right-br">PT</th>
 			<th class="small-xx right-br">OTHER DED.</th>
 			<th class="small-x  right-br">AMOUNT BANK</th>
+			<th class="small-x  right-br">REMARKS</th>
 		</tr>
 	</thead>
 	<?php 
@@ -91,6 +92,7 @@
 								<td class="small-xxx right-br"><?php echo $salary->PT; ?></td>
 								<td class="small-xx right-br"><?php echo $salary->OTHER_DED; ?></td>
 								<td class="small-x right-br"><?php echo $salary->AMOUNT_BANK; ?></td>
+								<td class="small-x right-br"><?php echo $salary->REMARKS; ?></td>
 							</tr>
 						<?php } else { ?>
 							<tr>
@@ -119,6 +121,7 @@
 								<td class="small-xxx right-br"><?php echo $salary->PT; ?></td>
 								<td class="small-xx right-br"><?php echo $salary->OTHER_DED; ?></td>
 								<td class="small-x right-br"><?php echo $salary->AMOUNT_BANK; ?></td>
+								<td class="small-x right-br"><?php echo $salary->REMARKS; ?></td>
 							</tr>
 							<?php
 						}
@@ -152,6 +155,7 @@
 							<td class="small-xxx right-br"><?php echo $salary->PT; ?></td>
 							<td class="small-xx right-br"><?php echo $salary->OTHER_DED; ?></td>
 							<td class="small-x right-br"><?php echo $salary->AMOUNT_BANK; ?></td>
+							<td class="small-x right-br"><?php echo $salary->REMARKS; ?></td>
 						</tr>
 					<?php }  ?>
 			<?php } ?>
@@ -189,6 +193,7 @@
 		<th class="small-xxx right-br"><?php echo Yii::app()->db->createCommand("SELECT SUM(PT) as PT FROM tbl_salary_details WHERE BILL_ID_FK = $model->ID;")->queryRow()['PT'];?></th>
 		<th class="small-xx right-br"><?php echo Yii::app()->db->createCommand("SELECT SUM(OTHER_DED) as OTHER_DED FROM tbl_salary_details WHERE BILL_ID_FK = $model->ID;")->queryRow()['OTHER_DED'];?></th>
 		<th class="small-x right-br"><?php $AMOUNT_BANK = Yii::app()->db->createCommand("SELECT SUM(AMOUNT_BANK) as AMOUNT_BANK FROM tbl_salary_details WHERE BILL_ID_FK = $model->ID;")->queryRow()['AMOUNT_BANK']; echo $AMOUNT_BANK; ?></th>
+		<th class="small-x right-br"></th>
 	</tfoot>
 </table>
 
@@ -260,6 +265,7 @@
 <br><br><br><div style="text-align:center; font-weight: bold; width:400px; margin:0 auto;">"Certified that monthly Contribution under Central Government Employees Insurance Scheme has been recovered from persons who are covered under the Scheme"</div>
 
 <br><br>
+<!--
 <div>
 	<p style="font-weight: bold;">Remarks</p>
 	<ol>
@@ -281,6 +287,7 @@
 		?>
 	</ol>
 </div>
+-->
 <div style="font-weight: bold; width:400px; float: right;text-align:center; margin-top:100px;margin-right:-10px;">
 	<p>(<?php echo Employee::model()->findByPK($master['DEPT_ADMIN_EMPLOYEE'])->NAME;?>)</p>
 	<p><?php echo Designations::model()->findByPK(Employee::model()->findByPK($master['DEPT_ADMIN_EMPLOYEE'])->DESIGNATION_ID_FK)->DESIGNATION;?></p>

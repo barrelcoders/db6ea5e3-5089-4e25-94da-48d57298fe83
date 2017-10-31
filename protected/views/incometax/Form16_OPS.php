@@ -200,7 +200,7 @@
 		<td><?php echo $EDU_LOAD_INT;?></td>
 		<td class="no-border"></td>
 		<td colspan="3" class="left-text">Home Loan (Principle)</td>
-		<td><?php echo $HOME_LOAD_PR;?></td>
+		<td><?php echo $HOME_LOAN_PR;?></td>
 	</tr>
 	<tr class="no-border">
 		<td colspan="2" class="no-border"></td>

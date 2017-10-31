@@ -26,9 +26,10 @@
 			<th class="small-xxx">CPF</th>
 			<th class="small-xx">DEDUCTION</th>
 			<th class="small-xx left-br right-br">NET</th>
-			<th class="small-xx">PT</th>
-			<th class="small-xx">OTHER DEDUCTION</th>
+			<th class="small-xx right-br">PT</th>
+			<th class="small-xx right-br">OTHER DEDUCTION</th>
 			<th class="small-xx left-br">AMOUNT CREDIT TO BANK</th>
+			<th class="small-xx left-br">REMARKS</th>
 		</tr>
 	</thead>
 	<?php 
@@ -64,9 +65,10 @@
 									<td class="small-xxx"><?php echo $salary->CPF_TIER_I; ?></td>
 									<td class="small-xx"><?php echo $salary->DED; ?></td>
 									<td class="small-xx left-br right-br"><?php echo $salary->NET; ?></td>
-									<td class="small-xx"><?php echo $salary->PT; ?></td>
-									<td class="small-xx"><?php echo $salary->OTHER_DED; ?></td>
-									<td class="small-xx left-br"><?php echo $salary->AMOUNT_BANK; ?></td>
+									<td class="small-xx right-br"><?php echo $salary->PT; ?></td>
+									<td class="small-xx right-br"><?php echo $salary->OTHER_DED; ?></td>
+									<td class="small-xx"><?php echo $salary->AMOUNT_BANK; ?></td>
+									<td class="small-xx left-br"><?php echo $salary->REMARKS; ?></td>
 								</tr>
 							<?php
 						}
@@ -83,9 +85,10 @@
 									<td class="small-xxx"><?php echo $salary->CPF_TIER_I; ?></td>
 									<td class="small-xx"><?php echo $salary->DED; ?></td>
 									<td class="small-xx left-br right-br"><?php echo $salary->NET; ?></td>
-									<td class="small-xx"><?php echo $salary->PT; ?></td>
-									<td class="small-xx"><?php echo $salary->OTHER_DED; ?></td>
-									<td class="small-xx left-br"><?php echo $salary->AMOUNT_BANK; ?></td>
+									<td class="small-xx right-br"><?php echo $salary->PT; ?></td>
+									<td class="small-xx right-br"><?php echo $salary->OTHER_DED; ?></td>
+									<td class="small-xx"><?php echo $salary->AMOUNT_BANK; ?></td>
+									<td class="small-xx left-br"><?php echo $salary->REMARKS; ?></td>
 								</tr>
 							<?php
 						}
@@ -105,9 +108,10 @@
 								<td class="small-xxx"><?php echo $salary->CPF_TIER_I; ?></td>
 								<td class="small-xx"><?php echo $salary->DED; ?></td>
 								<td class="small-xx left-br right-br"><?php echo $salary->NET; ?></td>
-								<td class="small-xx"><?php echo $salary->PT; ?></td>
-								<td class="small-xx"><?php echo $salary->OTHER_DED; ?></td>
-								<td class="small-xx left-br"><?php echo $salary->AMOUNT_BANK; ?></td>
+								<td class="small-xx right-br"><?php echo $salary->PT; ?></td>
+								<td class="small-xx right-br"><?php echo $salary->OTHER_DED; ?></td>
+								<td class="small-xx"><?php echo $salary->AMOUNT_BANK; ?></td>
+								<td class="small-xx left-br"><?php echo $salary->REMARKS; ?></td>
 							</tr>
 						<?php
 					}
@@ -133,9 +137,10 @@
 		<th class="small-xxx"><?php echo Yii::app()->db->createCommand("SELECT SUM(CPF_TIER_I) as CPF_TIER_I FROM tbl_salary_details WHERE BILL_ID_FK = $model->ID;")->queryRow()['CPF_TIER_I'];?></th>
 		<th class="small-xxx"><?php echo Yii::app()->db->createCommand("SELECT SUM(DED) as DED FROM tbl_salary_details WHERE BILL_ID_FK = $model->ID;")->queryRow()['DED'];?></th>
 		<th class="small-xx left-br right-br"><?php echo Yii::app()->db->createCommand("SELECT SUM(NET) as NET FROM tbl_salary_details WHERE BILL_ID_FK = $model->ID;")->queryRow()['NET'];?></th>
-		<th class="small-xx"><?php echo Yii::app()->db->createCommand("SELECT SUM(PT) as PT FROM tbl_salary_details WHERE BILL_ID_FK = $model->ID;")->queryRow()['PT'];?></th>
-		<th class="small-xx"><?php echo Yii::app()->db->createCommand("SELECT SUM(OTHER_DED) as OTHER_DED FROM tbl_salary_details WHERE BILL_ID_FK = $model->ID;")->queryRow()['OTHER_DED'];?></th>
-		<th class="small-xx left-br"><?php $AMOUNT_BANK = Yii::app()->db->createCommand("SELECT SUM(AMOUNT_BANK) as AMOUNT_BANK FROM tbl_salary_details WHERE BILL_ID_FK = $model->ID;")->queryRow()['AMOUNT_BANK']; echo $AMOUNT_BANK; ?></th>
+		<th class="small-xx right-br"><?php echo Yii::app()->db->createCommand("SELECT SUM(PT) as PT FROM tbl_salary_details WHERE BILL_ID_FK = $model->ID;")->queryRow()['PT'];?></th>
+		<th class="small-xx right-br"><?php echo Yii::app()->db->createCommand("SELECT SUM(OTHER_DED) as OTHER_DED FROM tbl_salary_details WHERE BILL_ID_FK = $model->ID;")->queryRow()['OTHER_DED'];?></th>
+		<th class="small-xx"><?php $AMOUNT_BANK = Yii::app()->db->createCommand("SELECT SUM(AMOUNT_BANK) as AMOUNT_BANK FROM tbl_salary_details WHERE BILL_ID_FK = $model->ID;")->queryRow()['AMOUNT_BANK']; echo $AMOUNT_BANK; ?></th>
+		<th class="small-xx left-br"></th>
 	</tfoot>
 </table>
 

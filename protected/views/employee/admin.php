@@ -122,9 +122,7 @@ for($i=1; $i<=$EMPLOYEE_COUNT; $i++){
 					'value'=>function($data) use($FOLIO_ARRAY){
 						$folio_text = "";
 						if($data->FOLIO_NO == '' || $data->FOLIO_NO == 0){
-							$folio_text = "<input type='hidden' value='$data->ID'>" .
-							CHtml::dropDownList('FOLIO_NO', null, $FOLIO_ARRAY, 
-							array('empty'=>array('0'=>''), 'options'=>array($data->FOLIO_NO => array('selected'=>true)), 'class'=>'slFolio'));
+							$folio_text = "<input type='hidden' value='$data->ID'><input type='text' class='txtFolio' size='10'>";
 						}
 						else{
 							$folio_text = $data->FOLIO_NO;
@@ -166,8 +164,8 @@ for($i=1; $i<=$EMPLOYEE_COUNT; $i++){
 				),
 				array(
 					'class'=>'CButtonColumn',
-					'htmlOptions' => array('style'=>'width:100px'),
-					'template' => '{view}{update}{salaryAdd}{investments}',
+					'htmlOptions' => array('style'=>'width:150px'),
+					'template' => '{view}{update}{salaryAdd}{investments}{incometax}',
 					//{delete}
 					'buttons'=>array
 					(
@@ -176,7 +174,7 @@ for($i=1; $i<=$EMPLOYEE_COUNT; $i++){
 							'url'=>'Yii::app()->createUrl("Employee/View", array("id"=>$data->ID))',
 							'options'=>array('class'=>'glyphicon glyphicon-search'),
 							'imageUrl'=>'',
-							'label'=>''
+							'label'=>'',
 						),
 						'update' => array
 						(
@@ -188,14 +186,21 @@ for($i=1; $i<=$EMPLOYEE_COUNT; $i++){
 						'salaryAdd' => array
 						(
 							'url'=>'Yii::app()->createUrl("SupplementarySalaryDetails/Update", array("id"=>$data->ID))',
-							'options'=>array('class'=>'fa fa-money', 'target'=>"_blank", 'title'=>'Mar-Jun 2017 Salary'),
+							'options'=>array('class'=>'fa fa-rupee', 'target'=>"_blank", 'title'=>'Previous Office Salaries'),
 							'imageUrl'=>'',
 							'label'=>'',
 						),
 						'investments' => array
 						(
 							'url'=>'Yii::app()->createUrl("Investments/Update", array("id"=>$data->ID))',
-							'options'=>array('class'=>'fa fa-user', 'target'=>"_blank", 'title'=>'Investments'),
+							'options'=>array('class'=>'fa fa-bank', 'target'=>"_blank", 'title'=>'Investments'),
+							'imageUrl'=>'',
+							'label'=>'',
+						),
+						'incometax' => array
+						(
+							'url'=>'Yii::app()->createUrl("IncomeTax/SelectEmployeesForForm16", array("id"=>$data->ID))',
+							'options'=>array('class'=>'fa fa-table', 'target'=>"_blank", 'title'=>'Provisional Form-16'),
 							'imageUrl'=>'',
 							'label'=>'',
 						),
@@ -244,17 +249,19 @@ $(document).ready(function(){
 			}
 		});
 	});	
-	$('.slFolio').change(function(){
-		var element = $(this), folio = element.val(), emp_id = element.prev().val();
-		$.post('<?php echo Yii::app()->createUrl('Employee/SetFolio')?>', { 'folio': folio, 'emp_id': emp_id}, function(result) {
-			var data = result.split("|");
-			if(data[0] == 'SUCCESS'){
-				element.parent().html(data[1]);
-			}
-			else{
-				alert('Error updating Folio Number, Please try again later');
-			}
-		});
+	$('.txtFolio').keyup(function(e){
+		if(e.which == 13) {			
+			var element = $(this), folio = element.val(), emp_id = element.prev().val();
+			$.post('<?php echo Yii::app()->createUrl('Employee/SetFolio')?>', { 'folio': folio, 'emp_id': emp_id}, function(result) {
+				var data = result.split("|");
+				if(data[0] == 'SUCCESS'){
+					element.parent().html(data[1]);
+				}
+				else{
+					alert('Error updating Folio Number, Please try again later');
+				}
+			});
+		}
 	});	
 	
 	

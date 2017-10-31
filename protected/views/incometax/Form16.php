@@ -9,6 +9,10 @@
 	$periods = array('3-2017','4-2017','5-2017','6-2017','7-2017','8-2017','9-2017','10-2017','11-2017', '12-2017','1-2018', '2-2018');
 	$master = Master::model()->findByPK(1);
 	$financialYear = FinancialYears::model()->find('STATUS=1');
+	$StartYear = date('Y', strtotime($financialYear->START_DATE));
+	$EndYear = date('Y', strtotime($financialYear->END_DATE));
+	$CurrentFinancialYearPeriods = array('3-'.$StartYear,'4-'.$StartYear,'5-'.$StartYear,'6-'.$StartYear, '7-'.$StartYear, '8-'.$StartYear, '9-'.$StartYear, '10-'.$StartYear, '11-'.$StartYear, '12-'.$StartYear,
+								'1-'.$EndYear, '2-'.$EndYear);
 	$OTA_BILL_TYPE = 5;
 	$HONORIUM_BILL_TYPE = 12;
 	
@@ -256,36 +260,83 @@
 		$TOTAL_OTHER_INCOME = isset($investment->OTHER_INCOME) ? $investment->OTHER_INCOME : 0;
 		$TOTAL_HOUSE_INCOME = isset($investment->HOUSE_INCOME) ? $investment->HOUSE_INCOME : 0;
 		
+		$MANDATORY_CPF_CONTRIBUTION = $TOTAL_SALARIES[0]['CPF'];
 		$TOTAL_CPF_EMPLOYEE = $TOTAL_DA_TA_ARREAR_CPF + $TOTAL_SALARIES[0]['CPF'];
+		$TOTAL_CPF_GOVT = $TOTAL_CPF_EMPLOYEE;
 		
 		$GROSS_INCOME = 0;
 		if($employee->PENSION_TYPE == "OPS"){
 			$GROSS_INCOME = $TOTAL_INCOME_FROM_SALARY - $TOTAL_RENT + $TOTAL_OTHER_INCOME + $TOTAL_HOUSE_INCOME;
 		}
 		if($employee->PENSION_TYPE == "NPS"){
-			$GROSS_INCOME = $TOTAL_INCOME_FROM_SALARY - $TOTAL_RENT + $TOTAL_OTHER_INCOME + $TOTAL_CPF_EMPLOYEE + $TOTAL_HOUSE_INCOME;
+			$GROSS_INCOME = $TOTAL_INCOME_FROM_SALARY - $TOTAL_RENT + $TOTAL_OTHER_INCOME + $TOTAL_CPF_GOVT + $TOTAL_HOUSE_INCOME;
 		}
+		
 		
 		$TA_ALLOWED = min($TOTAL_SALARIES[0]['TA'], 19200);
 		$INCOME_AFTER_DEDUCTION = $GROSS_INCOME - $TOTAL_SALARIES[0]['PT'] - $TA_ALLOWED;
 		
 		$TOTAL_CGHS = $TOTAL_SALARIES[0]['CGHS'];
-		$MEDICAL_INSURANCE = isset($investment->MEDICAL_INSURANCE) ? $investment->MEDICAL_INSURANCE : 0;
+		$MEDICAL_INSURANCE = isset($investment->MEDICAL_INSURANCE) ? min($investment->MEDICAL_INSURANCE,25000) : 0;
 		$DONATION = isset($investment->DONATION) ? $investment->DONATION : 0;
 		$DISABILITY_MED_EXP = isset($investment->DISABILITY_MED_EXP) ? $investment->DISABILITY_MED_EXP : 0;
 		$EDU_LOAD_INT = isset($investment->EDU_LOAD_INT) ? $investment->EDU_LOAD_INT : 0;
 		$SELF_DISABILITY = isset($investment->SELF_DISABILITY) ? $investment->SELF_DISABILITY : 0;
-		$HOME_LOAN_INT = isset($investment->HOME_LOAN_INT) ? $investment->HOME_LOAN_INT : 0;
+		
+		
+		$bills = Bill::model()->findAll('PFMS_STATUS="Passed" AND FINANCIAL_YEAR_ID_FK='.$financialYear->ID);
+		$HBA_PRINCIPAL_CURRENT_OFFICE = 0;
+		$HBA_INTEREST_CURRENT_OFFICE = 0;
+		$BillIdsForHBA = array();
+		foreach($bills as $bill){
+			array_push($BillIdsForHBA, $bill->ID);
+		}
+		if(count($BillIdsForHBA) > 0){
+			$HBA_PRINCIPAL_CURRENT_OFFICE += Yii::app()->db->createCommand("SELECT SUM(HBA_EMI) AS TOTAL FROM tbl_salary_details WHERE EMPLOYEE_ID_FK=".$id." 
+			AND IS_HBA_RECOVERY=0 AND BILL_ID_FK IN (".implode("," , $BillIdsForHBA).")")->queryRow()['TOTAL'];
+			$HBA_INTEREST_CURRENT_OFFICE += Yii::app()->db->createCommand("SELECT SUM(HBA_EMI) AS TOTAL FROM tbl_salary_details WHERE EMPLOYEE_ID_FK=".$id." AND 
+			IS_HBA_RECOVERY=1 AND BILL_ID_FK IN (".implode("," , $BillIdsForHBA).")")->queryRow()['TOTAL'];
+		}
+		
+		$HBA_PRINCIPAL_PREVIOUS_OFFICE = 0;
+		$HBA_INTEREST_PREVIOUS_OFFICE = 0;	
+		foreach($CurrentFinancialYearPeriods as $period){
+			$month = explode("-", $period)[0];
+			$year = explode("-", $period)[1];
+			$HBA_PRINCIPAL = Yii::app()->db->createCommand("SELECT HBA_EMI AS HBA_EMI FROM tbl_supplementary_salary_details WHERE EMPLOYEE_ID_FK=".$id." AND IS_HBA_RECOVERY=0 AND MONTH=".$month." AND YEAR=".$year)->queryRow()['HBA_EMI'];
+			$HBA_PRINCIPAL_PREVIOUS_OFFICE += $HBA_PRINCIPAL;
+			$HBA_INTEREST = Yii::app()->db->createCommand("SELECT HBA_EMI AS HBA_EMI FROM tbl_supplementary_salary_details WHERE EMPLOYEE_ID_FK=".$id." AND IS_HBA_RECOVERY=1 AND MONTH=".$month." AND YEAR=".$year)->queryRow()['HBA_EMI'];
+			$HBA_INTEREST_PREVIOUS_OFFICE += $HBA_INTEREST;
+		}
+		
+		$ACTUAL_HOME_LOAN_INT = isset($investment->HOME_LOAN_INT) ? $investment->HOME_LOAN_INT : 0;
+		$HOME_LOAN_INT = $ACTUAL_HOME_LOAN_INT + $HBA_INTEREST_CURRENT_OFFICE + $HBA_INTEREST_PREVIOUS_OFFICE;
 		$MIN_HOME_LOAN_INT = min($HOME_LOAN_INT,200000);
 		$HOME_LOAD_EXCESS_2013_14 = min((($HOME_LOAN_INT >= 250001) ? ($HOME_LOAN_INT - $MIN_HOME_LOAN_INT) : 0 ), 100000);
 		$HOME_LOAD_EXCESS_2013_14_ADDTIONAL = ($HOME_LOAN_INT < 250001) ? min(($HOME_LOAN_INT - $MIN_HOME_LOAN_INT), 100000) : 0;
-		$NPS_UNDER_80CCD_1B = isset($investment->NPS_UNDER_80CCD_1B) ? $investment->NPS_UNDER_80CCD_1B : 0;
 		$BANK_INTEREST_DED_80TTA = isset($investment->BANK_INTEREST_DED_80TTA) ? $investment->BANK_INTEREST_DED_80TTA : 0;
+		$NPS_UNDER_80CCD_1B = 0;
+		$CPF_AFTER_81CCD_1B = 0;
+		
+		if($employee->PENSION_TYPE == "NPS"){
+			$NPS_UNDER_80CCD_1B = isset($investment->NPS_UNDER_80CCD_1B) ? $investment->NPS_UNDER_80CCD_1B : 0;
+			if($TOTAL_CPF_EMPLOYEE >= 50000){
+				$NPS_UNDER_80CCD_1B += 50000;
+				$CPF_AFTER_81CCD_1B = $TOTAL_CPF_EMPLOYEE - 50000;
+			}
+			else{
+				$NPS_UNDER_80CCD_1B += $TOTAL_CPF_EMPLOYEE;
+				$CPF_AFTER_81CCD_1B = 0;
+			}
+		}
+		if($employee->PENSION_TYPE == "OPS"){
+			$NPS_UNDER_80CCD_1B = isset($investment->NPS_UNDER_80CCD_1B) ? $investment->NPS_UNDER_80CCD_1B : 0;
+		}
 		$TOTAL_EXEMPTION = $TOTAL_CGHS+$MEDICAL_INSURANCE+$DONATION+$DISABILITY_MED_EXP+$EDU_LOAD_INT+$SELF_DISABILITY+
 		$MIN_HOME_LOAN_INT+$HOME_LOAD_EXCESS_2013_14+$NPS_UNDER_80CCD_1B+$BANK_INTEREST_DED_80TTA;	
 		
-		$TOTAL_CPF = ($employee->PENSION_TYPE == "OPS") ? $TOTAL_CPF_EMPLOYEE : ($TOTAL_CPF_EMPLOYEE * 2);
-		$TOTAL_CPF_FOR_SAVING = ($employee->PENSION_TYPE == "OPS") ? $TOTAL_CPF_EMPLOYEE : $TOTAL_CPF_EMPLOYEE;
+		$TOTAL_CPF = ($employee->PENSION_TYPE == "OPS") ? $TOTAL_CPF_EMPLOYEE : ($TOTAL_CPF_EMPLOYEE + $TOTAL_CPF_GOVT);
+		$TOTAL_CPF_FOR_SAVING = ($employee->PENSION_TYPE == "OPS") ? $TOTAL_CPF_EMPLOYEE : $CPF_AFTER_81CCD_1B;
 		
 		$TOTAL_CGEGIS = $TOTAL_SALARIES[0]['CGEGIS'];
 		
@@ -296,17 +347,19 @@
 		
 		$TUITION_FESS_EXEMPTION = isset($investment->TUITION_FESS_EXEMPTION) ? $investment->TUITION_FESS_EXEMPTION : 0;
 		$PPF_NSC = isset($investment->PPF_NSC) ? $investment->PPF_NSC : 0;
-		$HOME_LOAD_PR = isset($investment->HOME_LOAD_PR) ? $investment->HOME_LOAD_PR : 0;
+		
+		$ACTUAL_HOME_LOAN_PR = isset($investment->HOME_LOAN_PR) ? $investment->HOME_LOAN_PR : 0;
+		$HOME_LOAN_PR = $ACTUAL_HOME_LOAN_PR + $HBA_PRINCIPAL_CURRENT_OFFICE + $HBA_PRINCIPAL_PREVIOUS_OFFICE;
 		$PLI_ULIP = isset($investment->PLI_ULIP) ? $investment->PLI_ULIP : 0;
 		$TERM_DEPOSIT_ABOVE_5 = isset($investment->TERM_DEPOSIT_ABOVE_5) ? $investment->TERM_DEPOSIT_ABOVE_5 : 0;
 		$MUTUAL_FUND = isset($investment->MUTUAL_FUND) ? $investment->MUTUAL_FUND : 0;
 		$PENSION_FUND = isset($investment->PENSION_FUND) ? $investment->PENSION_FUND : 0;
 		$CPF_809CCD = isset($investment->CPF) ? $investment->CPF : 0;
 		$REGISTRY_STAMP = isset($investment->REGISTRY_STAMP) ? $investment->REGISTRY_STAMP : 0;
-		$TOTAL_SAVING_80C = $TOTAL_CPF_FOR_SAVING+$TOTAL_CGEGIS+$INSURANCE_LIC_OTHER+$TUITION_FESS_EXEMPTION+$PPF_NSC+$HOME_LOAD_PR+$PLI_ULIP+$TERM_DEPOSIT_ABOVE_5+$MUTUAL_FUND
-							+$PENSION_FUND+$CPF_809CCD+$REGISTRY_STAMP;
+		$TOTAL_SAVING_80C = $TOTAL_CPF_FOR_SAVING+$TOTAL_CGEGIS+$INSURANCE_LIC_OTHER+$TUITION_FESS_EXEMPTION+$PPF_NSC+$HOME_LOAN_PR+$PLI_ULIP+$TERM_DEPOSIT_ABOVE_5
+							+$MUTUAL_FUND+$PENSION_FUND+$CPF_809CCD+$REGISTRY_STAMP;
 		$MIN_SAVING_80C = min($TOTAL_SAVING_80C,150000);
-		$NET_SAVING_80C = ($employee->PENSION_TYPE == "OPS") ? $MIN_SAVING_80C : ($MIN_SAVING_80C + $TOTAL_CPF_FOR_SAVING);
+		$NET_SAVING_80C = ($employee->PENSION_TYPE == "OPS") ? $MIN_SAVING_80C : ($MIN_SAVING_80C + $TOTAL_CPF_GOVT);
 		
 		$TOTAL_DEDUCTIONS = $TOTAL_EXEMPTION+$NET_SAVING_80C;
 		$TOTAL_TAXABLE_INCOME = $INCOME_AFTER_DEDUCTION-$TOTAL_DEDUCTIONS;

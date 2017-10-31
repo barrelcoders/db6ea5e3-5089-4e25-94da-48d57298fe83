@@ -43,7 +43,7 @@
 	<div class="col-sm-12">
 		<section id="blockui-element-container-default" class="card col-sm-4">
 			<header class="card-header">
-				Previous Posting Amounts
+				Previous Office Amounts
 			</header>
 			<div class="card-block display-table col-sm-12" style="min-height: 300px">
 				<div class="form-group row">
