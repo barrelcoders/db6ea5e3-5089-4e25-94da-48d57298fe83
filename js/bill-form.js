@@ -131,7 +131,6 @@ $(document).ready(function(){
 				$("#FILE_NO_SECTION").show();
 				$("#PFMS_BILL_NO_SECTION").show();
 				$("#IS_DA_ARREAR_BILL").val(1);
-				$("#MULTI_MONTH_CHOICE").show();
 				$('#txtBillTitle').val($("#Bill_BILL_SUB_TYPE option:selected").text()+" in R/O OPS Staff of "+DEPT_NAME+" (OLD PENSION SCHEME) for the month of "+MONTH_YEAR);
 			}
 			if(bill_sub_type == OPS_AD_BONUS_BILL){
@@ -293,7 +292,6 @@ $(document).ready(function(){
 				$("#FILE_NO_SECTION").show();
 				$("#PFMS_BILL_NO_SECTION").show();
 				$("#IS_DA_ARREAR_BILL").val(1);
-				$("#MULTI_MONTH_CHOICE").show();
 				$('#txtBillTitle').val($("#Bill_BILL_SUB_TYPE option:selected").text()+" in R/O NPS Staff of "+DEPT_NAME);
 			}
 			if(bill_sub_type == NPS_AD_BONUS_BILL){

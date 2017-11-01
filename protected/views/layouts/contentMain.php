@@ -148,6 +148,7 @@
 	            </span>
 	            <ul>
 	                <li><a href="<?php echo Yii::app()->createUrl('Employee/Generic');?>"><span class="lbl">Employee List</span></a></li>
+	                <li><a href="<?php echo Yii::app()->createUrl('Employee/GenericSalaries');?>"><span class="lbl">Employee Salaries</span></a></li>
 	            </ul>
 	        </li>
 			<li class="grey with-sub">

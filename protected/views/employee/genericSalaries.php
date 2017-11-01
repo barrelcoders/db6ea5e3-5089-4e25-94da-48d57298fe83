@@ -36,53 +36,81 @@ $this->menu=array(
 
 		<div class="row">
 			<div class="col-sm-6">
-				<div style="padding: 10px;height: 500px;overflow-y: scroll;overflow-x: hidden;">
-					<div class="form-group row">
-						<label class='col-sm-9 form-control-label'>Custom 1</label>
-						<div class="col-sm-3">
-							<p class="form-control-static">
-								<input type="text" name="Employee[Custom_attr_1]" class="col-sm-12 form-control-label"  />
-							</p>
-						</div>
-					</div>
-					<div class="form-group row">
-						<label class='col-sm-9 form-control-label'>Custom 2</label>
-						<div class="col-sm-3">
-							<p class="form-control-static">
-								<input type="text" name="Employee[Custom_attr_2]" class="col-sm-12 form-control-label"  />
-							</p>
-						</div>
-					</div>
-					<div class="form-group row">
-						<label class='col-sm-9 form-control-label'>Custom 3</label>
-						<div class="col-sm-3">
-							<p class="form-control-static">
-								<input type="text" name="Employee[Custom_attr_3]" class="col-sm-12 form-control-label"  />
-							</p>
-						</div>
-					</div>
+				<div style="padding: 10px;height: 200px;overflow-y: scroll;overflow-x: hidden;">
 					<?php 
-						foreach($model->attributes as $key=>$value){
+						$months = array(''=>'', '1'=>'January','2'=>'February', '3'=>'March', '4'=>'April', '5'=>'May', '6'=>'June', '7'=>'July', '8'=>'August', '9'=>'September', '10'=>'October', '11'=>'November', '12'=>'December',);
+						$years = array(''=>'', '2016'=>'2016', '2017'=>'2017', '2018'=>'2018', '2019'=>'2019', '2020'=>'2020', '2021'=>'2021');
 					?>
 					<div class="form-group row">
-						<label class="col-sm-9 form-control-label" for="Employee_<?php echo $key;?>"><?php echo strtoupper($model->getAttributeLabel($key));?></label>
+						<label class='col-sm-3 form-control-label'>Start Period</label>
+						<div class="col-sm-6">
+							<p class="form-control-static">
+								<select name="Employee[START_MONTH]" id="START_MONTH">
+									<?php foreach($months as $key=>$value){ ?>
+									<option value="<?php echo $key?>"><?php echo $value;?></option>
+									<?php } ?>	
+								</select>
+								<select name="Employee[START_YEAR]" id="START_YEAR">
+									<?php foreach($years as $year){ ?>
+									<option><?php echo $year;?></option>
+									<?php } ?>	
+								</select>
+							</p>
+						</div>
+					</div>
+					<div class="form-group row">
+						<label class='col-sm-3 form-control-label'>End Period</label>
+						<div class="col-sm-6">
+							<p class="form-control-static">
+								<select name="Employee[END_MONTH]" id="END_MONTH">
+									<?php foreach($months as $key=>$value){ ?>
+									<option value="<?php echo $key?>"><?php echo $value;?></option>
+									<?php } ?>	
+								</select>
+								<select name="Employee[END_YEAR]" id="END_YEAR">
+									<?php foreach($years as $year){ ?>
+									<option><?php echo $year;?></option>
+									<?php } ?>	
+								</select>
+							</p>
+						</div>
+					</div>
+					<?php  //foreach($salaryModel->attributes as $key=>$value){ ?>
+					<!--<div class="form-group row">
+						<label class="col-sm-9 form-control-label" for="Employee_<?php echo $key;?>"><?php echo strtoupper($salaryModel->getAttributeLabel($key));?></label>
 						<div class="col-sm-3">
 							<p class="form-control-static">
 								<input type="checkbox" name="Employee[Attributes][]" class="form-control-label"  value="<?php echo $key; ?>" />
 							</p>
 						</div>
-					</div>
-					<?php } ?>
+					</div>-->
+					<?php //} ?>
 				</div>
 				<div class="form-group row">
 					<div class="col-sm-12">
 						<p class="form-control-static">
-							<?php echo CHtml::submitButton('Generate', array('class'=>'btn btn-inline')); ?>
+							<?php echo CHtml::submitButton('Search', array('class'=>'btn btn-inline', 'onclick'=>'return validate();', 'onsubmit'=>'return validate();')); ?>
 						</p>
 					</div>
 				</div>
 			</div>
 			<div class="col-sm-6">
+				<div id="names" style="margin-bottom:10px;" class="col-sm-12">
+					<div style="background: #333;padding: 5px;" class="col-sm-12" >
+						<input type="text" class="names-list-search" size="40" placeholder="SEARCH NAME" onkeyup="search(this, 'names');" style="width: 55%;"/><span style="float: right;color: #FFF;">
+						<!--<input type="checkBox" class="names-select-all" onclick="selectList('names');"> SELECT ALL</span>-->
+					</div>
+					<ul style="background: rgb(204, 204, 204);padding: 10px;height: 200px;overflow-y: scroll;" class="col-sm-12">
+					<?php 
+						$Employees = Employee::model()->findAll();
+						foreach($Employees as $employee){
+							?>
+								<li><input type="checkbox" name="Employee[NAME][]" value="<?php echo $employee->ID; ?>"> <span><?php echo $employee->NAME.", ".Designations::model()->findByPK($employee->DESIGNATION_ID_FK)->DESIGNATION;?></span></li>
+							<?php
+						}
+					?>
+					</ul>
+				</div>
 				<div id="designation" style="margin-bottom:10px;" class="col-sm-12">
 					<div style="background: #333;padding: 5px;" class="col-sm-12" >
 						<input type="text" class="designation-list-search" size="40" placeholder="SEARCH DESIGNATION" onkeyup="search(this, 'designation');" style="width: 55%;"/><span style="float: right;color: #FFF;"><input type="checkBox" class="designation-select-all" onclick="selectList('designation');"> SELECT ALL</span>
@@ -174,6 +202,20 @@ function selectList(list){
 			checkbox.checked = true;
 		}
 	}
+}
+
+function validate(){
+	var START_MONTH = $("#START_MONTH").val(),
+		START_YEAR = $("#START_YEAR").val(),
+		END_MONTH = $("#END_MONTH").val(),
+		END_YEAR = $("#END_YEAR").val();
+		
+	if(START_MONTH == "" || START_YEAR == "" || END_MONTH == "" || END_YEAR == ""){
+		alert('Please select period');
+		return false;
+	}
+		
+	return true;
 }
 
 </script>

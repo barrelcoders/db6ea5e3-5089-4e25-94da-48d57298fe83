@@ -64,12 +64,30 @@
 						<div style="background: #333;padding: 5px;">
 							<input type="text" class="nps-list-search" size="100" placeholder="SEARCH NAME" onkeyup="search(this, 'nps-emp');"/><span style="float: right;color: #FFF;"><input type="checkBox" class="nps-select-all" onclick="selectList('nps-emp');"> SELECT ALL</span>
 						</div>
-						<ul style="background: rgb(204, 204, 204);padding: 10px;height: 300px;overflow-y: scroll;">
+						<ul class="list">
 						<?php
-							$employees = Employee::model()->findAllByAttributes(array('PENSION_TYPE'=>'NPS', 'IS_PERMANENT'=>1, 'IS_TRANSFERRED'=>0, 'IS_SUSPENDED'=>0));
+							$employees = Employee::model()->findAllByAttributes(array('PENSION_TYPE'=>'NPS', 'IS_PERMANENT'=>1));
 							foreach($employees as $employee){
+								$class="";
+								$status="";
+								if($employee->IS_TRANSFERRED == 1){
+									$class="TRANSFERRED";
+									$status="TRANSFERRED on ".date("d-m-Y", strtotime($employee->DEPT_RELIEF_DATE))." to ".$employee->TRANSFERED_TO;
+								}
+								if($employee->IS_RETIRED == 1){
+									$class="RETIRED";
+									$status="RETIRED on ".date("d-m-Y", strtotime($employee->ORG_RETIRE_DATE));
+								}
+								if($employee->IS_SUSPENDED == 1){
+									$class="SUSPENDED";
+									$status="SUSPENDED on ".date("d-m-Y", strtotime($employee->SUSPENSION_DATE));
+								}
 								?>
-									<li><input type="checkBox" name="Bill[Employee][NPS][]" value="<?php echo $employee->ID;?>"><span><?php echo $employee->NAME.", ".Designations::model()->findByPK($employee->DESIGNATION_ID_FK)->DESIGNATION;?></span></li>
+									<li class="<?php echo $class;?>">
+										<input type="checkBox" name="Bill[Employee][NPS][]" value="<?php echo $employee->ID;?>">
+										<span><?php echo $employee->NAME.", ".Designations::model()->findByPK($employee->DESIGNATION_ID_FK)->DESIGNATION;?></span>
+										<span class="status"><?php echo $status;?></span>
+									</li>
 								<?php
 							}
 						?>
@@ -79,12 +97,30 @@
 						<div style="background: #333;padding: 5px;">
 							<input type="text" class="ops-list-search" size="100" placeholder="SEARCH NAME" onkeyup="search(this, 'ops-emp');"/><span style="float: right;color: #FFF;"><input type="checkBox" class="ops-select-all" onclick="selectList('ops-emp');"> SELECT ALL</span>
 						</div>
-						<ul style="background: rgb(204, 204, 204);padding: 10px;height: 300px;overflow-y: scroll;">
+						<ul class="list">
 						<?php
-							$employees = Employee::model()->findAllByAttributes(array('PENSION_TYPE'=>'OPS', 'IS_PERMANENT'=>1, 'IS_TRANSFERRED'=>0, 'IS_SUSPENDED'=>0));
+							$employees = Employee::model()->findAllByAttributes(array('PENSION_TYPE'=>'OPS', 'IS_PERMANENT'=>1));
 							foreach($employees as $employee){
+								$class="";
+								$status="";
+								if($employee->IS_TRANSFERRED == 1){
+									$class="TRANSFERRED";
+									$status="TRANSFERRED on ".date("d-m-Y", strtotime($employee->DEPT_RELIEF_DATE))." to ".$employee->TRANSFERED_TO;
+								}
+								if($employee->IS_RETIRED == 1){
+									$class="RETIRED";
+									$status="RETIRED on ".date("d-m-Y", strtotime($employee->ORG_RETIRE_DATE));
+								}
+								if($employee->IS_SUSPENDED == 1){
+									$class="SUSPENDED";
+									$status="SUSPENDED on ".date("d-m-Y", strtotime($employee->SUSPENSION_DATE));
+								}
 								?>
-									<li><input type="checkBox" name="Bill[Employee][OPS][]" value="<?php echo $employee->ID;?>"><span><?php echo $employee->NAME.", ".Designations::model()->findByPK($employee->DESIGNATION_ID_FK)->DESIGNATION;?></span></li>
+									<li class="<?php echo $class;?>">
+										<input type="checkBox" name="Bill[Employee][OPS][]" value="<?php echo $employee->ID;?>">
+										<span><?php echo $employee->NAME.", ".Designations::model()->findByPK($employee->DESIGNATION_ID_FK)->DESIGNATION;?></span>
+										<span class="status"><?php echo $status;?></span>
+									</li>
 								<?php
 							}
 						?>
@@ -94,12 +130,30 @@
 						<div style="background: #333;padding: 5px;">
 							<input type="text" class="bonus-nps-list-search" size="100" placeholder="SEARCH NAME" onkeyup="search(this, 'bonus-nps-emp');"/><span style="float: right;color: #FFF;"><input type="checkBox" class="bonus-nps-select-all" onclick="selectList('bonus-nps-emp');"> SELECT ALL</span>
 						</div>
-						<ul style="background: rgb(204, 204, 204);padding: 10px;height: 300px;overflow-y: scroll;">
+						<ul class="list">
 						<?php
-							$employees = Employee::model()->findAllByAttributes(array('PENSION_TYPE'=>'NPS', 'IS_PERMANENT'=>1, 'IS_TRANSFERRED'=>0, 'BONUS_ELIGIBLE'=>1, 'IS_SUSPENDED'=>0));
+							$employees = Employee::model()->findAllByAttributes(array('PENSION_TYPE'=>'NPS', 'IS_PERMANENT'=>1, 'BONUS_ELIGIBLE'=>1));
 							foreach($employees as $employee){
+								$class="";
+								$status="";
+								if($employee->IS_TRANSFERRED == 1){
+									$class="TRANSFERRED";
+									$status="TRANSFERRED on ".date("d-m-Y", strtotime($employee->DEPT_RELIEF_DATE))." to ".$employee->TRANSFERED_TO;
+								}
+								if($employee->IS_RETIRED == 1){
+									$class="RETIRED";
+									$status="RETIRED on ".date("d-m-Y", strtotime($employee->ORG_RETIRE_DATE));
+								}
+								if($employee->IS_SUSPENDED == 1){
+									$class="SUSPENDED";
+									$status="SUSPENDED on ".date("d-m-Y", strtotime($employee->SUSPENSION_DATE));
+								}
 								?>
-									<li><input type="checkBox" name="Bill[Employee][NPS_BONUS][]" value="<?php echo $employee->ID;?>"><span><?php echo $employee->NAME.", ".Designations::model()->findByPK($employee->DESIGNATION_ID_FK)->DESIGNATION;?></span></li>
+									<li class="<?php echo $class;?>">
+										<input type="checkBox" name="Bill[Employee][NPS_BONUS][]" value="<?php echo $employee->ID;?>">
+										<span><?php echo $employee->NAME.", ".Designations::model()->findByPK($employee->DESIGNATION_ID_FK)->DESIGNATION;?></span>
+										<span class="status"><?php echo $status;?></span>
+									</li>
 								<?php
 							}
 						?>
@@ -109,12 +163,30 @@
 						<div style="background: #333;padding: 5px;">
 							<input type="text" class="bonus-ops-list-search" size="100" placeholder="SEARCH NAME" onkeyup="search(this, 'bonus-ops-emp');"/><span style="float: right;color: #FFF;"><input type="checkBox" class="bonus-ops-select-all" onclick="selectList('bonus-ops-emp');"> SELECT ALL</span>
 						</div>
-						<ul style="background: rgb(204, 204, 204);padding: 10px;height: 300px;overflow-y: scroll;">
+						<ul class="list">
 						<?php
-							$employees = Employee::model()->findAllByAttributes(array('PENSION_TYPE'=>'OPS', 'IS_PERMANENT'=>1, 'IS_TRANSFERRED'=>0, 'BONUS_ELIGIBLE'=>1, 'IS_SUSPENDED'=>0));
+							$employees = Employee::model()->findAllByAttributes(array('PENSION_TYPE'=>'OPS', 'IS_PERMANENT'=>1, 'BONUS_ELIGIBLE'=>1));
 							foreach($employees as $employee){
+								$class="";
+								$status="";
+								if($employee->IS_TRANSFERRED == 1){
+									$class="TRANSFERRED";
+									$status="TRANSFERRED on ".date("d-m-Y", strtotime($employee->DEPT_RELIEF_DATE))." to ".$employee->TRANSFERED_TO;
+								}
+								if($employee->IS_RETIRED == 1){
+									$class="RETIRED";
+									$status="RETIRED on ".date("d-m-Y", strtotime($employee->ORG_RETIRE_DATE));
+								}
+								if($employee->IS_SUSPENDED == 1){
+									$class="SUSPENDED";
+									$status="SUSPENDED on ".date("d-m-Y", strtotime($employee->SUSPENSION_DATE));
+								}
 								?>
-									<li><input type="checkBox" name="Bill[Employee][OPS_BONUS][]" value="<?php echo $employee->ID;?>"><span><?php echo $employee->NAME.", ".Designations::model()->findByPK($employee->DESIGNATION_ID_FK)->DESIGNATION;?></span></li>
+									<li class="<?php echo $class;?>">
+										<input type="checkBox" name="Bill[Employee][OPS_BONUS][]" value="<?php echo $employee->ID;?>">
+										<span><?php echo $employee->NAME.", ".Designations::model()->findByPK($employee->DESIGNATION_ID_FK)->DESIGNATION;?></span>
+										<span class="status"><?php echo $status;?></span>
+									</li>
 								<?php
 							}
 						?>
@@ -124,12 +196,30 @@
 						<div style="background: #333;padding: 5px;">
 							<input type="text" class="ua-list-search" size="100" placeholder="SEARCH NAME" onkeyup="search(this, 'ua-emp');"/><span style="float: right;color: #FFF;"><input type="checkBox" class="ua-select-all" onclick="selectList('ua-emp');"> SELECT ALL</span>
 						</div>
-						<ul style="background: rgb(204, 204, 204);padding: 10px;height: 300px;overflow-y: scroll;">
+						<ul class="list">
 						<?php
-							$employees = Employee::model()->findAllByAttributes(array('IS_PERMANENT'=>1, 'IS_TRANSFERRED'=>0, 'UA_ELIGIBLE'=>1, 'IS_SUSPENDED'=>0));
+							$employees = Employee::model()->findAllByAttributes(array('IS_PERMANENT'=>1, 'UA_ELIGIBLE'=>1));
 							foreach($employees as $employee){
+								$class="";
+								$status="";
+								if($employee->IS_TRANSFERRED == 1){
+									$class="TRANSFERRED";
+									$status="TRANSFERRED on ".date("d-m-Y", strtotime($employee->DEPT_RELIEF_DATE))." to ".$employee->TRANSFERED_TO;
+								}
+								if($employee->IS_RETIRED == 1){
+									$class="RETIRED";
+									$status="RETIRED on ".date("d-m-Y", strtotime($employee->ORG_RETIRE_DATE));
+								}
+								if($employee->IS_SUSPENDED == 1){
+									$class="SUSPENDED";
+									$status="SUSPENDED on ".date("d-m-Y", strtotime($employee->SUSPENSION_DATE));
+								}
 								?>
-									<li><input type="checkBox" name="Bill[Employee][UA][]" value="<?php echo $employee->ID;?>"><span><?php echo $employee->NAME.", ".Designations::model()->findByPK($employee->DESIGNATION_ID_FK)->DESIGNATION;?></span></li>
+									<li class="<?php echo $class;?>">
+										<input type="checkBox" name="Bill[Employee][UA][]" value="<?php echo $employee->ID;?>">
+										<span><?php echo $employee->NAME.", ".Designations::model()->findByPK($employee->DESIGNATION_ID_FK)->DESIGNATION;?></span>
+										<span class="status"><?php echo $status;?></span>
+									</li>
 								<?php
 							}
 						?>
@@ -139,12 +229,30 @@
 						<div style="background: #333;padding: 5px;">
 							<input type="text" class="medical-list-search" size="100" placeholder="SEARCH NAME" onkeyup="search(this, 'medical-emp');"/><span style="float: right;color: #FFF;"><input type="checkBox" class="medical-select-all" onclick="selectList('medical-emp');"> SELECT ALL</span>
 						</div>
-						<ul style="background: rgb(204, 204, 204);padding: 10px;height: 300px;overflow-y: scroll;">
+						<ul class="list">
 						<?php
-							$employees = Employee::model()->findAllByAttributes(array('IS_PERMANENT'=>1, 'IS_TRANSFERRED'=>0, 'IS_SUSPENDED'=>0));
+							$employees = Employee::model()->findAllByAttributes(array('IS_PERMANENT'=>1));
 							foreach($employees as $employee){
+								$class="";
+								$status="";
+								if($employee->IS_TRANSFERRED == 1){
+									$class="TRANSFERRED";
+									$status="TRANSFERRED on ".date("d-m-Y", strtotime($employee->DEPT_RELIEF_DATE))." to ".$employee->TRANSFERED_TO;
+								}
+								if($employee->IS_RETIRED == 1){
+									$class="RETIRED";
+									$status="RETIRED on ".date("d-m-Y", strtotime($employee->ORG_RETIRE_DATE));
+								}
+								if($employee->IS_SUSPENDED == 1){
+									$class="SUSPENDED";
+									$status="SUSPENDED on ".date("d-m-Y", strtotime($employee->SUSPENSION_DATE));
+								}
 								?>
-									<li><input type="checkBox" name="Bill[Employee][MEDICAL][]" value="<?php echo $employee->ID;?>"><span><?php echo $employee->NAME.", ".Designations::model()->findByPK($employee->DESIGNATION_ID_FK)->DESIGNATION;?></span></li>
+									<li class="<?php echo $class;?>">
+										<input type="checkBox" name="Bill[Employee][MEDICAL][]" value="<?php echo $employee->ID;?>">
+										<span><?php echo $employee->NAME.", ".Designations::model()->findByPK($employee->DESIGNATION_ID_FK)->DESIGNATION;?></span>
+										<span class="status"><?php echo $status;?></span>
+									</li>
 								<?php
 							}
 						?>
@@ -154,12 +262,30 @@
 						<div style="background: #333;padding: 5px;">
 							<input type="text" class="dte-list-search" size="100" placeholder="SEARCH NAME" onkeyup="search(this, 'dte-emp');"/><span style="float: right;color: #FFF;"><input type="checkBox" class="dte-select-all" onclick="selectList('dte-emp');"> SELECT ALL</span>
 						</div>
-						<ul style="background: rgb(204, 204, 204);padding: 10px;height: 300px;overflow-y: scroll;">
+						<ul class="list">
 						<?php
-							$employees = Employee::model()->findAllByAttributes(array('IS_PERMANENT'=>1, 'IS_TRANSFERRED'=>0, 'IS_SUSPENDED'=>0));
+							$employees = Employee::model()->findAllByAttributes(array('IS_PERMANENT'=>1));
 							foreach($employees as $employee){
+								$class="";
+								$status="";
+								if($employee->IS_TRANSFERRED == 1){
+									$class="TRANSFERRED";
+									$status="TRANSFERRED on ".date("d-m-Y", strtotime($employee->DEPT_RELIEF_DATE))." to ".$employee->TRANSFERED_TO;
+								}
+								if($employee->IS_RETIRED == 1){
+									$class="RETIRED";
+									$status="RETIRED on ".date("d-m-Y", strtotime($employee->ORG_RETIRE_DATE));
+								}
+								if($employee->IS_SUSPENDED == 1){
+									$class="SUSPENDED";
+									$status="SUSPENDED on ".date("d-m-Y", strtotime($employee->SUSPENSION_DATE));
+								}
 								?>
-									<li><input type="checkBox" name="Bill[Employee][DTE][]" value="<?php echo $employee->ID;?>" ><span><?php echo $employee->NAME.", ".Designations::model()->findByPK($employee->DESIGNATION_ID_FK)->DESIGNATION;?></span><br/></li>
+									<li class="<?php echo $class;?>">
+										<input type="checkBox" name="Bill[Employee][DTE][]" value="<?php echo $employee->ID;?>" >
+										<span><?php echo $employee->NAME.", ".Designations::model()->findByPK($employee->DESIGNATION_ID_FK)->DESIGNATION;?></span>
+										<span class="status"><?php echo $status;?></span>
+									</li>
 								<?php
 							}
 						?>
@@ -169,12 +295,30 @@
 						<div style="background: #333;padding: 5px;">
 							<input type="text" class="wages-list-search" size="100" placeholder="SEARCH NAME" onkeyup="search(this, 'wages-emp');"/><span style="float: right;color: #FFF;"><input type="checkBox" class="wages-select-all" onclick="selectList('wages-emp');"> SELECT ALL</span>
 						</div>
-						<ul style="background: rgb(204, 204, 204);padding: 10px;height: 300px;overflow-y: scroll;">
+						<ul class="list">
 						<?php
-							$employees = Employee::model()->findAllByAttributes(array('IS_PERMANENT'=>0, 'IS_TRANSFERRED'=>0, 'IS_SUSPENDED'=>0));
+							$employees = Employee::model()->findAllByAttributes(array('IS_PERMANENT'=>0));
 							foreach($employees as $employee){
+								$class="";
+								$status="";
+								if($employee->IS_TRANSFERRED == 1){
+									$class="TRANSFERRED";
+									$status="TRANSFERRED on ".date("d-m-Y", strtotime($employee->DEPT_RELIEF_DATE))." to ".$employee->TRANSFERED_TO;
+								}
+								if($employee->IS_RETIRED == 1){
+									$class="RETIRED";
+									$status="RETIRED on ".date("d-m-Y", strtotime($employee->ORG_RETIRE_DATE));
+								}
+								if($employee->IS_SUSPENDED == 1){
+									$class="SUSPENDED";
+									$status="SUSPENDED on ".date("d-m-Y", strtotime($employee->SUSPENSION_DATE));
+								}
 								?>
-									<li><input type="checkBox" name="Bill[Employee][WAGES][]" value="<?php echo $employee->ID;?>" ><span><?php echo $employee->NAME.", ".Designations::model()->findByPK($employee->DESIGNATION_ID_FK)->DESIGNATION;?></span></li>
+									<li class="<?php echo $class;?>">
+										<input type="checkBox" name="Bill[Employee][WAGES][]" value="<?php echo $employee->ID;?>" >
+										<span><?php echo $employee->NAME.", ".Designations::model()->findByPK($employee->DESIGNATION_ID_FK)->DESIGNATION;?></span>
+										<span class="status"><?php echo $status;?></span>
+									</li>
 								<?php
 							}
 						?>
@@ -184,12 +328,30 @@
 						<div style="background: #333;padding: 5px;">
 							<input type="text" class="wages-bonus-list-search" size="100" placeholder="SEARCH NAME" onkeyup="search(this, 'wages-bonus-emp');"/><span style="float: right;color: #FFF;"><input type="checkBox" class="wages-bonus-select-all" onclick="selectList('wages-bonus-emp');"> SELECT ALL</span>
 						</div>
-						<ul style="background: rgb(204, 204, 204);padding: 10px;height: 300px;overflow-y: scroll;">
+						<ul class="list">
 						<?php
-							$employees = Employee::model()->findAllByAttributes(array('IS_PERMANENT'=>0, 'IS_TRANSFERRED'=>0, 'IS_SUSPENDED'=>0, 'BONUS_ELIGIBLE'=>1));
+							$employees = Employee::model()->findAllByAttributes(array('IS_PERMANENT'=>0, 'BONUS_ELIGIBLE'=>1));
 							foreach($employees as $employee){
+								$class="";
+								$status="";
+								if($employee->IS_TRANSFERRED == 1){
+									$class="TRANSFERRED";
+									$status="TRANSFERRED on ".date("d-m-Y", strtotime($employee->DEPT_RELIEF_DATE))." to ".$employee->TRANSFERED_TO;
+								}
+								if($employee->IS_RETIRED == 1){
+									$class="RETIRED";
+									$status="RETIRED on ".date("d-m-Y", strtotime($employee->ORG_RETIRE_DATE));
+								}
+								if($employee->IS_SUSPENDED == 1){
+									$class="SUSPENDED";
+									$status="SUSPENDED on ".date("d-m-Y", strtotime($employee->SUSPENSION_DATE));
+								}
 								?>
-									<li><input type="checkBox" name="Bill[Employee][WAGES_BONUS][]" value="<?php echo $employee->ID;?>" ><span><?php echo $employee->NAME.", ".Designations::model()->findByPK($employee->DESIGNATION_ID_FK)->DESIGNATION;?></span></li>
+									<li>
+										<input type="checkBox" name="Bill[Employee][WAGES_BONUS][]" value="<?php echo $employee->ID;?>" >
+										<span><?php echo $employee->NAME.", ".Designations::model()->findByPK($employee->DESIGNATION_ID_FK)->DESIGNATION;?></span>
+										<span class="status"><?php echo $status;?></span>
+									</li>
 								<?php
 							}
 						?>
@@ -581,3 +743,22 @@
 		CONTROLLER_ACTION = '<?php echo Yii::app()->controller->action->id; ?>';
 </script>
 <script type="text/javascript" src="js/bill-form.js"></script>
+<style>
+	.TRANSFERRED, .RETIRED, .SUSPENDED {
+		background: #fd9595;
+	}
+	ul.list{
+		height: 300px;
+		overflow-y: scroll;
+		border-left: 1px Solid #ccc;
+	}
+	ul.list li{
+		padding: 5px;
+	}
+	.status{
+		font-size: 12px;
+		float: right;
+		line-height: 20px;
+		color: #000;
+	}
+</style>

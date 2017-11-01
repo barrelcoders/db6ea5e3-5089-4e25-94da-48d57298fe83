@@ -372,6 +372,40 @@ class EmployeeController extends Controller
 			
 		}
 	}
+	
+	public function actionGenericSalaries()
+	{
+		$model=new Employee;
+		$salaryModel=new SalaryDetails;
+
+		// Uncomment the following line if AJAX validation is needed
+		// $this->performAjaxValidation($model);
+
+		if(isset($_POST['Employee']))
+		{
+			$this->layout='';
+			$this->render('genericSalariesReport',array(
+				'START_MONTH'=>isset($_POST['Employee']['START_MONTH']) ? $_POST['Employee']['START_MONTH'] : '',
+				'END_MONTH'=>isset($_POST['Employee']['END_MONTH']) ? $_POST['Employee']['END_MONTH'] : '',
+				'START_YEAR'=>isset($_POST['Employee']['START_YEAR']) ? $_POST['Employee']['START_YEAR'] : '',
+				'END_YEAR'=>isset($_POST['Employee']['END_YEAR']) ? $_POST['Employee']['END_YEAR'] : '',
+				'employee_ids'=>isset($_POST['Employee']['ID']) ? $_POST['Employee']['ID'] : array(),
+				'designations'=>isset($_POST['Employee']['Designations']) ? $_POST['Employee']['Designations'] : array(),
+				'pension'=>isset($_POST['Employee']['PENSION']) ? $_POST['Employee']['PENSION'] : array(),
+				'uniform'=>isset($_POST['Employee']['UA']) ? $_POST['Employee']['UA'] : array(),
+				'bonus'=>isset($_POST['Employee']['BONUS']) ? $_POST['Employee']['BONUS'] : array(),
+				'gender'=>isset($_POST['Employee']['GENDER']) ? $_POST['Employee']['GENDER'] : array(),
+			));
+		}
+		else{
+		
+			$this->render('genericSalaries',array(
+				'model'=>$model,
+				'salaryModel'=>$salaryModel,
+			));	
+			
+		}
+	}
 
 	/**
 	 * Updates a particular model.
