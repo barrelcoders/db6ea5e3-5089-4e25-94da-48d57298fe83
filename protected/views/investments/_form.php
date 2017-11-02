@@ -223,10 +223,10 @@
 					</div>
 				</div>
 				<div class="form-group row">
-					<?php echo $form->labelEx($model,'HOME_LOAD_PR', array('class'=>'col-sm-8 form-control-label')); ?>
+					<?php echo $form->labelEx($model,'HOME_LOAN_PR', array('class'=>'col-sm-8 form-control-label')); ?>
 					<div class="col-sm-4">
 						<p class="form-control-static">
-							<?php echo $form->textField($model,'HOME_LOAD_PR',array('size'=>10,'maxlength'=>100, 'value'=>$model->HOME_LOAD_PR, 'style'=>'text-transform: uppercase;')); ?>
+							<?php echo $form->textField($model,'HOME_LOAN_PR',array('size'=>10,'maxlength'=>100, 'value'=>$model->HOME_LOAN_PR, 'style'=>'text-transform: uppercase;')); ?>
 						</p>
 					</div>
 				</div>

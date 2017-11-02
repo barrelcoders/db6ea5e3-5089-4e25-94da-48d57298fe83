@@ -609,6 +609,20 @@ class BillController extends Controller
 	}
 	
 	
+	public function actionPayBillChanges($id){
+		$model = $this->loadModel($id);
+		$this->amountInWords = $this->amountToWord($model->BILL_AMOUNT);
+		$this->render('PAY/PayBillChanges',array('model'=>$model,));
+	}
+	
+	public function actionPayBillChangesNotified($bill_id, $change_id){
+		$change = Changes::model()->find("BILL_ID_FK=".$bill_id." AND ID=".$change_id);
+		$change->STATUS = 1;
+		$change->save(false);
+		$this->redirect(Yii::app()->createUrl('Bill/PayBillChanges', array('id'=>$bill_id)));	
+	}
+	
+	
 	/**
 	 * Updates a particular model.
 	 * If update is successful, the browser will be redirected to the 'view' page.

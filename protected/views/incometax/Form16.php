@@ -102,36 +102,34 @@
 					'TYPE'=>'SALARY'
 				));
 			}
+			else if(findLastMonthSalary($SALARIES, $i)){
+				$salary = findLastMonthSalary($SALARIES, $i);
+				$salary['MONTH'] = $MONTH;
+				$salary['YEAR'] = $YEAR;
+				$salary['PERIOD'] = $monthName[$MONTH].'-'.$YEAR;
+				$salary['IT'] = 0;
+				array_push($SALARIES, $salary);
+			}
 			else{
-				if(isset($SALARIES[$i-1])){
-					$salary = $SALARIES[$i-1];
-					$salary['MONTH'] = $MONTH;
-					$salary['YEAR'] = $YEAR;
-					$salary['PERIOD'] = $monthName[$MONTH].'-'.$YEAR;
-					$salary['IT'] = 0;
-					array_push($SALARIES, $salary);
-				}
-				else{
-					array_push($SALARIES, array(
-						'MONTH'=>$MONTH,
-						'YEAR'=>$YEAR,
-						'PERIOD'=>$monthName[$MONTH].'-'.$YEAR,
-						'BASIC'=>0,
-						'PP_SP'=>0,
-						'TA'=>0,
-						'HRA'=>0,
-						'DA'=>0,
-						'TOTAL'=>0,
-						'CGEGIS'=>0,
-						'CGHS'=>0,
-						'CPF'=>0,
-						'PT'=>0,
-						'IT'=>0,
-						'PLI'=>0,
-						'LIC'=>0,
-						'TYPE'=>'SALARY'
-					));
-				}
+				array_push($SALARIES, array(
+					'MONTH'=>$MONTH,
+					'YEAR'=>$YEAR,
+					'PERIOD'=>$monthName[$MONTH].'-'.$YEAR,
+					'BASIC'=>0,
+					'PP_SP'=>0,
+					'TA'=>0,
+					'HRA'=>0,
+					'DA'=>0,
+					'TOTAL'=>0,
+					'CGEGIS'=>0,
+					'CGHS'=>0,
+					'CPF'=>0,
+					'PT'=>0,
+					'IT'=>0,
+					'PLI'=>0,
+					'LIC'=>0,
+					'TYPE'=>'SALARY'
+				));
 			}
 			
 			$bills = Bill::model()->findAll('PFMS_STATUS="Passed" AND MONTH='.$MONTH.' AND YEAR='.$YEAR.' AND IS_ARREAR_BILL=1');
@@ -156,6 +154,7 @@
 						'IT'=>$salary->IT,
 						'PLI'=>$salary->PLI,
 						'LIC'=>$salary->LIC,
+						'TYPE'=>'ARREAR',
 					));
 				}
 			}
@@ -494,5 +493,16 @@ function getNilParts($months){
 		array_push($values, 0);
 	
 	return $values;
+}
+function findLastMonthSalary($array, $index){
+	$result = null;
+	for($j=$index; $j>=0; $j--){
+		if(isset($array[$j]) && $array[$j]['TYPE'] == "SALARY"){
+			$result = $array[$j];
+			break;
+		}
+	}
+	
+	return $result;
 }
 ?>

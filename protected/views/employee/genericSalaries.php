@@ -97,15 +97,33 @@ $this->menu=array(
 			<div class="col-sm-6">
 				<div id="names" style="margin-bottom:10px;" class="col-sm-12">
 					<div style="background: #333;padding: 5px;" class="col-sm-12" >
-						<input type="text" class="names-list-search" size="40" placeholder="SEARCH NAME" onkeyup="search(this, 'names');" style="width: 55%;"/><span style="float: right;color: #FFF;">
+						<input type="text" class="names-list-search" size="40" placeholder="SEARCH NAME" onkeyup="search(this, 'names');" style="width: 55%;"/><span style="float: right;color: #FFF;"><input type="checkBox" class="names-select-all" onclick="selectList('names');"> SELECT ALL</span>
 						<!--<input type="checkBox" class="names-select-all" onclick="selectList('names');"> SELECT ALL</span>-->
 					</div>
-					<ul style="background: rgb(204, 204, 204);padding: 10px;height: 200px;overflow-y: scroll;" class="col-sm-12">
+					<ul class="col-sm-12 list">
 					<?php 
-						$Employees = Employee::model()->findAll();
+						$Employees = Employee::model()->findAllByAttributes(array('IS_PERMANENT'=>1));
 						foreach($Employees as $employee){
+							$class="";
+							$status="";
+							if($employee->IS_TRANSFERRED == 1){
+								$class="TRANSFERRED";
+								$status="TRANSFERRED on ".date("d-m-Y", strtotime($employee->DEPT_RELIEF_DATE))." to ".$employee->TRANSFERED_TO;
+							}
+							if($employee->IS_RETIRED == 1){
+								$class="RETIRED";
+								$status="RETIRED on ".date("d-m-Y", strtotime($employee->ORG_RETIRE_DATE));
+							}
+							if($employee->IS_SUSPENDED == 1){
+								$class="SUSPENDED";
+								$status="SUSPENDED on ".date("d-m-Y", strtotime($employee->SUSPENSION_DATE));
+							}
 							?>
-								<li><input type="checkbox" name="Employee[NAME][]" value="<?php echo $employee->ID; ?>"> <span><?php echo $employee->NAME.", ".Designations::model()->findByPK($employee->DESIGNATION_ID_FK)->DESIGNATION;?></span></li>
+								<li class="<?php echo $class;?>">
+									<input type="checkbox" name="Employee[NAME][]" value="<?php echo $employee->ID; ?>"> 
+									<span><?php echo $employee->NAME.", ".Designations::model()->findByPK($employee->DESIGNATION_ID_FK)->DESIGNATION;?></span>
+									<span class="status"><?php echo $status;?></span>
+								</li>
 							<?php
 						}
 					?>
@@ -219,3 +237,22 @@ function validate(){
 }
 
 </script>
+<style>
+	.TRANSFERRED, .RETIRED, .SUSPENDED {
+		background: #fd9595;
+	}
+	ul.list{
+		height: 300px;
+		overflow-y: scroll;
+		border-left: 1px Solid #ccc;
+	}
+	ul.list li{
+		padding: 5px;
+	}
+	.status{
+		font-size: 12px;
+		float: right;
+		line-height: 20px;
+		color: #000;
+	}
+</style>

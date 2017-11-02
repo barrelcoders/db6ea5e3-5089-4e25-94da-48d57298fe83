@@ -25,7 +25,8 @@ if(isset($_REQUEST['id']) && $_REQUEST['id']){
 				<ul class="side-menu-additional-list" style="padding-bottom: 30px;">
 					<?php if($model->IS_SALARY_HEAD_PAY_BILL) {?>
 						<li><a href="<?php echo Yii::app()->createUrl("Bill/SalaryDetails",array("id"=>$id))?>"><span class="tbl-row"><span class="tbl-cell tbl-cell-caption">Salary Details</span></span></a></li>
-						<li><a href="<?php echo Yii::app()->createUrl("Bill/PayBillValidate",array("id"=>$id))?>"><span class="tbl-row"><span class="tbl-cell tbl-cell-caption">Pay Bill Validate</span></span></a></li><hr>
+						<li><a href="<?php echo Yii::app()->createUrl("Bill/PayBillValidate",array("id"=>$id))?>"><span class="tbl-row"><span class="tbl-cell tbl-cell-caption">Validate Calculations</span></span></a></li>
+						<li><a href="<?php echo Yii::app()->createUrl("Bill/PayBillChanges",array("id"=>$id))?>"><span class="tbl-row"><span class="tbl-cell tbl-cell-caption">Validate Changes w.r.t Previous Bills</span></span></a></li><hr>
 						
 						<?php if($model->IS_NPS_PAY_BILL) {?>
 							<h4 style="padding-left:10px;">NILL BILL</h4>
@@ -230,6 +231,7 @@ if(isset($_REQUEST['id']) && $_REQUEST['id']){
 						<li><a href="<?php echo Yii::app()->createUrl("Bill/CasualPTBillBackPage",array("id"=>$id))?>" target="_blank"><span class="tbl-row"><span class="tbl-cell tbl-cell-caption">PT Bill FVC Back Sheet</span></span></a></li>
 						<li><a href="<?php echo Yii::app()->createUrl("Bill/CasualPayBillSanctionOrder",array("id"=>$id))?>" target="_blank"><span class="tbl-row"><span class="tbl-cell tbl-cell-caption">Sanction Order</span></span></a></li>
 						<li><a href="<?php echo Yii::app()->createUrl("Bill/EPAY",array("id"=>$id))?>" target="_blank"><span class="tbl-row"><span class="tbl-cell tbl-cell-caption">E PAYMENT</span></span></a></li>
+						<li><a href="<?php echo Yii::app()->createUrl("Bill/PaySlipSelectEmployee",array("Month"=>$model->MONTH, "Year"=>$model->YEAR, "id"=>$id))?>" target="_blank"><span class="tbl-row"><span class="tbl-cell tbl-cell-caption">PAY SLIPS</span></span></a></li>
 					<?php } ?>
 					<?php if($model->IS_WAGES_HEAD_OTHER_BILL) {?>
 						<?php if($model->IS_BONUS_BILL) {?>

@@ -18,7 +18,7 @@
  * @property string $INSURANCE_LIC_OTHER
  * @property string $TUITION_FESS_EXEMPTION
  * @property string $PPF_NSC
- * @property string $HOME_LOAD_PR
+ * @property string $HOME_LOAN_PR
  * @property string $PLI_ULIP
  * @property string $TERM_DEPOSIT_ABOVE_5
  * @property string $MUTUAL_FUND
@@ -46,12 +46,12 @@ class Investments extends CActiveRecord
 			array('FINANCIAL_YEAR_ID_FK, EMPLOYEE_ID', 'required'),
 			array('OTHER_INCOME, HOUSE_INCOME, BONUS, CEA,EL_ENCASH, LTC_HTC, UNIFORM, DA_TA_ARREAR_CPF, DA_TA_ARREAR, OTA_HONORANIUM, FINANCIAL_YEAR_ID_FK, EMPLOYEE_ID, 
 			HRA, MEDICAL_INSURANCE, DONATION, DISABILITY_MED_EXP, EDU_LOAD_INT, SELF_DISABILITY, HOME_LOAN_INT, 
-			HOME_LOAD_EXCESS_2013_14, REGISTRY_STAMP, INSURANCE_LIC_OTHER, TUITION_FESS_EXEMPTION, PPF_NSC, HOME_LOAD_PR, PLI_ULIP, TERM_DEPOSIT_ABOVE_5, MUTUAL_FUND, PENSION_FUND, CPF,
+			HOME_LOAD_EXCESS_2013_14, REGISTRY_STAMP, INSURANCE_LIC_OTHER, TUITION_FESS_EXEMPTION, PPF_NSC, HOME_LOAN_PR, PLI_ULIP, TERM_DEPOSIT_ABOVE_5, MUTUAL_FUND, PENSION_FUND, CPF,
 			NPS_UNDER_80CCD_1B, BANK_INTEREST_DED_80TTA', 'length', 'max'=>10),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
 			array('BONUS, ID, FINANCIAL_YEAR_ID_FK, EMPLOYEE_ID, HRA, MEDICAL_INSURANCE, DONATION, DISABILITY_MED_EXP, EDU_LOAD_INT, SELF_DISABILITY, HOME_LOAN_INT, HOME_LOAD_EXCESS_2013_14, REGISTRY_STAMP,
-			INSURANCE_LIC_OTHER, TUITION_FESS_EXEMPTION, PPF_NSC, HOME_LOAD_PR, PLI_ULIP, TERM_DEPOSIT_ABOVE_5, MUTUAL_FUND, PENSION_FUND, CPF, NPS_UNDER_80CCD_1B, BANK_INTEREST_DED_80TTA', 'safe', 'on'=>'search'),
+			INSURANCE_LIC_OTHER, TUITION_FESS_EXEMPTION, PPF_NSC, HOME_LOAN_PR, PLI_ULIP, TERM_DEPOSIT_ABOVE_5, MUTUAL_FUND, PENSION_FUND, CPF, NPS_UNDER_80CCD_1B, BANK_INTEREST_DED_80TTA', 'safe', 'on'=>'search'),
 		);
 	}
 	/**
@@ -85,7 +85,7 @@ class Investments extends CActiveRecord
 			'INSURANCE_LIC_OTHER' => 'Insurance/LIC/Other',
 			'TUITION_FESS_EXEMPTION' => 'Tuition Fees Exemption',
 			'PPF_NSC' => 'PPF/NSC',
-			'HOME_LOAD_PR' => 'Home Loan Principal',
+			'HOME_LOAN_PR' => 'Home Loan Principal',
 			'PLI_ULIP' => 'PLI/ULIP',
 			'TERM_DEPOSIT_ABOVE_5' => 'Term Deposit > 5 Year',
 			'MUTUAL_FUND' => 'Mutual Fund',
@@ -139,7 +139,7 @@ class Investments extends CActiveRecord
 		$criteria->compare('INSURANCE_LIC_OTHER',$this->INSURANCE_LIC_OTHER,true);
 		$criteria->compare('TUITION_FESS_EXEMPTION',$this->TUITION_FESS_EXEMPTION,true);
 		$criteria->compare('PPF_NSC',$this->PPF_NSC,true);
-		$criteria->compare('HOME_LOAD_PR',$this->HOME_LOAD_PR,true);
+		$criteria->compare('HOME_LOAN_PR',$this->HOME_LOAN_PR,true);
 		$criteria->compare('PLI_ULIP',$this->PLI_ULIP,true);
 		$criteria->compare('TERM_DEPOSIT_ABOVE_5',$this->TERM_DEPOSIT_ABOVE_5,true);
 		$criteria->compare('MUTUAL_FUND',$this->MUTUAL_FUND,true);
