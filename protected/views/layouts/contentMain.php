@@ -24,6 +24,8 @@
 	<link rel="stylesheet" href="<?php echo Yii::app()->request->baseUrl; ?>/css/separate/pages/widgets.min.css">
 	<link rel="stylesheet" href="<?php echo Yii::app()->request->baseUrl; ?>/css/lib/font-awesome/font-awesome.min.css">
 	<link rel="stylesheet" href="<?php echo Yii::app()->request->baseUrl; ?>/css/lib/bootstrap/bootstrap.min.css">
+	<link rel="stylesheet" href="<?php echo Yii::app()->request->baseUrl; ?>/css/lib/datatables-net/datatables.min.css">
+	<link rel="stylesheet" href="<?php echo Yii::app()->request->baseUrl; ?>/css/separate/vendor/datatables-net.min.css">
 	<link rel="stylesheet" href="<?php echo Yii::app()->request->baseUrl; ?>/css/main.css">
 	<script src="<?php echo Yii::app()->request->baseUrl; ?>/js/jquery-3.1.1.min.js"></script>
 	<script src="<?php echo Yii::app()->request->baseUrl; ?>/js/moment.min.js"></script>
@@ -218,6 +220,7 @@
 		<marquee style="line-height: 10px;font-size: 12px;margin-top: 5px;display: block;">Designed &amp; Developed by Ankit Sharma, Tax Assistant, Central Tax HQRS, Bangalore North Commissionerate</marquee>
 	</div>
 <script src="<?php echo Yii::app()->request->baseUrl; ?>/js/lib/jquery/jquery.min.js"></script>
+<script src="<?php echo Yii::app()->request->baseUrl; ?>/js/lib/datatables-net/datatables.min.js"></script>
 <script src="<?php echo Yii::app()->request->baseUrl; ?>/js/lib/tether/tether.min.js"></script>
 <script src="<?php echo Yii::app()->request->baseUrl; ?>/js/lib/bootstrap/bootstrap.min.js"></script>
 <script src="<?php echo Yii::app()->request->baseUrl; ?>/js/plugins.js"></script>
@@ -236,6 +239,21 @@
 		});
 
 	});
+	/*$(function() {
+		var table = $('#data-table').DataTable({
+			scrollX:        true,
+			scrollCollapse: true,
+			paging:         true,
+			fixedColumns:   {
+				leftColumns:2,
+			}
+		});
+
+		setTimeout(function() {
+			table.draw();
+		}, 50);
+
+	});*/
 </script>
 <script src="<?php echo Yii::app()->request->baseUrl; ?>/js/app.js"></script>
 

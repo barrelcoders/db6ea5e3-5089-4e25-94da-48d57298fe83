@@ -182,6 +182,26 @@ class BillController extends Controller
 	public function actionSalaryDetails($id)
 	{
 		$model = $this->loadModel($id);
+		
+		$this->SaveSalaryDetail($id);
+		
+		$this->render('PAY/SalaryDetails',array(
+			'model'=>$model,
+		));
+	}
+	
+	public function actionSalaryDetailsTabular($id)
+	{
+		$model = $this->loadModel($id);
+		
+		$this->SaveSalaryDetail($id);
+		
+		$this->render('PAY/SalaryDetailsTabular',array(
+			'model'=>$model,
+		));
+	}
+	
+	public function SaveSalaryDetail($id){
 		//echo "<pre>";print_r($_POST['SalaryDetails']);echo "</pre>";exit;
 		if(isset($_POST['SalaryDetails']['save']) && isset($_POST['SalaryDetails']) && isset($_POST['SalaryInfo'])){
 			//echo "<pre>";print_r($_POST['SalaryDetails']);echo "</pre>";exit;
@@ -242,7 +262,6 @@ class BillController extends Controller
 				}
 			}
 			
-			$this->redirect(array('SalaryDetails','id'=> $bill_id));
 		}
 		
 		if(isset($_POST['SalaryDetails']['submit']) && isset($_POST['SalaryDetails']) && isset($_POST['SalaryInfo'])){
@@ -313,14 +332,10 @@ class BillController extends Controller
 			$model->APPROPIATION_BALANCE = $BALANCE;
 			$model->BILL_AMOUNT = $BILL_AMOUNT;
 			$model->save(false);
-			
-			$this->redirect(array('SalaryDetails','id'=> $bill_id));
 		}
 		
-		$this->render('PAY/SalaryDetails',array(
-			'model'=>$model,
-		));
 	}
+	
 
 	/**
 	 * Creates a new model.
