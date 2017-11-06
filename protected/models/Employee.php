@@ -44,17 +44,17 @@ class Employee extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('NAME, DESIGNATION_ID_FK, GRADE_PAY_ID_FK, PAY_MATRIX_ID_FK, PENSION_ACC_NO, GROUP_ID_FK, NAME_HINDI, PERMISSION', 'required'),
+			array('NAME, DESIGNATION_ID_FK, GRADE_PAY_ID_FK, PAY_MATRIX_ID_FK, PENSION_ACC_NO, GROUP_ID_FK, NAME_HINDI, PERMISSION, HRA_SLAB_ID_FK, IS_QUARTER_ALLOCATED', 'required'),
 			array('NAME, NAME_HINDI', 'length', 'max'=>100),
 			array('LPC_REMARKS', 'length', 'max'=>10000),
-			array('DESIGNATION_ID_FK, GRADE_PAY_ID_FK, PAY_MATRIX_ID_FK, GROUP_ID_FK, JOIN_DESIGNATION_ID_FK, POSTING_ID_FK', 'length', 'max'=>10),
-			array('IS_SUSPENDED, IS_PERMANENT, STATUS, IS_TRANSFERRED, IS_RETIRED', 'length', 'max'=>3),
+			array('DESIGNATION_ID_FK, GRADE_PAY_ID_FK, PAY_MATRIX_ID_FK, GROUP_ID_FK, JOIN_DESIGNATION_ID_FK, POSTING_ID_FK, HRA_SLAB_ID_FK', 'length', 'max'=>10),
+			array('IS_SUSPENDED, IS_PERMANENT, STATUS, IS_TRANSFERRED, IS_RETIRED, IS_QUARTER_ALLOCATED', 'length', 'max'=>3),
 			array('PENSION_ACC_NO, PENSION_TYPE, MICR, ACCOUNT_NO, IFSC, PAN, CATEGORY, GENDER, ORG_JOIN_TIME, DEPT_RELIEF_TIME, DEPT_JOIN_TIME, PERMISSION, SERVICE_BOOK_VOL', 'length', 'max'=>45),
 			array('DEPT_JOIN_DATE, DEPT_RELIEF_DATE, ORG_JOIN_DATE, PRESENT_PROMOTION_DATE', 'date', 'format'=>'yyyy-MM-dd', 'allowEmpty'=>true),
 			array('DEPT_JOIN_DATE, DEPT_RELIEF_DATE, ORG_JOIN_DATE', 'default', 'setOnEmpty'=>true, 'value'=>'' ),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('ID, NAME, DEPT_JOIN_DATE, DEPT_RELIEF_DATE, ORG_JOIN_DATE, ORG_RETIRE_DATE, LPC_REMARKS, DESIGNATION_ID_FK, GRADE_PAY_ID_FK, PAY_MATRIX_ID_FK, DOI, PENSION_ACC_NO, FOLIO_NO, GROUP_ID_FK, DOB, NAME_HINDI, 
+			array('ID, NAME, DEPT_JOIN_DATE, HRA_SLAB_ID_FK, DEPT_RELIEF_DATE, IS_QUARTER_ALLOCATED, ORG_JOIN_DATE, ORG_RETIRE_DATE, LPC_REMARKS, DESIGNATION_ID_FK, GRADE_PAY_ID_FK, PAY_MATRIX_ID_FK, DOI, PENSION_ACC_NO, FOLIO_NO, GROUP_ID_FK, DOB, NAME_HINDI, 
 			PENSION_TYPE, MICR, ACCOUNT_NO, IFSC, PAN, IS_PERMANENT, STATUS, CATEGORY, IS_TRANSFERRED, IS_RETIRED, POSTING_ID_FK, GENDER, PERMISSION, SUSPENSION_ORDER, SUSPENSION_DATE', 'safe', 'on'=>'search'),
 		);
 	}
@@ -124,7 +124,9 @@ class Employee extends CActiveRecord
 			'SUSPENSION_ORDER'=>'Suspend/Revoke Order No.',
 			'SUSPENSION_DATE'=>'Suspend/Revoke Date',
 			'POSTING_ID_FK'=>'Place of Posting',
-			'LPC_REMARKS'=>'LPC REMARKS'
+			'LPC_REMARKS'=>'LPC REMARKS',
+			'HRA_SLAB_ID_FK'=>'HRA SLAB',
+			'IS_QUARTER_ALLOCATED'=>'Quarter Allocated'
 		);
 	}
 	
@@ -187,6 +189,9 @@ class Employee extends CActiveRecord
 		$criteria->compare('SUSPENSION_DATE',$this->SUSPENSION_DATE,true);
 		$criteria->compare('POSTING_ID_FK',$this->POSTING_ID_FK,true);
 		$criteria->compare('LPC_REMARKS',$this->LPC_REMARKS,true);
+		$criteria->compare('HRA_SLAB_ID_FK',$this->HRA_SLAB_ID_FK,true);
+		$criteria->compare('IS_QUARTER_ALLOCATED',$this->IS_QUARTER_ALLOCATED,true);
+		
 		
 		$criteria->order = 'DESIGNATION_ID_FK DESC';
 		return new CActiveDataProvider($this, array(

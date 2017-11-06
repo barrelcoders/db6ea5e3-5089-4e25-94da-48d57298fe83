@@ -204,9 +204,12 @@ function ValueChange(field){
 	compTotalElement = $(container).find('.comp-total'),
 	compInstallmentElement = $(container).find('.comp-inst'),
 	compEmiElement = $(container).find('.comp-emi'),
-	compBalanceElement = $(container).find('.comp-bal');
+	compBalanceElement = $(container).find('.comp-bal'),
 	
-	var HRA_RATE = 24,
+	HRA_RATE = parseInt($(container).find('#HRA_RATE').val()),
+	QUARTER_ALLOCATED = (parseInt($(container).find('#QURTER_ALLOCATED').val()) == 1) ? true : false;
+	
+	var MIN_HRA = 5400,
 	DA_RATE = 5,
 	CPF_RATE = 10,
 	GROSS_AMOUNT = 0,
@@ -216,10 +219,16 @@ function ValueChange(field){
 	NET_AMOUNT = 0,
 	CREDIT_AMOUNT = 0; 
 	
-	var HRA_AMOUNT = Math.round(parseInt($(basicComponentElement).val())*(HRA_RATE/100)),
-		DA_AMOUNT = Math.round(parseInt($(basicComponentElement).val())*(DA_RATE/100));
+	var DA_AMOUNT = Math.round(parseInt($(basicComponentElement).val())*(DA_RATE/100));
+	
+	if(!QUARTER_ALLOCATED){
+		var HRA_AMOUNT = Math.round(parseInt($(basicComponentElement).val())*(HRA_RATE/100));
 		
-	hraComponentElement.val((HRA_AMOUNT < 5400) ? 5400 : HRA_AMOUNT);
+		hraComponentElement.val((HRA_AMOUNT < MIN_HRA) ? MIN_HRA : HRA_AMOUNT);
+	}
+	else{
+		hraComponentElement.val(0);
+	}
 	daComponentElement.val(DA_AMOUNT);
 	
 	if(container.find("#PENSION_TYPE").val() == "NPS"){
@@ -326,13 +335,8 @@ document.onkeyup=function(e){
 	var e = e || window.event; 
 	//e.altKey && 
 	//i key code 73
-	if(e.which == 81) {
-		if($("#HDFORM16URL").val() != ""){
-			$("#form-16-panel iframe").attr('src', $("#HDFORM16URL").val());
-			$("#form-16-panel").toggle();  
-			$("#"+activeTab+" #income-tax").focus();
-		}
-		return false;
+	if(e.which == 27) {
+		$("#form-16-panel").toggle();  
 	}
 	if(e.which == 37) {
 		$('#btn-prev').trigger('click');
@@ -341,8 +345,13 @@ document.onkeyup=function(e){
 	if(e.which == 39) {
 		$('#btn-next').trigger('click');
 	}
-	if(e.which == 27) {
-		$("#form-16-panel").toggle();  
+	if(e.which == 81) {
+		if($("#HDFORM16URL").val() != ""){
+			$("#form-16-panel iframe").attr('src', $("#HDFORM16URL").val());
+			$("#form-16-panel").toggle();  
+			$("#"+activeTab+" #income-tax").focus();
+		}
+		return false;
 	}
 }
 function toggleColumns(checkbox, columnName){
@@ -358,13 +367,12 @@ function toggleColumns(checkbox, columnName){
 }
 function toggleAllColumns(checkbox){
 	if($(checkbox).is(":checked")){
-		$('#data-table tr th.COL_ELEMENT').show();
-		$('#data-table tr td.COL_ELEMENT').show();
-		$('#option-menu a input[type=checkbox]:not(:has(".TOGGLE_BTN"))').attr('checked',true);
+		$('#data-table tr th.COL_ELEMENT, #data-table tr td.COL_ELEMENT').show();
+		$('#option-menu input[type=checkbox].ATTRIBUTE_BTN').prop('checked',true);
 	}
 	else{
-		$('#data-table tr th.COL_ELEMENT').hide();
-		$('#option-menu a input[type=checkbox]:not(:has(".TOGGLE_BTN"))').attr('checked',false);
+		$('#data-table tr th.COL_ELEMENT, #data-table tr td.COL_ELEMENT').hide();
+		$('#option-menu input[type=checkbox].ATTRIBUTE_BTN').prop('checked',false);
 	}
 }
 function getElementValue(element){

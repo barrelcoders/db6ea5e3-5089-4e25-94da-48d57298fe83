@@ -84,63 +84,63 @@
 						<div class="dropdown-menu" aria-labelledby="dd-header-form-builder" id="option-menu">
 								<?php if($bill->IS_SALARY_HEAD_PAY_BILL || $bill->IS_WAGES_HEAD_PAY_BILL || $bill->IS_ARREAR_BILL) { ?>
 								<a class="dropdown-item" href="#"><input type="checkbox" checked  onclick="toggleAllColumns(this)" class="TOGGLE_BTN">Toggle All</a>
-								<a class="dropdown-item" href="#"><input type="checkbox" checked  onclick="toggleColumns(this, 'BASIC_COL')">BASIC</a>
-								<a class="dropdown-item" href="#"><input type="checkbox" checked  onclick="toggleColumns(this, 'SP_COL')">SP</a>
-								<a class="dropdown-item" href="#"><input type="checkbox" checked  onclick="toggleColumns(this, 'PP_COL')">PP</a>
-								<a class="dropdown-item" href="#"><input type="checkbox" checked  onclick="toggleColumns(this, 'CCA_COL')">CCA</a>
-								<a class="dropdown-item" href="#"><input type="checkbox" checked  onclick="toggleColumns(this, 'HRA_COL')">HRA</a>
-								<a class="dropdown-item" href="#"><input type="checkbox" checked  onclick="toggleColumns(this, 'DA_COL')">DA</a>
-								<a class="dropdown-item" href="#"><input type="checkbox" checked  onclick="toggleColumns(this, 'TA_COL')">TA</a>
-								<a class="dropdown-item" href="#"><input type="checkbox" checked  onclick="toggleColumns(this, 'WA_COL')">WA</a>
-								<a class="dropdown-item" href="#"><input type="checkbox" checked  onclick="toggleColumns(this, 'IT_COL')">IT</a>
-								<a class="dropdown-item" href="#"><input type="checkbox" checked  onclick="toggleColumns(this, 'CGHS_COL')">CGHS</a>
-								<a class="dropdown-item" href="#"><input type="checkbox" checked  onclick="toggleColumns(this, 'LF_COL')">LF</a>
-								<a class="dropdown-item" href="#"><input type="checkbox" checked  onclick="toggleColumns(this, 'CGEGIS_COL')">CGEGIS</a>
-								<a class="dropdown-item" href="#"><input type="checkbox" checked  onclick="toggleColumns(this, 'CPF_TIER_I_COL')">GPFC/CPF TIER I</a>
-								<a class="dropdown-item" href="#"><input type="checkbox" checked  onclick="toggleColumns(this, 'CPF_TIER_II_COL')">GPFR / CPF TIER II</a>
-								<a class="dropdown-item" href="#"><input type="checkbox" checked  onclick="toggleColumns(this, 'MISC_COL')">MISC</a>
-								<a class="dropdown-item" href="#"><input type="checkbox" checked  onclick="toggleColumns(this, 'PLI_COL')">PLI</a>
-								<a class="dropdown-item" href="#"><input type="checkbox" checked  onclick="toggleColumns(this, 'COURT_COL')">COURT</a>
-								<a class="dropdown-item" href="#"><input type="checkbox" checked  onclick="toggleColumns(this, 'PT_COL')">PT</a>
-								<a class="dropdown-item" href="#"><input type="checkbox" checked  onclick="toggleColumns(this, 'CCS_COL')">CCS</a>
-								<a class="dropdown-item" href="#"><input type="checkbox" checked  onclick="toggleColumns(this, 'LIC_COL')">LIC</a>
-								<a class="dropdown-item" href="#"><input type="checkbox" checked  onclick="toggleColumns(this, 'ASSOSC_SUB_COL')">ASSOSC SUB.</a>
-								<a class="dropdown-item" href="#"><input type="checkbox" checked  onclick="toggleColumns(this, 'JAYAMAHAL_COL')">JAYAMAHAL</a>
-								<a class="dropdown-item" href="#"><input type="checkbox" checked  onclick="toggleColumns(this, 'MADIWALA_COL')">MADIWALA</a>
-								<a class="dropdown-item" href="#"><input type="checkbox" checked  onclick="toggleColumns(this, 'HBA_COL')">HBA</a>
-								<a class="dropdown-item" href="#"><input type="checkbox" checked  onclick="toggleColumns(this, 'MCA_COL')">MCA</a>
-								<a class="dropdown-item" href="#"><input type="checkbox" checked  onclick="toggleColumns(this, 'COMP_COL')">COMP</a>
+								<a class="dropdown-item" href="#"><input type="checkbox" checked  onclick="toggleColumns(this, 'BASIC_COL')" class="ATTRIBUTE_BTN">BASIC</a>
+								<a class="dropdown-item" href="#"><input type="checkbox" checked  onclick="toggleColumns(this, 'SP_COL')" class="ATTRIBUTE_BTN">SP</a>
+								<a class="dropdown-item" href="#"><input type="checkbox" checked  onclick="toggleColumns(this, 'PP_COL')" class="ATTRIBUTE_BTN">PP</a>
+								<a class="dropdown-item" href="#"><input type="checkbox" checked  onclick="toggleColumns(this, 'CCA_COL')" class="ATTRIBUTE_BTN">CCA</a>
+								<a class="dropdown-item" href="#"><input type="checkbox" checked  onclick="toggleColumns(this, 'HRA_COL')" class="ATTRIBUTE_BTN">HRA</a>
+								<a class="dropdown-item" href="#"><input type="checkbox" checked  onclick="toggleColumns(this, 'DA_COL')" class="ATTRIBUTE_BTN">DA</a>
+								<a class="dropdown-item" href="#"><input type="checkbox" checked  onclick="toggleColumns(this, 'TA_COL')" class="ATTRIBUTE_BTN">TA</a>
+								<a class="dropdown-item" href="#"><input type="checkbox" checked  onclick="toggleColumns(this, 'WA_COL')" class="ATTRIBUTE_BTN">WA</a>
+								<a class="dropdown-item" href="#"><input type="checkbox" checked  onclick="toggleColumns(this, 'IT_COL')" class="ATTRIBUTE_BTN">IT</a>
+								<a class="dropdown-item" href="#"><input type="checkbox" checked  onclick="toggleColumns(this, 'CGHS_COL')" class="ATTRIBUTE_BTN">CGHS</a>
+								<a class="dropdown-item" href="#"><input type="checkbox" checked  onclick="toggleColumns(this, 'LF_COL')" class="ATTRIBUTE_BTN">LF</a>
+								<a class="dropdown-item" href="#"><input type="checkbox" checked  onclick="toggleColumns(this, 'CGEGIS_COL')" class="ATTRIBUTE_BTN">CGEGIS</a>
+								<a class="dropdown-item" href="#"><input type="checkbox" checked  onclick="toggleColumns(this, 'CPF_TIER_I_COL')" class="ATTRIBUTE_BTN">GPFC/CPF TIER I</a>
+								<a class="dropdown-item" href="#"><input type="checkbox" checked  onclick="toggleColumns(this, 'CPF_TIER_II_COL')" class="ATTRIBUTE_BTN">GPFR / CPF TIER II</a>
+								<a class="dropdown-item" href="#"><input type="checkbox" checked  onclick="toggleColumns(this, 'MISC_COL')" class="ATTRIBUTE_BTN">MISC</a>
+								<a class="dropdown-item" href="#"><input type="checkbox" checked  onclick="toggleColumns(this, 'PLI_COL')" class="ATTRIBUTE_BTN">PLI</a>
+								<a class="dropdown-item" href="#"><input type="checkbox" checked  onclick="toggleColumns(this, 'COURT_COL')" class="ATTRIBUTE_BTN">COURT</a>
+								<a class="dropdown-item" href="#"><input type="checkbox" checked  onclick="toggleColumns(this, 'PT_COL')" class="ATTRIBUTE_BTN">PT</a>
+								<a class="dropdown-item" href="#"><input type="checkbox" checked  onclick="toggleColumns(this, 'CCS_COL')" class="ATTRIBUTE_BTN">CCS</a>
+								<a class="dropdown-item" href="#"><input type="checkbox" checked  onclick="toggleColumns(this, 'LIC_COL')" class="ATTRIBUTE_BTN">LIC</a>
+								<a class="dropdown-item" href="#"><input type="checkbox" checked  onclick="toggleColumns(this, 'ASSOSC_SUB_COL')" class="ATTRIBUTE_BTN">ASSOSC SUB.</a>
+								<a class="dropdown-item" href="#"><input type="checkbox" checked  onclick="toggleColumns(this, 'JAYAMAHAL_COL')" class="ATTRIBUTE_BTN">JAYAMAHAL</a>
+								<a class="dropdown-item" href="#"><input type="checkbox" checked  onclick="toggleColumns(this, 'MADIWALA_COL')" class="ATTRIBUTE_BTN">MADIWALA</a>
+								<a class="dropdown-item" href="#"><input type="checkbox" checked  onclick="toggleColumns(this, 'HBA_COL')" class="ATTRIBUTE_BTN">HBA</a>
+								<a class="dropdown-item" href="#"><input type="checkbox" checked  onclick="toggleColumns(this, 'MCA_COL')" class="ATTRIBUTE_BTN">MCA</a>
+								<a class="dropdown-item" href="#"><input type="checkbox" checked  onclick="toggleColumns(this, 'COMP_COL')" class="ATTRIBUTE_BTN">COMP</a>
 								<?php } ?>
 								<?php if($bill->IS_DA_ARREAR_BILL) { ?>
 								<a class="dropdown-item" href="#"><input type="checkbox" checked  onclick="toggleAllColumns(this)" class="TOGGLE_BTN">Toggle All</a>
-								<a class="dropdown-item" href="#"><input type="checkbox" checked  onclick="toggleColumns(this, 'BASIC_COL')">BASIC</a>
-								<a class="dropdown-item" href="#"><input type="checkbox" checked  onclick="toggleColumns(this, 'DA_COL')">DA</a>
-								<a class="dropdown-item" href="#"><input type="checkbox" checked  onclick="toggleColumns(this, 'TA_COL')">TA</a>
-								<a class="dropdown-item" href="#"><input type="checkbox" checked  onclick="toggleColumns(this, 'CPF_TIER_I_COL')">GPFC/CPF TIER I</a>
+								<a class="dropdown-item" href="#"><input type="checkbox" checked  onclick="toggleColumns(this, 'BASIC_COL')" class="ATTRIBUTE_BTN">BASIC</a>
+								<a class="dropdown-item" href="#"><input type="checkbox" checked  onclick="toggleColumns(this, 'DA_COL')" class="ATTRIBUTE_BTN">DA</a>
+								<a class="dropdown-item" href="#"><input type="checkbox" checked  onclick="toggleColumns(this, 'TA_COL')" class="ATTRIBUTE_BTN">TA</a>
+								<a class="dropdown-item" href="#"><input type="checkbox" checked  onclick="toggleColumns(this, 'CPF_TIER_I_COL')" class="ATTRIBUTE_BTN">GPFC/CPF TIER I</a>
 								<?php } ?>
 								<?php if($bill->IS_BONUS_BILL) { ?>
-								<a class="dropdown-item" href="#"><input type="checkbox" checked  onclick="toggleColumns(this, 'BONUS_COL')">BONUS</a>
+								<a class="dropdown-item" href="#"><input type="checkbox" checked  onclick="toggleColumns(this, 'BONUS_COL')" class="ATTRIBUTE_BTN">BONUS</a>
 								<?php } ?>
 								<?php if($bill->IS_UA_BILL) { ?>
-								<a class="dropdown-item" href="#"><input type="checkbox" checked  onclick="toggleColumns(this, 'UA_COL')">Uniform Allowance</a>
+								<a class="dropdown-item" href="#"><input type="checkbox" checked  onclick="toggleColumns(this, 'UA_COL')" class="ATTRIBUTE_BTN">Uniform Allowance</a>
 								<?php } ?>
 								<?php if($bill->IS_CEA_BILL) { ?>
-								<a class="dropdown-item" href="#"><input type="checkbox" checked  onclick="toggleColumns(this, 'CEA_COL')">Children Education Allowance</a>
+								<a class="dropdown-item" href="#"><input type="checkbox" checked  onclick="toggleColumns(this, 'CEA_COL')" class="ATTRIBUTE_BTN">Children Education Allowance</a>
 								<?php } ?>
 								<?php if($bill->IS_LTC_ADVANCE_BILL) { ?>
-								<a class="dropdown-item" href="#"><input type="checkbox" checked  onclick="toggleColumns(this, 'HTC_LTC_ADV_COL')">HTC/LTC ADVANCE</a>
+								<a class="dropdown-item" href="#"><input type="checkbox" checked  onclick="toggleColumns(this, 'HTC_LTC_ADV_COL')" class="ATTRIBUTE_BTN">HTC/LTC ADVANCE</a>
 								<?php } ?>
 								<?php if($bill->IS_LTC_CLAIM_BILL) { ?>
 								<a class="dropdown-item" href="#"><input type="checkbox" checked  onclick="toggleAllColumns(this)" class="TOGGLE_BTN">Toggle All</a>
-								<a class="dropdown-item" href="#"><input type="checkbox" checked  onclick="toggleColumns(this, 'GROSS_CLAIM_COL')">GROSS CLAIM</a>
-								<a class="dropdown-item" href="#"><input type="checkbox" checked  onclick="toggleColumns(this, 'ADVANCE_COL')">ADVANCE</a>
-								<a class="dropdown-item" href="#"><input type="checkbox" checked  onclick="toggleColumns(this, 'NET_AMOUNT_COL')">NET AMOUNT</a>
+								<a class="dropdown-item" href="#"><input type="checkbox" checked  onclick="toggleColumns(this, 'GROSS_CLAIM_COL')" class="ATTRIBUTE_BTN">GROSS CLAIM</a>
+								<a class="dropdown-item" href="#"><input type="checkbox" checked  onclick="toggleColumns(this, 'ADVANCE_COL')" class="ATTRIBUTE_BTN">ADVANCE</a>
+								<a class="dropdown-item" href="#"><input type="checkbox" checked  onclick="toggleColumns(this, 'NET_AMOUNT_COL')" class="ATTRIBUTE_BTN">NET AMOUNT</a>
 								<?php } ?>
 								<?php if($bill->IS_EL_ENCASHMENT_BILL) { ?>
-								<a class="dropdown-item" href="#"><input type="checkbox" checked  onclick="toggleColumns(this, 'EL_ENCASH_COL')">EL ENCASHMENT</a>
+								<a class="dropdown-item" href="#"><input type="checkbox" checked  onclick="toggleColumns(this, 'EL_ENCASH_COL')" class="ATTRIBUTE_BTN">EL ENCASHMENT</a>
 								<?php } ?>
 								<?php if($bill->IS_RECOVERY_BILL) { ?>
-								<a class="dropdown-item" href="#"><input type="checkbox" checked  onclick="toggleColumns(this, 'RECOVERY_COL')">RECOVERY</a>
+								<a class="dropdown-item" href="#"><input type="checkbox" checked  onclick="toggleColumns(this, 'RECOVERY_COL')" class="ATTRIBUTE_BTN">RECOVERY</a>
 								<?php } ?>
 							
 						</div>
@@ -225,132 +225,132 @@
 			<div id="table-container">
 				<table class="stripe row-border order-column display table table-striped table-bordered" id="data-table" style="margin-bottom: 10px;">
 					<thead>
-						<th>NAME</a>
-						<th>DESIGNATION</a>
-						<th>MONTH</a>
+						<th>NAME</th>
+						<th>DESIGNATION</th>
+						<th>MONTH</th>
 						<?php if($bill->IS_SALARY_HEAD_PAY_BILL || $bill->IS_WAGES_HEAD_PAY_BILL || $bill->IS_ARREAR_BILL) { ?>
-						<th></a>
-						<th class="BASIC_COL COL_ELEMENT">BASIC</a>
-						<th class="SP_COL COL_ELEMENT">SP</a>
-						<th class="PP_COL COL_ELEMENT">PP</a>
-						<th class="CCA_COL COL_ELEMENT">CCA</a>
-						<th class="HRA_COL COL_ELEMENT">HRA</a>
-						<th class="DA_COL COL_ELEMENT">DA</a>
-						<th class="TA_COL COL_ELEMENT">TA</a>
-						<th class="WA_COL COL_ELEMENT">WA</a>
-						<th class="IT_COL COL_ELEMENT">IT</a>
-						<th class="CGHS_COL COL_ELEMENT">CGHS</a>
-						<th class="LF_COL COL_ELEMENT">LF</a>
-						<th class="CGEGIS_COL COL_ELEMENT">CGEGIS</a>
-						<th class="CPF_TIER_I_COL COL_ELEMENT">GPFC/CPF TIER I</a>
-						<th class="CPF_TIER_II_COL COL_ELEMENT">GPFR / CPF TIER II</a>
-						<th class="MISC_COL COL_ELEMENT">MISC</a>
-						<th class="PLI_COL COL_ELEMENT">PLI</a>
-						<th class="COURT_COL COL_ELEMENT">COURT</a>
-						<th class="PT_COL COL_ELEMENT">PT</a>
-						<th class="CCS_COL COL_ELEMENT">CCS</a>
-						<th class="LIC_COL COL_ELEMENT">LIC</a>
-						<th class="ASSOSC_SUB_COL COL_ELEMENT">ASSOSC SUB.</a>
-						<th class="JAYAMAHAL_COL COL_ELEMENT">JAYAMAHAL</a>
-						<th class="MADIWALA_COL COL_ELEMENT">MADIWALA</a>
-						<th class="HBA_COL COL_ELEMENT">HBA TYPE</a>
-						<th class="HBA_COL COL_ELEMENT">HBA TOTAL</a>
-						<th class="HBA_COL COL_ELEMENT">HBA INSTALLMENT</a>
-						<th class="HBA_COL COL_ELEMENT">HBA EMI</a>
-						<th class="HBA_COL COL_ELEMENT">HBA BALANCE</a>
-						<th class="MCA_COL COL_ELEMENT">MCA TYPE</a>
-						<th class="MCA_COL COL_ELEMENT">MCA TOTAL</a>
-						<th class="MCA_COL COL_ELEMENT">MCA INSTALLMENT</a>
-						<th class="MCA_COL COL_ELEMENT">MCA EMI</a>
-						<th class="MCA_COL COL_ELEMENT">MCA BALANCE</a>
-						<th class="COMP_COL COL_ELEMENT">COMP TYPE</a>
-						<th class="COMP_COL COL_ELEMENT">COMP TOTAL</a>
-						<th class="COMP_COL COL_ELEMENT">COMP INSTALLMENT</a>
-						<th class="COMP_COL COL_ELEMENT">COMP EMI</a>
-						<th class="COMP_COL COL_ELEMENT">COMP BALANCE</a>
-						<th>GROSS</a>
-						<th>DED</a>
-						<th>NET</a>
-						<th>OTHER DED</a>
-						<th>AMOUNT BANK</a>
-						<th>REMARKS</a>
+						<th></th>
+						<th class="BASIC_COL COL_ELEMENT">BASIC</th>
+						<th class="SP_COL COL_ELEMENT">SP</th>
+						<th class="PP_COL COL_ELEMENT">PP</th>
+						<th class="CCA_COL COL_ELEMENT">CCA</th>
+						<th class="HRA_COL COL_ELEMENT">HRA</th>
+						<th class="DA_COL COL_ELEMENT">DA</th>
+						<th class="TA_COL COL_ELEMENT">TA</th>
+						<th class="WA_COL COL_ELEMENT">WA</th>
+						<th class="IT_COL COL_ELEMENT">IT</th>
+						<th class="CGHS_COL COL_ELEMENT">CGHS</th>
+						<th class="LF_COL COL_ELEMENT">LF</th>
+						<th class="CGEGIS_COL COL_ELEMENT">CGEGIS</th>
+						<th class="CPF_TIER_I_COL COL_ELEMENT">GPFC/CPF TIER I</th>
+						<th class="CPF_TIER_II_COL COL_ELEMENT">GPFR / CPF TIER II</th>
+						<th class="MISC_COL COL_ELEMENT">MISC</th>
+						<th class="PLI_COL COL_ELEMENT">PLI</th>
+						<th class="COURT_COL COL_ELEMENT">COURT</th>
+						<th class="PT_COL COL_ELEMENT">PT</th>
+						<th class="CCS_COL COL_ELEMENT">CCS</th>
+						<th class="LIC_COL COL_ELEMENT">LIC</th>
+						<th class="ASSOSC_SUB_COL COL_ELEMENT">ASSOSC SUB.</th>
+						<th class="JAYAMAHAL_COL COL_ELEMENT">JAYAMAHAL</th>
+						<th class="MADIWALA_COL COL_ELEMENT">MADIWALA</th>
+						<th class="HBA_COL COL_ELEMENT">HBA TYPE</th>
+						<th class="HBA_COL COL_ELEMENT">HBA TOTAL</th>
+						<th class="HBA_COL COL_ELEMENT">HBA INSTALLMENT</th>
+						<th class="HBA_COL COL_ELEMENT">HBA EMI</th>
+						<th class="HBA_COL COL_ELEMENT">HBA BALANCE</th>
+						<th class="MCA_COL COL_ELEMENT">MCA TYPE</th>
+						<th class="MCA_COL COL_ELEMENT">MCA TOTAL</th>
+						<th class="MCA_COL COL_ELEMENT">MCA INSTALLMENT</th>
+						<th class="MCA_COL COL_ELEMENT">MCA EMI</th>
+						<th class="MCA_COL COL_ELEMENT">MCA BALANCE</th>
+						<th class="COMP_COL COL_ELEMENT">COMP TYPE</th>
+						<th class="COMP_COL COL_ELEMENT">COMP TOTAL</th>
+						<th class="COMP_COL COL_ELEMENT">COMP INSTALLMENT</th>
+						<th class="COMP_COL COL_ELEMENT">COMP EMI</th>
+						<th class="COMP_COL COL_ELEMENT">COMP BALANCE</th>
+						<th>GROSS</th>
+						<th>DED</th>
+						<th>NET</th>
+						<th>OTHER DED</th>
+						<th>AMOUNT BANK</th>
+						<th>REMARKS</th>
 						<?php } ?>
 						<?php if($bill->IS_DA_ARREAR_BILL) { ?>
-						<th class="BASIC_COL COL_ELEMENT">BASIC</a>
-						<th class="DA_COL COL_ELEMENT">DA</a>
-						<th class="TA_COL COL_ELEMENT">TA</a>
-						<th class="CPF_TIER_I_COL COL_ELEMENT">GPFC/CPF TIER I</a>
-						<th>GROSS</a>
-						<th>DED</a>
-						<th>NET</a>
-						<th>OTHER DED</a>
-						<th>AMOUNT BANK</a>
-						<th>REMARKS</a>
+						<th class="BASIC_COL COL_ELEMENT">BASIC</th>
+						<th class="DA_COL COL_ELEMENT">DA</th>
+						<th class="TA_COL COL_ELEMENT">TA</th>
+						<th class="CPF_TIER_I_COL COL_ELEMENT">GPFC/CPF TIER I</th>
+						<th>GROSS</th>
+						<th>DED</th>
+						<th>NET</th>
+						<th>OTHER DED</th>
+						<th>AMOUNT BANK</th>
+						<th>REMARKS</th>
 						<?php } ?>
 						<?php if($bill->IS_BONUS_BILL) { ?>
-						<th class="BONUS_COL COL_ELEMENT">BONUS</a>
-						<th>GROSS</a>
-						<th>DED</a>
-						<th>NET</a>
-						<th>OTHER DED</a>
-						<th>AMOUNT BANK</a>
-						<th>REMARKS</a>
+						<th class="BONUS_COL COL_ELEMENT">BONUS</th>
+						<th>GROSS</th>
+						<th>DED</th>
+						<th>NET</th>
+						<th>OTHER DED</th>
+						<th>AMOUNT BANK</th>
+						<th>REMARKS</th>
 						<?php } ?>
 						<?php if($bill->IS_UA_BILL) { ?>
-						<th class="UA_COL COL_ELEMENT">Uniform Allowance</a>
-						<th>GROSS</a>
-						<th>DED</a>
-						<th>NET</a>
-						<th>OTHER DED</a>
-						<th>AMOUNT BANK</a>
-						<th>REMARKS</a>
+						<th class="UA_COL COL_ELEMENT">Uniform Allowance</th>
+						<th>GROSS</th>
+						<th>DED</th>
+						<th>NET</th>
+						<th>OTHER DED</th>
+						<th>AMOUNT BANK</th>
+						<th>REMARKS</th>
 						<?php } ?>
 						<?php if($bill->IS_CEA_BILL) { ?>
-						<th class="CEA_COL COL_ELEMENT">Children Education Allowance</a>
-						<th>GROSS</a>
-						<th>DED</a>
-						<th>NET</a>
-						<th>OTHER DED</a>
-						<th>AMOUNT BANK</a>
-						<th>REMARKS</a>
+						<th class="CEA_COL COL_ELEMENT">Children Education Allowance</th>
+						<th>GROSS</th>
+						<th>DED</th>
+						<th>NET</th>
+						<th>OTHER DED</th>
+						<th>AMOUNT BANK</th>
+						<th>REMARKS</th>
 						<?php } ?>
 						<?php if($bill->IS_LTC_ADVANCE_BILL) { ?>
-						<th class="HTC_LTC_ADV_COL COL_ELEMENT">HTC/LTC ADVANCE</a>
-						<th>GROSS</a>
-						<th>DED</a>
-						<th>NET</a>
-						<th>OTHER DED</a>
-						<th>AMOUNT BANK</a>
-						<th>REMARKS</a>
+						<th class="HTC_LTC_ADV_COL COL_ELEMENT">HTC/LTC ADVANCE</th>
+						<th>GROSS</th>
+						<th>DED</th>
+						<th>NET</th>
+						<th>OTHER DED</th>
+						<th>AMOUNT BANK</th>
+						<th>REMARKS</th>
 						<?php } ?>
 						<?php if($bill->IS_LTC_CLAIM_BILL) { ?>
-						<th class="GROSS_CLAIM_COL COL_ELEMENT">GROSS CLAIM</a>
-						<th class="ADVANCE_COL COL_ELEMENT">ADVANCE</a>
-						<th class="NET_AMOUNT_COL COL_ELEMENT">NET AMOUNT</a>
-						<th>GROSS</a>
-						<th>DED</a>
-						<th>NET</a>
-						<th>OTHER DED</a>
-						<th>AMOUNT BANK</a>
-						<th>REMARKS</a>
+						<th class="GROSS_CLAIM_COL COL_ELEMENT">GROSS CLAIM</th>
+						<th class="ADVANCE_COL COL_ELEMENT">ADVANCE</th>
+						<th class="NET_AMOUNT_COL COL_ELEMENT">NET AMOUNT</th>
+						<th>GROSS</th>
+						<th>DED</th>
+						<th>NET</th>
+						<th>OTHER DED</th>
+						<th>AMOUNT BANK</th>
+						<th>REMARKS</th>
 						<?php } ?>
 						<?php if($bill->IS_EL_ENCASHMENT_BILL) { ?>
-						<th class="EL_ENCASH_COL COL_ELEMENT">EL ENCASHMENT</a>
-						<th>GROSS</a>
-						<th>DED</a>
-						<th>NET</a>
-						<th>OTHER DED</a>
-						<th>AMOUNT BANK</a>
-						<th>REMARKS</a>
+						<th class="EL_ENCASH_COL COL_ELEMENT">EL ENCASHMENT</th>
+						<th>GROSS</th>
+						<th>DED</th>
+						<th>NET</th>
+						<th>OTHER DED</th>
+						<th>AMOUNT BANK</th>
+						<th>REMARKS</th>
 						<?php } ?>
 						<?php if($bill->IS_RECOVERY_BILL) { ?>
-						<th class="RECOVERY_COL COL_ELEMENT">RECOVERY</a>
-						<th>GROSS</a>
-						<th>DED</a>
-						<th>NET</a>
-						<th>OTHER DED</a>
-						<th>AMOUNT BANK</a>
-						<th>REMARKS</a>
+						<th class="RECOVERY_COL COL_ELEMENT">RECOVERY</th>
+						<th>GROSS</th>
+						<th>DED</th>
+						<th>NET</th>
+						<th>OTHER DED</th>
+						<th>AMOUNT BANK</th>
+						<th>REMARKS</th>
 						<?php } ?>
 					</thead>
 					<tbody>
@@ -408,6 +408,8 @@
 										<td>
 											<input type="hidden" value="<?php echo $employee->ID?>" id="employee-id" name="SalaryDetails[<?php echo $employee->ID?>][EMP_ID]">
 											<input type="hidden" value="<?php echo Employee::model()->findByPK($employee->ID)->PENSION_TYPE?>" id="PENSION_TYPE" name="SalaryDetails[<?php echo $employee->ID?>][PENSION_TYPE]">
+											<input type="hidden" value="<?php echo HRASlabs::model()->findByPK($employee->HRA_SLAB_ID_FK)->RATE;?>" id="HRA_RATE">
+											<input type="hidden" value="<?php echo $employee->IS_QUARTER_ALLOCATED?>" id="QURTER_ALLOCATED">
 											<?php echo $employee->NAME?>
 										</td>
 										<td><?php echo Designations::model()->findByPK($employee->DESIGNATION_ID_FK)->ABBREVIATIONS?></td>
@@ -417,7 +419,7 @@
 												<input type="hidden" name="SalaryDetails[<?php echo $employee->ID?>][<?php echo $year;?>][<?php echo $month;?>][MONTH]" value="<?php echo $month?>"/>
 												<input type="hidden" name="SalaryDetails[<?php echo $employee->ID?>][<?php echo $year;?>][<?php echo $month;?>][YEAR]" value="<?php echo $year?>"/>
 												<input type="hidden" id="PENSION_TYPE" value="<?php echo $employee->PENSION_TYPE;?>"/>
-												<a href="javascript:void(0);" onclick="openForm16(<?php echo $employee->ID?>);" class="fa fa-table" style="color: #000;text-decoration: none;"></a>
+												<a href="javascript:void(0);" onclick="openForm16(<?php echo $employee->ID?>);" class="fa fa-table" title="Provisional Form-16" style="color: #000;text-decoration: none;"></a>
 											</td>
 											<td class="BASIC_COL COL_ELEMENT"><input type="text" size="10" name="SalaryDetails[<?php echo $employee->ID?>][<?php echo $year;?>][<?php echo $month;?>][BASIC]" data-type="BASIC" class="gross-inc-amount basic-amount" value="<?php echo $salary->BASIC ? $salary->BASIC : 0;?>" placeholder="BASIC"/></td>
 											<td class="SP_COL COL_ELEMENT"><input type="text" size="10" name="SalaryDetails[<?php echo $employee->ID?>][<?php echo $year;?>][<?php echo $month;?>][SP]" data-type="SP" class="gross-inc-amount" value="<?php echo $salary->SP ? $salary->SP : 0;?>" placeholder="SP"/></td>

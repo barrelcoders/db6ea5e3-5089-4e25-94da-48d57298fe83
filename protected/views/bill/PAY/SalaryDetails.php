@@ -199,7 +199,7 @@
 				  </table>
 				  <input type="hidden" value="<?php echo $employee->ID?>" name="SalaryDetails[<?php echo $employee->ID?>][EMP_ID]">
 				  <input type="hidden" value="<?php echo Employee::model()->findByPK($employee->ID)->PENSION_TYPE?>" id="PENSION_TYPE" name="SalaryDetails[<?php echo $employee->ID?>][PENSION_TYPE]">
-				  
+				  						
 				  <?php
 					foreach($periods as $period){
 						$month = $period['MONTH'];
@@ -250,7 +250,9 @@
 						?>
 						<table class="table table-bordered table-hover" style="margin-bottom: 10px;">
 							<tr>
-								<td colspan="8"><b><?php echo $period['FORMAT']?></b></td>
+								<td colspan="8">
+									<b><?php echo $period['FORMAT']?></b>
+								</td>
 							</tr>
 						</table>
 						<?php  if($bill->IS_SALARY_HEAD_PAY_BILL || $bill->IS_WAGES_HEAD_PAY_BILL || $bill->IS_ARREAR_BILL) { ?>
@@ -258,6 +260,8 @@
 							<input type="hidden" name="SalaryDetails[<?php echo $employee->ID?>][<?php echo $year;?>][<?php echo $month;?>][YEAR]" value="<?php echo $year?>"/>
 							<table class="table table-bordered table-hover" style="margin-bottom: 10px;" id="<?php echo $month."-".$year;?>">
 								<tr>
+									<input type="hidden" value="<?php echo HRASlabs::model()->findByPK($employee->HRA_SLAB_ID_FK)->RATE;?>" id="HRA_RATE">
+									<input type="hidden" value="<?php echo $employee->IS_QUARTER_ALLOCATED?>" id="QURTER_ALLOCATED">
 									<input type="hidden" id="PENSION_TYPE" value="<?php echo $employee->PENSION_TYPE;?>"/>
 									<td>BASIC: <input type="text" size="10" name="SalaryDetails[<?php echo $employee->ID?>][<?php echo $year;?>][<?php echo $month;?>][BASIC]" data-type="BASIC" class="gross-inc-amount basic-amount" value="<?php echo $salary->BASIC ? $salary->BASIC : 0;?>" placeholder="BASIC"/></td>
 									<td>SP: <input type="text" size="10" name="SalaryDetails[<?php echo $employee->ID?>][<?php echo $year;?>][<?php echo $month;?>][SP]" data-type="SP" class="gross-inc-amount" value="<?php echo $salary->SP ? $salary->SP : 0;?>" placeholder="SP"/></td>

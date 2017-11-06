@@ -257,14 +257,6 @@
 				</div>
 			</div>
 			<div class="form-group row">
-				<?php echo $form->labelEx($model,'SERVICE_BOOK_VOL', array('class'=>'col-sm-2 form-control-label')); ?>
-				<div class="col-sm-10">
-					<p class="form-control-static">
-						<?php echo $form->textField($model,'SERVICE_BOOK_VOL',array('size'=>10,'maxlength'=>10, 'value'=>$model->SERVICE_BOOK_VOL)); ?>
-					</p>
-				</div>
-			</div>
-			<div class="form-group row">
 				<?php echo $form->labelEx($model,'FOLIO_NO', array('class'=>'col-sm-2 form-control-label')); ?>
 				<div class="col-sm-10">
 					<p class="form-control-static">
@@ -272,8 +264,34 @@
 					</p>
 				</div>
 			</div>
+			<div class="form-group row">
+				<?php echo $form->labelEx($model,'IS_QUARTER_ALLOCATED', array('class'=>'col-sm-2 form-control-label')); ?>
+				<div class="col-sm-10">
+					<p class="form-control-static">
+						<?php echo $form->dropDownList($model,'IS_QUARTER_ALLOCATED',array(1=>'Yes', 0=>'No'), array('options'=>array($model->IS_QUARTER_ALLOCATED=>array('selected'=>true)))); ?>
+					</p>
+				</div>
+			</div>
+			<div class="form-group row">
+				<?php echo $form->labelEx($model,'HRA_SLAB_ID_FK', array('class'=>'col-sm-2 form-control-label')); ?>
+				<div class="col-sm-10">
+					<p class="form-control-static">
+						<?php echo $form->dropDownList($model,'HRA_SLAB_ID_FK',CHtml::listData(HRASlabs::model()->findAll(), 'ID', 'DESCRIPTION'), array(
+					'options' => array("'".$model->HRA_SLAB_ID_FK."'" => array('selected'=>true)),
+					'disabled'=>Yii::app()->controller->action->id == 'update')); ?>
+					</p>
+				</div>
+			</div>
 		</div>
 		<div class="col-sm-6">
+			<div class="form-group row">
+				<?php echo $form->labelEx($model,'SERVICE_BOOK_VOL', array('class'=>'col-sm-2 form-control-label')); ?>
+				<div class="col-sm-10">
+					<p class="form-control-static">
+						<?php echo $form->textField($model,'SERVICE_BOOK_VOL',array('size'=>10,'maxlength'=>10, 'value'=>$model->SERVICE_BOOK_VOL)); ?>
+					</p>
+				</div>
+			</div>
 			<div class="form-group row">
 				<?php echo $form->labelEx($model,'DOB', array('class'=>'col-sm-3 form-control-label')); ?>
 				<div class="col-sm-9">
