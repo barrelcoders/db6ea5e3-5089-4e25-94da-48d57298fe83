@@ -57,9 +57,8 @@
 	<?php 
 		$employees = null;
 		$conditions = array();
-		
 		if(count($employee_ids) > 0){
-			array_push($conditions, "EMPLOYEE_ID_FK IN (".implode(",", $employee_ids).")");
+			array_push($conditions, "ID IN (".implode(",", $employee_ids).")");
 		}
 		if(count($pension) > 0){
 			array_push($conditions, "PENSION_TYPE IN (".implode(",", $pension).")");
@@ -68,10 +67,16 @@
 			array_push($conditions, "UA_ELIGIBLE IN (".implode(",", $uniform).")");
 		}
 		if(count($bonus) > 0){
-			array_push($conditions, "UA_ELIGIBLE IN (".implode(",", $bonus).")");
+			array_push($conditions, "BONUS_ELIGIBLE IN (".implode(",", $bonus).")");
 		}
 		if(count($gender) > 0){
 			array_push($conditions, "GENDER IN (".implode(",", $gender).")");
+		}
+		if(count($quarter) > 0){
+			array_push($conditions, "IS_QUARTER_ALLOCATED IN (".implode(",", $quarter).")");
+		}
+		if(count($hra_slab) > 0){
+			array_push($conditions, "HRA_SLAB_ID_FK IN (".implode(",", $hra_slab).")");
 		}
 		
 		$conditionString = implode(" AND ", $conditions);
@@ -96,7 +101,7 @@
 					if(SalaryDetails::model()->exists("t.EMPLOYEE_ID_FK=".$employee['ID']." AND t.IS_SALARY_BILL=1 AND t.MONTH=".$period['MONTH']." AND t.YEAR=".$period['YEAR'])){
 						$salary = SalaryDetails::model()->find("t.EMPLOYEE_ID_FK=".$employee['ID']." AND t.IS_SALARY_BILL=1 AND t.MONTH=".$period['MONTH']." AND t.YEAR=".$period['YEAR']);
 					}
-					else if (SupplementarySalaryDetails::model()->exists("t.EMPLOYEE_ID_FK=".$employee['ID']." AND t.IS_SALARY_BILL=1 AND t.MONTH=".$period['MONTH']." AND t.YEAR=".$period['YEAR'])){
+					else if (SupplementarySalaryDetails::model()->exists("t.EMPLOYEE_ID_FK=".$employee['ID']." AND t.MONTH=".$period['MONTH']." AND t.YEAR=".$period['YEAR'])){
 						$salary = SupplementarySalaryDetails::model()->find("t.EMPLOYEE_ID_FK=".$employee['ID']." AND t.MONTH=".$period['MONTH']." AND t.YEAR=".$period['YEAR']);
 					}
 					else{

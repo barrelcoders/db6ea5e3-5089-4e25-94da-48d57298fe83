@@ -28,10 +28,16 @@
 			array_push($conditions, "UA_ELIGIBLE IN (".implode(",", $uniform).")");
 		}
 		if(count($bonus) > 0){
-			array_push($conditions, "UA_ELIGIBLE IN (".implode(",", $bonus).")");
+			array_push($conditions, "BONUS_ELIGIBLE IN (".implode(",", $bonus).")");
 		}
 		if(count($gender) > 0){
 			array_push($conditions, "GENDER IN (".implode(",", $gender).")");
+		}
+		if(count($quarter) > 0){
+			array_push($conditions, "IS_QUARTER_ALLOCATED IN (".implode(",", $quarter).")");
+		}
+		if(count($hra_slab) > 0){
+			array_push($conditions, "HRA_SLAB_ID_FK IN (".implode(",", $hra_slab).")");
 		}
 		
 		$conditionString = implode(" AND ", $conditions);

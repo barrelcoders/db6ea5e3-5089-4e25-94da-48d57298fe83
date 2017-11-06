@@ -134,6 +134,30 @@ $this->menu=array(
 						<li><input type="checkbox" name="Employee[GENDER][]" value="'Female'"> <span>FEMALE</span></li>
 					</ul>
 				</div>
+				<div id="quarter-alloc" style="margin-bottom:10px;" class="col-sm-12">
+					<div style="background: #333;padding: 5px;">
+						<input type="text" class="quarter-alloc-list-search" size="40" placeholder="SEARCH QUARTER ALLOCATION" onkeyup="search(this, 'quarter-alloc');" style="width: 55%;"/><span style="float: right;color: #FFF;"><input type="checkBox" class="quarter-alloc-select-all" onclick="selectList('quarter-alloc');"> SELECT ALL</span>
+					</div>
+					<ul style="background: rgb(204, 204, 204);padding: 10px;height: 100px;overflow-y: scroll;">
+						<li><input type="checkbox" name="Employee[QUARTER_ALLOCATE][]" value="0"> <span>NO</span></li>
+						<li><input type="checkbox" name="Employee[QUARTER_ALLOCATE][]" value="1"> <span>YES</span></li>
+					</ul>
+				</div>
+				<div id="hra-slab" style="margin-bottom:10px;" class="col-sm-12">
+					<div style="background: #333;padding: 5px;">
+						<input type="text" class="hra-slab-list-search" size="40" placeholder="SEARCH HRA SLAB" onkeyup="search(this, 'hra-slab');" style="width: 55%;"/><span style="float: right;color: #FFF;"><input type="checkBox" class="hra-slab-select-all" onclick="selectList('hra-slab');"> SELECT ALL</span>
+					</div>
+					<ul style="background: rgb(204, 204, 204);padding: 10px;height: 100px;overflow-y: scroll;">
+						<?php 
+							$slabs = HRASlabs::model()->findAll();
+							foreach($slabs as $slab){
+								?>
+									<li><input type="checkbox" name="Employee[HRA_SLAB][]" value="<?php echo $slab->ID?>"><span><?php echo $slab->DESCRIPTION?></span></li>
+								<?php
+							}
+						?>
+					</ul>
+				</div>
 			</div>
 		</div>
 		<?php 

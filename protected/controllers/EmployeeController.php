@@ -362,6 +362,8 @@ class EmployeeController extends Controller
 				'uniform'=>isset($_POST['Employee']['UA']) ? $_POST['Employee']['UA'] : array(),
 				'bonus'=>isset($_POST['Employee']['BONUS']) ? $_POST['Employee']['BONUS'] : array(),
 				'gender'=>isset($_POST['Employee']['GENDER']) ? $_POST['Employee']['GENDER'] : array(),
+				'quarter'=>isset($_POST['Employee']['QUARTER_ALLOCATE']) ? $_POST['Employee']['QUARTER_ALLOCATE'] : array(),
+				'hra_slab'=>isset($_POST['Employee']['HRA_SLAB']) ? $_POST['Employee']['HRA_SLAB'] : array(),
 			));
 		}
 		else{
@@ -395,6 +397,8 @@ class EmployeeController extends Controller
 				'uniform'=>isset($_POST['Employee']['UA']) ? $_POST['Employee']['UA'] : array(),
 				'bonus'=>isset($_POST['Employee']['BONUS']) ? $_POST['Employee']['BONUS'] : array(),
 				'gender'=>isset($_POST['Employee']['GENDER']) ? $_POST['Employee']['GENDER'] : array(),
+				'quarter'=>isset($_POST['Employee']['QUARTER_ALLOCATE']) ? $_POST['Employee']['QUARTER_ALLOCATE'] : array(),
+				'hra_slab'=>isset($_POST['Employee']['HRA_SLAB']) ? $_POST['Employee']['HRA_SLAB'] : array(),
 			));
 		}
 		else{
