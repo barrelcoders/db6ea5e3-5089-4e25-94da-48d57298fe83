@@ -28,7 +28,7 @@ class EmployeeController extends Controller
 	{
 		return array(
 			array('allow',  // allow all users to perform 'index' and 'view' actions
-				'actions'=>array('index','view','create','update','admin','delete','Generic', 'generateTransferedLPC', 'GenerateRetiredLPC', 'LPC', 'LICPolicyStatusChange', 'PLIPolicyStatusChange',
+				'actions'=>array('index','view','create','update','admin','delete','Generic', 'generateTransferedLPC', 'GenerateRetiredLPC', 'LPC', 'LICPolicyChange', 'PLIPolicyStatusChange',
 				'OPSSalaryBillEmployees', 'NPSSalaryBillEmployees', 'OtherBillEmployees', 'WagesBillEmployees'),
 				'users'=>array('*'),
 			),
@@ -476,9 +476,11 @@ class EmployeeController extends Controller
 	 * @param integer $id the ID of the model to be deleted
 	 */
 	
-	public function actionLICPolicyStatusChange($id, $status)
+	public function actionLICPolicyChange($id, $number, $amount, $status)
 	{
 		$EmployeeLICPolicies = EmployeeLICPolicies::model()->findByPk($id);
+		$EmployeeLICPolicies->POLICY_NO = $number;
+		$EmployeeLICPolicies->AMOUNT = $amount;
 		$EmployeeLICPolicies->STATUS = $status;
 		if($EmployeeLICPolicies->save(false)){
 			echo "SUCCESS";exit;
@@ -486,13 +488,13 @@ class EmployeeController extends Controller
 		else{
 			echo "FAIL";exit;
 		}
-		
-
 	}
 	
-	public function actionPLIPolicyStatusChange($id, $status)
+	public function actionPLIPolicyChange($id, $number, $amount, $status)
 	{
 		$EmployeePLIPolicies = EmployeePLIPolicies::model()->findByPk($id);
+		$EmployeePLIPolicies->POLICY_NO = $number;
+		$EmployeePLIPolicies->AMOUNT = $amount;
 		$EmployeePLIPolicies->STATUS = $status;
 		if($EmployeePLIPolicies->save(false)){
 			echo "SUCCESS";exit;
@@ -500,10 +502,28 @@ class EmployeeController extends Controller
 		else{
 			echo "FAIL";exit;
 		}
-		
-
 	}
-
+	public function actionDeleteLICPolicy($id)
+	{
+		$EmployeeLICPolicies = EmployeeLICPolicies::model()->findByPk($id);
+		if($EmployeeLICPolicies->delete()){
+			echo "SUCCESS";exit;
+		}
+		else{
+			echo "FAIL";exit;
+		}
+	}
+	public function actionDeletePLIPolicy($id)
+	{
+		$EmployeePLIPolicies = EmployeePLIPolicies::model()->findByPk($id);
+		if($EmployeePLIPolicies->delete()){
+			echo "SUCCESS";exit;
+		}
+		else{
+			echo "FAIL";exit;
+		}
+	}
+	
 	public function actionDelete($id)
 	{
 		$this->loadModel($id)->delete();

@@ -25,32 +25,138 @@
 		
 	});
 	
-	function changeLICPolicyStatus(id, select){
-		var status = select.options[select.options.selectedIndex].value;
-		$.post( '<?php echo Yii::app()->createUrl('Employee/LICPolicyStatusChange')?>&id='+id+'&status='+status, {}, function(result) {
+	function enablethisField(field){
+		field.setAttribute('disabled', false);
+	}
+	
+	function editLICRow(row){
+		var tableRow = $(row.parentNode.parentNode),
+			editBtn = tableRow.find(".edit-btn"),
+			saveBtn = tableRow.find(".save-btn"),
+			policyNo = tableRow.find(".policy-no"),
+			policyAmount = tableRow.find(".policy-amount"),
+			policyStatus = tableRow.find(".policy-status");
+		
+		policyNo.prop( "disabled", false);
+		policyAmount.prop( "disabled", false);
+		policyStatus.prop( "disabled", false);
+		editBtn.hide();
+		saveBtn.show();
+	}
+	
+	function saveLICRow(row){
+		var tableRow = $(row.parentNode.parentNode),
+			editBtn = tableRow.find(".edit-btn"),
+			saveBtn = tableRow.find(".save-btn"),
+			policyId = tableRow.find(".policy-id"),
+			policyNo = tableRow.find(".policy-no"),
+			policyAmount = tableRow.find(".policy-amount"),
+			policyStatus = tableRow.find(".policy-status");
+		
+		var id = policyId.val(),
+			number = policyNo.val(),
+			amount = policyAmount.val(),
+			status = policyStatus.val();
+		
+		$.post( '<?php echo Yii::app()->createUrl('Employee/LICPolicyChange')?>&id='+id+'&number='+number+'&amount='+amount+'&status='+status, {}, function(result) {
 			if(result == 'SUCCESS'){
-				alert('Policy status changed successfully');
+				alert('Policy changed successfully');
+				policyNo.prop( "disabled", true);
+				policyAmount.prop( "disabled", true);
+				policyStatus.prop( "disabled", true);
+				editBtn.show();
+				saveBtn.hide();
 			}
 			else{
-				alert('Problem in updating policy status, Please try again later');
+				alert('Problem in updating policy, Please try again later');
 			}
 		});
 	}
 	
-	function changePLIPolicyStatus(id, select){
-		var status = select.options[select.options.selectedIndex].value;
-		$.post( '<?php echo Yii::app()->createUrl('Employee/PLIPolicyStatusChange')?>&id='+id+'&status='+status, {}, function(result) {
+	function delLICRow(row){
+		var tableRow = $(row.parentNode.parentNode),
+			policyId = tableRow.find(".policy-id");
+		
+		var id = policyId.val();
+		
+		if(!confirm('Are you sure wants to delete this policy'))
+			return;
+		
+		$.post( '<?php echo Yii::app()->createUrl('Employee/DeleteLICPolicy')?>&id='+id, {}, function(result) {
 			if(result == 'SUCCESS'){
-				alert('Policy status changed successfully');
+				alert('Policy deleted successfully');
+				document.getElementById('LICTable').deleteRow(row.parentNode.parentNode.rowIndex);
 			}
 			else{
-				alert('Problem in updating policy status, Please try again later');
+				alert('Problem in deleting policy, Please try again later');
 			}
 		});
 	}
 	
 	
+	function editPLIRow(row){
+		var tableRow = $(row.parentNode.parentNode),
+			editBtn = tableRow.find(".edit-btn"),
+			saveBtn = tableRow.find(".save-btn"),
+			policyNo = tableRow.find(".policy-no"),
+			policyAmount = tableRow.find(".policy-amount"),
+			policyStatus = tableRow.find(".policy-status");
+		
+		policyNo.prop( "disabled", false);
+		policyAmount.prop( "disabled", false);
+		policyStatus.prop( "disabled", false);
+		editBtn.hide();
+		saveBtn.show();
+	}
 	
+	function savePLIRow(row){
+		var tableRow = $(row.parentNode.parentNode),
+			editBtn = tableRow.find(".edit-btn"),
+			saveBtn = tableRow.find(".save-btn"),
+			policyId = tableRow.find(".policy-id"),
+			policyNo = tableRow.find(".policy-no"),
+			policyAmount = tableRow.find(".policy-amount"),
+			policyStatus = tableRow.find(".policy-status");
+		
+		var id = policyId.val(),
+			number = policyNo.val(),
+			amount = policyAmount.val(),
+			status = policyStatus.val();
+		
+		$.post( '<?php echo Yii::app()->createUrl('Employee/PLIPolicyChange')?>&id='+id+'&number='+number+'&amount='+amount+'&status='+status, {}, function(result) {
+			if(result == 'SUCCESS'){
+				alert('Policy changed successfully');
+				policyNo.prop( "disabled", true);
+				policyAmount.prop( "disabled", true);
+				policyStatus.prop( "disabled", true);
+				editBtn.show();
+				saveBtn.hide();
+			}
+			else{
+				alert('Problem in updating policy amount, Please try again later');
+			}
+		});
+	}
+	
+	function delPLIRow(row){
+		var tableRow = $(row.parentNode.parentNode),
+			policyId = tableRow.find(".policy-id");
+		
+		var id = policyId.val();
+		
+		if(!confirm('Are you sure wants to delete this policy'))
+			return;
+		
+		$.post( '<?php echo Yii::app()->createUrl('Employee/DeletePLIPolicy')?>&id='+id, {}, function(result) {
+			if(result == 'SUCCESS'){
+				alert('Policy deleted successfully');
+				document.getElementById('PLITable').deleteRow(row.parentNode.parentNode.rowIndex);
+			}
+			else{
+				alert('Problem in deleting policy, Please try again later');
+			}
+		});
+	}
 	
 	function deleteLICRow(row)
 	{
@@ -434,11 +540,14 @@
 							foreach($policies as $policy){
 								?>
 								<tr>
-									<td><input type="text" size="10" value="<?php echo $policy->POLICY_NO; ?>" disabled /></td>
-									<td><input type="text" size="10" value="<?php echo $policy->AMOUNT; ?>" disabled/></td>
-									<td><select  onchange="changeLICPolicyStatus(<?php echo $policy->ID;?>, this)" ><option value="1" <?php echo ($policy->STATUS == 1) ? "selected" : "";?>>ACTIVE</option><option value="0" <?php echo ($policy->STATUS == 0) ? "selected" : "";?>>IN ACTIVE</option></select></td>
-									<td></td>
-									<td></td>
+									<td><input type="hidden" value="<?php echo $policy->ID?>" class="policy-id"><input type="text" size="10" value="<?php echo $policy->POLICY_NO; ?>" class="policy-no" disabled="true" /></td>
+									<td><input type="text" size="10" value="<?php echo $policy->AMOUNT; ?>" class="policy-amount" disabled="true"/></td>
+									<td><select class="policy-status" disabled="true" ><option value="1" <?php echo ($policy->STATUS == 1) ? "selected" : "";?>>ACTIVE</option><option value="0" <?php echo ($policy->STATUS == 0) ? "selected" : "";?>>IN ACTIVE</option></select></td>
+									<td>
+										<input type="button" id="editSubBillbutton" class="btn btn-inline edit-btn" value="Edit" onclick="editLICRow(this)"/>
+										<input type="button" id="saveSubBillbutton" class="btn btn-inline save-btn" style="display:none;" value="Save" onclick="saveLICRow(this)"/>
+									</td>
+									<td><input type="button" id="delSubBillbutton" class="btn btn-inline del-btn" value="Delete" onclick="delLICRow(this)"/></td>
 								</tr>
 								<?php
 							}
@@ -477,11 +586,14 @@
 							foreach($policies as $policy){
 								?>
 								<tr>
-									<td><input type="text" size="10" value="<?php echo $policy->POLICY_NO; ?>" disabled /></td>
-									<td><input type="text" size="10" value="<?php echo $policy->AMOUNT; ?>" disabled/></td>
-									<td><select  onchange="changePLIPolicyStatus(<?php echo $policy->ID;?>, this)" ><option value="1" <?php echo ($policy->STATUS == 1) ? "selected" : "";?>>ACTIVE</option><option value="0" <?php echo ($policy->STATUS == 0) ? "selected" : "";?>>IN ACTIVE</option></select></td>
-									<td></td>
-									<td></td>
+									<td><input type="hidden" value="<?php echo $policy->ID?>" class="policy-id"><input type="text" size="10" value="<?php echo $policy->POLICY_NO; ?>" class="policy-no" disabled="true"/></td>
+									<td><input type="text" size="10" value="<?php echo $policy->AMOUNT; ?>"  class="policy-amount" disabled="true"/></td>
+									<td><select class="policy-status" disabled="true" ><option value="1" <?php echo ($policy->STATUS == 1) ? "selected" : "";?>>ACTIVE</option><option value="0" <?php echo ($policy->STATUS == 0) ? "selected" : "";?>>IN ACTIVE</option></select></td>
+									<td>
+										<input type="button" id="editSubBillbutton" class="btn btn-inline edit-btn" value="Edit" onclick="editPLIRow(this)"/>
+										<input type="button" id="saveSubBillbutton" class="btn btn-inline save-btn" style="display:none;" value="Save" onclick="savePLIRow(this)"/>
+									</td>
+									<td><input type="button" id="delSubBillbutton" class="btn btn-inline del-btn" value="Delete" onclick="delPLIRow(this)"/></td>
 								</tr>
 								<?php
 							}

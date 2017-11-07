@@ -30,8 +30,8 @@
 			$LAST_SALARY = Yii::app()->db->createCommand("SELECT * FROM tbl_supplementary_salary_details WHERE EMPLOYEE_ID_FK=".$employee->ID." AND YEAR=".(($MONTH ==1) ? ($YEAR - 1 ) : $YEAR)." AND MONTH=".(($MONTH ==1) ? 12 : ($MONTH - 1)))->queryRow();
 		}
 		if(count($LAST_SALARY) > 0 && count($CURRENT_SALARY) > 0)
-		$change = calculateChanges($CURRENT_SALARY, $LAST_SALARY);
-		if($change !=""){
+		$change = calculateChanges($CURRENT_SALARY, $LAST_SALARY, $employee->PENSION_TYPE);
+		if($change){
 			$message = $employee->NAME.", ".Designations::model()->findByPk($employee->DESIGNATION_ID_FK)->DESIGNATION. ": ".$change;
 			if(!Changes::model()->exists("BILL_ID_FK = ".$model->ID." AND TITLE='".$message."'")){
 				$change = new Changes;
@@ -43,22 +43,44 @@
 		}
 	}
 	
-	function calculateChanges($newArray, $oldArray){
+	function calculateChanges($newArray, $oldArray, $pensionType){
 		$length = count($newArray);
 		$result = array();
 		foreach($newArray as $key=>$value){
-			if($key != "MONTH" && $key != "YEAR" && $key != "ID" && $key != "BILL_ID_FK" && $key != "EMPLOYEE_ID_FK" && $key != "FLOOD_EMI" && $key != "CYCLE_EMI" && $key != "FEST_EMI" && $key != "FLOOD_TOTAL" && 
-			$key != "FLOOD_TOTAL "  && $key != "CYCLE_TOTAL" && $key != "FEST_TOTAL" && $key != "FLOOD_INST" && $key != "CYCLE_INST" && $key != "FEST_INST" && 
-			$key != "FLOOD_BAL" && $key != "CYCLE_BAL" && $key != "FEST_BAL" && $key != "WA" && $key != "GROSS" && $key != "DED" && $key != "NET" && $key != "OTHER_DED" && 
-			$key != "AMOUNT_BANK" && $key != "CEA" && $key != "UA" && $key != "BONUS" && $key != "LTC_HTC" && $key != "IS_SALARY_BILL" && $key != "IS_FEST_RECOVERY" &&
-			$key != "IS_FLOOD_RECOVERY" && $key != "IS_CYCLE_RECOVERY" && $key != "RECOVERY" && $key != "EL_ENCASHMENT" && $key != "LTC_HTC_GROSS" && $key != "LTC_HTC_ADVANCE"){
+			if($key != "MONTH" && $key != "YEAR" && $key != "ID" && $key != "BILL_ID_FK" && $key != "EMPLOYEE_ID_FK" && $key != "WA" && $key != "GROSS" 
+			&& $key != "DED" && $key != "NET" && $key != "OTHER_DED" && $key != "AMOUNT_BANK" && $key != "CEA" && $key != "UA" && $key != "BONUS" && 
+			$key != "LTC_HTC" && $key != "IS_SALARY_BILL" && $key != "RECOVERY" && $key != "EL_ENCASHMENT" && $key != "LTC_HTC_GROSS" && $key != "LTC_HTC_ADVANCE"){
 				 if($oldArray[$key] != $newArray[$key]){
 					 $salaryModel = SalaryDetails::model();
-					 array_push($result, $salaryModel->getAttributeLabel($key)." changes from ". $oldArray[$key]." to ".$newArray[$key]);
+					 $oldValue = "";
+					 $newValue = "";
+					 $attributeLabel = "";
+					 
+					 if($key == "IS_HBA_RECOVERY" || $key == "IS_MCA_RECOVERY" || $key == "IS_COMP_RECOVERY" || $key == "IS_FEST_RECOVERY" || $key == "IS_CYCLE_RECOVERY"){
+						$oldValue = ($oldArray[$key] == 1) ? "INTEREST" : "PRINCIPAL";
+						$newValue = ($newArray[$key] == 1) ? "INTEREST" : "PRINCIPAL";
+					 }
+					 else{
+						$oldValue = $oldArray[$key];
+						$newValue = $newArray[$key];
+					 }
+					 
+					 if($key == "CPF_TIER_I"){
+						$attributeLabel = ($pensionType == "OPS") ? "GPFC" : "CPF TIER I";
+					 }
+					 else if($key == "CPF_TIER_I"){
+						$attributeLabel = ($pensionType == "NPS") ? "GPFR" : "CPF TIER II";
+					 }
+					 else{
+						$attributeLabel = $salaryModel->getAttributeLabel($key);
+					 }
+					 
+					 array_push($result, $attributeLabel." changes from ". $oldValue." to ".$newValue);
 				 }
 				 
 			 }
 		}
+		
 		return implode(",", $result);
 	}
 	

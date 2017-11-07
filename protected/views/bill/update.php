@@ -24,6 +24,25 @@ if(isset($_REQUEST['id']) && $_REQUEST['id']){
 			<div class="" style="padding: 0px;margin-top: 100px; width: 230px;padding-top: 0px!important;">
 				<ul class="side-menu-additional-list" style="padding-bottom: 30px;">
 					<?php if($model->IS_SALARY_HEAD_PAY_BILL) {?>
+						<?php 
+							$HBA_COUNT = Yii::app()->db->createCommand("SELECT COUNT(ID) AS TOTAL FROM tbl_salary_details WHERE BILL_ID_FK = ".$model->ID." AND IS_HBA_RECOVERY = 0 AND HBA_EMI !=0 ")->queryRow()['TOTAL'];
+							$HBA_INT_COUNT = Yii::app()->db->createCommand("SELECT COUNT(ID) AS TOTAL FROM tbl_salary_details WHERE BILL_ID_FK = ".$model->ID." AND IS_HBA_RECOVERY = 1 AND HBA_EMI !=0 ")->queryRow()['TOTAL'];
+							$MCA_COUNT = Yii::app()->db->createCommand("SELECT COUNT(ID) AS TOTAL FROM tbl_salary_details WHERE BILL_ID_FK = ".$model->ID." AND IS_MCA_RECOVERY = 0 AND MCA_EMI !=0 ")->queryRow()['TOTAL'];
+							$MCA_INT_COUNT = Yii::app()->db->createCommand("SELECT COUNT(ID) AS TOTAL FROM tbl_salary_details WHERE BILL_ID_FK = ".$model->ID." AND IS_MCA_RECOVERY = 1 AND MCA_EMI !=0 ")->queryRow()['TOTAL'];
+							$COMP_COUNT = Yii::app()->db->createCommand("SELECT COUNT(ID) AS TOTAL FROM tbl_salary_details WHERE BILL_ID_FK = ".$model->ID." AND IS_COMP_RECOVERY = 0 AND COMP_EMI !=0 ")->queryRow()['TOTAL'];
+							$COMP_INT_COUNT = Yii::app()->db->createCommand("SELECT COUNT(ID) AS TOTAL FROM tbl_salary_details WHERE BILL_ID_FK = ".$model->ID." AND IS_COMP_RECOVERY = 1 AND COMP_EMI !=0 ")->queryRow()['TOTAL'];
+							$CCS_COUNT = Yii::app()->db->createCommand("SELECT COUNT(CCS) AS TOTAL FROM tbl_salary_details WHERE BILL_ID_FK = ".$model->ID." AND CCS !=0 ")->queryRow()['TOTAL'];
+							$LIC_COUNT = Yii::app()->db->createCommand("SELECT COUNT(LIC) AS TOTAL FROM tbl_salary_details WHERE BILL_ID_FK = ".$model->ID." AND LIC !=0 ")->queryRow()['TOTAL'];
+							$PLI_COUNT = Yii::app()->db->createCommand("SELECT COUNT(PLI) AS TOTAL FROM tbl_salary_details WHERE BILL_ID_FK = ".$model->ID." AND PLI !=0 ")->queryRow()['TOTAL'];
+							$COURT_COUNT = Yii::app()->db->createCommand("SELECT COUNT(COURT_ATTACHMENT) AS TOTAL FROM tbl_salary_details WHERE BILL_ID_FK = ".$model->ID." AND COURT_ATTACHMENT !=0 ")->queryRow()['TOTAL'];
+							$JAYAMAHAL_COUNT = Yii::app()->db->createCommand("SELECT COUNT(MAINT_JAYAMAHAL) AS TOTAL FROM tbl_salary_details WHERE BILL_ID_FK = ".$model->ID." AND MAINT_JAYAMAHAL !=0 ")->queryRow()['TOTAL'];
+							$MADIWALA_COUNT = Yii::app()->db->createCommand("SELECT COUNT(MAINT_MADIWALA) AS TOTAL FROM tbl_salary_details WHERE BILL_ID_FK = ".$model->ID." AND MAINT_MADIWALA !=0 ")->queryRow()['TOTAL'];
+							$ASSOSC_COUNT = Yii::app()->db->createCommand("SELECT COUNT(ASSOSC_SUB) AS TOTAL FROM tbl_salary_details WHERE BILL_ID_FK = ".$model->ID." AND ASSOSC_SUB !=0 ")->queryRow()['TOTAL'];
+							$MISC_COUNT = Yii::app()->db->createCommand("SELECT COUNT(MISC) AS TOTAL FROM tbl_salary_details WHERE BILL_ID_FK = ".$model->ID." AND MISC !=0 ")->queryRow()['TOTAL'];
+							$PT_COUNT = Yii::app()->db->createCommand("SELECT COUNT(PT) AS TOTAL FROM tbl_salary_details WHERE BILL_ID_FK = ".$model->ID." AND PT !=0 ")->queryRow()['TOTAL'];
+							$LF_COUNT = Yii::app()->db->createCommand("SELECT COUNT(LF) AS TOTAL FROM tbl_salary_details WHERE BILL_ID_FK = ".$model->ID." AND LF !=0 ")->queryRow()['TOTAL'];
+						?>
+						
 						<li><a href="<?php echo Yii::app()->createUrl("Bill/SalaryDetails",array("id"=>$id))?>"><span class="tbl-row"><span class="tbl-cell tbl-cell-caption">Salary Details</span></span></a></li>
 						<li><a href="<?php echo Yii::app()->createUrl("Bill/SalaryDetailsTabular",array("id"=>$id))?>"><span class="tbl-row"><span class="tbl-cell tbl-cell-caption">Salary Details (Tabular)</span></span></a></li>
 						<li><a href="<?php echo Yii::app()->createUrl("Bill/PayBillValidate",array("id"=>$id))?>"><span class="tbl-row"><span class="tbl-cell tbl-cell-caption">Validate Calculations</span></span></a></li>
@@ -68,15 +87,14 @@ if(isset($_REQUEST['id']) && $_REQUEST['id']){
 						<li><a href="<?php echo Yii::app()->createUrl("Bill/CGHS",array("id"=>$id))?>" target="_blank"><span class="tbl-row"><span class="tbl-cell tbl-cell-caption">CGHS</span></span></a></li>
 						<li><a href="<?php echo Yii::app()->createUrl("Bill/CGEGIS",array("id"=>$id))?>" target="_blank"><span class="tbl-row"><span class="tbl-cell tbl-cell-caption">CGEGIS</span></span></a></li>
 						<li><a href="<?php echo Yii::app()->createUrl("Bill/GPF",array("id"=>$id))?>" target="_blank"><span class="tbl-row"><span class="tbl-cell tbl-cell-caption">GPF</span></span></a></li>
-						<li><a href="<?php echo Yii::app()->createUrl("Bill/LF",array("id"=>$id))?>" target="_blank"><span class="tbl-row"><span class="tbl-cell tbl-cell-caption">LICENCE FEES</span></span></a></li>
-						<?php 
-							$HBA_COUNT = Yii::app()->db->createCommand("SELECT COUNT(ID) AS TOTAL FROM db_oneadmin.tbl_salary_details WHERE BILL_ID_FK = ".$model->ID." AND IS_HBA_RECOVERY = 0 AND HBA_EMI !=0 ")->queryRow()['TOTAL'];
-							$HBA_INT_COUNT = Yii::app()->db->createCommand("SELECT COUNT(ID) AS TOTAL FROM db_oneadmin.tbl_salary_details WHERE BILL_ID_FK = ".$model->ID." AND IS_HBA_RECOVERY = 1 AND HBA_EMI !=0 ")->queryRow()['TOTAL'];
-							$MCA_COUNT = Yii::app()->db->createCommand("SELECT COUNT(ID) AS TOTAL FROM db_oneadmin.tbl_salary_details WHERE BILL_ID_FK = ".$model->ID." AND IS_MCA_RECOVERY = 0 AND MCA_EMI !=0 ")->queryRow()['TOTAL'];
-							$MCA_INT_COUNT = Yii::app()->db->createCommand("SELECT COUNT(ID) AS TOTAL FROM db_oneadmin.tbl_salary_details WHERE BILL_ID_FK = ".$model->ID." AND IS_MCA_RECOVERY = 1 AND MCA_EMI !=0 ")->queryRow()['TOTAL'];
-							$COMP_COUNT = Yii::app()->db->createCommand("SELECT COUNT(ID) AS TOTAL FROM db_oneadmin.tbl_salary_details WHERE BILL_ID_FK = ".$model->ID." AND IS_COMP_RECOVERY = 0 AND COMP_EMI !=0 ")->queryRow()['TOTAL'];
-							$COMP_INT_COUNT = Yii::app()->db->createCommand("SELECT COUNT(ID) AS TOTAL FROM db_oneadmin.tbl_salary_details WHERE BILL_ID_FK = ".$model->ID." AND IS_COMP_RECOVERY = 1 AND COMP_EMI !=0 ")->queryRow()['TOTAL'];
-						?>
+						<li>
+							<a href="<?php echo Yii::app()->createUrl("Bill/LF",array("id"=>$id))?>" target="_blank">
+								<span class="tbl-row">
+									<span class="tbl-cell tbl-cell-caption">LICENCE FEES</span>
+									<span class="counter <?php echo ($LF_COUNT > 0) ? "exists" : "not-exists"; ?>"><?php echo $LF_COUNT;?></span>
+								</span>
+							</a>
+						</li>
 						<li><a href="<?php echo Yii::app()->createUrl("Bill/HBA",array("id"=>$id))?>" target="_blank"><span class="tbl-row"><span class="tbl-cell tbl-cell-caption">HBA</span>
 						<span class="counter <?php echo ($HBA_COUNT > 0) ? "exists" : "not-exists"; ?>"><?php echo $HBA_COUNT;?></span>
 						</span></a></li>
@@ -86,9 +104,14 @@ if(isset($_REQUEST['id']) && $_REQUEST['id']){
 						<li><a href="<?php echo Yii::app()->createUrl("Bill/MCA",array("id"=>$id))?>" target="_blank"><span class="tbl-row"><span class="tbl-cell tbl-cell-caption">MCA</span>
 						<span class="counter <?php echo ($MCA_COUNT > 0) ? "exists" : "not-exists"; ?>"><?php echo $MCA_COUNT;?></span>
 						</span></a></li>
-						<li><a href="<?php echo Yii::app()->createUrl("Bill/MCA_INTEREST",array("id"=>$id))?>" target="_blank"><span class="tbl-row"><span class="tbl-cell tbl-cell-caption">MCA INTEREST</span>
-						<span class="counter <?php echo ($MCA_INT_COUNT > 0) ? "exists" : "not-exists"; ?>"><?php echo $MCA_INT_COUNT;?></span>
-						</span></a></li>
+						<li>
+							<a href="<?php echo Yii::app()->createUrl("Bill/MCA_INTEREST",array("id"=>$id))?>" target="_blank">
+								<span class="tbl-row">
+									<span class="tbl-cell tbl-cell-caption">MCA INTEREST</span>
+									<span class="counter <?php echo ($MCA_INT_COUNT > 0) ? "exists" : "not-exists"; ?>"><?php echo $MCA_INT_COUNT;?></span>
+								</span>
+							</a>
+						</li>
 						<li><a href="<?php echo Yii::app()->createUrl("Bill/COMPUTER",array("id"=>$id))?>" target="_blank"><span class="tbl-row"><span class="tbl-cell tbl-cell-caption">COMPUTER ADV.</span>
 						<span class="counter <?php echo ($COMP_COUNT > 0) ? "exists" : "not-exists"; ?>"><?php echo $COMP_COUNT;?></span>
 						</span></a></li>
@@ -103,15 +126,78 @@ if(isset($_REQUEST['id']) && $_REQUEST['id']){
 						<li><a href="<?php echo Yii::app()->createUrl("Bill/FEST",array("id"=>$id))?>" target="_blank"><span class="tbl-row"><span class="tbl-cell tbl-cell-caption">FEST</span></span></a></li>
 						<li><a href="<?php echo Yii::app()->createUrl("Bill/FEST_INTEREST",array("id"=>$id))?>" target="_blank"><span class="tbl-row"><span class="tbl-cell tbl-cell-caption">FEST INTEREST</span></span></a></li>
 						-->
-						<li><a href="<?php echo Yii::app()->createUrl("Bill/MISC",array("id"=>$id))?>" target="_blank"><span class="tbl-row"><span class="tbl-cell tbl-cell-caption">MISC</span></span></a></li>
-						<li><a href="<?php echo Yii::app()->createUrl("Bill/PT",array("id"=>$id))?>" target="_blank"><span class="tbl-row"><span class="tbl-cell tbl-cell-caption">PT</span></span></a></li>
-						<li><a href="<?php echo Yii::app()->createUrl("Bill/CCS",array("id"=>$id))?>" target="_blank"><span class="tbl-row"><span class="tbl-cell tbl-cell-caption">CR. CO. SOCIETY</span></span></a></li>
-						<li><a href="<?php echo Yii::app()->createUrl("Bill/LIC",array("id"=>$id))?>" target="_blank"><span class="tbl-row"><span class="tbl-cell tbl-cell-caption">LIC</span></span></a></li>
-						<li><a href="<?php echo Yii::app()->createUrl("Bill/PLI",array("id"=>$id))?>" target="_blank"><span class="tbl-row"><span class="tbl-cell tbl-cell-caption">PLI</span></span></a></li>
-						<li><a href="<?php echo Yii::app()->createUrl("Bill/MADIWALA",array("id"=>$id))?>" target="_blank"><span class="tbl-row"><span class="tbl-cell tbl-cell-caption">MADIWALA MAINT.</span></span></a></li>
-						<li><a href="<?php echo Yii::app()->createUrl("Bill/JAYAMAHAL",array("id"=>$id))?>" target="_blank"><span class="tbl-row"><span class="tbl-cell tbl-cell-caption">JAYAMAHAL MAINT.</span></span></a></li>
-						<li><a href="<?php echo Yii::app()->createUrl("Bill/ASSOCIATION",array("id"=>$id))?>" target="_blank"><span class="tbl-row"><span class="tbl-cell tbl-cell-caption">ASSOCIATION SUB.</span></span></a></li>
-						<li><a href="<?php echo Yii::app()->createUrl("Bill/COURT",array("id"=>$id))?>" target="_blank"><span class="tbl-row"><span class="tbl-cell tbl-cell-caption">COURT</span></span></a></li>
+						<li>
+							<a href="<?php echo Yii::app()->createUrl("Bill/MISC",array("id"=>$id))?>" target="_blank">
+								<span class="tbl-row">
+									<span class="tbl-cell tbl-cell-caption">MISC</span>
+									<span class="counter <?php echo ($MISC_COUNT > 0) ? "exists" : "not-exists"; ?>"><?php echo $MISC_COUNT;?></span>
+								</span>
+							</a>
+						</li>
+						<li>
+							<a href="<?php echo Yii::app()->createUrl("Bill/PT",array("id"=>$id))?>" target="_blank">
+								<span class="tbl-row">
+									<span class="tbl-cell tbl-cell-caption">PT</span>
+									<span class="counter <?php echo ($PT_COUNT > 0) ? "exists" : "not-exists"; ?>"><?php echo $PT_COUNT;?></span>
+								</span>
+							</a>
+						</li>
+						<li>
+							<a href="<?php echo Yii::app()->createUrl("Bill/CCS",array("id"=>$id))?>" target="_blank">
+								<span class="tbl-row">
+									<span class="tbl-cell tbl-cell-caption">CR. CO. SOCIETY</span>
+									<span class="counter <?php echo ($CCS_COUNT > 0) ? "exists" : "not-exists"; ?>"><?php echo $CCS_COUNT;?></span>
+								</span>
+							</a>
+						</li>
+						<li>
+							<a href="<?php echo Yii::app()->createUrl("Bill/LIC",array("id"=>$id))?>" target="_blank">
+								<span class="tbl-row">
+									<span class="tbl-cell tbl-cell-caption">LIC</span>
+									<span class="counter <?php echo ($LIC_COUNT > 0) ? "exists" : "not-exists"; ?>"><?php echo $LIC_COUNT;?></span>
+								</span>
+							</a>
+						</li>
+						<li>
+							<a href="<?php echo Yii::app()->createUrl("Bill/PLI",array("id"=>$id))?>" target="_blank">
+								<span class="tbl-row">
+									<span class="tbl-cell tbl-cell-caption">PLI</span>
+									<span class="counter <?php echo ($PLI_COUNT > 0) ? "exists" : "not-exists"; ?>"><?php echo $PLI_COUNT;?></span>
+								</span>
+							</a>
+						</li>
+						<li>
+							<a href="<?php echo Yii::app()->createUrl("Bill/MADIWALA",array("id"=>$id))?>" target="_blank">
+								<span class="tbl-row">
+									<span class="tbl-cell tbl-cell-caption">MADIWALA MAINT.</span>
+									<span class="counter <?php echo ($MADIWALA_COUNT > 0) ? "exists" : "not-exists"; ?>"><?php echo $MADIWALA_COUNT;?></span>
+								</span>
+							</a>
+						</li>
+						<li>
+							<a href="<?php echo Yii::app()->createUrl("Bill/JAYAMAHAL",array("id"=>$id))?>" target="_blank">
+								<span class="tbl-row">
+									<span class="tbl-cell tbl-cell-caption">JAYAMAHAL MAINT.</span>
+									<span class="counter <?php echo ($JAYAMAHAL_COUNT > 0) ? "exists" : "not-exists"; ?>"><?php echo $JAYAMAHAL_COUNT;?></span>
+								</span>
+							</a>
+						</li>
+						<li>
+							<a href="<?php echo Yii::app()->createUrl("Bill/ASSOCIATION",array("id"=>$id))?>" target="_blank">
+								<span class="tbl-row">
+									<span class="tbl-cell tbl-cell-caption">ASSOCIATION SUB.</span>
+									<span class="counter <?php echo ($ASSOSC_COUNT > 0) ? "exists" : "not-exists"; ?>"><?php echo $ASSOSC_COUNT;?></span>
+								</span>
+							</a>
+						</li>
+						<li>
+							<a href="<?php echo Yii::app()->createUrl("Bill/COURT",array("id"=>$id))?>" target="_blank">
+								<span class="tbl-row">
+									<span class="tbl-cell tbl-cell-caption">COURT</span>
+									<span class="counter <?php echo ($COURT_COUNT > 0) ? "exists" : "not-exists"; ?>"><?php echo $COURT_COUNT;?></span>
+								</span>
+							</a>
+						</li>
 						<li><a href="<?php echo Yii::app()->createUrl("Bill/PTCCSLIC",array("id"=>$id))?>" target="_blank"><span class="tbl-row"><span class="tbl-cell tbl-cell-caption">PT, CCS & LIC</span></span></a></li>
 						<li><a href="<?php echo Yii::app()->createUrl("Bill/EPAY",array("id"=>$id))?>" target="_blank"><span class="tbl-row"><span class="tbl-cell tbl-cell-caption">E PAYMENT</span></span></a></li>
 					<?php } ?>
@@ -275,7 +361,7 @@ if(isset($_REQUEST['id']) && $_REQUEST['id']){
 	text-align: center;
 	line-height: 16px;
 	border-radius: 12px;
-	font-size: 15px;
+	font-size: 13px;
 	padding-top: 3px;
 	float: right;
 	margin-top: 5px;

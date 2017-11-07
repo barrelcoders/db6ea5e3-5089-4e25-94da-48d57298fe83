@@ -203,6 +203,7 @@ class BillController extends Controller
 	
 	public function SaveSalaryDetail($id){
 		//echo "<pre>";print_r($_POST['SalaryDetails']);echo "</pre>";exit;
+		$model = $this->loadModel($id);
 		if(isset($_POST['SalaryDetails']['save']) && isset($_POST['SalaryDetails']) && isset($_POST['SalaryInfo'])){
 			//echo "<pre>";print_r($_POST['SalaryDetails']);echo "</pre>";exit;
 			$bill_id = Bill::model()->findByPK($_POST['SalaryInfo']['BILL_ID'])->ID;
