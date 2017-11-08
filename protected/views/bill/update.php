@@ -204,6 +204,7 @@ if(isset($_REQUEST['id']) && $_REQUEST['id']){
 					<?php if($model->IS_SALARY_HEAD_OTHER_BILL) {?>
 						<li><a href="<?php echo Yii::app()->createUrl("Bill/SalaryDetails",array("id"=>$id))?>"><span class="tbl-row"><span class="tbl-cell tbl-cell-caption">Salary Details</span></span></a></li>
 						<li><a href="<?php echo Yii::app()->createUrl("Bill/SalaryDetailsTabular",array("id"=>$id))?>"><span class="tbl-row"><span class="tbl-cell tbl-cell-caption">Salary Details (Tabular)</span></span></a></li><hr>
+						<li><a href="<?php echo Yii::app()->createUrl("Bill/PayBillValidate",array("id"=>$id))?>"><span class="tbl-row"><span class="tbl-cell tbl-cell-caption">Validate Calculations</span></span></a></li>
 						<?php if($model->IS_DA_ARREAR_BILL) {?>
 							<h4 style="padding-left:10px;">NILL BILL</h4>
 							<li><a href="<?php echo Yii::app()->createUrl("Bill/NillBillFront",array("id"=>$id))?>" target="_blank"><span class="tbl-row"><span class="tbl-cell tbl-cell-caption">NILL BILL FRONT SHEET</span></span></a></li>
@@ -312,6 +313,7 @@ if(isset($_REQUEST['id']) && $_REQUEST['id']){
 					<?php if($model->IS_WAGES_HEAD_PAY_BILL) {?>
 						<li><a href="<?php echo Yii::app()->createUrl("Bill/SalaryDetails",array("id"=>$id))?>"><span class="tbl-row"><span class="tbl-cell tbl-cell-caption">Salary Details</span></span></a></li>
 						<li><a href="<?php echo Yii::app()->createUrl("Bill/SalaryDetailsTabular",array("id"=>$id))?>"><span class="tbl-row"><span class="tbl-cell tbl-cell-caption">Salary Details (Tabular)</span></span></a></li>
+						<li><a href="<?php echo Yii::app()->createUrl("Bill/PayBillValidate",array("id"=>$id))?>"><span class="tbl-row"><span class="tbl-cell tbl-cell-caption">Validate Calculations</span></span></a></li>
 						<li><a href="<?php echo Yii::app()->createUrl("Bill/CasualPayBillFrontPage",array("id"=>$id))?>" target="_blank"><span class="tbl-row"><span class="tbl-cell tbl-cell-caption">Pay Bill FVC Front Sheet</span></span></a></li>
 						<li><a href="<?php echo Yii::app()->createUrl("Bill/CasualPayBillInner",array("id"=>$id))?>" target="_blank"><span class="tbl-row"><span class="tbl-cell tbl-cell-caption">Pay Details</span></span></a></li>
 						<li><a href="<?php echo Yii::app()->createUrl("Bill/CasualPayBillBackPage",array("id"=>$id))?>" target="_blank"><span class="tbl-row"><span class="tbl-cell tbl-cell-caption">Pay Bill FVC Back Sheet</span></span></a></li>
@@ -326,9 +328,19 @@ if(isset($_REQUEST['id']) && $_REQUEST['id']){
 						<?php if($model->IS_BONUS_BILL) {?>
 							<li><a href="<?php echo Yii::app()->createUrl("Bill/SalaryDetails",array("id"=>$id))?>"><span class="tbl-row"><span class="tbl-cell tbl-cell-caption">Salary Details</span></span></a></li>
 							<li><a href="<?php echo Yii::app()->createUrl("Bill/SalaryDetailsTabular",array("id"=>$id))?>"><span class="tbl-row"><span class="tbl-cell tbl-cell-caption">Salary Details (Tabular)</span></span></a></li>
-							<li><a href="<?php echo Yii::app()->createUrl("Bill/CasualPayBillFrontPage",array("id"=>$id))?>" target="_blank"><span class="tbl-row"><span class="tbl-cell tbl-cell-caption">Pay Bill FVC Front Sheet</span></span></a></li>
+							<li><a href="<?php echo Yii::app()->createUrl("Bill/CasualPayBillFrontPage",array("id"=>$id))?>" target="_blank"><span class="tbl-row"><span class="tbl-cell tbl-cell-caption">FVC Front Sheet</span></span></a></li>
 							<li><a href="<?php echo Yii::app()->createUrl("Bill/CasualBonusBillInner",array("id"=>$id))?>" target="_blank"><span class="tbl-row"><span class="tbl-cell tbl-cell-caption">Bonus Detail</span></span></a></li>
-							<li><a href="<?php echo Yii::app()->createUrl("Bill/CasualPayBillBackPage",array("id"=>$id))?>" target="_blank"><span class="tbl-row"><span class="tbl-cell tbl-cell-caption">Pay Bill FVC Back Sheet</span></span></a></li>
+							<li><a href="<?php echo Yii::app()->createUrl("Bill/CasualPayBillBackPage",array("id"=>$id))?>" target="_blank"><span class="tbl-row"><span class="tbl-cell tbl-cell-caption">FVC Back Sheet</span></span></a></li>
+							<li><a href="<?php echo Yii::app()->createUrl("Bill/CasualPayBillSanctionOrder",array("id"=>$id))?>" target="_blank"><span class="tbl-row"><span class="tbl-cell tbl-cell-caption">Sanction Order</span></span></a></li>
+							<li><a href="<?php echo Yii::app()->createUrl("Bill/EPAY",array("id"=>$id))?>" target="_blank"><span class="tbl-row"><span class="tbl-cell tbl-cell-caption">E PAYMENT</span></span></a></li>
+						<?php } ?>
+						<?php if($model->IS_DA_ARREAR_BILL) {?>
+							<li><a href="<?php echo Yii::app()->createUrl("Bill/SalaryDetails",array("id"=>$id))?>"><span class="tbl-row"><span class="tbl-cell tbl-cell-caption">Salary Details</span></span></a></li>
+							<li><a href="<?php echo Yii::app()->createUrl("Bill/SalaryDetailsTabular",array("id"=>$id))?>"><span class="tbl-row"><span class="tbl-cell tbl-cell-caption">Salary Details (Tabular)</span></span></a></li>
+							<li><a href="<?php echo Yii::app()->createUrl("Bill/PayBillValidate",array("id"=>$id))?>"><span class="tbl-row"><span class="tbl-cell tbl-cell-caption">Validate Calculations</span></span></a></li>
+							<li><a href="<?php echo Yii::app()->createUrl("Bill/CasualPayBillFrontPage",array("id"=>$id))?>" target="_blank"><span class="tbl-row"><span class="tbl-cell tbl-cell-caption">FVC Front Sheet</span></span></a></li>
+							<li><a href="<?php echo Yii::app()->createUrl("Bill/CasualPayBillInner",array("id"=>$id))?>" target="_blank"><span class="tbl-row"><span class="tbl-cell tbl-cell-caption">INNER SHEET</span></span></a></li>
+							<li><a href="<?php echo Yii::app()->createUrl("Bill/CasualPayBillBackPage",array("id"=>$id))?>" target="_blank"><span class="tbl-row"><span class="tbl-cell tbl-cell-caption">FVC Back Sheet</span></span></a></li>
 							<li><a href="<?php echo Yii::app()->createUrl("Bill/CasualPayBillSanctionOrder",array("id"=>$id))?>" target="_blank"><span class="tbl-row"><span class="tbl-cell tbl-cell-caption">Sanction Order</span></span></a></li>
 							<li><a href="<?php echo Yii::app()->createUrl("Bill/EPAY",array("id"=>$id))?>" target="_blank"><span class="tbl-row"><span class="tbl-cell tbl-cell-caption">E PAYMENT</span></span></a></li>
 						<?php } ?>

@@ -121,6 +121,13 @@ class Bill extends CActiveRecord
 		return (($this->BILL_TYPE == 1 ||  $this->BILL_TYPE == 2) && ($this->IS_DA_ARREAR_BILL == 1));
 	}
 	
+	public function getIS_NPS_DA_ARREAR_BILL(){
+		return ($this->BILL_TYPE == 2 && $this->BILL_SUB_TYPE == 50 && $this->IS_DA_ARREAR_BILL == 1);
+	}
+	public function getIS_OPS_DA_ARREAR_BILL(){
+		return ($this->BILL_TYPE == 1 && $this->BILL_SUB_TYPE == 49 && $this->IS_DA_ARREAR_BILL == 1);
+	}
+	
 	public function GetBillSubType($id)
 	{
 		$data=BillSubType::model()->findAll('TYPE=:TYPE', array(':TYPE'=>(int) $id));

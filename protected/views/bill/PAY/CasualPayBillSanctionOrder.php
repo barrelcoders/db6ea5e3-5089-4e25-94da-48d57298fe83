@@ -29,7 +29,7 @@
 </div>
 <br><br><br>
 <p style="margin-bottom: 4px;font-size: 20px;">In exercise of the power vested under Schedule V of the Delegation of Financial Power Rules, 1978, the Joint Commissioner, Central Tax, Banaglore - North Commissionerate, Bangalore, is
-pleased to sanction an expenditure of Rs. <?php echo $model->BILL_AMOUNT;?>/- <?php echo $this->amountToWord($model->BILL_AMOUNT);?> towards the Wages for 
+pleased to sanction an expenditure of Rs. <?php echo $model->BILL_AMOUNT;?>/- <?php echo $this->amountToWord($model->BILL_AMOUNT);?> towards the <?php echo $model->BILL_TITLE;?> for 
 <?php 
 	$employees = explode(",", OtherBillEmployees::model()->find('BILL_ID='.$model->ID)->EMPLOYEE_ID);
 	$emp_names = array();
@@ -39,7 +39,7 @@ pleased to sanction an expenditure of Rs. <?php echo $model->BILL_AMOUNT;?>/- <?
 ?>
 <?php echo implode(", ", $emp_names);?>, 
 <?php echo Designations::model()->findByPK(Employee::model()->findByPK(OtherBillEmployees::model()->find('BILL_ID='.$model->ID)->EMPLOYEE_ID)->DESIGNATION_ID_FK)->DESIGNATION; ?>
- for the month of <?php echo $monthName[$model->MONTH];?>-<?php echo $model->YEAR;?></p><br>
+ in the month of <?php echo $monthName[$model->MONTH];?>-<?php echo $model->YEAR;?></p><br>
 <p style="margin-bottom: 4px;font-size: 20px;">The above expenditure is debitable to the main head Wages and the expenditure should be met from within the Budget Grant for the year <?php $financialYear = FinancialYears::model()->find('STATUS=1'); echo $financialYear->NAME;?></p>
 <br><br>
 <table class="pay-schedule-table">

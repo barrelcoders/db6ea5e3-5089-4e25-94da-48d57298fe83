@@ -352,102 +352,107 @@ class BillController extends Controller
 			$model->FINANCIAL_YEAR_ID_FK=FinancialYears::model()->find('STATUS=1')->ID;
 			if(isset($_POST['Bill']['BILL_TYPE']) && ( $_POST['Bill']['BILL_TYPE'] == 1 || $_POST['Bill']['BILL_TYPE'] == 2 || $_POST['Bill']['BILL_TYPE'] == 8)){
 				if($model->save(false)){
-					if(isset($_POST['Bill']['IS_ARREAR_BILL']) && $_POST['Bill']['IS_ARREAR_BILL'] == 1){
-						$OtherBillEmployees = new OtherBillEmployees;
-						$OtherBillEmployees->BILL_ID = $model->ID;
-						if($_POST['Bill']['BILL_TYPE'] == 1 )
-							$OtherBillEmployees->EMPLOYEE_ID = implode(",", $_POST['Bill']['Employee']['OPS']);
-						if($_POST['Bill']['BILL_TYPE'] == 2 )
-							$OtherBillEmployees->EMPLOYEE_ID = implode(",", $_POST['Bill']['Employee']['NPS']);
-						$OtherBillEmployees->save(false);
-					}
-					if(isset($_POST['Bill']['IS_DA_ARREAR_BILL']) && $_POST['Bill']['IS_DA_ARREAR_BILL'] == 1){
-						$OtherBillEmployees = new OtherBillEmployees;
-						$OtherBillEmployees->BILL_ID = $model->ID;
-						if($_POST['Bill']['BILL_TYPE'] == 1 )
-							$OtherBillEmployees->EMPLOYEE_ID = implode(",", $_POST['Bill']['Employee']['OPS']);
-						if($_POST['Bill']['BILL_TYPE'] == 2 )
-							$OtherBillEmployees->EMPLOYEE_ID = implode(",", $_POST['Bill']['Employee']['NPS']);
-						$OtherBillEmployees->save(false);
-					}
-					if(isset($_POST['Bill']['IS_CEA_BILL']) && $_POST['Bill']['IS_CEA_BILL'] == 1){
-						$OtherBillEmployees = new OtherBillEmployees;
-						$OtherBillEmployees->BILL_ID = $model->ID;
-						if($_POST['Bill']['BILL_TYPE'] == 1 )
-							$OtherBillEmployees->EMPLOYEE_ID = implode(",", $_POST['Bill']['Employee']['OPS']);
-						if($_POST['Bill']['BILL_TYPE'] == 2 )
-							$OtherBillEmployees->EMPLOYEE_ID = implode(",", $_POST['Bill']['Employee']['NPS']);
-						$OtherBillEmployees->save(false);
-						
-						$CEADetails = $_POST['Bill']['CEA_BILLS'];
-						foreach($CEADetails as $CEADetail){
-							$CEAModel = new CEABillDetails;
-							$CEAModel->NAME = $CEADetail['NAME'];
-							//$CEAModel->DOB = date('Y-m-d', strtotime($CEADetail['DOB']));
-							$CEAModel->CLASS = $CEADetail['CLASS'];
-							$CEAModel->SCHOOL = $CEADetail['SCHOOL'];
-							$CEAModel->REMARKS = $CEADetail['REMARKS'];
-							$CEAModel->AMOUNT = $CEADetail['AMOUNT'];
-							$CEAModel->BILL_ID = $model->ID;
-							$CEAModel->save(false);
+					if(isset($_POST['Bill']['BILL_TYPE']) && ( $_POST['Bill']['BILL_TYPE'] == 1 || $_POST['Bill']['BILL_TYPE'] == 2)){
+						if(isset($_POST['Bill']['IS_ARREAR_BILL']) && $_POST['Bill']['IS_ARREAR_BILL'] == 1){
+							$OtherBillEmployees = new OtherBillEmployees;
+							$OtherBillEmployees->BILL_ID = $model->ID;
+							if($_POST['Bill']['BILL_TYPE'] == 1 )
+								$OtherBillEmployees->EMPLOYEE_ID = implode(",", $_POST['Bill']['Employee']['OPS']);
+							if($_POST['Bill']['BILL_TYPE'] == 2 )
+								$OtherBillEmployees->EMPLOYEE_ID = implode(",", $_POST['Bill']['Employee']['NPS']);
+							$OtherBillEmployees->save(false);
 						}
-					}
-					if(isset($_POST['Bill']['IS_BONUS_BILL']) && $_POST['Bill']['IS_BONUS_BILL'] == 1 && ($_POST['Bill']['BILL_TYPE'] == 1 || $_POST['Bill']['BILL_TYPE'] == 2)){
-						$OtherBillEmployees = new OtherBillEmployees;
-						$OtherBillEmployees->BILL_ID = $model->ID;
-						if($_POST['Bill']['BILL_TYPE'] == 1 )
-							$OtherBillEmployees->EMPLOYEE_ID = implode(",", $_POST['Bill']['Employee']['OPS_BONUS']);
-						if($_POST['Bill']['BILL_TYPE'] == 2 )
-							$OtherBillEmployees->EMPLOYEE_ID = implode(",", $_POST['Bill']['Employee']['NPS_BONUS']);
-						$OtherBillEmployees->save(false);
-					}
-					if(isset($_POST['Bill']['IS_UA_BILL']) && $_POST['Bill']['IS_UA_BILL'] == 1){
-						$OtherBillEmployees = new OtherBillEmployees;
-						$OtherBillEmployees->BILL_ID = $model->ID;
-						$OtherBillEmployees->EMPLOYEE_ID = implode(",", $_POST['Bill']['Employee']['UA']);
-						$OtherBillEmployees->save(false);
-					}
-					if(isset($_POST['Bill']['IS_LTC_ADVANCE_BILL']) && $_POST['Bill']['IS_LTC_ADVANCE_BILL'] == 1){
-						$OtherBillEmployees = new OtherBillEmployees;
-						$OtherBillEmployees->BILL_ID = $model->ID;
-						if($_POST['Bill']['BILL_TYPE'] == 1 )
-							$OtherBillEmployees->EMPLOYEE_ID = implode(",", $_POST['Bill']['Employee']['OPS']);
-						if($_POST['Bill']['BILL_TYPE'] == 2 )
-							$OtherBillEmployees->EMPLOYEE_ID = implode(",", $_POST['Bill']['Employee']['NPS']);
-						$OtherBillEmployees->save(false);
-					}
-					if(isset($_POST['Bill']['IS_LTC_CLAIM_BILL']) && $_POST['Bill']['IS_LTC_CLAIM_BILL'] == 1){
-						$OtherBillEmployees = new OtherBillEmployees;
-						$OtherBillEmployees->BILL_ID = $model->ID;
-						if($_POST['Bill']['BILL_TYPE'] == 1 )
-							$OtherBillEmployees->EMPLOYEE_ID = implode(",", $_POST['Bill']['Employee']['OPS']);
-						if($_POST['Bill']['BILL_TYPE'] == 2 )
-							$OtherBillEmployees->EMPLOYEE_ID = implode(",", $_POST['Bill']['Employee']['NPS']);
-						$OtherBillEmployees->save(false);
-					}
-					if(isset($_POST['Bill']['IS_EL_ENCASHMENT_BILL']) && $_POST['Bill']['IS_EL_ENCASHMENT_BILL'] == 1){
-						$OtherBillEmployees = new OtherBillEmployees;
-						$OtherBillEmployees->BILL_ID = $model->ID;
-						if($_POST['Bill']['BILL_TYPE'] == 1 )
-							$OtherBillEmployees->EMPLOYEE_ID = implode(",", $_POST['Bill']['Employee']['OPS']);
-						if($_POST['Bill']['BILL_TYPE'] == 2 )
-							$OtherBillEmployees->EMPLOYEE_ID = implode(",", $_POST['Bill']['Employee']['NPS']);
-						$OtherBillEmployees->save(false);
-					}
-					if(isset($_POST['Bill']['IS_RECOVERY_BILL']) && $_POST['Bill']['IS_RECOVERY_BILL'] == 1){
-						$OtherBillEmployees = new OtherBillEmployees;
-						$OtherBillEmployees->BILL_ID = $model->ID;
-						if($_POST['Bill']['BILL_TYPE'] == 1 )
-							$OtherBillEmployees->EMPLOYEE_ID = implode(",", $_POST['Bill']['Employee']['OPS']);
-						if($_POST['Bill']['BILL_TYPE'] == 2 )
-							$OtherBillEmployees->EMPLOYEE_ID = implode(",", $_POST['Bill']['Employee']['NPS']);
-						$OtherBillEmployees->save(false);
+						if(isset($_POST['Bill']['IS_DA_ARREAR_BILL']) && $_POST['Bill']['IS_DA_ARREAR_BILL'] == 1){
+							$OtherBillEmployees = new OtherBillEmployees;
+							$OtherBillEmployees->BILL_ID = $model->ID;
+							if($_POST['Bill']['BILL_TYPE'] == 1 )
+								$OtherBillEmployees->EMPLOYEE_ID = implode(",", $_POST['Bill']['Employee']['OPS']);
+							if($_POST['Bill']['BILL_TYPE'] == 2 )
+								$OtherBillEmployees->EMPLOYEE_ID = implode(",", $_POST['Bill']['Employee']['NPS']);
+							$OtherBillEmployees->save(false);
+						}
+						if(isset($_POST['Bill']['IS_CEA_BILL']) && $_POST['Bill']['IS_CEA_BILL'] == 1){
+							$OtherBillEmployees = new OtherBillEmployees;
+							$OtherBillEmployees->BILL_ID = $model->ID;
+							if($_POST['Bill']['BILL_TYPE'] == 1 )
+								$OtherBillEmployees->EMPLOYEE_ID = implode(",", $_POST['Bill']['Employee']['OPS']);
+							if($_POST['Bill']['BILL_TYPE'] == 2 )
+								$OtherBillEmployees->EMPLOYEE_ID = implode(",", $_POST['Bill']['Employee']['NPS']);
+							$OtherBillEmployees->save(false);
+							
+							$CEADetails = $_POST['Bill']['CEA_BILLS'];
+							foreach($CEADetails as $CEADetail){
+								$CEAModel = new CEABillDetails;
+								$CEAModel->NAME = $CEADetail['NAME'];
+								//$CEAModel->DOB = date('Y-m-d', strtotime($CEADetail['DOB']));
+								$CEAModel->CLASS = $CEADetail['CLASS'];
+								$CEAModel->SCHOOL = $CEADetail['SCHOOL'];
+								$CEAModel->REMARKS = $CEADetail['REMARKS'];
+								$CEAModel->AMOUNT = $CEADetail['AMOUNT'];
+								$CEAModel->BILL_ID = $model->ID;
+								$CEAModel->save(false);
+							}
+						}
+						if(isset($_POST['Bill']['IS_BONUS_BILL']) && $_POST['Bill']['IS_BONUS_BILL'] == 1 && ($_POST['Bill']['BILL_TYPE'] == 1 || $_POST['Bill']['BILL_TYPE'] == 2)){
+							$OtherBillEmployees = new OtherBillEmployees;
+							$OtherBillEmployees->BILL_ID = $model->ID;
+							if($_POST['Bill']['BILL_TYPE'] == 1 )
+								$OtherBillEmployees->EMPLOYEE_ID = implode(",", $_POST['Bill']['Employee']['OPS_BONUS']);
+							if($_POST['Bill']['BILL_TYPE'] == 2 )
+								$OtherBillEmployees->EMPLOYEE_ID = implode(",", $_POST['Bill']['Employee']['NPS_BONUS']);
+							$OtherBillEmployees->save(false);
+						}
+						if(isset($_POST['Bill']['IS_UA_BILL']) && $_POST['Bill']['IS_UA_BILL'] == 1){
+							$OtherBillEmployees = new OtherBillEmployees;
+							$OtherBillEmployees->BILL_ID = $model->ID;
+							$OtherBillEmployees->EMPLOYEE_ID = implode(",", $_POST['Bill']['Employee']['UA']);
+							$OtherBillEmployees->save(false);
+						}
+						if(isset($_POST['Bill']['IS_LTC_ADVANCE_BILL']) && $_POST['Bill']['IS_LTC_ADVANCE_BILL'] == 1){
+							$OtherBillEmployees = new OtherBillEmployees;
+							$OtherBillEmployees->BILL_ID = $model->ID;
+							if($_POST['Bill']['BILL_TYPE'] == 1 )
+								$OtherBillEmployees->EMPLOYEE_ID = implode(",", $_POST['Bill']['Employee']['OPS']);
+							if($_POST['Bill']['BILL_TYPE'] == 2 )
+								$OtherBillEmployees->EMPLOYEE_ID = implode(",", $_POST['Bill']['Employee']['NPS']);
+							$OtherBillEmployees->save(false);
+						}
+						if(isset($_POST['Bill']['IS_LTC_CLAIM_BILL']) && $_POST['Bill']['IS_LTC_CLAIM_BILL'] == 1){
+							$OtherBillEmployees = new OtherBillEmployees;
+							$OtherBillEmployees->BILL_ID = $model->ID;
+							if($_POST['Bill']['BILL_TYPE'] == 1 )
+								$OtherBillEmployees->EMPLOYEE_ID = implode(",", $_POST['Bill']['Employee']['OPS']);
+							if($_POST['Bill']['BILL_TYPE'] == 2 )
+								$OtherBillEmployees->EMPLOYEE_ID = implode(",", $_POST['Bill']['Employee']['NPS']);
+							$OtherBillEmployees->save(false);
+						}
+						if(isset($_POST['Bill']['IS_EL_ENCASHMENT_BILL']) && $_POST['Bill']['IS_EL_ENCASHMENT_BILL'] == 1){
+							$OtherBillEmployees = new OtherBillEmployees;
+							$OtherBillEmployees->BILL_ID = $model->ID;
+							if($_POST['Bill']['BILL_TYPE'] == 1 )
+								$OtherBillEmployees->EMPLOYEE_ID = implode(",", $_POST['Bill']['Employee']['OPS']);
+							if($_POST['Bill']['BILL_TYPE'] == 2 )
+								$OtherBillEmployees->EMPLOYEE_ID = implode(",", $_POST['Bill']['Employee']['NPS']);
+							$OtherBillEmployees->save(false);
+						}
+						if(isset($_POST['Bill']['IS_RECOVERY_BILL']) && $_POST['Bill']['IS_RECOVERY_BILL'] == 1){
+							$OtherBillEmployees = new OtherBillEmployees;
+							$OtherBillEmployees->BILL_ID = $model->ID;
+							if($_POST['Bill']['BILL_TYPE'] == 1 )
+								$OtherBillEmployees->EMPLOYEE_ID = implode(",", $_POST['Bill']['Employee']['OPS']);
+							if($_POST['Bill']['BILL_TYPE'] == 2 )
+								$OtherBillEmployees->EMPLOYEE_ID = implode(",", $_POST['Bill']['Employee']['NPS']);
+							$OtherBillEmployees->save(false);
+						}
 					}
 					if(isset($_POST['Bill']['BILL_TYPE']) && $_POST['Bill']['BILL_TYPE'] == 8){
 						$OtherBillEmployees = new OtherBillEmployees;
 						$OtherBillEmployees->BILL_ID = $model->ID;
 						if(isset($_POST['Bill']['IS_BONUS_BILL']) && $_POST['Bill']['IS_BONUS_BILL'] == 1){
 							$OtherBillEmployees->EMPLOYEE_ID = implode(",", $_POST['Bill']['Employee']['WAGES_BONUS']);
+						}
+						else if(isset($_POST['Bill']['IS_DA_ARREAR_BILL']) && $_POST['Bill']['IS_DA_ARREAR_BILL'] == 1){
+							$OtherBillEmployees->EMPLOYEE_ID = implode(",", $_POST['Bill']['Employee']['WAGES']);
 						}
 						else{
 							$OtherBillEmployees->EMPLOYEE_ID = implode(",", $_POST['Bill']['Employee']['WAGES']);

@@ -229,7 +229,10 @@ function ValueChange(field){
 	else{
 		hraComponentElement.val(0);
 	}
-	daComponentElement.val(DA_AMOUNT);
+	
+	if($(basicComponentElement).length > 0){
+		daComponentElement.val(DA_AMOUNT);
+	}
 	
 	if(container.find("#PENSION_TYPE").val() == "NPS"){
 		cpfComponentElement.val(Math.round((parseInt(getElementValue(daComponentElement)) + parseInt(getElementValue($(basicComponentElement)))) * (CPF_RATE/100)));

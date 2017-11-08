@@ -45,7 +45,8 @@ var SALARY_OPS_BILL = 1,
 	OE_Telephones = 12,
 	OE_Electricity_Charges = 13,
 	OE_Misc_Office_Expenses = 14,
-	WAGES_AD_BONUS_BILL = 51;
+	WAGES_AD_BONUS_BILL = 51,
+	WAGES_DA_ARREAR_BILL = 52;
 	
 	
 	
@@ -432,6 +433,22 @@ $(document).ready(function(){
 				$("#IS_BONUS_BILL").val(1);
 				$('#txtBillTitle').val($("#Bill_BILL_SUB_TYPE option:selected").text()+" in R/O Casual Labour Staff of "+DEPT_NAME);
 			}
+			if(bill_sub_type == WAGES_DA_ARREAR_BILL){
+				//var register_count = parseInt($("#BILL_REGISTER_COUNT").val());
+				//$("#Bill_BILL_NO").val("Arr/"+zeroPad((register_count+1), 2)+"/"+FIANANCIAL_YEAR+" dt "+TODAY_DATE);
+				
+				$("#wages-emp").show();
+				$("#BILL_NO_SECTION").show();
+				$("#BILL_TITLE_SECTION").show();
+				$("#MONTH_SECTION").show();
+				$("#YEAR_SECTION").show();
+				$("#CREATION_DATE_SECTION").show();
+				$("#FILE_NO_SECTION").show();
+				$("#PFMS_BILL_NO_SECTION").show();
+				$("#IS_DA_ARREAR_BILL").val(1);
+				$('#txtBillTitle').val($("#Bill_BILL_SUB_TYPE option:selected").text()+" in R/O Casual Labour Staff of "+MONTH_YEAR);
+			}
+			
 		}
 		else if(bill_type == OE_BILL){
 			if(bill_sub_type == OE_Postage_and_Telegrams){
@@ -1132,6 +1149,17 @@ function loadFormOnUpdate(){
 				$("#FILE_NO_SECTION").show();
 				$("#PFMS_BILL_NO_SECTION").show();
 				$("#IS_BONUS_BILL").val(1);
+			}
+			if(CURRENT_BILL_SUB_TYPE == WAGES_DA_ARREAR_BILL){
+				$("#wages-emp").show();
+				$("#BILL_NO_SECTION").show();
+				$("#BILL_TITLE_SECTION").show();
+				$("#MONTH_SECTION").show();
+				$("#YEAR_SECTION").show();
+				$("#CREATION_DATE_SECTION").show();
+				$("#FILE_NO_SECTION").show();
+				$("#PFMS_BILL_NO_SECTION").show();
+				$("#IS_DA_ARREAR_BILL").val(1);
 			}
 		}
 		else if(CURRENT_BILL_TYPE == OE_BILL){

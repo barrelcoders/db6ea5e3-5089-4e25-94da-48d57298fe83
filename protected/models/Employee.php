@@ -130,6 +130,11 @@ class Employee extends CActiveRecord
 		);
 	}
 	
+	public function scopes() {
+		return array(
+			'ByDesignation' => array('order' => 'DESIGNATION_ID_FK DESC'),
+		);
+	}
 	
 	/**
 	 * Retrieves a list of models based on the current search/filter conditions.

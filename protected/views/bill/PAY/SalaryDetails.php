@@ -90,10 +90,10 @@
 						$criteria=new CDbCriteria;
 						$criteria->compare("PENSION_TYPE",'OPS');
 						$criteria->addInCondition('ID', $salaryBillEmployees);
-						$employees = Employee::model()->findAll($criteria);
+						$employees = Employee::model()->ByDesignation()->findAll($criteria);
 					}
 					else{
-						$employees = Employee::model()->findAllByAttributes(array('PENSION_TYPE'=>'OPS', 'IS_TRANSFERRED'=>0, 'IS_RETIRED'=>0, 'IS_PERMANENT'=>1, 'IS_SUSPENDED'=>0));
+						$employees = Employee::model()->ByDesignation()->findAllByAttributes(array('PENSION_TYPE'=>'OPS', 'IS_TRANSFERRED'=>0, 'IS_RETIRED'=>0, 'IS_PERMANENT'=>1, 'IS_SUSPENDED'=>0));
 					}
 					$DATA_URL = Yii::app()->createUrl('Employee/OPSSalaryBillEmployees');
 				}
@@ -104,17 +104,17 @@
 						$criteria=new CDbCriteria;
 						$criteria->compare("PENSION_TYPE",'NPS');
 						$criteria->addInCondition('ID', $salaryBillEmployees);
-						$employees = Employee::model()->findAll($criteria);
+						$employees = Employee::model()->ByDesignation()->findAll($criteria);
 					}
 					else{
-						$employees = Employee::model()->findAllByAttributes(array('PENSION_TYPE'=>'NPS', 'IS_TRANSFERRED'=>0, 'IS_RETIRED'=>0, 'IS_PERMANENT'=>1, 'IS_SUSPENDED'=>0));
+						$employees = Employee::model()->ByDesignation()->findAllByAttributes(array('PENSION_TYPE'=>'NPS', 'IS_TRANSFERRED'=>0, 'IS_RETIRED'=>0, 'IS_PERMANENT'=>1, 'IS_SUSPENDED'=>0));
 					}
 					$DATA_URL = Yii::app()->createUrl('Employee/NPSSalaryBillEmployees');
 				}
 			}
 			if($bill->IS_WAGES_HEAD_PAY_BILL){
 				$OtherBillEmployees = explode(",", OtherBillEmployees::model()->findByAttributes(array('BILL_ID'=>$model->ID))->EMPLOYEE_ID);
-				$employees = Employee::model()->findAllByAttributes(array('ID'=>$OtherBillEmployees));
+				$employees = Employee::model()->ByDesignation()->findAllByAttributes(array('ID'=>$OtherBillEmployees));
 				$DATA_URL = Yii::app()->createUrl('Employee/WagesBillEmployees', array('BILL_ID'=>$model->ID));
 				?>
 				<p style="text-align: center;font-weight bold;font-size:11px;margin-bottom: 10px;">1. For IT Provisional <?php echo FinancialYears::model()->find('STATUS=1')->NAME?> Toggle, click Employee Name & Press ( q )</p>
@@ -123,7 +123,7 @@
 			}
 			if($bill->IS_SALARY_HEAD_OTHER_BILL || $bill->IS_WAGES_HEAD_OTHER_BILL){ 
 				$OtherBillEmployees = explode(",", OtherBillEmployees::model()->findByAttributes(array('BILL_ID'=>$model->ID))->EMPLOYEE_ID);
-				$employees = Employee::model()->findAllByAttributes(array('ID'=>$OtherBillEmployees));
+				$employees = Employee::model()->ByDesignation()->findAllByAttributes(array('ID'=>$OtherBillEmployees));
 				$DATA_URL = Yii::app()->createUrl('Employee/OtherBillEmployees', array('BILL_ID'=>$model->ID));
 				?>
 				<input type="hidden" name="SalaryDetails[IS_SALARY_BILL]" value="0"/>
