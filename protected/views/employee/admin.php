@@ -35,14 +35,32 @@ for($i=1; $i<=$EMPLOYEE_COUNT; $i++){
 			'itemsCssClass' => 'table table-bordered table-hover',
 			'dataProvider'=>$model->search(),
 			'columns'=>array(
-				'NAME',
+				array(
+					'header'=>'NAME',
+					'name'=>'NAME',
+					'type'=>'raw',
+					'value'=>function ($data){ 
+						$status="";
+						if($data->IS_TRANSFERRED == 1){
+							$status="TRANSFERRED on ".date("d-m-Y", strtotime($data->DEPT_RELIEF_DATE))." to ".$data->TRANSFERED_TO;
+						}
+						if($data->IS_RETIRED == 1){
+							$status="RETIRED on ".date("d-m-Y", strtotime($data->ORG_RETIRE_DATE));
+						}
+						if($data->IS_SUSPENDED == 1){
+							$status="SUSPENDED on ".date("d-m-Y", strtotime($data->SUSPENSION_DATE));
+						}
+								
+						return $data->NAME."<br><span style='color:#f00;font-size:10px;'>".$status."</span>";
+					},
+				),
 				'NAME_HINDI',
 				array(
 					'header'=>'DOB',
 					'name'=>'DOB',
 					'type'=>'raw',
 					'value'=>function ($data){ 
-							return date('d-m-Y', strtotime($data->DOB));
+						return date('d-m-Y', strtotime($data->DOB));
 					}
 				),
 				/*array(
