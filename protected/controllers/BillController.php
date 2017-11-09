@@ -110,6 +110,17 @@ class BillController extends Controller
 		));
 	}
 	
+	public function actionReGenerate($id){
+		$model = Bill::model()->findByPK($id);
+		$model->PFMS_STATUS = "Generated";
+		$model->PASSED_DATE = NULL;
+		$model->save(false);
+		
+		$model=new Bill('search');
+		$model->unsetAttributes();
+		
+		$this->redirect(array('Bill/admin'));
+	}
 	
 	public function actionOEFVCFrontPage($id)
 	{

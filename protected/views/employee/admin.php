@@ -220,7 +220,7 @@ for($i=1; $i<=$EMPLOYEE_COUNT; $i++){
 </div>
 <style>
 	a{color:#000; text-decoration: none;border:none !important;margin-right: 5px;}
-	a:hover{color:#000;text-decoration: underline;}
+	a:hover, a:visited, a:active{color:#000;text-decoration: underline;}
 </style>
 <script>
 

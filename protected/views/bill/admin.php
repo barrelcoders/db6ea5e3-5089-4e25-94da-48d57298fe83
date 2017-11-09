@@ -87,11 +87,33 @@ table.table.table-bordered.table-hover{font-size: 14px;}
 						return $data->BILL_AMOUNT;
 					}
 				), 
+				array(
+					'class'=>'CButtonColumn',
+					'htmlOptions' => array('style'=>'width:150px'),
+					'template' => '{regenerate}',
+					'buttons'=>array
+					(
+						'regenerate' => array
+						(
+							'url'=>'Yii::app()->createUrl("Bill/ReGenerate", array("id"=>$data->ID))',
+							'options'=>array('class'=>'btn btn-rounded btn-inline btn-success'),
+							'visible'=>function($row, $data){
+								return (strtoupper($data->PFMS_STATUS) == "PASSED");
+							},
+							'click'=>'function(){return confirm("Are you sure wants to regenerate this bill ?");}',
+							'imageUrl'=>'',
+							'label'=>'Regenerate',
+						),
+					),
+				),
 			),
 		)); ?>
 	</div>
 </div>
-
+<style>
+	a{color:#000; text-decoration: none;border:none !important;margin-right: 5px;}
+	a:hover, a:visited, a:active{color:#000;text-decoration: underline;}
+</style>
 <script>
 $(document).ready(function(){
 	$('.billStatusType').change(function(){
@@ -108,4 +130,7 @@ $(document).ready(function(){
 		
 	});	
 });
+function regenerateBill(id){
+	alert(id);
+}
 </script>

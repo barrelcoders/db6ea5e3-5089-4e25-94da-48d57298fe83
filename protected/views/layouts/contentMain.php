@@ -195,6 +195,8 @@
 	                <li><a href="<?php echo Yii::app()->createUrl('Master/update', array('id'=>1));?>"><span class="lbl">Master Settings</span></a></li>
 	                <li><a href="<?php echo Yii::app()->createUrl('Vendors/create');?>"><span class="lbl">Add Vendor</span></a></li>
 	                <li><a href="<?php echo Yii::app()->createUrl('Vendors/admin');?>"><span class="lbl">Manage Vendors</span></a></li>
+	                <li><a href="<?php echo Yii::app()->createUrl('HRASlabs/create');?>"><span class="lbl">Add HRA Slab</span></a></li>
+	                <li><a href="<?php echo Yii::app()->createUrl('HRASlabs/admin');?>"><span class="lbl">Manage HRA Slabs</span></a></li>
 	            </ul>
 	        </li>
 	     </ul>

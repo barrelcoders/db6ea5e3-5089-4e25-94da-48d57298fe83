@@ -1,12 +1,12 @@
 <?php
 
-class VendorsController extends Controller
+class HRASlabsController extends Controller
 {
 	/**
 	 * @var string the default layout for the views. Defaults to '//layouts/column2', meaning
 	 * using two-column layout. See 'protected/views/layouts/column2.php'.
 	 */
-	public $layout='//layouts/contentMain';
+	public $layout='//layouts/contentLayout';
 
 	/**
 	 * @return array action filters
@@ -28,7 +28,7 @@ class VendorsController extends Controller
 	{
 		return array(
 			array('allow',  // allow all users to perform 'index' and 'view' actions
-				'actions'=>array('index','view','create','update','admin','delete'),
+				'actions'=>array('index','view', 'create','update', 'admin','delete'),
 				'users'=>array('*'),
 			),
 			array('allow', // allow authenticated user to perform 'create' and 'update' actions
@@ -62,17 +62,16 @@ class VendorsController extends Controller
 	 */
 	public function actionCreate()
 	{
-		$model=new Vendors;
+		$model=new HRASlabs;
 
 		// Uncomment the following line if AJAX validation is needed
 		// $this->performAjaxValidation($model);
 
-		if(isset($_POST['Vendors']))
+		if(isset($_POST['HRASlabs']))
 		{
-			$model->attributes=$_POST['Vendors'];
-			if($model->save(false)){
+			$model->attributes=$_POST['HRASlabs'];
+			if($model->save())
 				$this->redirect(array('admin'));
-			}
 		}
 
 		$this->render('create',array(
@@ -92,12 +91,11 @@ class VendorsController extends Controller
 		// Uncomment the following line if AJAX validation is needed
 		// $this->performAjaxValidation($model);
 
-		if(isset($_POST['Vendors']))
+		if(isset($_POST['HRASlabs']))
 		{
-			$model->attributes=$_POST['Vendors'];
-			if($model->save(false)){
+			$model->attributes=$_POST['HRASlabs'];
+			if($model->save())
 				$this->redirect(array('admin'));
-			}
 		}
 
 		$this->render('update',array(
@@ -124,7 +122,7 @@ class VendorsController extends Controller
 	 */
 	public function actionIndex()
 	{
-		$dataProvider=new CActiveDataProvider('Vendors');
+		$dataProvider=new CActiveDataProvider('HRASlabs');
 		$this->render('index',array(
 			'dataProvider'=>$dataProvider,
 		));
@@ -135,10 +133,10 @@ class VendorsController extends Controller
 	 */
 	public function actionAdmin()
 	{
-		$model=new Vendors('search');
+		$model=new HRASlabs('search');
 		$model->unsetAttributes();  // clear any default values
-		if(isset($_GET['Vendors']))
-			$model->attributes=$_GET['Vendors'];
+		if(isset($_GET['HRASlabs']))
+			$model->attributes=$_GET['HRASlabs'];
 
 		$this->render('admin',array(
 			'model'=>$model,
@@ -149,12 +147,12 @@ class VendorsController extends Controller
 	 * Returns the data model based on the primary key given in the GET variable.
 	 * If the data model is not found, an HTTP exception will be raised.
 	 * @param integer $id the ID of the model to be loaded
-	 * @return Vendors the loaded model
+	 * @return HRASlabs the loaded model
 	 * @throws CHttpException
 	 */
 	public function loadModel($id)
 	{
-		$model=Vendors::model()->findByPk($id);
+		$model=HRASlabs::model()->findByPk($id);
 		if($model===null)
 			throw new CHttpException(404,'The requested page does not exist.');
 		return $model;
@@ -162,11 +160,11 @@ class VendorsController extends Controller
 
 	/**
 	 * Performs the AJAX validation.
-	 * @param Vendors $model the model to be validated
+	 * @param HRASlabs $model the model to be validated
 	 */
 	protected function performAjaxValidation($model)
 	{
-		if(isset($_POST['ajax']) && $_POST['ajax']==='vendors-form')
+		if(isset($_POST['ajax']) && $_POST['ajax']==='hraslabs-form')
 		{
 			echo CActiveForm::validate($model);
 			Yii::app()->end();

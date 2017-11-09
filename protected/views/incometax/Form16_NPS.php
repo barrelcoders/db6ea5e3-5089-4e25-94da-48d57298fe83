@@ -298,27 +298,28 @@
 		<td><?php echo $MIN_SAVING_80C;?></td>
 	</tr>
 	<tr class="no-border">
-		<td colspan="3" class="no-border"></td>
+		<td colspan="3" class="no-border">&nbsp;</td>
 		<td colspan="3" class="no-border"></td>
 		<td class="no-border"></td>
 		<td class="no-border"></td>
-		<td colspan="3" class="left-text">Govt. CPF contr. 80CCD(2)</td>
-		<td><?php echo $TOTAL_CPF_GOVT;?></td>
+		<td class="no-border"></td>
+		<td colspan="4" class="no-border"></td>
 	</tr>
 	<tr class="no-border">
 		<td colspan="2" class="no-border right-text">A-B</td>
 		<td colspan="4" >TOTAL TAXABLE INCOME</td>
 		<td><?php echo $TOTAL_TAXABLE_INCOME;?></td>
 		<td class="no-border"></td>
-		<td colspan="3" class="left-text">TOTAL - EXEMPTION</td>
-		<td><?php echo $NET_SAVING_80C;?></td>
+		<td colspan="3" class="left-text">Govt. CPF contr. 80CCD(2)</td>
+		<td><?php echo $TOTAL_CPF_GOVT;?></td>
 	</tr>
 	<tr class="no-border">
 		<td colspan="2" class="no-border"></td>
 		<td colspan="4" >(Rounded off to nearest Ten Rupees)</td>
 		<td><?php echo $TOTAL_TAXABLE_INCOME_ROUNDED;?></td>
 		<td class="no-border"></td>
-		<td colspan="4" class="no-border"></td>
+		<td colspan="3" class="left-text">TOTAL - EXEMPTION</td>
+		<td><?php echo $NET_SAVING_80C;?></td>
 	</tr>
 	<tr class="no-border">
 		<td colspan="7" class="no-border">&nbsp;</td>

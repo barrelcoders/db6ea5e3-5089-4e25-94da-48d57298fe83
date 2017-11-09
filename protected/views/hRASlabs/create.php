@@ -3,7 +3,7 @@
 		<div class="tbl">
 			<div class="tbl-row">
 				<div class="tbl-cell">
-					<h2>Update Vendor</h2>
+					<h2>Create HRA Slab</h2>
 					<div class="subtitle"></div>
 				</div>
 			</div>

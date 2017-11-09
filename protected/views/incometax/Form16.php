@@ -204,16 +204,18 @@
 		$TOTAL_BONUS = $BONUS_CURRENT_OFFICE + $BONUS_PREVIOUS_OFFICE;
 		
 		
-		$bills = Bill::model()->findAll('PFMS_STATUS="Passed" AND FINANCIAL_YEAR_ID_FK='.$financialYear->ID.' AND IS_UA_BILL=1');
-		$UA_CURRENT_OFFICE = 0;
-		foreach($bills as $bill){
-			$OtherBillEmployees = explode(",", OtherBillEmployees::model()->find('BILL_ID='.$bill->ID)->EMPLOYEE_ID);
-			if(in_array($id, $OtherBillEmployees)){
-				$UA_CURRENT_OFFICE = Yii::app()->db->createCommand("SELECT SUM(UA) AS TOTAL FROM tbl_salary_details WHERE EMPLOYEE_ID_FK=".$id." AND BILL_ID_FK=".$bill->ID)->queryRow()['TOTAL'];
-			}
-		}
-		$UA_PREVIOUS_OFFICE = isset($investment->UNIFORM) ? $investment->UNIFORM : 0;
-		$TOTAL_UA = $UA_CURRENT_OFFICE + $UA_PREVIOUS_OFFICE;
+		//$bills = Bill::model()->findAll('PFMS_STATUS="Passed" AND FINANCIAL_YEAR_ID_FK='.$financialYear->ID.' AND IS_UA_BILL=1');
+		//$UA_CURRENT_OFFICE = 0;
+		//foreach($bills as $bill){
+		//	$OtherBillEmployees = explode(",", OtherBillEmployees::model()->find('BILL_ID='.$bill->ID)->EMPLOYEE_ID);
+		//	if(in_array($id, $OtherBillEmployees)){
+		//		$UA_CURRENT_OFFICE = Yii::app()->db->createCommand("SELECT SUM(UA) AS TOTAL FROM tbl_salary_details WHERE EMPLOYEE_ID_FK=".$id." AND BILL_ID_FK=".$bill->ID)->queryRow()['TOTAL'];
+		//	}
+		//}
+		//$UA_PREVIOUS_OFFICE = isset($investment->UNIFORM) ? $investment->UNIFORM : 0;
+		//$TOTAL_UA = $UA_CURRENT_OFFICE + $UA_PREVIOUS_OFFICE;
+		$TOTAL_UA = 0;
+		
 		
 		$bills = Bill::model()->findAll('PFMS_STATUS="Passed" AND FINANCIAL_YEAR_ID_FK='.$financialYear->ID.' AND IS_CEA_BILL=1');
 		$CEA_CURRENT_OFFICE = 0;
@@ -226,16 +228,17 @@
 		$CEA_PREVIOUS_OFFICE = isset($investment->CEA) ? $investment->CEA : 0;
 		$TOTAL_CEA = $CEA_CURRENT_OFFICE + $CEA_PREVIOUS_OFFICE;
 		
-		$bills = Bill::model()->findAll('PFMS_STATUS="Passed" AND FINANCIAL_YEAR_ID_FK='.$financialYear->ID.' AND (IS_LTC_ADVANCE_BILL=1 OR IS_LTC_CLAIM_BILL=1)');
-		$LTC_HTC_CURRENT_OFFICE = 0;
-		foreach($bills as $bill){
-			$OtherBillEmployees = explode(",", OtherBillEmployees::model()->find('BILL_ID='.$bill->ID)->EMPLOYEE_ID);
-			if(in_array($id, $OtherBillEmployees)){
-				$LTC_HTC_CURRENT_OFFICE = Yii::app()->db->createCommand("SELECT SUM(LTC_HTC) AS TOTAL FROM tbl_salary_details WHERE EMPLOYEE_ID_FK=".$id." AND BILL_ID_FK=".$bill->ID)->queryRow()['TOTAL'];
-			}
-		}
-		$LTC_HTC_PREVIOUS_OFFICE = isset($investment->LTC_HTC) ? $investment->LTC_HTC : 0;
-		$TOTAL_LTC_HTC = $LTC_HTC_CURRENT_OFFICE + $LTC_HTC_PREVIOUS_OFFICE;
+		//$bills = Bill::model()->findAll('PFMS_STATUS="Passed" AND FINANCIAL_YEAR_ID_FK='.$financialYear->ID.' AND (IS_LTC_ADVANCE_BILL=1 OR IS_LTC_CLAIM_BILL=1)');
+		//$LTC_HTC_CURRENT_OFFICE = 0;
+		//foreach($bills as $bill){
+		//	$OtherBillEmployees = explode(",", OtherBillEmployees::model()->find('BILL_ID='.$bill->ID)->EMPLOYEE_ID);
+		//	if(in_array($id, $OtherBillEmployees)){
+		//		$LTC_HTC_CURRENT_OFFICE = Yii::app()->db->createCommand("SELECT SUM(LTC_HTC) AS TOTAL FROM tbl_salary_details WHERE EMPLOYEE_ID_FK=".$id." AND BILL_ID_FK=".$bill->ID)->queryRow()['TOTAL'];
+		//	}
+		//}
+		//$LTC_HTC_PREVIOUS_OFFICE = isset($investment->LTC_HTC) ? $investment->LTC_HTC : 0;
+		//$TOTAL_LTC_HTC = $LTC_HTC_CURRENT_OFFICE + $LTC_HTC_PREVIOUS_OFFICE;
+		$TOTAL_LTC_HTC = 0;
 		
 		$bills = Bill::model()->findAll('PFMS_STATUS="Passed" AND FINANCIAL_YEAR_ID_FK='.$financialYear->ID.' AND IS_EL_ENCASHMENT_BILL=1');
 		$EL_ENCASH_CURRENT_OFFICE = 0;

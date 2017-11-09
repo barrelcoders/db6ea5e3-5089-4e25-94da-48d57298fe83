@@ -4,7 +4,7 @@
 		<div class="tbl">
 			<div class="tbl-row">
 				<div class="tbl-cell">
-					<h2></h2>
+					<h2>Manage HRA Slabs </h2>
 					<div class="subtitle"></div>
 				</div>
 			</div>
@@ -18,7 +18,8 @@
 			'filter'=>$model,
 			'columns'=>array(
 				'NAME',
-				'ADDRESS',
+				'RATE',
+				'DESCRIPTION',
 				array(
 					'class'=>'CButtonColumn',
 					'htmlOptions' => array('style'=>'width:100px'),
@@ -27,14 +28,14 @@
 					(
 						'update' => array
 						(
-							'url'=>'Yii::app()->createUrl("Vendors/Update", array("id"=>$data->ID))',
+							'url'=>'Yii::app()->createUrl("HRASlabs/Update", array("id"=>$data->ID))',
 							'options'=>array('class'=>'glyphicon glyphicon-pencil'),
 							'imageUrl'=>'',
 							'label'=>''
 						),
 						'delete' => array
 						(
-							'url'=>'Yii::app()->createUrl("Vendors/Delete", array("id"=>$data->ID))',
+							'url'=>'Yii::app()->createUrl("HRASlabs/Delete", array("id"=>$data->ID))',
 							'options'=>array('class'=>'glyphicon glyphicon-trash'),
 							'imageUrl'=>'',
 							'label'=>''

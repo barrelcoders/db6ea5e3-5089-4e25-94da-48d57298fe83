@@ -24,7 +24,7 @@
 		$i = 1;	
 		$criteria = new CDbCriteria();
 		$criteria->select = 't.EMPLOYEE_ID_FK';
-		$criteria->condition = 't.BILL_ID_FK='.$model->ID;
+		$criteria->condition = 't.BILL_ID_FK='.$model->ID.' AND t.ASSOSC_SUB > 0';
 		$criteria->group = 't.EMPLOYEE_ID_FK';
 		$criteria->join='INNER JOIN tbl_employee e ON e.ID = t.EMPLOYEE_ID_FK';
 		$criteria->order = 'e.DESIGNATION_ID_FK DESC';
@@ -34,38 +34,36 @@
 			$j=1;
 			foreach($periods as $period){
 				$salary = SalaryDetails::model()->find("t.EMPLOYEE_ID_FK=".$employee->EMPLOYEE_ID_FK." AND t.BILL_ID_FK=".$model->ID." AND t.MONTH=".$period['MONTH']." AND t.YEAR=".$period['YEAR']);
-				if($salary->ASSOSC_SUB){
-					if($model->IS_MULTIPLE_MONTH) { 
-						if($j==1){
-							?>
-							<tr>
-								<td rowspan="<?php echo $total_months;?>" class="small-xxx right-br"><?php echo $i; ?></td>
-								<td rowspan="<?php echo $total_months;?>" class="small right-br"><b><?php echo Employee::model()->findByPK($salary->EMPLOYEE_ID_FK)->NAME;?></b></td>
-								<td rowspan="<?php echo $total_months;?>" class="small right-br"><b><?php echo Designations::model()->findByPK(Employee::model()->findByPK($salary->EMPLOYEE_ID_FK)->DESIGNATION_ID_FK)->DESIGNATION;?></b></td>
-								<td class="small-xx right-br"><?php echo $period['FORMAT']; ?></td>
-								<td class="small-xx"><?php echo $salary->ASSOSC_SUB; ?></td>
-							</tr>
-							<?php
-						}
-						else{
-							?>
-							<tr>
-								<td class="small-xx right-br"><?php echo $period['FORMAT']; ?></td>
-								<td class="small-xx"><?php echo $salary->ASSOSC_SUB; ?></td>
-							</tr>
-							<?php
-						}
-					}
-					else{
+				if($model->IS_MULTIPLE_MONTH) { 
+					if($j==1){
 						?>
 						<tr>
 							<td rowspan="<?php echo $total_months;?>" class="small-xxx right-br"><?php echo $i; ?></td>
 							<td rowspan="<?php echo $total_months;?>" class="small right-br"><b><?php echo Employee::model()->findByPK($salary->EMPLOYEE_ID_FK)->NAME;?></b></td>
 							<td rowspan="<?php echo $total_months;?>" class="small right-br"><b><?php echo Designations::model()->findByPK(Employee::model()->findByPK($salary->EMPLOYEE_ID_FK)->DESIGNATION_ID_FK)->DESIGNATION;?></b></td>
+							<td class="small-xx right-br"><?php echo $period['FORMAT']; ?></td>
 							<td class="small-xx"><?php echo $salary->ASSOSC_SUB; ?></td>
 						</tr>
 						<?php
 					}
+					else{
+						?>
+						<tr>
+							<td class="small-xx right-br"><?php echo $period['FORMAT']; ?></td>
+							<td class="small-xx"><?php echo $salary->ASSOSC_SUB; ?></td>
+						</tr>
+						<?php
+					}
+				}
+				else{
+					?>
+					<tr>
+						<td rowspan="<?php echo $total_months;?>" class="small-xxx right-br"><?php echo $i; ?></td>
+						<td rowspan="<?php echo $total_months;?>" class="small right-br"><b><?php echo Employee::model()->findByPK($salary->EMPLOYEE_ID_FK)->NAME;?></b></td>
+						<td rowspan="<?php echo $total_months;?>" class="small right-br"><b><?php echo Designations::model()->findByPK(Employee::model()->findByPK($salary->EMPLOYEE_ID_FK)->DESIGNATION_ID_FK)->DESIGNATION;?></b></td>
+						<td class="small-xx"><?php echo $salary->ASSOSC_SUB; ?></td>
+					</tr>
+					<?php
 				}
 			}
 			$i++;
