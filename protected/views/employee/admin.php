@@ -18,7 +18,7 @@ for($i=1; $i<=$EMPLOYEE_COUNT; $i++){
 		<div class="tbl">
 			<div class="tbl-row">
 				<div class="tbl-cell">
-					<h2>Manage Employees</h2>
+					<!--<h2></h2>-->
 					<div class="subtitle"></div>
 				</div>
 			</div>
@@ -263,7 +263,20 @@ $(document).ready(function(){
 			});
 		}
 	});	
-	
-	
 });
+
+function tableSearch(){
+	var input, filter;
+	input = document.getElementById('Employee_NAME');
+	filter = input.value.toUpperCase();
+
+	$('#employee-grid table tr').find("td:first").each(function(evt, element){
+		element = $(element), row = element.parent('tr'), content = element.html();
+		if (content.toUpperCase().indexOf(filter) > -1) {
+			row.show();
+		} else {
+			row.hide();
+		}
+	});
+}
 </script>
