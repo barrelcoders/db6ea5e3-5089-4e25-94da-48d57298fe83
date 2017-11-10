@@ -540,5 +540,6 @@
 	var IS_LTC_HTC_CLAIM_BILL = <?php echo ($bill->IS_LTC_CLAIM_BILL) ? 1 : 0;?>;
 	var FORM_16_URL = '<?php echo Yii::app()->createUrl('IncomeTax/Form16', array('type'=>'Dialog'));?>&id=';
 	var TABLE_FORMAT = 0;
+	var IS_ARREAR_BILL = <?php echo $bill->IS_ARREAR_BILL;?>;
 </script>	
 <script type="text/javascript" src="js/salary-details.js"></script>

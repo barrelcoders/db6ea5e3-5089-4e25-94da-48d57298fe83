@@ -18,7 +18,7 @@ $this->menu=array(
 		<div class="tbl">
 			<div class="tbl-row">
 				<div class="tbl-cell">
-					<h2>Employee Search</h2>
+					<h2>Salaries Search</h2>
 					<div class="subtitle"></div>
 				</div>
 			</div>
@@ -36,7 +36,7 @@ $this->menu=array(
 
 		<div class="row">
 			<div class="col-sm-6">
-				<div style="padding: 10px;height: 200px;overflow-y: scroll;overflow-x: hidden;">
+				<div style="padding: 10px;height: 100px;">
 					<?php 
 						$months = array(''=>'', '1'=>'January','2'=>'February', '3'=>'March', '4'=>'April', '5'=>'May', '6'=>'June', '7'=>'July', '8'=>'August', '9'=>'September', '10'=>'October', '11'=>'November', '12'=>'December',);
 						$years = array(''=>'', '2016'=>'2016', '2017'=>'2017', '2018'=>'2018', '2019'=>'2019', '2020'=>'2020', '2021'=>'2021');
@@ -96,11 +96,13 @@ $this->menu=array(
 			</div>
 			<div class="col-sm-6">
 				<div id="names" style="margin-bottom:10px;" class="col-sm-12">
-					<div style="background: #333;padding: 5px;" class="col-sm-12" >
-						<input type="text" class="names-list-search" size="40" placeholder="SEARCH NAME" onkeyup="search(this, 'names');" style="width: 55%;"/><span style="float: right;color: #FFF;"><input type="checkBox" class="names-select-all" onclick="selectList('names');"> SELECT ALL</span>
+					<div class="col-sm-12 list-header" >
+						<label>NAME</label>
+						<input type="text" class="names-list-search" size="40" placeholder="SEARCH" onkeyup="search(this, 'names');" style="width: 55%;"/>
+						<span style="float: right;color: #FFF;"><input type="checkBox" class="names-select-all" onclick="selectList('names');"> SELECT ALL</span>
 						<!--<input type="checkBox" class="names-select-all" onclick="selectList('names');"> SELECT ALL</span>-->
 					</div>
-					<ul class="col-sm-12 list">
+					<ul class="col-sm-12 list closed">
 					<?php 
 						$Employees = Employee::model()->findAllByAttributes(array('IS_PERMANENT'=>1));
 						foreach($Employees as $employee){
@@ -130,10 +132,12 @@ $this->menu=array(
 					</ul>
 				</div>
 				<div id="designation" style="margin-bottom:10px;" class="col-sm-12">
-					<div style="background: #333;padding: 5px;" class="col-sm-12" >
-						<input type="text" class="designation-list-search" size="40" placeholder="SEARCH DESIGNATION" onkeyup="search(this, 'designation');" style="width: 55%;"/><span style="float: right;color: #FFF;"><input type="checkBox" class="designation-select-all" onclick="selectList('designation');"> SELECT ALL</span>
+					<div class="col-sm-12 list-header">
+						<label>DESIGNATION</label>
+						<input type="text" class="designation-list-search" size="40" placeholder="SEARCH" onkeyup="search(this, 'designation');" style="width: 55%;"/>
+						<span style="float: right;color: #FFF;"><input type="checkBox" class="designation-select-all" onclick="selectList('designation');"> SELECT ALL</span>
 					</div>
-					<ul style="background: rgb(204, 204, 204);padding: 10px;height: 200px;overflow-y: scroll;" class="col-sm-12">
+					<ul  class="list col-sm-12  closed">
 					<?php 
 						$Designations = Designations::model()->findAll();
 						foreach($Designations as $designation){
@@ -145,55 +149,101 @@ $this->menu=array(
 					</ul>
 				</div>
 				<div id="pension-type" style="margin-bottom:10px;" class="col-sm-12">
-					<div style="background: #333;padding: 5px;">
-						<input type="text" class="pension-type-list-search" size="40" placeholder="SEARCH PENSION TYPE" onkeyup="search(this, 'pension-type');" style="width: 55%;"/><span style="float: right;color: #FFF;"><input type="checkBox" class="pension-type-select-all" onclick="selectList('pension-type');"> SELECT ALL</span>
+					<div class="list-header">
+						<label>PENSION TYPE</label>
+						<span style="float: right;color: #FFF;"><input type="checkBox" class="pension-type-select-all" onclick="selectList('pension-type');"> SELECT ALL</span>
 					</div>
-					<ul style="background: rgb(204, 204, 204);padding: 10px;height: 100px;overflow-y: scroll;">
+					<ul class="list closed">
 						<li><input type="checkbox" name="Employee[PENSION][]" value="'OPS'"> <span>OLD PENSION SCHEME</span></li>
 						<li><input type="checkbox" name="Employee[PENSION][]" value="'NPS'"> <span>NEW PENSION SCHEME</span></li>
 					</ul>
 				</div>
 				<div id="uniform" style="margin-bottom:10px;" class="col-sm-12">
-					<div style="background: #333;padding: 5px;">
-						<input type="text" class="uniform-list-search" size="40" placeholder="SEARCH UNIFORM ALLOWANCE ELLIGIBLE" onkeyup="search(this, 'uniform');" style="width: 55%;"/><span style="float: right;color: #FFF;"><input type="checkBox" class="uniform-select-all" onclick="selectList('uniform');"> SELECT ALL</span>
+					<div class="list-header">
+						<label>UA ALLOWANCE</label>
+						<span style="float: right;color: #FFF;"><input type="checkBox" class="uniform-select-all" onclick="selectList('uniform');"> SELECT ALL</span>
 					</div>
-					<ul style="background: rgb(204, 204, 204);padding: 10px;height: 100px;overflow-y: scroll;">
+					<ul class="list closed">
 						<li><input type="checkbox" name="Employee[UA][]" value="0"> <span>ELLIGIBLE</span></li>
 						<li><input type="checkbox" name="Employee[UA][]" value="1"> <span>NOT ELLIGIBLE</span></li>
 					</ul>
 				</div>
 				<div id="bonus" style="margin-bottom:10px;" class="col-sm-12">
-					<div style="background: #333;padding: 5px;">
-						<input type="text" class="bonus-list-search" size="40" placeholder="SEARCH AD-HOC BONUS ELLIGIBLE" onkeyup="search(this, 'bonus');" style="width: 55%;"/><span style="float: right;color: #FFF;"><input type="checkBox" class="bonus-all" onclick="selectList('bonus');"> SELECT ALL</span>
+					<div class="list-header">
+						<label>BONUS ALLOWANCE</label>
+						<span style="float: right;color: #FFF;"><input type="checkBox" class="bonus-all" onclick="selectList('bonus');"> SELECT ALL</span>
 					</div>
-					<ul style="background: rgb(204, 204, 204);padding: 10px;height: 100px;overflow-y: scroll;">
+					<ul class="list closed">
 						<li><input type="checkbox" name="Employee[BONUS][]" value="0"> <span>ELLIGIBLE</span></li>
 						<li><input type="checkbox" name="Employee[BONUS][]" value="1"> <span>NOT ELLIGIBLE</span></li>
 					</ul>
 				</div>
 				<div id="gender" style="margin-bottom:10px;" class="col-sm-12">
-					<div style="background: #333;padding: 5px;">
-						<input type="text" class="gender-list-search" size="40" placeholder="SEARCH GENDER" onkeyup="search(this, 'gender');" style="width: 55%;"/><span style="float: right;color: #FFF;"><input type="checkBox" class="gender-all" onclick="selectList('gender');"> SELECT ALL</span>
+					<div class="list-header">
+						<label>GENDER</label>
+						<span style="float: right;color: #FFF;"><input type="checkBox" class="gender-all" onclick="selectList('gender');"> SELECT ALL</span>
 					</div>
-					<ul style="background: rgb(204, 204, 204);padding: 10px;height: 100px;overflow-y: scroll;">
+					<ul class="list closed">
 						<li><input type="checkbox" name="Employee[GENDER][]" value="'Male'"> <span>MALE</span></li>
 						<li><input type="checkbox" name="Employee[GENDER][]" value="'Female'"> <span>FEMALE</span></li>
 					</ul>
 				</div>
 				<div id="quarter-alloc" style="margin-bottom:10px;" class="col-sm-12">
-					<div style="background: #333;padding: 5px;">
-						<input type="text" class="quarter-alloc-list-search" size="40" placeholder="SEARCH QUARTER ALLOCATION" onkeyup="search(this, 'quarter-alloc');" style="width: 55%;"/><span style="float: right;color: #FFF;"><input type="checkBox" class="quarter-alloc-select-all" onclick="selectList('quarter-alloc');"> SELECT ALL</span>
+					<div class="list-header">
+						<label>QUARTER ALLOCATE</label>
+						<span style="float: right;color: #FFF;"><input type="checkBox" class="quarter-alloc-select-all" onclick="selectList('quarter-alloc');"> SELECT ALL</span>
 					</div>
-					<ul style="background: rgb(204, 204, 204);padding: 10px;height: 100px;overflow-y: scroll;">
+					<ul class="list closed">
 						<li><input type="checkbox" name="Employee[QUARTER_ALLOCATE][]" value="0"> <span>NO</span></li>
 						<li><input type="checkbox" name="Employee[QUARTER_ALLOCATE][]" value="1"> <span>YES</span></li>
 					</ul>
 				</div>
-				<div id="hra-slab" style="margin-bottom:10px;" class="col-sm-12">
-					<div style="background: #333;padding: 5px;">
-						<input type="text" class="hra-slab-list-search" size="40" placeholder="SEARCH HRA SLAB" onkeyup="search(this, 'hra-slab');" style="width: 55%;"/><span style="float: right;color: #FFF;"><input type="checkBox" class="hra-slab-select-all" onclick="selectList('hra-slab');"> SELECT ALL</span>
+				<div id="permanent" style="margin-bottom:10px;" class="col-sm-12">
+					<div class="list-header">
+						<label>PERMANENT</label>
+						<span style="float: right;color: #FFF;"><input type="checkBox" class="permanent-select-all" onclick="selectList(event, 'permanent');"> SELECT ALL</span>
 					</div>
-					<ul style="background: rgb(204, 204, 204);padding: 10px;height: 100px;overflow-y: scroll;">
+					<ul class="list closed">
+						<li><input type="checkbox" name="Employee[IS_PERMANENT][]" value="0"> <span>NO</span></li>
+						<li><input type="checkbox" name="Employee[IS_PERMANENT][]" value="1"> <span>YES</span></li>
+					</ul>
+				</div>
+				<div id="transfered" style="margin-bottom:10px;" class="col-sm-12">
+					<div class="list-header">
+						<label>TRANSFERED</label>
+						<span style="float: right;color: #FFF;"><input type="checkBox" class="transfered-select-all" onclick="selectList(event, 'transfered');"> SELECT ALL</span>
+					</div>
+					<ul class="list closed">
+						<li><input type="checkbox" name="Employee[IS_TRANSFERRED][]" value="0"> <span>NO</span></li>
+						<li><input type="checkbox" name="Employee[IS_TRANSFERRED][]" value="1"> <span>YES</span></li>
+					</ul>
+				</div>
+				<div id="retired" style="margin-bottom:10px;" class="col-sm-12">
+					<div class="list-header">
+						<label>RETIRED</label>
+						<span style="float: right;color: #FFF;"><input type="checkBox" class="retired-select-all" onclick="selectList(event, 'retired');"> SELECT ALL</span>
+					</div>
+					<ul class="list closed">
+						<li><input type="checkbox" name="Employee[IS_RETIRED][]" value="0"> <span>NO</span></li>
+						<li><input type="checkbox" name="Employee[IS_RETIRED][]" value="1"> <span>YES</span></li>
+					</ul>
+				</div>
+				<div id="suspended" style="margin-bottom:10px;" class="col-sm-12">
+					<div class="list-header">
+						<label>SUSPENDED</label>
+						<span style="float: right;color: #FFF;"><input type="checkBox" class="suspended-select-all" onclick="selectList(event, 'suspended');"> SELECT ALL</span>
+					</div>
+					<ul class="list closed">
+						<li><input type="checkbox" name="Employee[IS_SUSPENDED][]" value="0"> <span>NO</span></li>
+						<li><input type="checkbox" name="Employee[IS_SUSPENDED][]" value="1"> <span>YES</span></li>
+					</ul>
+				</div>
+				<div id="hra-slab" style="margin-bottom:10px;" class="col-sm-12">
+					<div class="list-header">
+						<label>HRA SLAB</label>
+						<span style="float: right;color: #FFF;"><input type="checkBox" class="hra-slab-select-all" onclick="selectList('hra-slab');"> SELECT ALL</span>
+					</div>
+					<ul class="list closed">
 						<?php 
 							$slabs = HRASlabs::model()->findAll();
 							foreach($slabs as $slab){
@@ -259,6 +309,19 @@ function validate(){
 		
 	return true;
 }
+$(document).ready(function(){
+	$(".list-header").click(function(){
+		if($(this).next(".list").hasClass("closed")){
+			$(this).next(".list").removeClass("closed");
+			$(this).next(".list").addClass("open");
+		}
+		else{
+			$(this).next(".list").removeClass("open");
+			$(this).next(".list").addClass("closed");
+		}
+	});
+});
+
 
 </script>
 <style>
@@ -266,9 +329,14 @@ function validate(){
 		background: #fd9595;
 	}
 	ul.list{
-		height: 300px;
 		overflow-y: scroll;
 		border-left: 1px Solid #ccc;
+	}
+	ul.list.open{
+		height: 300px;
+	}
+	ul.list.closed{
+		height: 0;
 	}
 	ul.list li{
 		padding: 5px;
@@ -278,5 +346,15 @@ function validate(){
 		float: right;
 		line-height: 20px;
 		color: #000;
+	}
+	.list-header{
+		height: 37px;
+		cursor:pointer;
+		background: #333;
+		padding: 5px;
+	}
+	.list-header label{
+		color: #FFF;
+		display: inline-block;
 	}
 </style>

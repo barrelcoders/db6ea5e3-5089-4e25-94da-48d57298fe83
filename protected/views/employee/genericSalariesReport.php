@@ -60,6 +60,9 @@
 		if(count($employee_ids) > 0){
 			array_push($conditions, "ID IN (".implode(",", $employee_ids).")");
 		}
+		if(count($designations) > 0){
+			array_push($conditions, "DESIGNATION_ID_FK IN (".implode(",", $designations).")");
+		}
 		if(count($pension) > 0){
 			array_push($conditions, "PENSION_TYPE IN (".implode(",", $pension).")");
 		}
@@ -71,6 +74,18 @@
 		}
 		if(count($gender) > 0){
 			array_push($conditions, "GENDER IN (".implode(",", $gender).")");
+		}
+		if(count($permanent) > 0){
+			array_push($conditions, "IS_PERMANENT IN (".implode(",", $permanent).")");
+		}
+		if(count($transfered) > 0){
+			array_push($conditions, "IS_TRANSFERRED IN (".implode(",", $transfered).")");
+		}
+		if(count($retired) > 0){
+			array_push($conditions, "IS_RETIRED IN (".implode(",", $retired).")");
+		}
+		if(count($suspended) > 0){
+			array_push($conditions, "IS_SUSPENDED IN (".implode(",", $suspended).")");
 		}
 		if(count($quarter) > 0){
 			array_push($conditions, "IS_QUARTER_ALLOCATED IN (".implode(",", $quarter).")");

@@ -219,23 +219,24 @@ function ValueChange(field){
 	NET_AMOUNT = 0,
 	CREDIT_AMOUNT = 0; 
 	
-	var DA_AMOUNT = Math.round(parseInt($(basicComponentElement).val())*(DA_RATE/100));
-	
-	if(!QUARTER_ALLOCATED){
-		var HRA_AMOUNT = Math.round(parseInt($(basicComponentElement).val())*(HRA_RATE/100));
+	if(!IS_ARREAR_BILL){
+		var DA_AMOUNT = Math.round(parseInt($(basicComponentElement).val())*(DA_RATE/100));
+		if(!QUARTER_ALLOCATED){
+			var HRA_AMOUNT = Math.round(parseInt($(basicComponentElement).val())*(HRA_RATE/100));
+			
+			hraComponentElement.val((HRA_AMOUNT < MIN_HRA) ? MIN_HRA : HRA_AMOUNT);
+		}
+		else{
+			hraComponentElement.val(0);
+		}
 		
-		hraComponentElement.val((HRA_AMOUNT < MIN_HRA) ? MIN_HRA : HRA_AMOUNT);
-	}
-	else{
-		hraComponentElement.val(0);
-	}
-	
-	if($(basicComponentElement).length > 0){
-		daComponentElement.val(DA_AMOUNT);
-	}
-	
-	if(container.find("#PENSION_TYPE").val() == "NPS"){
-		cpfComponentElement.val(Math.round((parseInt(getElementValue(daComponentElement)) + parseInt(getElementValue($(basicComponentElement)))) * (CPF_RATE/100)));
+		if($(basicComponentElement).length > 0){
+			daComponentElement.val(DA_AMOUNT);
+		}
+		
+		if(container.find("#PENSION_TYPE").val() == "NPS"){
+			cpfComponentElement.val(Math.round((parseInt(getElementValue(daComponentElement)) + parseInt(getElementValue($(basicComponentElement)))) * (CPF_RATE/100)));
+		}
 	}
 	
 	if($(field).hasClass('hba-total') || $(field).hasClass('hba-inst') || $(field).hasClass('hba-emi')){

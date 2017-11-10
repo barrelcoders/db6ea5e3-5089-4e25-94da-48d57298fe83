@@ -362,6 +362,10 @@ class EmployeeController extends Controller
 				'uniform'=>isset($_POST['Employee']['UA']) ? $_POST['Employee']['UA'] : array(),
 				'bonus'=>isset($_POST['Employee']['BONUS']) ? $_POST['Employee']['BONUS'] : array(),
 				'gender'=>isset($_POST['Employee']['GENDER']) ? $_POST['Employee']['GENDER'] : array(),
+				'permanent'=>isset($_POST['Employee']['IS_PERMANENT']) ? $_POST['Employee']['IS_PERMANENT'] : array(),
+				'transfered'=>isset($_POST['Employee']['IS_TRANSFERRED']) ? $_POST['Employee']['IS_TRANSFERRED'] : array(),
+				'retired'=>isset($_POST['Employee']['IS_RETIRED']) ? $_POST['Employee']['IS_RETIRED'] : array(),
+				'suspended'=>isset($_POST['Employee']['IS_SUSPENDED']) ? $_POST['Employee']['IS_SUSPENDED'] : array(),
 				'quarter'=>isset($_POST['Employee']['QUARTER_ALLOCATE']) ? $_POST['Employee']['QUARTER_ALLOCATE'] : array(),
 				'hra_slab'=>isset($_POST['Employee']['HRA_SLAB']) ? $_POST['Employee']['HRA_SLAB'] : array(),
 			));
@@ -397,6 +401,10 @@ class EmployeeController extends Controller
 				'uniform'=>isset($_POST['Employee']['UA']) ? $_POST['Employee']['UA'] : array(),
 				'bonus'=>isset($_POST['Employee']['BONUS']) ? $_POST['Employee']['BONUS'] : array(),
 				'gender'=>isset($_POST['Employee']['GENDER']) ? $_POST['Employee']['GENDER'] : array(),
+				'permanent'=>isset($_POST['Employee']['IS_PERMANENT']) ? $_POST['Employee']['IS_PERMANENT'] : array(),
+				'transfered'=>isset($_POST['Employee']['IS_TRANSFERRED']) ? $_POST['Employee']['IS_TRANSFERRED'] : array(),
+				'retired'=>isset($_POST['Employee']['IS_RETIRED']) ? $_POST['Employee']['IS_RETIRED'] : array(),
+				'suspended'=>isset($_POST['Employee']['IS_SUSPENDED']) ? $_POST['Employee']['IS_SUSPENDED'] : array(),
 				'quarter'=>isset($_POST['Employee']['QUARTER_ALLOCATE']) ? $_POST['Employee']['QUARTER_ALLOCATE'] : array(),
 				'hra_slab'=>isset($_POST['Employee']['HRA_SLAB']) ? $_POST['Employee']['HRA_SLAB'] : array(),
 			));
