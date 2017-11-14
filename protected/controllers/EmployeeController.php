@@ -511,6 +511,34 @@ class EmployeeController extends Controller
 			echo "FAIL";exit;
 		}
 	}
+	
+	public function actionPreviousOfficeArrearChange($id, $month, $year, $basic, $pp_sp, $ta, $hra, $da, $total, $cgegis, $cghs, $cpf, $pt, $it, $pli, $lic)
+	{
+		$PreviousOfficePayArrears = PreviousOfficePayArrears::model()->findByPk($id);
+		$PreviousOfficePayArrears->MONTH = $month;
+		$PreviousOfficePayArrears->YEAR = $year;
+		$PreviousOfficePayArrears->BASIC = $basic;
+		$PreviousOfficePayArrears->PP_SP = $pp_sp;
+		$PreviousOfficePayArrears->MONTH = $month;
+		$PreviousOfficePayArrears->TA = $ta;
+		$PreviousOfficePayArrears->HRA = $hra;
+		$PreviousOfficePayArrears->DA = $da;
+		$PreviousOfficePayArrears->TOTAL = $total;
+		$PreviousOfficePayArrears->CGEGIS = $cgegis;
+		$PreviousOfficePayArrears->CGHS = $cghs;
+		$PreviousOfficePayArrears->CPF = $cpf;
+		$PreviousOfficePayArrears->PT = $pt;
+		$PreviousOfficePayArrears->IT = $it;
+		$PreviousOfficePayArrears->PLI = $pli;
+		$PreviousOfficePayArrears->LIC = $lic;
+		if($PreviousOfficePayArrears->save(false)){
+			echo "SUCCESS";exit;
+		}
+		else{
+			echo "FAIL";exit;
+		}
+	}
+	
 	public function actionDeleteLICPolicy($id)
 	{
 		$EmployeeLICPolicies = EmployeeLICPolicies::model()->findByPk($id);
@@ -525,6 +553,17 @@ class EmployeeController extends Controller
 	{
 		$EmployeePLIPolicies = EmployeePLIPolicies::model()->findByPk($id);
 		if($EmployeePLIPolicies->delete()){
+			echo "SUCCESS";exit;
+		}
+		else{
+			echo "FAIL";exit;
+		}
+	}
+	
+	public function actionDeletePreviousOfficeArrear($id)
+	{
+		$PreviousOfficePayArrears = PreviousOfficePayArrears::model()->findByPk($id);
+		if($PreviousOfficePayArrears->delete()){
 			echo "SUCCESS";exit;
 		}
 		else{

@@ -268,6 +268,10 @@ class BillController extends Controller
 								$SalaryDetails->LTC_HTC_ADVANCE = isset($PAY_DETAILS['LTC_HTC_ADVANCE']) ? $PAY_DETAILS['LTC_HTC_ADVANCE'] : 0;
 								$SalaryDetails->LTC_HTC = $PAY_DETAILS['LTC_HTC'];
 							}
+							if(isset($PAY_DETAILS['EL_ENCASHMENT'])){
+								$SalaryDetails->EL_ENCASHMENT = $PAY_DETAILS['EL_ENCASHMENT'];
+							}
+							
 							$SalaryDetails->save(false);
 						}
 					}

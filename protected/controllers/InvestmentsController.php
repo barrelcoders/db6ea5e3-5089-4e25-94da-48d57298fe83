@@ -117,6 +117,27 @@ class InvestmentsController extends Controller
 			$model->EMPLOYEE_ID = $id;
 			$model->FINANCIAL_YEAR_ID_FK = FinancialYears::model()->find("STATUS=1")->ID;
 			if($model->save(false)){
+				$arrears = $_POST['Employee']['ARREAR'];
+				foreach($arrears as $arrear){
+					$PreviousOfficePayArrears = new PreviousOfficePayArrears;
+					$PreviousOfficePayArrears->EMPLOYEE_ID_FK = $id;
+					$PreviousOfficePayArrears->MONTH = $arrear['MONTH'];
+					$PreviousOfficePayArrears->YEAR = $arrear['YEAR'];
+					$PreviousOfficePayArrears->BASIC = $arrear['BASIC'];
+					$PreviousOfficePayArrears->PP_SP = $arrear['PP_SP'];
+					$PreviousOfficePayArrears->TA = $arrear['TA'];
+					$PreviousOfficePayArrears->HRA = $arrear['HRA'];
+					$PreviousOfficePayArrears->DA = $arrear['DA'];
+					$PreviousOfficePayArrears->TOTAL = $arrear['TOTAL'];
+					$PreviousOfficePayArrears->CGEGIS = $arrear['CGEGIS'];
+					$PreviousOfficePayArrears->CGHS = $arrear['CGHS'];
+					$PreviousOfficePayArrears->CPF = $arrear['CPF'];
+					$PreviousOfficePayArrears->PT = $arrear['PT'];
+					$PreviousOfficePayArrears->IT = $arrear['IT'];
+					$PreviousOfficePayArrears->PLI = $arrear['PLI'];
+					$PreviousOfficePayArrears->LIC = $arrear['LIC'];
+					$PreviousOfficePayArrears->save(false);
+				}
 				$this->redirect(array('update','id'=>$id, 'msg'=>1));
 			}
 		}

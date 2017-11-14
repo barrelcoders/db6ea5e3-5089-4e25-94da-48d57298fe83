@@ -158,6 +158,30 @@
 					));
 				}
 			}
+			$previous_office_arrear = PreviousOfficePayArrears::model()->find('EMPLOYEE_ID_FK='.$id.' AND MONTH='.$MONTH.' AND YEAR='.$YEAR);
+				if($previous_office_arrear){
+					$salary = $previous_office_arrear;
+					array_push($SALARIES, array(
+						'MONTH'=>$MONTH,
+						'YEAR'=>$YEAR,
+						'PERIOD'=>'Arr '.$monthName[$salary->MONTH].'-'.$salary->YEAR,
+						'BASIC'=>$salary->BASIC,
+						'PP_SP'=>($salary->PP_SP),
+						'TA'=>$salary->TA,
+						'HRA'=>$salary->HRA,
+						'DA'=>$salary->DA,
+						'TOTAL'=>($salary->BASIC+$salary->PP_SP+$salary->TA+$salary->HRA+$salary->DA),
+						'CGEGIS'=>$salary->CGEGIS,
+						'CGHS'=>$salary->CGHS,
+						'CPF'=>$salary->CPF,
+						'PT'=>$salary->PT,
+						'IT'=>$salary->IT,
+						'PLI'=>$salary->PLI,
+						'LIC'=>$salary->LIC,
+						'TYPE'=>'ARREAR',
+					));
+				}
+			
 			$i++;
 		}
 		

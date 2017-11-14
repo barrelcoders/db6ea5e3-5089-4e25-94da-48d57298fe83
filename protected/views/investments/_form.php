@@ -281,6 +281,181 @@
 			</div>
 		</section>
 	</div>
+	<div class="col-sm-12">
+		<section id="blockui-element-container-default" class="card col-sm-12">
+			<header class="card-header">
+				Previous Office Arrears
+			</header>
+			<div class="card-block display-table col-sm-12" style="min-height: 100px">
+				<div class="form-group row">
+				<style> #ArrearTable input[type=text] {width: 150px;} </style>
+				<table id="ArrearTable" class="table table-bordered table-hover">
+					<tr>
+						<td>MONTH</td>
+						<td>YEAR</td>
+						<td>BASIC</td>
+						<td>PP/SP</td>
+						<td>TA</td>
+						<td>HRA</td>
+						<td>DA</td>
+						<td>TOTAL</td>
+						<td>CGEGIS</td>
+						<td>CGHS</td>
+						<td>CPF</td>
+						<td>PT</td>
+						<td>IT</td>
+						<td>PLI</td>
+						<td>LIC</td>
+					</tr>
+					<?php
+						
+						$arraers = PreviousOfficePayArrears::model()->findAllByAttributes(array('EMPLOYEE_ID_FK'=>$id));
+						foreach($arraers as $arrear){
+							?>
+							<tr>
+								<td>
+									<input type="hidden" value="<?php echo $arrear->ID?>" class="arrear-id">
+									<select class="arrear-month" disabled="true" >
+										<option value="1" >JAN</option>
+										<option value="2" <?php echo ($arrear->MONTH == 2) ? "selected" : "";?>>FEB</option>
+										<option value="3" <?php echo ($arrear->MONTH == 3) ? "selected" : "";?>>MAR</option>
+										<option value="4" <?php echo ($arrear->MONTH == 4) ? "selected" : "";?>>APR</option>
+										<option value="5" <?php echo ($arrear->MONTH == 5) ? "selected" : "";?>>MAY</option>
+										<option value="6" <?php echo ($arrear->MONTH == 6) ? "selected" : "";?>>JUN</option>
+										<option value="7" <?php echo ($arrear->MONTH == 7) ? "selected" : "";?>>JUL</option>
+										<option value="8" <?php echo ($arrear->MONTH == 8) ? "selected" : "";?>>AUG</option>
+										<option value="9" <?php echo ($arrear->MONTH == 9) ? "selected" : "";?>>SEP</option>
+										<option value="10" <?php echo ($arrear->MONTH == 10) ? "selected" : "";?>>OCT</option>
+										<option value="11" <?php echo ($arrear->MONTH == 11) ? "selected" : "";?>>NOV</option>
+										<option value="12" <?php echo ($arrear->MONTH == 12) ? "selected" : "";?>>DEC</option>
+									</select>
+								</td>
+								<td>
+									<select class="arrear-year" disabled="true" >
+										<option value="2016" <?php echo ($arrear->YEAR == 2016) ? "selected" : "";?>>2016</option>
+										<option value="2017" <?php echo ($arrear->YEAR == 2017) ? "selected" : "";?>>2017</option>
+										<option value="2018" <?php echo ($arrear->YEAR == 2018) ? "selected" : "";?>>2018</option>
+									</select>
+								</td>
+								<td>
+									<input type="text" style="width:70px;"  value="<?php echo $arrear->BASIC; ?>" class="arrear-basic total-inc-amount" disabled="true"/>
+								</td>
+								<td>
+									<input type="text" style="width:70px;"  value="<?php echo $arrear->PP_SP; ?>" class="arrear-pp-sp total-inc-amount" disabled="true"/>
+								</td>
+								<td>
+									<input type="text" style="width:70px;"  value="<?php echo $arrear->TA; ?>" class="arrear-ta total-inc-amount" disabled="true"/>
+								</td>
+								<td>
+									<input type="text" style="width:70px;"  value="<?php echo $arrear->HRA; ?>" class="arrear-hra total-inc-amount" disabled="true"/>
+								</td>
+								<td>
+									<input type="text" style="width:70px;"  value="<?php echo $arrear->DA; ?>" class="arrear-da total-inc-amount" disabled="true"/>
+								</td>
+								<td>
+									<input type="text" style="width:70px;"  value="<?php echo $arrear->TOTAL; ?>" class="arrear-total total-amount" disabled="true"/>
+								</td>
+								<td>
+									<input type="text" style="width:70px;"  value="<?php echo $arrear->CGEGIS; ?>" class="arrear-cgegis" disabled="true"/>
+								</td>
+								<td>
+									<input type="text" style="width:70px;"  value="<?php echo $arrear->CGHS; ?>" class="arrear-cghs" disabled="true"/>
+								</td>
+								<td>
+									<input type="text" style="width:70px;"  value="<?php echo $arrear->CPF; ?>" class="arrear-cpf" disabled="true"/>
+								</td>
+								<td>
+									<input type="text" style="width:70px;"  value="<?php echo $arrear->PT; ?>" class="arrear-pt" disabled="true"/>
+								</td>
+								<td>
+									<input type="text" style="width:70px;"  value="<?php echo $arrear->IT; ?>" class="arrear-it" disabled="true"/>
+								</td>
+								<td>
+									<input type="text" style="width:70px;"  value="<?php echo $arrear->PLI; ?>" class="arrear-pli" disabled="true"/>
+								</td>
+								<td>
+									<input type="text" style="width:70px;"  value="<?php echo $arrear->LIC; ?>" class="arrear-lic" disabled="true"/>
+								</td>
+								<td>
+									<input type="button" id="editSubBillbutton" class="btn btn-inline edit-btn" value="Edit" onclick="editArrearRow(this)"/>
+									<input type="button" id="saveSubBillbutton" class="btn btn-inline save-btn" style="display:none;" value="Save" onclick="saveArrearRow(this)"/>
+								</td>
+								<td><input type="button" id="delSubBillbutton" class="btn btn-inline del-btn" value="Delete" onclick="delArrearRow(this)"/></td>
+							</tr>
+							<?php
+						}
+					?>
+					<tr>
+						<td>
+							<select name="Employee[ARREAR][0][MONTH]">
+								<option value="1">JAN</option>
+								<option value="2">FEB</option>
+								<option value="3">MAR</option>
+								<option value="4">APR</option>
+								<option value="5">MAY</option>
+								<option value="6">JUN</option>
+								<option value="7">JUL</option>
+								<option value="8">AUG</option>
+								<option value="9">SEP</option>
+								<option value="10">OCT</option>
+								<option value="11">NOV</option>
+								<option value="12">DEC</option>
+							</select>
+						</td>
+						<td>
+							<select name="Employee[ARREAR][0][YEAR]" >
+								<option value="2016" >2016</option>
+								<option value="2017" >2017</option>
+								<option value="2018" >2018</option>
+							</select>
+						</td>
+						<td>
+							<input type="text" style="width:70px;" value="0" class="total-inc-amount" name="Employee[ARREAR][0][BASIC]"/>
+						</td>
+						<td>
+							<input type="text" style="width:70px;" value="0" class="total-inc-amount" name="Employee[ARREAR][0][PP_SP]"/>
+						</td>
+						<td>
+							<input type="text" style="width:70px;" value="0" class="total-inc-amount" name="Employee[ARREAR][0][TA]"/>
+						</td>
+						<td>
+							<input type="text" style="width:70px;" value="0" class="total-inc-amount" name="Employee[ARREAR][0][HRA]"/>
+						</td>
+						<td>
+							<input type="text" style="width:70px;" value="0" class="total-inc-amount" name="Employee[ARREAR][0][DA]"/>
+						</td>
+						<td>
+							<input type="text" style="width:70px;" value="0" class="total-amount" name="Employee[ARREAR][0][TOTAL]"/>
+						</td>
+						<td>
+							<input type="text" style="width:70px;" value="0" name="Employee[ARREAR][0][CGEGIS]"/>
+						</td>
+						<td>
+							<input type="text" style="width:70px;" value="0" name="Employee[ARREAR][0][CGHS]"/>
+						</td>
+						<td>
+							<input type="text" style="width:70px;" value="0" name="Employee[ARREAR][0][CPF]"/>
+						</td>
+						<td>
+							<input type="text" style="width:70px;" value="0" name="Employee[ARREAR][0][PT]"/>
+						</td>
+						<td>
+							<input type="text" style="width:70px;" value="0" name="Employee[ARREAR][0][IT]"/>
+						</td>
+						<td>
+							<input type="text" style="width:70px;" value="0" name="Employee[ARREAR][0][PLI]"/>
+						</td>
+						<td>
+							<input type="text" style="width:70px;" value="0" name="Employee[ARREAR][0][LIC]"/>
+						</td>
+						<td><input type="button" id="delSubBillbutton" class="btn btn-inline" value="Delete" onclick="deleteArrearRow(this)"/></td>
+						<td><input type="button" id="addSubBillbutton" class="btn btn-inline" value="Add Arrear" onclick="insArrearRow()"/></td>
+					</tr>
+				</table>
+			</div>
+			</div>
+		</section>
+	</div>
 </div>
 <?php $this->endWidget(); ?>
 <script>
@@ -292,4 +467,205 @@
 			$('#Investments_DA_TA_ARREAR_CPF').val(0);
 		}
 	});
+	$(".total-inc-amount").on('keyup', function() {
+		var container = $(this).parents('tr'),
+			totalComponentElement = $(container).find('.total-amount'),
+			TOTAL_AMOUNT = 0;
+		$(container).find('.total-inc-amount').each(function (index, element) {
+			TOTAL_AMOUNT += parseInt($(element).val());
+		});
+		$(totalComponentElement).val(TOTAL_AMOUNT);
+	});
+	function deleteArrearRow(row) {
+		var i=row.parentNode.parentNode.rowIndex;
+		document.getElementById('ArrearTable').deleteRow(i);
+	}
+	function insArrearRow() {
+		var x=document.getElementById('ArrearTable');
+		var new_row = x.rows[1].cloneNode(true);
+		var len = x.rows.length;
+		
+		var inp1 = new_row.cells[0].getElementsByTagName('select')[0];
+		inp1.name = "Employee[ARREAR]["+len+"][MONTH]";
+		inp1.value = '1';
+		var inp2 = new_row.cells[1].getElementsByTagName('select')[0];
+		inp2.name = "Employee[ARREAR]["+len+"][YEAR]";
+		inp2.value = '2017';
+		var inp3 = new_row.cells[2].getElementsByTagName('input')[0];
+		inp3.name = "Employee[ARREAR]["+len+"][BASIC]";
+		inp3.value = 0;
+		var inp4 = new_row.cells[3].getElementsByTagName('input')[0];
+		inp4.name = "Employee[ARREAR]["+len+"][PP_SP]";
+		inp4.value = 0;
+		var inp5 = new_row.cells[4].getElementsByTagName('input')[0];
+		inp5.name = "Employee[ARREAR]["+len+"][TA]";
+		inp5.value = 0;
+		var inp6 = new_row.cells[5].getElementsByTagName('input')[0];
+		inp6.name = "Employee[ARREAR]["+len+"][HRA]";
+		inp6.value = 0;
+		var inp7 = new_row.cells[6].getElementsByTagName('input')[0];
+		inp7.name = "Employee[ARREAR]["+len+"][DA]";
+		inp7.value = 0;
+		var inp8 = new_row.cells[7].getElementsByTagName('input')[0];
+		inp8.name = "Employee[ARREAR]["+len+"][TOTAL]";
+		inp8.value = 0;
+		var inp9 = new_row.cells[8].getElementsByTagName('input')[0];
+		inp9.name = "Employee[ARREAR]["+len+"][CGEGIS]";
+		inp9.value = 0;
+		var inp10 = new_row.cells[9].getElementsByTagName('input')[0];
+		inp10.name = "Employee[ARREAR]["+len+"][CGHS]";
+		inp10.value = 0;
+		var inp11 = new_row.cells[10].getElementsByTagName('input')[0];
+		inp11.name = "Employee[ARREAR]["+len+"][CPF]";
+		inp11.value = 0;
+		var inp12 = new_row.cells[11].getElementsByTagName('input')[0];
+		inp12.name = "Employee[ARREAR]["+len+"][PT]";
+		inp12.value = 0;
+		var inp13 = new_row.cells[12].getElementsByTagName('input')[0];
+		inp13.name = "Employee[ARREAR]["+len+"][PLI]";
+		inp13.value = 0;
+		var inp14 = new_row.cells[13].getElementsByTagName('input')[0];
+		inp14.name = "Employee[ARREAR]["+len+"][LIC]";
+		inp14.value = 0;
+		x.appendChild( new_row );
+	}
+	function editArrearRow(row){
+		var tableRow = $(row.parentNode.parentNode),
+			editBtn = tableRow.find(".edit-btn"),
+			saveBtn = tableRow.find(".save-btn"),
+			arrearMonth = tableRow.find(".arrear-month"),
+			arrearYear = tableRow.find(".arrear-year"),
+			arrearBasic = tableRow.find(".arrear-basic"),
+			arrearPP_SP = tableRow.find(".arrear-pp-sp"),
+			arrearTA = tableRow.find(".arrear-ta"),
+			arrearHRA = tableRow.find(".arrear-hra"),
+			arrearDA = tableRow.find(".arrear-da"),
+			arrearTOTAL = tableRow.find(".arrear-total"),
+			arrearCGEGIS = tableRow.find(".arrear-cgegis"),
+			arrearCGHS = tableRow.find(".arrear-cghs"),
+			arrearCPF = tableRow.find(".arrear-cpf"),
+			arrearPT = tableRow.find(".arrear-pt"),
+			arrearIT = tableRow.find(".arrear-it")
+			arrearPLI = tableRow.find(".arrear-pli"),
+			arrearLIC = tableRow.find(".arrear-lic");
+		
+		arrearMonth.prop( "disabled", false);
+		arrearYear.prop( "disabled", false);
+		arrearBasic.prop( "disabled", false);
+		arrearPP_SP.prop( "disabled", false);
+		arrearTA.prop( "disabled", false);
+		arrearHRA.prop( "disabled", false);
+		arrearDA.prop( "disabled", false);
+		arrearTOTAL.prop( "disabled", false);
+		arrearCGEGIS.prop( "disabled", false);
+		arrearCGHS.prop( "disabled", false);
+		arrearCPF.prop( "disabled", false);
+		arrearPT.prop( "disabled", false);
+		arrearIT.prop( "disabled", false);
+		arrearPLI.prop( "disabled", false);
+		arrearLIC.prop( "disabled", false);
+		editBtn.hide();
+		saveBtn.show();
+	}
+	
+	function saveArrearRow(row){
+		var tableRow = $(row.parentNode.parentNode),
+			editBtn = tableRow.find(".edit-btn"),
+			saveBtn = tableRow.find(".save-btn"),
+			arrearId = tableRow.find(".arrear-id"),
+			arrearMonth = tableRow.find(".arrear-month"),
+			arrearYear = tableRow.find(".arrear-year"),
+			arrearBasic = tableRow.find(".arrear-basic"),
+			arrearPP_SP = tableRow.find(".arrear-pp-sp"),
+			arrearTA = tableRow.find(".arrear-ta"),
+			arrearHRA = tableRow.find(".arrear-hra"),
+			arrearDA = tableRow.find(".arrear-da"),
+			arrearTOTAL = tableRow.find(".arrear-total"),
+			arrearCGEGIS = tableRow.find(".arrear-cgegis"),
+			arrearCGHS = tableRow.find(".arrear-cghs"),
+			arrearCPF = tableRow.find(".arrear-cpf"),
+			arrearPT = tableRow.find(".arrear-pt"),
+			arrearIT = tableRow.find(".arrear-it"),
+			arrearPLI = tableRow.find(".arrear-pli"),
+			arrearLIC = tableRow.find(".arrear-lic");
+		
+		var id = arrearId.val(),
+			month = arrearMonth.val(),
+			year = arrearYear.val(),
+			basic = arrearBasic.val(),
+			pp_sp = arrearPP_SP.val(),
+			ta = arrearTA.val(),
+			hra = arrearHRA.val(),
+			da = arrearDA.val(),
+			total = arrearTOTAL.val(),
+			cgegis = arrearCGEGIS.val(),
+			cghs = arrearCGHS.val(),
+			cpf = arrearCPF.val(),
+			pt = arrearPT.val(),
+			it = arrearIT.val(),
+			pli = arrearPLI.val(),
+			lic = arrearLIC.val();
+			
+		$.post( '<?php echo Yii::app()->createUrl('Employee/PreviousOfficeArrearChange')?>&id='+id+
+		'&month='+month+
+		'&year='+year+
+		'&basic='+basic+
+		'&pp_sp='+pp_sp+
+		'&ta='+ta+
+		'&hra='+hra+
+		'&da='+da+
+		'&total='+total+
+		'&cgegis='+cgegis+
+		'&cghs='+cghs+
+		'&cpf='+cpf+
+		'&pt='+pt+
+		'&it='+it+
+		'&pli='+pli+
+		'&lic='+lic, {}, function(result) {
+			if(result == 'SUCCESS'){
+				alert('Arrear saved successfully');
+				arrearMonth.prop( "disabled", true);
+				arrearYear.prop( "disabled", true);
+				arrearBasic.prop( "disabled", true);
+				arrearPP_SP.prop( "disabled", true);
+				arrearTA.prop( "disabled", true);
+				arrearHRA.prop( "disabled", true);
+				arrearDA.prop( "disabled", true);
+				arrearTOTAL.prop( "disabled", true);
+				arrearCGEGIS.prop( "disabled", true);
+				arrearCGHS.prop( "disabled", true);
+				arrearCPF.prop( "disabled", true);
+				arrearPT.prop( "disabled", true);
+				arrearIT.prop( "disabled", true);
+				arrearPLI.prop( "disabled", true);
+				arrearLIC.prop( "disabled", true);
+				editBtn.show();
+				saveBtn.hide();
+			}
+			else{
+				alert('Problem in updating Arrear, Please try again later');
+			}
+		});
+	}
+	
+	function delArrearRow(row){
+		var tableRow = $(row.parentNode.parentNode),
+			arrearId = tableRow.find(".arrear-id");
+		
+		var id = arrearId.val();
+		
+		if(!confirm('Are you sure wants to delete this arrear'))
+			return;
+		
+		$.post( '<?php echo Yii::app()->createUrl('Employee/DeletePreviousOfficeArrear')?>&id='+id, {}, function(result) {
+			if(result == 'SUCCESS'){
+				alert('Arrear deleted successfully');
+				document.getElementById('ArrearTable').deleteRow(row.parentNode.parentNode.rowIndex);
+			}
+			else{
+				alert('Problem in deleting arrear, Please try again later');
+			}
+		});
+	}
+	
 </script>
