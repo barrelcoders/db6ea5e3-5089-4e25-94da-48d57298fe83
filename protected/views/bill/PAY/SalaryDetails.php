@@ -427,7 +427,9 @@
 						<?php if($bill->IS_CEA_BILL) {?>
 							<table class="table table-bordered table-hover" style="margin-bottom: 10px;" id="<?php echo $month."-".$year;?>">
 								<tr>
-									<td>Children Education Allowance: <input type="text" size="10" name="SalaryDetails[<?php echo $employee->ID?>][<?php echo $year;?>][<?php echo $month;?>][CEA]" data-type="CEA" class="gross-inc-amount" value="<?php echo $salary->CEA ? $salary->CEA : 0;?>" placeholder="C.E.A."/></td>
+									<td>CEA (Tuition): <input type="text" size="10" name="SalaryDetails[<?php echo $employee->ID?>][<?php echo $year;?>][<?php echo $month;?>][CEA_TUITION]" data-type="CEA_TUITION" class="cea-tuition-amount" value="<?php echo $salary->CEA_TUITION ? $salary->CEA_TUITION : 0;?>" placeholder="CEA (Tuition)"/></td>
+									<td>CEA (Other): <input type="text" size="10" name="SalaryDetails[<?php echo $employee->ID?>][<?php echo $year;?>][<?php echo $month;?>][CEA_OTHER]" data-type="CEA_OTHER" class="cea-other-amount" value="<?php echo $salary->CEA_OTHER ? $salary->CEA_OTHER : 0;?>" placeholder="CEA (Other)"/></td>
+									<td>CEA (Total): <input type="text" size="10" name="SalaryDetails[<?php echo $employee->ID?>][<?php echo $year;?>][<?php echo $month;?>][CEA]" data-type="CEA" class="gross-inc-amount cea-total-amount" value="<?php echo $salary->CEA ? $salary->CEA : 0;?>" placeholder="CEA TOTAL"/></td>
 									<td>GROSS: <input type="text" size="10" id='gross-components' name="SalaryDetails[<?php echo $employee->ID?>][<?php echo $year;?>][<?php echo $month;?>][GROSS]" value="<?php echo $salary->GROSS ? $salary->GROSS : 0;?>" placeholder="GROSS"/></td>
 									<td>DED: <input type="text" size="10" id='ded-components' name="SalaryDetails[<?php echo $employee->ID?>][<?php echo $year;?>][<?php echo $month;?>][DED]" value="<?php echo $salary->DED ? $salary->DED : 0;?>" placeholder="DED"/></td>
 									<td>NET: <input type="text" size="10" id='net-components' name="SalaryDetails[<?php echo $employee->ID?>][<?php echo $year;?>][<?php echo $month;?>][NET]" value="<?php echo $salary->NET ? $salary->NET : 0;?>" placeholder="NET"/></td>
@@ -541,5 +543,6 @@
 	var FORM_16_URL = '<?php echo Yii::app()->createUrl('IncomeTax/Form16', array('type'=>'Dialog'));?>&id=';
 	var TABLE_FORMAT = 0;
 	var IS_ARREAR_BILL = <?php echo $bill->IS_ARREAR_BILL;?>;
+	var IS_CEA_BILL = <?php echo $bill->IS_CEA_BILL;?>;
 </script>	
 <script type="text/javascript" src="js/salary-details.js"></script>

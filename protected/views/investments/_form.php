@@ -97,10 +97,10 @@
 					</div>
 				</div>
 				<div class="form-group row">
-					<?php echo $form->labelEx($model,'CEA', array('class'=>'col-sm-8 form-control-label')); ?>
+					<?php echo $form->labelEx($model,'CEA_TUITION', array('class'=>'col-sm-8 form-control-label')); ?>
 					<div class="col-sm-4">
 						<p class="form-control-static">
-							<?php echo $form->textField($model,'CEA',array('size'=>10,'maxlength'=>100, 'value'=>$model->CEA, 'style'=>'text-transform: uppercase;')); ?>
+							<?php echo $form->textField($model,'CEA_TUITION',array('size'=>10,'maxlength'=>100, 'value'=>$model->CEA_TUITION, 'style'=>'text-transform: uppercase;')); ?>
 						</p>
 					</div>
 				</div>

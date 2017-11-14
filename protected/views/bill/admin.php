@@ -59,14 +59,19 @@ table.table.table-bordered.table-hover{font-size: 14px;}
 					'type'=>'raw',
 					'id' => 'PFMS_STATUS',
 					'value'=>function($data){
-						if($data->PFMS_STATUS == "Passed"){
-							echo $data->PFMS_STATUS;
+						if(strpos($data->BILL_TITLE, "HONORARIUM") > -1){
+							echo "This bill can't be passed (Contact Admin)";
 						}
 						else{
-							return "<input type='hidden' value='$data->ID'>"
-							."<input type='date'>"
-							.CHtml::dropDownList('PFMS_STATUS', null, array('Generated'=>'Generated', 'Passed'=>'Passed'), array('options'=>array($data->PFMS_STATUS => array('selected'=>true)), 'class'=>'billStatusType'));
-							
+							if($data->PFMS_STATUS == "Passed"){
+								echo $data->PFMS_STATUS;
+							}
+							else{
+								return "<input type='hidden' value='$data->ID'>"
+								."<input type='date'>"
+								.CHtml::dropDownList('PFMS_STATUS', null, array('Generated'=>'Generated', 'Passed'=>'Passed'), array('options'=>array($data->PFMS_STATUS => array('selected'=>true)), 'class'=>'billStatusType'));
+								
+							}
 						}
 					}
 				),

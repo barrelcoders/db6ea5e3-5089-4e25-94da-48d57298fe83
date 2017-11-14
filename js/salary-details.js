@@ -183,6 +183,11 @@ function ValueChange(field){
 	basicComponentElement = $(container).find('.basic-amount'),
 	hraComponentElement = $(container).find('.hra-amount'),
 	daComponentElement = $(container).find('.da-amount'),
+	
+	ceaTuitionComponentElement = $(container).find('.cea-tuition-amount'),
+	ceaOtherComponentElement = $(container).find('.cea-other-amount'),
+	ceaTotalComponentElement = $(container).find('.cea-total-amount'),
+	
 	cpfComponentElement = $(container).find('.cpf-1-amount'),
 	grossComponentElement = $(container).find('#gross-components'),
 	deductionComponentElement = $(container).find('#ded-components'),
@@ -237,6 +242,10 @@ function ValueChange(field){
 		if(container.find("#PENSION_TYPE").val() == "NPS"){
 			cpfComponentElement.val(Math.round((parseInt(getElementValue(daComponentElement)) + parseInt(getElementValue($(basicComponentElement)))) * (CPF_RATE/100)));
 		}
+	}
+	
+	if(IS_CEA_BILL){
+		ceaTotalComponentElement.val( parseInt(getElementValue(ceaTuitionComponentElement)) + parseInt(getElementValue(ceaOtherComponentElement)));
 	}
 	
 	if($(field).hasClass('hba-total') || $(field).hasClass('hba-inst') || $(field).hasClass('hba-emi')){

@@ -126,7 +126,7 @@
 								<a class="dropdown-item" href="#"><input type="checkbox" checked  onclick="toggleColumns(this, 'UA_COL')" class="ATTRIBUTE_BTN">Uniform Allowance</a>
 								<?php } ?>
 								<?php if($bill->IS_CEA_BILL) { ?>
-								<a class="dropdown-item" href="#"><input type="checkbox" checked  onclick="toggleColumns(this, 'CEA_COL')" class="ATTRIBUTE_BTN">Children Education Allowance</a>
+								<a class="dropdown-item" href="#"><input type="checkbox" checked  onclick="toggleColumns(this, 'CEA_COL')" class="ATTRIBUTE_BTN">CEA</a>
 								<?php } ?>
 								<?php if($bill->IS_LTC_ADVANCE_BILL) { ?>
 								<a class="dropdown-item" href="#"><input type="checkbox" checked  onclick="toggleColumns(this, 'HTC_LTC_ADV_COL')" class="ATTRIBUTE_BTN">HTC/LTC ADVANCE</a>
@@ -308,7 +308,9 @@
 						<th>REMARKS</th>
 						<?php } ?>
 						<?php if($bill->IS_CEA_BILL) { ?>
-						<th class="CEA_COL COL_ELEMENT">Children Education Allowance</th>
+						<th class="CEA_COL COL_ELEMENT">CEA (Tuition)</th>
+						<th class="CEA_COL COL_ELEMENT">CEA (Other)</th>
+						<th class="CEA_COL COL_ELEMENT">CEA (Total)</th>
 						<th>GROSS</th>
 						<th>DED</th>
 						<th>NET</th>
@@ -541,7 +543,9 @@
 											<td><textarea style="width:100%;" name="SalaryDetails[<?php echo $employee->ID?>][<?php echo $year;?>][<?php echo $month;?>][REMARKS]" placeholder='REMARKS'><?php echo $salary->REMARKS ? $salary->REMARKS : ""?></textarea></td>
 										<?php } ?>
 										<?php if($bill->IS_CEA_BILL) {?>
-											<td class="CEA_COL COL_ELEMENT"><input type="text" size="10" name="SalaryDetails[<?php echo $employee->ID?>][<?php echo $year;?>][<?php echo $month;?>][CEA]" data-type="CEA" class="gross-inc-amount" value="<?php echo $salary->CEA ? $salary->CEA : 0;?>" placeholder="C.E.A."/></td>
+											<td class="CEA_COL COL_ELEMENT"><input type="text" size="10" name="SalaryDetails[<?php echo $employee->ID?>][<?php echo $year;?>][<?php echo $month;?>][CEA_TUITION]" data-type="CEA_TUITION" class="cea-tuition-amount" value="<?php echo $salary->CEA_TUITION ? $salary->CEA_TUITION : 0;?>" placeholder="CEA (Tuition)"/></td>
+											<td class="CEA_COL COL_ELEMENT"><input type="text" size="10" name="SalaryDetails[<?php echo $employee->ID?>][<?php echo $year;?>][<?php echo $month;?>][CEA_OTHER]" data-type="CEA_OTHER" class="cea-other-amount" value="<?php echo $salary->CEA_OTHER ? $salary->CEA_OTHER : 0;?>" placeholder="CEA (Other)"/></td>
+											<td class="CEA_COL COL_ELEMENT"><input type="text" size="10" name="SalaryDetails[<?php echo $employee->ID?>][<?php echo $year;?>][<?php echo $month;?>][CEA]" data-type="CEA" class="gross-inc-amount cea-total-amount" value="<?php echo $salary->CEA ? $salary->CEA : 0;?>" placeholder="CEA (Total)"/></td>
 											<td><input type="text" size="10" id='gross-components' name="SalaryDetails[<?php echo $employee->ID?>][<?php echo $year;?>][<?php echo $month;?>][GROSS]" value="<?php echo $salary->GROSS ? $salary->GROSS : 0;?>" placeholder="GROSS"/></td>
 											<td><input type="text" size="10" id='ded-components' name="SalaryDetails[<?php echo $employee->ID?>][<?php echo $year;?>][<?php echo $month;?>][DED]" value="<?php echo $salary->DED ? $salary->DED : 0;?>" placeholder="DED"/></td>
 											<td><input type="text" size="10" id='net-components' name="SalaryDetails[<?php echo $employee->ID?>][<?php echo $year;?>][<?php echo $month;?>][NET]" value="<?php echo $salary->NET ? $salary->NET : 0;?>" placeholder="NET"/></td>
@@ -627,5 +631,6 @@
 	var FORM_16_URL = '<?php echo Yii::app()->createUrl('IncomeTax/Form16', array('type'=>'Dialog'));?>&id=';
 	var TABLE_FORMAT = 1;
 	var IS_ARREAR_BILL = <?php echo $bill->IS_ARREAR_BILL;?>;
+	var IS_CEA_BILL = <?php echo $bill->IS_CEA_BILL;?>;
 </script>
 <script type="text/javascript" src="js/salary-details.js"></script>
