@@ -32,7 +32,7 @@
 		$criteria->condition = 't.BILL_ID_FK='.$model->ID.' AND (t.CPF_TIER_I > 0  OR t.CPF_TIER_II > 0)';
 		$criteria->group = 't.EMPLOYEE_ID_FK';
 		$criteria->join='INNER JOIN tbl_employee e ON e.ID = t.EMPLOYEE_ID_FK';
-		$criteria->order = 'e.DESIGNATION_ID_FK DESC';
+		$criteria->order = 'e.FOLIO_NO ASC';
 		$employeesInSalary = SalaryDetails::model()->findAll($criteria);
 	?>
 	<tbody>

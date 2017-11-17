@@ -24,7 +24,7 @@
 		$criteria->condition = 't.BILL_ID_FK='.$model->ID;
 		$criteria->group = 't.EMPLOYEE_ID_FK';
 		$criteria->join='INNER JOIN tbl_employee e ON e.ID = t.EMPLOYEE_ID_FK';
-		$criteria->order = 'e.DESIGNATION_ID_FK DESC';
+		$criteria->order = 'e.FOLIO_NO ASC';
 		$employeesInSalary = SalaryDetails::model()->findAll($criteria);
 	?>
 	<tbody>

@@ -30,7 +30,7 @@
 			$PENSION_TYPE = 'OPS';
 		}
 		$i = 1;	
-		$employees = Yii::app()->db->createCommand("SELECT ID FROM tbl_employee WHERE PENSION_TYPE='$PENSION_TYPE' ORDER BY DESIGNATION_ID_FK DESC")->queryAll();
+		$employees = Yii::app()->db->createCommand("SELECT ID FROM tbl_employee WHERE PENSION_TYPE='$PENSION_TYPE' ORDER BY FOLIO_NO ASC")->queryAll();
 		$employeesIds = array();
 		foreach($employees as $employee) array_push($employeesIds, $employee['ID']);
 		$criteria=new CDbCriteria;
