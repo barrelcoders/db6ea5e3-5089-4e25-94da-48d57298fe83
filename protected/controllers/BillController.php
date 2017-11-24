@@ -869,7 +869,8 @@ class BillController extends Controller
 			if($key != "MONTH" && $key != "YEAR" && $key != "ID" && $key != "BILL_ID_FK" && $key != "EMPLOYEE_ID_FK" && $key != "WA" && $key != "GROSS" 
 			&& $key != "DED" && $key != "NET" && $key != "OTHER_DED" && $key != "AMOUNT_BANK" && $key != "CEA" && $key != "UA" && $key != "BONUS" && 
 			$key != "LTC_HTC" && $key != "IS_SALARY_BILL" && $key != "RECOVERY" && $key != "EL_ENCASHMENT" && $key != "LTC_HTC_GROSS" && $key != "LTC_HTC_ADVANCE" &&
-			$key != "CEA_TUITION" && $key != "CEA_OTHER"){
+			$key != "CEA_TUITION" && $key != "CEA_OTHER" && $key != "EL_ENCASH_DAYS" && $key != "EL_ENCASH_LEAVE_APPLIED" && $key != "EL_ENCASH_LEAVE_BALANCE_BEFORE" && 
+			$key != "EL_ENCASH_LEAVE_BALANCE_BEFORE" && $key != "PREVIOUS_EL_ENCASH_DAYS" && $key != "BLOCK_YEAR"){
 				 if($oldArray[$key] != $newArray[$key]){
 					 $salaryModel = SalaryDetails::model();
 					 $oldValue = "";

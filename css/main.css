@@ -13172,6 +13172,9 @@ body.sidebar-hidden .side-menu {
 body.sidebar-hidden .page-content {
     padding-left: 20px
 }
+body.sidebar-hidden .side-menu-additional {
+    display: none
+}
 @media screen and (max-width: 1056px) {
     .show-hide-sidebar {
         display: none!important
