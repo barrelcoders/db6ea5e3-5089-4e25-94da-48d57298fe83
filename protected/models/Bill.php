@@ -51,7 +51,7 @@ class Bill extends CActiveRecord
 			array('BILL_NO, MONTH, YEAR, MONTH_END, YEAR_END, CREATION_DATE, BILL_TYPE, BILL_TITLE, PFMS_STATUS', 'required'),
 			array('BILL_NO, PT_DED_BILL_NO, LIC_DED_BILL_NO, NILL_BILL_NO, PFMS_BILL_NO, FILE_NO', 'length', 'max'=>100),
 			array('BILL_TITLE', 'length', 'max'=>500),
-			array('BILL_TYPE, BILL_SUB_TYPE, VENDOR_ID', 'length', 'max'=>10),
+			array('BILL_TYPE, BILL_SUB_TYPE, VENDOR_ID, RELATED_BILL_ID', 'length', 'max'=>10),
 			array('BILL_AMOUNT, EXPENDITURE_INC_BILL, APPROPIATION_BALANCE', 'length', 'max'=>100),
 			array('CER_NO, UA_PERIOD', 'length', 'max'=>50),
 			array('IS_ARREAR_BILL, IS_CEA_BILL, IS_BONUS_BILL, IS_UA_BILL, IS_LTC_ADVANCE_BILL, IS_LTC_CLAIM_BILL, IS_EL_ENCASHMENT_BILL, IS_RECOVERY_BILL, IS_DA_ARREAR_BILL, IS_MULTIPLE_MONTH', 'length', 'max'=>3),
@@ -124,17 +124,37 @@ class Bill extends CActiveRecord
 	public function getIS_NPS_DA_ARREAR_BILL(){
 		return ($this->BILL_TYPE == 2 && $this->BILL_SUB_TYPE == 50 && $this->IS_DA_ARREAR_BILL == 1);
 	}
+	public function getIS_NPS_ARREAR_BILL(){
+		return ($this->BILL_TYPE == 2 && $this->BILL_SUB_TYPE == 18 && $this->IS_ARREAR_BILL == 1);
+	}
 	public function getIS_OPS_DA_ARREAR_BILL(){
 		return ($this->BILL_TYPE == 1 && $this->BILL_SUB_TYPE == 49 && $this->IS_DA_ARREAR_BILL == 1);
 	}
-	
 	public function GetBillSubType($id)
 	{
 		$data=BillSubType::model()->findAll('TYPE=:TYPE', array(':TYPE'=>(int) $id));
- 
 		return CHtml::listData($data,'ID','SUB_TYPE');
-		
 	}
+	public function getIS_UA_BILL()
+    {
+      return ($this->BILL_TYPE == 1 ||  $this->BILL_TYPE == 2) && ( $this->BILL_SUB_TYPE == 23 ||$this->BILL_SUB_TYPE == 24 );
+    }
+	public function getIS_TOUR_OR_TRANSFER_TA_CLAIM_BILL()
+    {
+      return ($this->BILL_TYPE == 4 && ( $this->BILL_SUB_TYPE == 35 ||$this->BILL_SUB_TYPE == 36 ));
+    }
+	public function getIS_OE_BILL()
+    {
+      return ($this->BILL_TYPE == 3);
+    }
+	public function getIS_PASSED()
+    {
+      return ($this->PFMS_STATUS == 'Passed');
+    }
+	public function getIS_GENERATED()
+    {
+      return ($this->PFMS_STATUS == 'Generated');
+    }
 
 	/**
 	 * @return array customized attribute labels (name=>label)
@@ -177,6 +197,7 @@ class Bill extends CActiveRecord
 			'IS_MULTIPLE_MONTH'=>'Multiple Month Bill', 
 			'MONTH_END'=>'MONTH END',
 			'YEAR_END'=>'YEAR END',
+			'RELATED_BILL_ID'=>'RELATED BILL',
 		);
 	}
 
@@ -246,6 +267,7 @@ class Bill extends CActiveRecord
 		$criteria->compare('PASSED_DATE', isset($data['PASSED_DATE']) ? date('Y-m-d', strtotime($data['PASSED_DATE'])) : "" ,true);
 		$criteria->compare('MONTH_END',$this->MONTH_END,true);
 		$criteria->compare('YEAR_END',$this->YEAR_END,true);
+		$criteria->compare('RELATED_BILL_ID',$this->RELATED_BILL_ID,true);
 		$criteria->order = 'CREATION_DATE DESC';
 		
 		return new CActiveDataProvider($this, array(

@@ -81,14 +81,15 @@ class SalaryDetails extends CActiveRecord
 			array('BILL_ID_FK, EMPLOYEE_ID_FK, BASIC, SP, PP, CCA, HRA, DA, TA, IT, CGHS, LF, CGEGIS, CPF_TIER_I, CPF_TIER_II, HBA_EMI, MCA_EMI, COMP_EMI, FLOOD_EMI, CYCLE_EMI, PLI, MISC, PT, FEST_EMI, 
 			HBA_TOTAL, MCA_TOTAL, FLOOD_TOTAL, CYCLE_TOTAL, FEST_TOTAL, HBA_BAL, MCA_BAL, FLOOD_BAL, CYCLE_BAL, WA, CCS, LIC, ASSOSC_SUB, 
 			COMP_TOTAL, COMP_BAL, OTHER_DED, AMOUNT_BANK, MAINT_MADIWALA, MAINT_JAYAMAHAL, CEA_TUITION, CEA_OTHER', 'length', 'max'=>10),
-			array('HBA_INST, MCA_INST, FLOOD_INST, CYCLE_INST, FEST_INST, COMP_INST, REMARKS, COURT_ATTACHMENT', 'length', 'max'=>45),
+			array('HBA_INST, MCA_INST, FLOOD_INST, CYCLE_INST, FEST_INST, COMP_INST, REMARKS, COURT_ATTACHMENT, EL_ENCASH_DAYS, EL_ENCASH_LEAVE_APPLIED, 
+			PREVIOUS_EL_ENCASH_DAYS, EL_ENCASH_BEFORE_THIS, BLOCK_YEAR', 'length', 'max'=>45),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
 			array('ID, BILL_ID_FK, EMPLOYEE_ID_FK, BASIC, SP, PP, CCA, HRA, DA, TA, IT, CGHS, LF, CGEGIS, CPF_TIER_I, CPF_TIER_II, HBA_EMI, MCA_EMI, COMP_EMI, 
 			FLOOD_EMI, CYCLE_EMI, PLI, MISC, PT, FEST_EMI, HBA_TOTAL, MCA_TOTAL, FLOOD_TOTAL, CYCLE_TOTAL, FEST_TOTAL, HBA_INST, MCA_INST, FLOOD_INST, CYCLE_INST, FEST_INST, 
 			HBA_BAL, MCA_BAL, FLOOD_BAL, CYCLE_BAL, FEST_BAL, WA, CCS, LIC, ASSOSC_SUB, REMARKS, COMP_TOTAL, COMP_INST, COMP_BAL, MONTH, YEAR, GP, GROSS, NET, DED, OTHER_DED, AMOUNT_BANK, IS_SALARY_BILL,
 			IS_FEST_RECOVERY, IS_HBA_RECOVERY, IS_MCA_RECOVERY, IS_FLOOD_RECOVERY, IS_CYCLE_RECOVERY, IS_COMP_RECOVERY, MAINT_MADIWALA, MAINT_JAYAMAHAL, COURT_ATTACHMENT,
-			CEA_TUITION, CEA_OTHER', 'safe', 'on'=>'search'),
+			CEA_TUITION, CEA_OTHER, EL_ENCASH_DAYS, EL_ENCASH_LEAVE_APPLIED, PREVIOUS_EL_ENCASH_DAYS, EL_ENCASH_BEFORE_THIS, BLOCK_YEAR', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -181,6 +182,11 @@ class SalaryDetails extends CActiveRecord
 			'LTC_HTC'=>'LTC NET',
 			'CEA_TUITION'=>'CEA (TUTITON)',
 			'CEA_OTHER'=>'CEA (OTHER)',
+			'EL_ENCASH_DAYS'=>'No. of Days for which  Encashment applied ',
+			'EL_ENCASH_LEAVE_APPLIED'=>'No. of days for which Earned leave applied/ sanctioned',
+			'EL_ENCASH_LEAVE_BALANCE_BEFORE'=>'Leave at credit before encashment',
+			'PREVIOUS_EL_ENCASH_DAYS'=>'No. of days Enchased before this',
+			'BLOCK_YEAR'=>'BLOCK YEAR'
 		);
 	}
 
@@ -271,7 +277,11 @@ class SalaryDetails extends CActiveRecord
 		$criteria->compare('LTC_HTC',$this->LTC_HTC,true);
 		$criteria->compare('CEA_TUITION',$this->CEA_TUITION,true);
 		$criteria->compare('CEA_OTHER',$this->CEA_OTHER,true);
-		
+		$criteria->compare('EL_ENCASH_DAYS',$this->EL_ENCASH_DAYS,true);
+		$criteria->compare('EL_ENCASH_LEAVE_APPLIED',$this->EL_ENCASH_LEAVE_APPLIED,true);
+		$criteria->compare('PREVIOUS_EL_ENCASH_DAYS',$this->PREVIOUS_EL_ENCASH_DAYS,true);
+		$criteria->compare('EL_ENCASH_BEFORE_THIS',$this->EL_ENCASH_BEFORE_THIS,true);
+		$criteria->compare('BLOCK_YEAR',$this->BLOCK_YEAR,true);
 		
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,

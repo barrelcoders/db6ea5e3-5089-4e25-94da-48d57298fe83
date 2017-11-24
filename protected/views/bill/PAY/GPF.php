@@ -9,21 +9,46 @@
 <h3 style="text-transform: uppercase;text-align: center">BILL NO: <?php echo $model->BILL_NO; ?></h3>
 <table class="pay-schedule-table">
 	<thead>
-		<tr>
-			<th class="small-xxx right-br">S.No.</th>
-			<th class="small right-br">GPF NO</th>
-			<th class="small right-br">NAME</th>
-			<th class="small right-br">DESIGNATION</th>
-			<?php if($model->IS_MULTIPLE_MONTH) {?>
-			<th class="small right-br">MONTH</th>
-			<?php } ?>
-			<th class="small-xx">PAY</th>
-			<th class="small-xx">GP</th>
-			<th class="small-xx">DA</th>
-			<th class="small-xx">GPFC</th>
-			<th class="small-xx">GPFR</th>
-			<th class="small-xx left-br">TOTAL</th>
-		</tr>
+		<?php
+			if($model->IS_NPS_PAY_BILL || $model->IS_NPS_DA_ARREAR_BILL){
+				?>
+					<tr>
+						<th class="small-xxx right-br">S.No.</th>
+						<th class="small right-br">NPS ACCOUNT NO</th>
+						<th class="small right-br">NAME</th>
+						<th class="small right-br">DESIGNATION</th>
+						<?php if($model->IS_MULTIPLE_MONTH) {?>
+						<th class="small right-br">MONTH</th>
+						<?php } ?>
+						<th class="small-xx">PAY</th>
+						<th class="small-xx">GP</th>
+						<th class="small-xx">DA</th>
+						<th class="small-xx">CPF TIER I</th>
+						<th class="small-xx">CPF TIER II</th>
+						<th class="small-xx left-br">TOTAL</th>
+					</tr>
+				<?php
+			}
+			else if($model->IS_OPS_PAY_BILL || $model->IS_OPS_DA_ARREAR_BILL){
+				?>
+					<tr>
+						<th class="small-xxx right-br">S.No.</th>
+						<th class="small right-br">GPF NO</th>
+						<th class="small right-br">NAME</th>
+						<th class="small right-br">DESIGNATION</th>
+						<?php if($model->IS_MULTIPLE_MONTH) {?>
+						<th class="small right-br">MONTH</th>
+						<?php } ?>
+						<th class="small-xx">PAY</th>
+						<th class="small-xx">GP</th>
+						<th class="small-xx">DA</th>
+						<th class="small-xx">GPFC</th>
+						<th class="small-xx">GPFR</th>
+						<th class="small-xx left-br">TOTAL</th>
+					</tr>
+				<?php
+			}
+		?>
 	</thead>
 	<?php 
 		$i = 1;	

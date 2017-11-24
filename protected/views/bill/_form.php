@@ -359,9 +359,114 @@
 					</div>
 			</div>
 		</div>
+		<div class="form-group row">
+			<label class="col-sm-2 form-control-label"></label>
+			<div class="col-sm-10" id="bill-selection-lists">
+				<div id="ltc-htc-advance-bill" class="small-container"  style="display:none;">
+					<div style="background: #333;padding: 5px;">
+						<input type="text" class="ltc-htc-advance-bill-search" size="100" placeholder="SEARCH LTC ADVANCE BILL" onkeyup="search(this, 'ltc-htc-advance-bill');"/>
+					</div>
+					<ul class="list">
+					<?php
+						$bills = Bill::model()->findAllByAttributes(array('IS_LTC_ADVANCE_BILL'=>1));
+						foreach($bills as $bill){
+							$class="";
+							$status="";
+							if($bill->IS_PASSED == 1){
+								$class="PASSED";
+								$status="PASSED on ".date("d-m-Y", strtotime($bill->PASSED_DATE));
+							}
+							?>
+								<li class="<?php echo $class;?>">
+									<input type="radio" name="Bill[CONNECTED_LTC_ADVANCE_BILL]" value="<?php echo $bill->ID;?>">
+									<span><?php echo "<b>".$bill->BILL_NO.":</b> ".$bill->BILL_TITLE;?></span>
+									<span class="status"><?php echo $status;?></span>
+								</li>
+							<?php
+						}
+					?>
+					</ul>
+				</div>
+				<div id="tour-ta-advance-bill" class="small-container"  style="display:none;">
+					<div style="background: #333;padding: 5px;">
+						<input type="text" class="tour-ta-advance-bill-search" size="100" placeholder="SEARCH TOUR TA ADVANCE BILL" onkeyup="search(this, 'tour-ta-advance-bill');"/>
+					</div>
+					<ul class="list">
+					<?php
+						$bills = Bill::model()->findAllByAttributes(array('BILL_SUB_TYPE'=>33));
+						foreach($bills as $bill){
+							$class="";
+							$status="";
+							if($bill->IS_PASSED == 1){
+								$class="PASSED";
+								$status="PASSED on ".date("d-m-Y", strtotime($bill->PASSED_DATE));
+							}
+							?>
+								<li class="<?php echo $class;?>">
+									<input type="radio" name="Bill[CONNECTED_TOUR_TA_ADVANCE_BILL]" value="<?php echo $bill->ID;?>">
+									<span><?php echo "<b>".$bill->BILL_NO.":</b> ".$bill->BILL_TITLE;?></span>
+									<span class="status"><?php echo $status;?></span>
+								</li>
+							<?php
+						}
+					?>
+					</ul>
+				</div>
+				<div id="transfer-ta-advance-bill" class="small-container"  style="display:none;">
+					<div style="background: #333;padding: 5px;">
+						<input type="text" class="transfer-ta-advance-bill-search" size="100" placeholder="SEARCH TRANSFER TA ADVANCE BILL" onkeyup="search(this, 'transfer-ta-advance-bill');"/>
+					</div>
+					<ul class="list">
+					<?php
+						$bills = Bill::model()->findAllByAttributes(array('BILL_SUB_TYPE'=>34));
+						foreach($bills as $bill){
+							$class="";
+							$status="";
+							if($bill->IS_PASSED == 1){
+								$class="PASSED";
+								$status="PASSED on ".date("d-m-Y", strtotime($bill->PASSED_DATE));
+							}
+							?>
+								<li class="<?php echo $class;?>">
+									<input type="radio" name="Bill[CONNECTED_TRANSFER_TA_ADVANCE_BILL]" value="<?php echo $bill->ID;?>">
+									<span><?php echo "<b>".$bill->BILL_NO.":</b> ".$bill->BILL_TITLE;?></span>
+									<span class="status"><?php echo $status;?></span>
+								</li>
+							<?php
+						}
+					?>
+					</ul>
+				</div>
+				<div id="medical-advance-bill" class="small-container"  style="display:none;">
+					<div style="background: #333;padding: 5px;">
+						<input type="text" class="medical-advance-bill-search" size="100" placeholder="SEARCH MEDICAL ADVANCE BILL" onkeyup="search(this, 'medical-advance-bill');"/>
+					</div>
+					<ul class="list">
+					<?php
+						$bills = Bill::model()->findAllByAttributes(array('BILL_SUB_TYPE'=>38));
+						foreach($bills as $bill){
+							$class="";
+							$status="";
+							if($bill->IS_PASSED == 1){
+								$class="PASSED";
+								$status="PASSED on ".date("d-m-Y", strtotime($bill->PASSED_DATE));
+							}
+							?>
+								<li class="<?php echo $class;?>">
+									<input type="radio" name="Bill[CONNECTED_MEDICAL_ADVANCE_BILL]" value="<?php echo $bill->ID;?>">
+									<span><?php echo "<b>".$bill->BILL_NO.":</b> ".$bill->BILL_TITLE;?></span>
+									<span class="status"><?php echo $status;?></span>
+								</li>
+							<?php
+						}
+					?>
+					</ul>
+				</div>
+			</div>
+		</div>
 		
 		<?php
-			if(($model->BILL_SUB_TYPE == 23 || $model->BILL_SUB_TYPE == 24) && Yii::app()->controller->action->id == 'update'){ ?>
+			if($model->IS_UA_BILL && Yii::app()->controller->action->id == 'update'){ ?>
 				<div class="form-group row" id="UA_PERIOD">
 					<?php echo $form->labelEx($model,'UA_PERIOD', array('class'=>'col-sm-2 form-control-label')); ?>
 					<div class="col-sm-10">
@@ -413,7 +518,7 @@
 				</p>
 			</div>
 		</div>
-		<?php if($model->BILL_TYPE == 4 && ( $model->BILL_SUB_TYPE == 35 ||$model->BILL_SUB_TYPE == 36 ) && Yii::app()->controller->action->id == 'update'){ ?>
+		<?php if($model->IS_TOUR_OR_TRANSFER_TA_CLAIM_BILL && Yii::app()->controller->action->id == 'update'){ ?>
 		<div class="form-group row" id="CLAIM_GROSS_SECTION">
 			<?php echo $form->labelEx($model,'CLAIM_GROSS_AMOUNT', array('class'=>'col-sm-2 form-control-label')); ?>
 			<div class="col-sm-10">
@@ -464,41 +569,6 @@
 				</p>
 			</div>
 		</div>
-		<?php if($model->BILL_TYPE == 3 && Yii::app()->controller->action->id == 'update'){ ?>
-		<div class="form-group row" id="OE_IT_DED_SECTION">
-			<?php echo $form->labelEx($model,'OE_IT_DED', array('class'=>'col-sm-2 form-control-label')); ?>
-			<div class="col-sm-10">
-				<p class="form-control-static">
-					<?php echo $form->textField($model,'OE_IT_DED',array('size'=>40,'maxlength'=>100, 'value'=>OEBillDetails::model()->find('BILL_ID_FK='.$model->ID)->IT_DED, 'disabled'=>true)); ?>
-				</p>
-			</div>
-		</div>
-		<div class="form-group row" id="OE_NET_AMOUNT_SECTION">
-			<?php echo $form->labelEx($model,'OE_NET_AMOUNT', array('class'=>'col-sm-2 form-control-label')); ?>
-			<div class="col-sm-10">
-				<p class="form-control-static">
-					<?php echo $form->textField($model,'OE_NET_AMOUNT',array('size'=>40,'maxlength'=>100, 'value'=>OEBillDetails::model()->find('BILL_ID_FK='.$model->ID)->NET_AMOUNT, 'disabled'=>true)); ?>
-				</p>
-			</div>
-		</div>
-		<?php } else { ?>
-		<div class="form-group row" id="OE_IT_DED_SECTION">
-			<?php echo $form->labelEx($model,'OE_IT_DED', array('class'=>'col-sm-2 form-control-label')); ?>
-			<div class="col-sm-10">
-				<p class="form-control-static">
-					<?php echo $form->textField($model,'OE_IT_DED',array('size'=>40,'maxlength'=>100)); ?>
-				</p>
-			</div>
-		</div>
-		<div class="form-group row" id="OE_NET_AMOUNT_SECTION">
-			<?php echo $form->labelEx($model,'OE_NET_AMOUNT', array('class'=>'col-sm-2 form-control-label')); ?>
-			<div class="col-sm-10">
-				<p class="form-control-static">
-					<?php echo $form->textField($model,'OE_NET_AMOUNT',array('size'=>40,'maxlength'=>100)); ?>
-				</p>
-			</div>
-		</div>
-		<?php } ?>
 		<div class="form-group row" id="VENDOR_ID_SECTION">
 			<?php echo $form->labelEx($model,'VENDOR_ID', array('class'=>'col-sm-2 form-control-label')); ?>
 			<div class="col-sm-10">
@@ -509,7 +579,23 @@
 			<?php echo $form->error($model,'VENDOR_ID'); ?>
 		</div>
 		<div id="OE_BILLS_SECTION">
-			<?php  if($model->BILL_TYPE == 3 && Yii::app()->controller->action->id == 'update'){  ?>
+			<?php if($model->IS_OE_BILL && Yii::app()->controller->action->id == 'update'){  ?>
+				<div class="form-group row" id="OE_IT_DED_SECTION">
+					<?php echo $form->labelEx($model,'OE_IT_DED', array('class'=>'col-sm-2 form-control-label')); ?>
+					<div class="col-sm-10">
+						<p class="form-control-static">
+							<?php echo $form->textField($model,'OE_IT_DED',array('size'=>40,'maxlength'=>100, 'value'=>OEBillDetails::model()->find('BILL_ID_FK='.$model->ID)->IT_DED, 'disabled'=>true)); ?>
+						</p>
+					</div>
+				</div>
+				<div class="form-group row" id="OE_NET_AMOUNT_SECTION">
+					<?php echo $form->labelEx($model,'OE_NET_AMOUNT', array('class'=>'col-sm-2 form-control-label')); ?>
+					<div class="col-sm-10">
+						<p class="form-control-static">
+							<?php echo $form->textField($model,'OE_NET_AMOUNT',array('size'=>40,'maxlength'=>100, 'value'=>OEBillDetails::model()->find('BILL_ID_FK='.$model->ID)->NET_AMOUNT, 'disabled'=>true)); ?>
+						</p>
+					</div>
+				</div>
 				<div class="form-group row">
 					<label class="col-sm-2 form-control-label">Bills</label>
 					<style> #SubBillTable input[type=text] {width: 150px;} </style>
@@ -540,6 +626,22 @@
 					</div>
 				</div>
 			<?php } else { ?>
+				<div class="form-group row" id="OE_IT_DED_SECTION">
+					<?php echo $form->labelEx($model,'OE_IT_DED', array('class'=>'col-sm-2 form-control-label')); ?>
+					<div class="col-sm-10">
+						<p class="form-control-static">
+							<?php echo $form->textField($model,'OE_IT_DED',array('size'=>40,'maxlength'=>100)); ?>
+						</p>
+					</div>
+				</div>
+				<div class="form-group row" id="OE_NET_AMOUNT_SECTION">
+					<?php echo $form->labelEx($model,'OE_NET_AMOUNT', array('class'=>'col-sm-2 form-control-label')); ?>
+					<div class="col-sm-10">
+						<p class="form-control-static">
+							<?php echo $form->textField($model,'OE_NET_AMOUNT',array('size'=>40,'maxlength'=>100)); ?>
+						</p>
+					</div>
+				</div>
 				<div class="form-group row">
 					<label class="col-sm-2 form-control-label">Bills</label>
 					<style> #SubBillTable input[type=text] {width: 150px;}</style>
@@ -562,8 +664,7 @@
 						</p>
 					</div>
 				</div>
-			<?php } 
-			?>
+			<?php } ?>
 		</div>
 		<div id="CEA_BILLS_SECTION">
 			<?php  if($model->IS_CEA_BILL == 1 && Yii::app()->controller->action->id == 'update'){  ?>
@@ -719,7 +820,7 @@
 				</p>
 			</div>
 		</div>
-		<?php if($model->PFMS_STATUS != "Passed"){?>
+		<?php if(!$model->IS_PASSED){ ?>
 		<div class="form-group row">
 			<label class="col-sm-2 form-control-label"></label>
 			<div class="col-sm-10">

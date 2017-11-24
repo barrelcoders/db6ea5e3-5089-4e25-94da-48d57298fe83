@@ -2,13 +2,13 @@
 <table class="full">
 	<tr>
 		<td colspan="10">PROVISIONAL INCOME TAX CALCULATION  FOR THE YEAR <?php echo $financialYear->NAME?> <?php echo $employee->PENSION_TYPE?></td>
-		<td colspan="4">Page No: 1</td>
+		<td colspan="3">Page No: 1</td>
 	</tr>
 	<tr>
 		<td colspan="2">IN R/O OF SHRI./SMT/KUM</td>
 		<td colspan="5"><?php echo $employee->NAME."<br>(".$employee->NAME_HINDI.")";?></td>
 		<td colspan="2">DESGN.:</td>
-		<td colspan="5"><?php echo Designations::model()->findByPK($employee->DESIGNATION_ID_FK)->DESIGNATION .
+		<td colspan="4"><?php echo Designations::model()->findByPK($employee->DESIGNATION_ID_FK)->DESIGNATION .
 		"<br>(".Designations::model()->findByPK($employee->DESIGNATION_ID_FK)->DESIGNATION_HINDI.")";?></td>
 	</tr>
 	<tr>
@@ -20,9 +20,10 @@
 		<td>DA</td>
 		<td>TOTAL</td>
 		<td>CGEGIS</td>
-		<td>GPF(C)</td>
+		<td>CPF</td>
 		<td>PT</td>
 		<td>IT</td>
+		<td>MISC</td>
 		<td>PLI</td>
 	</tr>
 	<?php foreach($SALARIES as $SALARY){?>
@@ -38,6 +39,7 @@
 			<td><?php echo $SALARY['CPF'];?></td>
 			<td><?php echo $SALARY['PT'];?></td>
 			<td><?php echo $SALARY['IT'];?></td>
+			<td><?php echo $SALARY['MISC'];?></td>
 			<td><?php echo $SALARY['PLI'];?></td>
 		</tr>
 	<?php } ?>
@@ -54,18 +56,19 @@
 			<td><?php echo $SALARY['CPF'];?></td>
 			<td><?php echo $SALARY['PT'];?></td>
 			<td><?php echo $SALARY['IT'];?></td>
+			<td><?php echo $SALARY['MISC'];?></td>
 			<td><?php echo $SALARY['PLI'];?></td>
 		</tr>
 	<?php } ?>
 	<tr class="no-border">
-		<td colspan="6" class="left-text">DA /TA ARREARS</td>
-		<td><?php echo $TOTAL_DA_TA_ARREAR?></td>
+		<td colspan="6" class="left-text">SALARY after Recovery of (Rs. <?php echo $TOTAL_MISC?>/-)</td>
+		<td><?php echo $TOTAL_SALARY_WITHOUT_MISC?></td>
 		<td class="no-border"></td>
 		<td colspan="5" >* HRA Exemption (Least of the following)</td>
 	</tr>
 	<tr class="no-border">
-		<td colspan="6" class="left-text">OTA, Honorarium, etc.,</td>
-		<td><?php echo $TOTAL_OTA_HONORIUM?></td>
+		<td colspan="6" class="left-text">DA /TA ARREARS</td>
+		<td><?php echo $TOTAL_DA_TA_ARREAR?></td>
 		<td class="no-border"></td>
 		<td colspan="5">
 			<span style="float:left;padding-left: 10px;">(i) Actual HRA</span>
@@ -73,8 +76,8 @@
 		</td>
 	</tr>
 	<tr class="no-border">
-		<td colspan="6" class="left-text">AD-HOC BONUS</td>
-		<td><?php echo $TOTAL_BONUS?></td>
+		<td colspan="6" class="left-text">OTA, Honorarium, etc.,</td>
+		<td><?php echo $TOTAL_OTA_HONORIUM?></td>
 		<td class="no-border"></td>
 		<td colspan="5">
 			<span style="float:left;padding-left: 10px;">(ii) Rent paid in excess of 10% of Salary</span>.
@@ -82,8 +85,8 @@
 		</td>
 	</tr>
 	<tr class="no-border">
-		<td colspan="6" class="left-text">Leave Encashment</td>
-		<td><?php echo $TOTAL_EL_ENCASH?></td>
+		<td colspan="6" class="left-text">AD-HOC BONUS</td>
+		<td><?php echo $TOTAL_BONUS?></td>
 		<td class="no-border"></td>
 		<td colspan="5">
 			<span style="float:left;padding-left: 10px;">(iii) 40% of Salary = </span>
@@ -91,16 +94,21 @@
 		</td>
 	</tr>
 	<tr class="no-border">
+		<td colspan="6" class="left-text">Leave Encashment</td>
+		<td><?php echo $TOTAL_EL_ENCASH?></td>
+		<td class="no-border"></td>
+		<td colspan="5"></td>
+	</tr>
+	<tr class="no-border">
 		<td colspan="6" class="left-text">Uniform Allowance</td>
 		<td><?php echo $TOTAL_UA?></td>
 		<td class="no-border"></td>
-		<td colspan="5"></td>
+		<td colspan="5" class="left-text">(Salary = Total Pay + DA)</td>
 	</tr>
 	<tr class="no-border">
 		<td colspan="6" class="left-text">Children Education Allowance</td>
 		<td><?php echo $TOTAL_CEA?></td>
 		<td class="no-border"></td>
-		<td colspan="5" class="left-text">(Salary = Total Pay + DA)</td>
 	</tr>
 	<tr>
 		<td colspan="6" class="left-text">LTC/HTC</td>
@@ -180,102 +188,104 @@
 	</tr>
 	<tr class="no-border">
 		<td colspan="2" class="no-border"></td>
-		<td colspan="4" class="left-text">iii) 80-G (DONATIONS)</td>
-		<td><?php echo $DONATION;?></td>
+		<td colspan="4" class="left-text">iii) 80-D (Medical Insurance Parents)</td>
+		<td><?php echo $MEDICAL_INSURANCE_PARENTS;?></td>
 		<td class="no-border"></td>
 		<td colspan="3" class="left-text">Tuition Fee for exemption</td>
 		<td><?php echo $TUITION_FESS_EXEMPTION;?></td>
 	</tr>
 	<tr class="no-border">
 		<td colspan="2" class="no-border"></td>
-		<td colspan="4" class="left-text">iv) 80-DD (Disability Med.Expn.)</td>
-		<td><?php echo $DISABILITY_MED_EXP;?></td>
+		<td colspan="4" class="left-text">iv) 80-G (DONATIONS)</td>
+		<td><?php echo $DONATION;?></td>
 		<td class="no-border"></td>
 		<td colspan="3" class="left-text">PPF/NSC</td>
 		<td><?php echo $PPF_NSC;?></td>
 	</tr>
 	<tr class="no-border">
 		<td colspan="2" class="no-border"></td>
-		<td colspan="4" class="left-text">v) 80-E (Education Loan INTR.)</td>
-		<td><?php echo $EDU_LOAD_INT;?></td>
+		<td colspan="4" class="left-text">v) 80-DD (Disability Med.Expn.)</td>
+		<td><?php echo $DISABILITY_MED_EXP;?></td>
 		<td class="no-border"></td>
 		<td colspan="3" class="left-text">Home Loan (Principle)</td>
 		<td><?php echo $HOME_LOAN_PR;?></td>
 	</tr>
 	<tr class="no-border">
 		<td colspan="2" class="no-border"></td>
-		<td colspan="4" class="left-text">vi) 80-U (Self Disability)</td>
-		<td><?php echo $SELF_DISABILITY;?></td>
+		<td colspan="4" class="left-text">vi) 80-E (Education Loan INTR.)</td>
+		<td><?php echo $EDU_LOAD_INT;?></td>
 		<td class="no-border"></td>
 		<td colspan="3" class="left-text">PLI/ULIP</td>
 		<td><?php echo $PLI_ULIP;?></td>
 	</tr>
 	<tr class="no-border">
 		<td colspan="2" class="no-border"></td>
-		<td colspan="4" class="left-text no-border-bottom">vii) Sec.24 (Home Loan-INTR.)**</td>
-		<td><?php echo $HOME_LOAN_INT;?></td>
+		<td colspan="4" class="left-text">vii) 80-U (Self Disability)</td>
+		<td><?php echo $SELF_DISABILITY;?></td>
 		<td class="no-border"></td>
 		<td colspan="3" class="left-text">Term Deposit (above 5 yr)</td>
 		<td><?php echo $TERM_DEPOSIT_ABOVE_5;?></td>
 	</tr>
 	<tr class="no-border">
 		<td colspan="2" class="no-border"></td>
-		<td colspan="4" class="right-text no-border-bottom">(income/loss from house property)</td>
-		<td><?php echo $MIN_HOME_LOAN_INT;?></td>
+		<td colspan="4" class="left-text no-border-bottom">viii) Sec.24 (Home Loan-INTR.)**</td>
+		<td><?php echo $HOME_LOAN_INT;?></td>
 		<td class="no-border"></td>
 		<td colspan="3" class="left-text">Mututal Fund</td>
 		<td><?php echo $MUTUAL_FUND;?></td>
 	</tr>
 	<tr class="no-border">
-		<td colspan="2" class="no-border right-text">B</td>
-		<td colspan="4" class="left-text">viii) 80-EE (Housing Loans sanctioned during 2013-14)</td>
-		<td><?php echo $HOME_LOAD_EXCESS_2013_14;?></td>
+		<td colspan="2" class="no-border"></td>
+		<td colspan="4" class="right-text no-border-bottom">(income/loss from house property)</td>
+		<td><?php echo $MIN_HOME_LOAN_INT;?></td>
 		<td class="no-border"></td>
 		<td colspan="3" class="left-text">Pension fund (u/s 80-CCC)</td>
 		<td><?php echo $PENSION_FUND;?></td>
 	</tr>
 	<tr class="no-border">
-		<td colspan="2" class="no-border"></td>
-		<td colspan="4" class="right-text">(Addl Exe. upto Rs.1 lakh)</td>
-		<td><?php echo $HOME_LOAD_EXCESS_2013_14_ADDTIONAL;?></td>
+		<td colspan="2" class="no-border right-text">B</td>
+		<td colspan="4" class="left-text">ix) 80-EE (Housing Loans sanctioned during 2013-14)</td>
+		<td><?php echo $HOME_LOAD_EXCESS_2013_14;?></td>
 		<td class="no-border"></td>
 		<td colspan="3" class="left-text">CPF (u/s/ 80CCD)</td>
 		<td><?php echo $CPF_809CCD;?></td>
 	</tr>
 	<tr class="no-border">
 		<td colspan="2" class="no-border"></td>
-		<td colspan="4" class="left-text">ix) Bank Interest deduction 80TTA</td>
-		<td><?php echo $BANK_INTEREST_DED_80TTA;?></td>
+		<td colspan="4" class="right-text">(Addl Exe. upto Rs.1 lakh)</td>
+		<td><?php echo $HOME_LOAD_EXCESS_2013_14_ADDTIONAL;?></td>
 		<td class="no-border"></td>
 		<td colspan="3" class="left-text">Stamp Duty/ Registration Charges</td>
 		<td><?php echo $REGISTRY_STAMP;?></td>
 	</tr>
 	<tr class="no-border">
 		<td colspan="2" class="no-border"></td>
-		<td colspan="4" class="left-text">x) Investment NPS under 80CCD(1B)</td>
-		<td><?php echo $NPS_UNDER_80CCD_1B;?></td>
+		<td colspan="4" class="left-text">x) Bank Interest deduction 80TTA</td>
+		<td><?php echo $BANK_INTEREST_DED_80TTA;?></td>
 		<td class="no-border"></td>
 		<td colspan="3" class="left-text">Total</td>
 		<td><?php echo $TOTAL_SAVING_80C;?></td>
 	</tr>
 	<tr class="no-border">
 		<td colspan="2" class="no-border"></td>
-		<td colspan="4" class="left-text">SAVINGS (U/s.80C)</td>
-		<td><?php echo $NET_SAVING_80C;?></td>
+		<td colspan="4" class="left-text">xi) Investment NPS under 80CCD(1B)</td>
+		<td><?php echo $NPS_UNDER_80CCD_1B;?></td>
 		<td class="no-border"></td>
 		<td colspan="3" class="left-text"> Savings (Max - Rs.1.5 lakh)</td>
 		<td><?php echo $MIN_SAVING_80C;?></td>
 	</tr>
 	<tr class="no-border">
 		<td colspan="2" class="no-border"></td>
-		<td colspan="4" class="left-text">TOTAL DEDUCTIONS</td>
-		<td><?php echo $TOTAL_DEDUCTIONS;?></td>
+		<td colspan="4" class="left-text">SAVINGS (U/s.80C)</td>
+		<td><?php echo $NET_SAVING_80C;?></td>
 		<td class="no-border"></td>
 		<td colspan="3" class="left-text">TOTAL - EXEMPTION</td>
 		<td><?php echo $NET_SAVING_80C;?></td>
 	</tr>
 	<tr class="no-border">
-		<td colspan="7" class="no-border">&nbsp;</td>
+		<td colspan="2" class="no-border"></td>
+		<td colspan="4" class="left-text">TOTAL DEDUCTIONS</td>
+		<td><?php echo $TOTAL_DEDUCTIONS;?></td>
 	</tr>
 	<tr class="no-border">
 		<td colspan="2" class="no-border right-text">A-B</td>

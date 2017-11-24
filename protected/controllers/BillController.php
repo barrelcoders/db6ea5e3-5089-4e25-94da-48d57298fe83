@@ -365,6 +365,20 @@ class BillController extends Controller
 			//echo "<pre>";print_r($_POST['Bill']);echo "</pre>";exit;
 			$model->attributes=$_POST['Bill'];
 			$model->FINANCIAL_YEAR_ID_FK=FinancialYears::model()->find('STATUS=1')->ID;
+
+			if(isset($_POST['Bill']['CONNECTED_LTC_ADVANCE_BILL'])){
+				$model->RELATED_BILL_ID = $_POST['Bill']['CONNECTED_LTC_ADVANCE_BILL'];
+			}
+			if(isset($_POST['Bill']['CONNECTED_TOUR_TA_ADVANCE_BILL'])){
+				$model->RELATED_BILL_ID = $_POST['Bill']['CONNECTED_TOUR_TA_ADVANCE_BILL'];
+			}
+			if(isset($_POST['Bill']['CONNECTED_TRANSFER_TA_ADVANCE_BILL'])){
+				$model->RELATED_BILL_ID = $_POST['Bill']['CONNECTED_TRANSFER_TA_ADVANCE_BILL'];
+			}
+			if(isset($_POST['Bill']['CONNECTED_MEDICAL_ADVANCE_BILL'])){
+				$model->RELATED_BILL_ID = $_POST['Bill']['CONNECTED_MEDICAL_ADVANCE_BILL'];
+			}
+
 			if(isset($_POST['Bill']['BILL_TYPE']) && ( $_POST['Bill']['BILL_TYPE'] == 1 || $_POST['Bill']['BILL_TYPE'] == 2 || $_POST['Bill']['BILL_TYPE'] == 8)){
 				if($model->save(false)){
 					if(isset($_POST['Bill']['BILL_TYPE']) && ( $_POST['Bill']['BILL_TYPE'] == 1 || $_POST['Bill']['BILL_TYPE'] == 2)){
@@ -646,9 +660,33 @@ class BillController extends Controller
 	
 	
 	public function actionPayBillChanges($id){
+		$this->layout = '//layouts/layouts/column1';
 		$model = $this->loadModel($id);
-		$this->amountInWords = $this->amountToWord($model->BILL_AMOUNT);
-		$this->render('PAY/PayBillChanges',array('model'=>$model,));
+
+		$salaries = Yii::app()->db->createCommand("SELECT * FROM tbl_salary_details WHERE BILL_ID_FK=".$model->ID)->queryAll();
+		$changes = array();
+
+		foreach($salaries as $salary){
+			$employee = Employee::model()->findByPk($salary['EMPLOYEE_ID_FK']);
+			$MONTH = $salary['MONTH'];
+			$YEAR = $salary['YEAR'];
+			$CURRENT_SALARY = $salary;
+			$LAST_SALARY = null;
+			if(SalaryDetails::model()->exists('IS_SALARY_BILL = 1 AND EMPLOYEE_ID_FK='.$employee->ID.' AND YEAR='.(($MONTH ==1) ? ($YEAR - 1 ) : $YEAR).' AND MONTH='.(($MONTH ==1) ? 12 : ($MONTH - 1)))){
+				$LAST_SALARY = Yii::app()->db->createCommand("SELECT * FROM tbl_salary_details WHERE IS_SALARY_BILL = 1 AND EMPLOYEE_ID_FK=".$employee->ID." AND YEAR=".(($MONTH ==1) ? ($YEAR - 1 ) : $YEAR)." AND MONTH=".(($MONTH ==1) ? 12 : ($MONTH - 1)))->queryRow();
+			}
+			else if(SupplementarySalaryDetails::model()->exists('EMPLOYEE_ID_FK='.$employee->ID.' AND YEAR='.(($MONTH ==1) ? ($YEAR - 1 ) : $YEAR).' AND MONTH='.(($MONTH ==1) ? 12 : ($MONTH - 1)))){
+				$LAST_SALARY = Yii::app()->db->createCommand("SELECT * FROM tbl_supplementary_salary_details WHERE EMPLOYEE_ID_FK=".$employee->ID." AND YEAR=".(($MONTH ==1) ? ($YEAR - 1 ) : $YEAR)." AND MONTH=".(($MONTH ==1) ? 12 : ($MONTH - 1)))->queryRow();
+			}
+			if(count($LAST_SALARY) > 0 && count($CURRENT_SALARY) > 0)
+			$change = $this->calculateChanges($CURRENT_SALARY, $LAST_SALARY, $employee->PENSION_TYPE);
+			if($change){
+				$message = "<b style='font-weight: bold;'>".$employee->NAME.", ".Designations::model()->findByPk($employee->DESIGNATION_ID_FK)->DESIGNATION. "</b>: ".$change;
+				array_push($changes, $message);
+			}
+		}
+	
+		$this->render('PAY/PayBillChanges',array('model'=>$model,'changes'=>$changes));
 	}
 	
 	public function actionPayBillChangesNotified($bill_id, $change_id){
@@ -824,6 +862,47 @@ class BillController extends Controller
 		}
 		return  "(Rupees ".$result . " Only)";
 	}
+	public function calculateChanges($newArray, $oldArray, $pensionType){
+		$length = count($newArray);
+		$result = array();
+		foreach($newArray as $key=>$value){
+			if($key != "MONTH" && $key != "YEAR" && $key != "ID" && $key != "BILL_ID_FK" && $key != "EMPLOYEE_ID_FK" && $key != "WA" && $key != "GROSS" 
+			&& $key != "DED" && $key != "NET" && $key != "OTHER_DED" && $key != "AMOUNT_BANK" && $key != "CEA" && $key != "UA" && $key != "BONUS" && 
+			$key != "LTC_HTC" && $key != "IS_SALARY_BILL" && $key != "RECOVERY" && $key != "EL_ENCASHMENT" && $key != "LTC_HTC_GROSS" && $key != "LTC_HTC_ADVANCE" &&
+			$key != "CEA_TUITION" && $key != "CEA_OTHER"){
+				 if($oldArray[$key] != $newArray[$key]){
+					 $salaryModel = SalaryDetails::model();
+					 $oldValue = "";
+					 $newValue = "";
+					 $attributeLabel = "";
+					 
+					 if($key == "IS_HBA_RECOVERY" || $key == "IS_MCA_RECOVERY" || $key == "IS_COMP_RECOVERY" || $key == "IS_FEST_RECOVERY" || $key == "IS_CYCLE_RECOVERY"){
+						$oldValue = ($oldArray[$key] == 1) ? "INTEREST" : "PRINCIPAL";
+						$newValue = ($newArray[$key] == 1) ? "INTEREST" : "PRINCIPAL";
+					 }
+					 else{
+						$oldValue = $oldArray[$key];
+						$newValue = $newArray[$key];
+					 }
+					 
+					 if($key == "CPF_TIER_I"){
+						$attributeLabel = ($pensionType == "OPS") ? "GPFC" : "CPF TIER I";
+					 }
+					 else if($key == "CPF_TIER_I"){
+						$attributeLabel = ($pensionType == "NPS") ? "GPFR" : "CPF TIER II";
+					 }
+					 else{
+						$attributeLabel = $salaryModel->getAttributeLabel($key);
+					 }
+					 
+					 array_push($result, $attributeLabel." changes from ". $oldValue." to ".$newValue);
+				 }
+				 
+			 }
+		}
+		
+		return implode(",", $result);
+	}
 	
 	public function actionEmployeeBillFront($id){$this->layout='//layouts/column1';$model = $this->loadModel($id);$this->render('PAY/EmployeeBillFront',array('model'=>$model,));}
 	public function actionEmployeeBillInner($id){$this->layout='//layouts/column1';$model = $this->loadModel($id);$this->amountInWords = $this->amountToWord($model->BILL_AMOUNT);$this->render('PAY/EmployeeBillInner',array('model'=>$model,));}
@@ -832,11 +911,13 @@ class BillController extends Controller
 	public function actionCEASanctionOrder($id){$this->layout='//layouts/column1';$model = $this->loadModel($id);$this->amountInWords = $this->amountToWord($model->BILL_AMOUNT);$this->render('PAY/CEASanctionOrder',array('model'=>$model,));}
 	public function actionEmployeeBillPart2($id){$this->layout='//layouts/column1';$model = $this->loadModel($id);$this->render('PAY/EmployeeBillPart2',array('model'=>$model,));}
 	public function actionDAArrearWorkSheet($id){$this->layout='//layouts/column1';$model = $this->loadModel($id);$this->render('PAY/DAArrearWorkSheet',array('model'=>$model,));}
+	public function actionEmployeeTADABillInner($id){$this->layout='//layouts/column1';$model = $this->loadModel($id);$this->amountInWords = $this->amountToWord($model->BILL_AMOUNT);$this->render('PAY/EmployeeTADABillInner',array('model'=>$model,));}
 	public function actionEmployeeBonusBillInner($id){$this->layout='//layouts/column1';$model = $this->loadModel($id);$this->amountInWords = $this->amountToWord($model->BILL_AMOUNT);$this->render('PAY/EmployeeBonusBillInner',array('model'=>$model,));}
 	public function actionEmployeeUABillInner($id){$this->layout='//layouts/column1';$model = $this->loadModel($id);$this->amountInWords = $this->amountToWord($model->BILL_AMOUNT);$this->render('PAY/EmployeeUABillInner',array('model'=>$model,));}
 	public function actionUANoteSheet($id){$this->layout='//layouts/column1';$model = $this->loadModel($id);$this->amountInWords = $this->amountToWord($model->BILL_AMOUNT);$this->render('PAY/UANoteSheet',array('model'=>$model,));}	
 	public function actionUASanctionOrder($id){$this->layout='//layouts/column1';$model = $this->loadModel($id);$this->amountInWords = $this->amountToWord($model->BILL_AMOUNT);$this->render('PAY/UASanctionOrder',array('model'=>$model,));}
 	public function actionEmployeeELEncashBillInner($id){$this->layout='//layouts/column1';$model = $this->loadModel($id);$this->amountInWords = $this->amountToWord($model->BILL_AMOUNT);$this->render('PAY/EmployeeELEncashBillInner',array('model'=>$model,));}
+	public function actionElEncashSanctionOrder($id){$this->layout='//layouts/column1';$model = $this->loadModel($id);$this->amountInWords = $this->amountToWord($model->BILL_AMOUNT);$this->render('PAY/ElEncashSanctionOrder',array('model'=>$model,));}
 	public function actionNillBillFront($id){$this->layout='//layouts/column1';$model = $this->loadModel($id);$this->render('PAY/NillBillFront',array('model'=>$model,));}
 	public function actionNillBillCPF($id){$this->layout='//layouts/column1';$model = $this->loadModel($id);$this->render('PAY/NillBillCPF',array('model'=>$model,));}
 	public function actionNillBillInner($id){$this->layout='//layouts/column1';$model = $this->loadModel($id);$this->render('PAY/NillBillInner',array('model'=>$model,));}

@@ -13,6 +13,8 @@
 			<th class="small-xxx right-br">S.No.</th>
 			<th class="small right-br">NAME</th>
 			<th class="small right-br">DESIGNATION</th>
+			<th class="small right-br">BASIC</th>
+			<th class="small right-br">DA</th>
 			<th class="small-xx">BONUS</th>
 			<th class="small-xx">GROSS</th>
 			<th class="small-xx right-br left-br">DEDUCTION</th>
@@ -35,11 +37,15 @@
 		foreach ($employeesInSalary as $employee) {
 			foreach($periods as $period){
 				$salary = SalaryDetails::model()->find("t.EMPLOYEE_ID_FK=".$employee->EMPLOYEE_ID_FK." AND t.BILL_ID_FK=".$model->ID." AND t.MONTH=".$period['MONTH']." AND t.YEAR=".$period['YEAR']);
+				$basic = PayMatrix::model()->findByPK(Employee::model()->findByPK($salary->EMPLOYEE_ID_FK)->PAY_MATRIX_ID_FK)->BASIC;
+				$da = round($basic * 0.05);
 				?>
 					<tr>
 						<td class="small-xxx right-br"><?php echo $i; ?></td>
 						<td class="small right-br"><b><?php echo Employee::model()->findByPK($salary->EMPLOYEE_ID_FK)->NAME;?></b></td>
 						<td class="small right-br"><b><?php echo Designations::model()->findByPK(Employee::model()->findByPK($salary->EMPLOYEE_ID_FK)->DESIGNATION_ID_FK)->DESIGNATION;?></b></td>
+						<td class="small-xx right-br"><?php echo $basic; ?></td>
+						<td class="small-xx right-br"><?php echo $da; ?></td>
 						<td class="small-xx"><?php echo $salary->BONUS; ?></td>
 						<td class="small-xx"><?php echo $salary->GROSS; ?></td>
 						<td class="small-xx right-br left-br"><?php echo $salary->DED; ?></td>
@@ -54,6 +60,8 @@
 	</tbody>
 	<tfoot>
 		<th class="small-xxx right-br"></th>
+		<th class="small right-br"></th>
+		<th class="small right-br"></th>
 		<th class="small right-br"></th>
 		<th class="small right-br"></th>
 		<th class="small-xx"><?php $BONUS = Yii::app()->db->createCommand("SELECT SUM(BONUS) as BONUS FROM tbl_salary_details WHERE BILL_ID_FK = $model->ID AND YEAR = $model->YEAR AND MONTH = $model->MONTH;")->queryRow()['BONUS'];echo $BONUS;?></th>

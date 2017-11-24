@@ -40,6 +40,20 @@ table.table.table-bordered.table-hover{font-size: 14px;}
 				array('header'=>'SN.',
 					  'value'=>'++$row',
 				),
+				array( 'header'=>'',
+					'type'=>'raw',
+					'value'=>function ($data){ 
+						$text = "";
+						if($data->RELATED_BILL_ID != 0){
+							$text = "<br><a href='".Yii::app()->createUrl('bill/update', array('id'=>$data->RELATED_BILL_ID))."' target='_blank'
+							title='".Bill::model()->findByPK($data->RELATED_BILL_ID)->BILL_TITLE."'><i class='fa fa-link'></i></a>";
+						}
+						else{
+							$text = "<br><i class='fa fa-dot-circle-o'></i>";
+						}
+						return $text;
+					}
+				),
 				array(
 					'header'=>'BILL NO',
 					'type'=>'raw',
@@ -63,7 +77,7 @@ table.table.table-bordered.table-hover{font-size: 14px;}
 							echo "This bill can't be passed (Contact Admin)";
 						}
 						else{
-							if($data->PFMS_STATUS == "Passed"){
+							if($data->IS_PASSED){
 								echo $data->PFMS_STATUS;
 							}
 							else{

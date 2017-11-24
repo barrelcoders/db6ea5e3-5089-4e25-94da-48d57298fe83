@@ -195,6 +195,7 @@ $(document).ready(function(){
 			if(bill_sub_type == OPS_LTC_CLAIM_BILL){
 				//var register_count = parseInt($("#BILL_REGISTER_COUNT").val());
 				//$("#Bill_BILL_NO").val("LTC/"+zeroPad((register_count+1), 2)+"/"+FIANANCIAL_YEAR+" dt "+TODAY_DATE);
+				$("#ltc-htc-advance-bill").show();
 				$("#ops-emp").show();
 				$("#BILL_NO_SECTION").show();
 				$("#BILL_TITLE_SECTION").show();
@@ -356,6 +357,7 @@ $(document).ready(function(){
 			if(bill_sub_type == NPS_LTC_CLAIM_BILL){
 				//var register_count = parseInt($("#BILL_REGISTER_COUNT").val());
 				//$("#Bill_BILL_NO").val("LTC/"+zeroPad((register_count+1), 2)+"/"+FIANANCIAL_YEAR+" dt "+TODAY_DATE);
+				$("#ltc-htc-advance-bill").show();
 				$("#nps-emp").show();
 				$("#BILL_NO_SECTION").show();
 				$("#BILL_TITLE_SECTION").show();
@@ -460,8 +462,6 @@ $(document).ready(function(){
 				$("#BILL_TITLE_SECTION").show();
 				$("#BILL_AMOUNT_SECTION").show();
 				$("#FILE_NO_SECTION").show();
-				$("#OE_IT_DED_SECTION").show();
-				$("#OE_NET_AMOUNT_SECTION").show();
 				$("#VENDOR_ID_SECTION").show();
 				$("#OE_BILLS_SECTION").show();
 				$("#PFMS_BILL_NO_SECTION").show();
@@ -480,8 +480,6 @@ $(document).ready(function(){
 				$("#BILL_TITLE_SECTION").show();
 				$("#BILL_AMOUNT_SECTION").show();
 				$("#FILE_NO_SECTION").show();
-				$("#OE_IT_DED_SECTION").show();
-				$("#OE_NET_AMOUNT_SECTION").show();
 				$("#VENDOR_ID_SECTION").show();
 				$("#OE_BILLS_SECTION").show();
 				$("#PFMS_BILL_NO_SECTION").show();
@@ -500,8 +498,6 @@ $(document).ready(function(){
 				$("#BILL_TITLE_SECTION").show();
 				$("#BILL_AMOUNT_SECTION").show();
 				$("#FILE_NO_SECTION").show();
-				$("#OE_IT_DED_SECTION").show();
-				$("#OE_NET_AMOUNT_SECTION").show();
 				$("#VENDOR_ID_SECTION").show();
 				$("#OE_BILLS_SECTION").show();
 				$("#PFMS_BILL_NO_SECTION").show();
@@ -519,8 +515,6 @@ $(document).ready(function(){
 				$("#BILL_TITLE_SECTION").show();
 				$("#BILL_AMOUNT_SECTION").show();
 				$("#FILE_NO_SECTION").show();
-				$("#OE_IT_DED_SECTION").show();
-				$("#OE_NET_AMOUNT_SECTION").show();
 				$("#VENDOR_ID_SECTION").show();
 				$("#OE_BILLS_SECTION").show();
 				$("#PFMS_BILL_NO_SECTION").show();
@@ -538,8 +532,6 @@ $(document).ready(function(){
 				$("#BILL_TITLE_SECTION").show();
 				$("#BILL_AMOUNT_SECTION").show();
 				$("#FILE_NO_SECTION").show();
-				$("#OE_IT_DED_SECTION").show();
-				$("#OE_NET_AMOUNT_SECTION").show();
 				$("#VENDOR_ID_SECTION").show();
 				$("#OE_BILLS_SECTION").show();
 				$("#PFMS_BILL_NO_SECTION").show();
@@ -557,8 +549,6 @@ $(document).ready(function(){
 				$("#BILL_TITLE_SECTION").show();
 				$("#BILL_AMOUNT_SECTION").show();
 				$("#FILE_NO_SECTION").show();
-				$("#OE_IT_DED_SECTION").show();
-				$("#OE_NET_AMOUNT_SECTION").show();
 				$("#VENDOR_ID_SECTION").show();
 				$("#OE_BILLS_SECTION").show();
 				$("#PFMS_BILL_NO_SECTION").show();
@@ -576,8 +566,6 @@ $(document).ready(function(){
 				$("#BILL_TITLE_SECTION").show();
 				$("#BILL_AMOUNT_SECTION").show();
 				$("#FILE_NO_SECTION").show();
-				$("#OE_IT_DED_SECTION").show();
-				$("#OE_NET_AMOUNT_SECTION").show();
 				$("#VENDOR_ID_SECTION").show();
 				$("#OE_BILLS_SECTION").show();
 				$("#PFMS_BILL_NO_SECTION").show();
@@ -595,8 +583,6 @@ $(document).ready(function(){
 				$("#BILL_TITLE_SECTION").show();
 				$("#BILL_AMOUNT_SECTION").show();
 				$("#FILE_NO_SECTION").show();
-				$("#OE_IT_DED_SECTION").show();
-				$("#OE_NET_AMOUNT_SECTION").show();
 				$("#VENDOR_ID_SECTION").show();
 				$("#OE_BILLS_SECTION").show();
 				$("#PFMS_BILL_NO_SECTION").show();
@@ -614,8 +600,6 @@ $(document).ready(function(){
 				$("#BILL_TITLE_SECTION").show();
 				$("#BILL_AMOUNT_SECTION").show();
 				$("#FILE_NO_SECTION").show();
-				$("#OE_IT_DED_SECTION").show();
-				$("#OE_NET_AMOUNT_SECTION").show();
 				$("#VENDOR_ID_SECTION").show();
 				$("#OE_BILLS_SECTION").show();
 				$("#PFMS_BILL_NO_SECTION").show();
@@ -633,8 +617,6 @@ $(document).ready(function(){
 				$("#BILL_TITLE_SECTION").show();
 				$("#BILL_AMOUNT_SECTION").show();
 				$("#FILE_NO_SECTION").show();
-				$("#OE_IT_DED_SECTION").show();
-				$("#OE_NET_AMOUNT_SECTION").show();
 				$("#VENDOR_ID_SECTION").show();
 				$("#OE_BILLS_SECTION").show();
 				$("#PFMS_BILL_NO_SECTION").show();
@@ -652,8 +634,6 @@ $(document).ready(function(){
 				$("#BILL_TITLE_SECTION").show();
 				$("#BILL_AMOUNT_SECTION").show();
 				$("#FILE_NO_SECTION").show();
-				$("#OE_IT_DED_SECTION").show();
-				$("#OE_NET_AMOUNT_SECTION").show();
 				$("#VENDOR_ID_SECTION").show();
 				$("#OE_BILLS_SECTION").show();
 				$("#PFMS_BILL_NO_SECTION").show();
@@ -671,8 +651,6 @@ $(document).ready(function(){
 				$("#BILL_TITLE_SECTION").show();
 				$("#BILL_AMOUNT_SECTION").show();
 				$("#FILE_NO_SECTION").show();
-				$("#OE_IT_DED_SECTION").show();
-				$("#OE_NET_AMOUNT_SECTION").show();
 				$("#VENDOR_ID_SECTION").show();
 				$("#OE_BILLS_SECTION").show();
 				$("#PFMS_BILL_NO_SECTION").show();
@@ -690,8 +668,6 @@ $(document).ready(function(){
 				$("#BILL_TITLE_SECTION").show();
 				$("#BILL_AMOUNT_SECTION").show();
 				$("#FILE_NO_SECTION").show();
-				$("#OE_IT_DED_SECTION").show();
-				$("#OE_NET_AMOUNT_SECTION").show();
 				$("#VENDOR_ID_SECTION").show();
 				$("#OE_BILLS_SECTION").show();
 				$("#PFMS_BILL_NO_SECTION").show();
@@ -709,8 +685,6 @@ $(document).ready(function(){
 				$("#BILL_TITLE_SECTION").show();
 				$("#BILL_AMOUNT_SECTION").show();
 				$("#FILE_NO_SECTION").show();
-				$("#OE_IT_DED_SECTION").show();
-				$("#OE_NET_AMOUNT_SECTION").show();
 				$("#VENDOR_ID_SECTION").show();
 				$("#OE_BILLS_SECTION").show();
 				$("#PFMS_BILL_NO_SECTION").show();
@@ -739,10 +713,31 @@ $(document).ready(function(){
 				
 				$('#txtBillTitle').val("Bill of "+$("#Bill_BILL_SUB_TYPE option:selected").text()+" in R/O staff of "+DEPT_NAME);
 			}
-			if(bill_sub_type == DTE_TOUR_TA_CLAIM_BILL || bill_sub_type == DTE_TRANSFER_TA_CLAIM_BILL){
+			if(bill_sub_type == DTE_TOUR_TA_CLAIM_BILL){
 				//var register_count = parseInt($("#BILL_REGISTER_COUNT").val());
 				//$("#Bill_BILL_NO").val("DTE/"+zeroPad((register_count+1), 2)+"/"+FIANANCIAL_YEAR+" dt "+TODAY_DATE);
 				//$("#BILL_ENTRY_COUNT").val(1);
+				$("#tour-ta-advance-bill").show();
+				$("#dte-emp").show();
+				$("#BILL_NO_SECTION").show();
+				$("#BILL_TITLE_SECTION").show();
+				$("#MONTH_SECTION").show();
+				$("#YEAR_SECTION").show();
+				$("#CREATION_DATE_SECTION").show();
+				$("#BILL_AMOUNT_SECTION").show();
+				$("#FILE_NO_SECTION").show();
+				$("#PFMS_BILL_NO_SECTION").show();
+				$("#CLAIM_GROSS_SECTION").show();
+				$("#CLAIM_ADVANCE_SECTION").show();
+				$("#CER_NO_SECTION").show();
+				
+				$('#txtBillTitle').val("Bill of "+$("#Bill_BILL_SUB_TYPE option:selected").text()+" in R/O staff of "+DEPT_NAME);
+			}
+			if(bill_sub_type == DTE_TRANSFER_TA_CLAIM_BILL){
+				//var register_count = parseInt($("#BILL_REGISTER_COUNT").val());
+				//$("#Bill_BILL_NO").val("DTE/"+zeroPad((register_count+1), 2)+"/"+FIANANCIAL_YEAR+" dt "+TODAY_DATE);
+				//$("#BILL_ENTRY_COUNT").val(1);
+				$("#transfer-ta-advance-bill").show();
 				$("#dte-emp").show();
 				$("#BILL_NO_SECTION").show();
 				$("#BILL_TITLE_SECTION").show();
@@ -760,11 +755,29 @@ $(document).ready(function(){
 			}
 		}
 		else if(bill_type == MEDICAL_BILL){
-			if(bill_sub_type == MEDICAL_CLAIM || bill_sub_type == MEDICAL_ADVANCE){
+			if(bill_sub_type == MEDICAL_ADVANCE){
 				//var register_count = parseInt($("#BILL_REGISTER_COUNT").val());
 				//$("#Bill_BILL_NO").val("MED/"+zeroPad((register_count+1), 2)+"/"+FIANANCIAL_YEAR+" dt "+TODAY_DATE);
 				//$("#BILL_ENTRY_COUNT").val(1);
 				
+				$("#medical-emp").show();
+				$("#BILL_NO_SECTION").show();
+				$("#BILL_TITLE_SECTION").show();
+				$("#MONTH_SECTION").show();
+				$("#YEAR_SECTION").show();
+				$("#CREATION_DATE_SECTION").show();
+				$("#BILL_AMOUNT_SECTION").show();
+				$("#FILE_NO_SECTION").show();
+				$("#PFMS_BILL_NO_SECTION").show();
+				$("#CER_NO_SECTION").show();
+				$('#txtBillTitle').val("Bill of "+$("#Bill_BILL_SUB_TYPE option:selected").text()+" in R/O staff of "+DEPT_NAME);
+			}
+			
+			if(bill_sub_type == MEDICAL_CLAIM){
+				//var register_count = parseInt($("#BILL_REGISTER_COUNT").val());
+				//$("#Bill_BILL_NO").val("MED/"+zeroPad((register_count+1), 2)+"/"+FIANANCIAL_YEAR+" dt "+TODAY_DATE);
+				//$("#BILL_ENTRY_COUNT").val(1);
+				$("#medical-advance-bill").show();
 				$("#medical-emp").show();
 				$("#BILL_NO_SECTION").show();
 				$("#BILL_TITLE_SECTION").show();
@@ -969,6 +982,7 @@ function loadFormOnUpdate(){
 				$("#IS_LTC_ADVANCE_BILL").val(1);
 			}
 			if(CURRENT_BILL_SUB_TYPE == OPS_LTC_CLAIM_BILL){
+				$("#ltc-htc-advance-bill").show();
 				$("#ops-emp").show();
 				$("#BILL_NO_SECTION").show();
 				$("#BILL_TITLE_SECTION").show();
@@ -1088,6 +1102,7 @@ function loadFormOnUpdate(){
 				$("#IS_LTC_ADVANCE_BILL").val(1);
 			}
 			if(CURRENT_BILL_SUB_TYPE == NPS_LTC_CLAIM_BILL){
+				$("#ltc-htc-advance-bill").show();
 				$("#nps-emp").show();
 				$("#BILL_NO_SECTION").show();
 				$("#BILL_TITLE_SECTION").show();
@@ -1168,8 +1183,6 @@ function loadFormOnUpdate(){
 				$("#BILL_TITLE_SECTION").show();
 				$("#BILL_AMOUNT_SECTION").show();
 				$("#FILE_NO_SECTION").show();
-				$("#OE_IT_DED_SECTION").show();
-				$("#OE_NET_AMOUNT_SECTION").show();
 				$("#VENDOR_ID_SECTION").show();
 				$("#OE_BILLS_SECTION").show();
 				$("#PFMS_BILL_NO_SECTION").show();
@@ -1183,8 +1196,6 @@ function loadFormOnUpdate(){
 				$("#BILL_TITLE_SECTION").show();
 				$("#BILL_AMOUNT_SECTION").show();
 				$("#FILE_NO_SECTION").show();
-				$("#OE_IT_DED_SECTION").show();
-				$("#OE_NET_AMOUNT_SECTION").show();
 				$("#VENDOR_ID_SECTION").show();
 				$("#OE_BILLS_SECTION").show();
 				$("#PFMS_BILL_NO_SECTION").show();
@@ -1198,8 +1209,6 @@ function loadFormOnUpdate(){
 				$("#BILL_TITLE_SECTION").show();
 				$("#BILL_AMOUNT_SECTION").show();
 				$("#FILE_NO_SECTION").show();
-				$("#OE_IT_DED_SECTION").show();
-				$("#OE_NET_AMOUNT_SECTION").show();
 				$("#VENDOR_ID_SECTION").show();
 				$("#OE_BILLS_SECTION").show();
 				$("#PFMS_BILL_NO_SECTION").show();
@@ -1213,8 +1222,6 @@ function loadFormOnUpdate(){
 				$("#BILL_TITLE_SECTION").show();
 				$("#BILL_AMOUNT_SECTION").show();
 				$("#FILE_NO_SECTION").show();
-				$("#OE_IT_DED_SECTION").show();
-				$("#OE_NET_AMOUNT_SECTION").show();
 				$("#VENDOR_ID_SECTION").show();
 				$("#OE_BILLS_SECTION").show();
 				$("#PFMS_BILL_NO_SECTION").show();
@@ -1228,8 +1235,6 @@ function loadFormOnUpdate(){
 				$("#BILL_TITLE_SECTION").show();
 				$("#BILL_AMOUNT_SECTION").show();
 				$("#FILE_NO_SECTION").show();
-				$("#OE_IT_DED_SECTION").show();
-				$("#OE_NET_AMOUNT_SECTION").show();
 				$("#VENDOR_ID_SECTION").show();
 				$("#OE_BILLS_SECTION").show();
 				$("#PFMS_BILL_NO_SECTION").show();
@@ -1243,8 +1248,6 @@ function loadFormOnUpdate(){
 				$("#BILL_TITLE_SECTION").show();
 				$("#BILL_AMOUNT_SECTION").show();
 				$("#FILE_NO_SECTION").show();
-				$("#OE_IT_DED_SECTION").show();
-				$("#OE_NET_AMOUNT_SECTION").show();
 				$("#VENDOR_ID_SECTION").show();
 				$("#OE_BILLS_SECTION").show();
 				$("#PFMS_BILL_NO_SECTION").show();
@@ -1258,8 +1261,6 @@ function loadFormOnUpdate(){
 				$("#BILL_TITLE_SECTION").show();
 				$("#BILL_AMOUNT_SECTION").show();
 				$("#FILE_NO_SECTION").show();
-				$("#OE_IT_DED_SECTION").show();
-				$("#OE_NET_AMOUNT_SECTION").show();
 				$("#VENDOR_ID_SECTION").show();
 				$("#OE_BILLS_SECTION").show();
 				$("#PFMS_BILL_NO_SECTION").show();
@@ -1273,8 +1274,6 @@ function loadFormOnUpdate(){
 				$("#BILL_TITLE_SECTION").show();
 				$("#BILL_AMOUNT_SECTION").show();
 				$("#FILE_NO_SECTION").show();
-				$("#OE_IT_DED_SECTION").show();
-				$("#OE_NET_AMOUNT_SECTION").show();
 				$("#VENDOR_ID_SECTION").show();
 				$("#OE_BILLS_SECTION").show();
 				$("#PFMS_BILL_NO_SECTION").show();
@@ -1288,8 +1287,6 @@ function loadFormOnUpdate(){
 				$("#BILL_TITLE_SECTION").show();
 				$("#BILL_AMOUNT_SECTION").show();
 				$("#FILE_NO_SECTION").show();
-				$("#OE_IT_DED_SECTION").show();
-				$("#OE_NET_AMOUNT_SECTION").show();
 				$("#VENDOR_ID_SECTION").show();
 				$("#OE_BILLS_SECTION").show();
 				$("#PFMS_BILL_NO_SECTION").show();
@@ -1303,8 +1300,6 @@ function loadFormOnUpdate(){
 				$("#BILL_TITLE_SECTION").show();
 				$("#BILL_AMOUNT_SECTION").show();
 				$("#FILE_NO_SECTION").show();
-				$("#OE_IT_DED_SECTION").show();
-				$("#OE_NET_AMOUNT_SECTION").show();
 				$("#VENDOR_ID_SECTION").show();
 				$("#OE_BILLS_SECTION").show();
 				$("#PFMS_BILL_NO_SECTION").show();
@@ -1318,8 +1313,6 @@ function loadFormOnUpdate(){
 				$("#BILL_TITLE_SECTION").show();
 				$("#BILL_AMOUNT_SECTION").show();
 				$("#FILE_NO_SECTION").show();
-				$("#OE_IT_DED_SECTION").show();
-				$("#OE_NET_AMOUNT_SECTION").show();
 				$("#VENDOR_ID_SECTION").show();
 				$("#OE_BILLS_SECTION").show();
 				$("#PFMS_BILL_NO_SECTION").show();
@@ -1333,8 +1326,6 @@ function loadFormOnUpdate(){
 				$("#BILL_TITLE_SECTION").show();
 				$("#BILL_AMOUNT_SECTION").show();
 				$("#FILE_NO_SECTION").show();
-				$("#OE_IT_DED_SECTION").show();
-				$("#OE_NET_AMOUNT_SECTION").show();
 				$("#VENDOR_ID_SECTION").show();
 				$("#OE_BILLS_SECTION").show();
 				$("#PFMS_BILL_NO_SECTION").show();
@@ -1348,8 +1339,6 @@ function loadFormOnUpdate(){
 				$("#BILL_TITLE_SECTION").show();
 				$("#BILL_AMOUNT_SECTION").show();
 				$("#FILE_NO_SECTION").show();
-				$("#OE_IT_DED_SECTION").show();
-				$("#OE_NET_AMOUNT_SECTION").show();
 				$("#VENDOR_ID_SECTION").show();
 				$("#OE_BILLS_SECTION").show();
 				$("#PFMS_BILL_NO_SECTION").show();
@@ -1363,8 +1352,6 @@ function loadFormOnUpdate(){
 				$("#BILL_TITLE_SECTION").show();
 				$("#BILL_AMOUNT_SECTION").show();
 				$("#FILE_NO_SECTION").show();
-				$("#OE_IT_DED_SECTION").show();
-				$("#OE_NET_AMOUNT_SECTION").show();
 				$("#VENDOR_ID_SECTION").show();
 				$("#OE_BILLS_SECTION").show();
 				$("#PFMS_BILL_NO_SECTION").show();
@@ -1387,7 +1374,23 @@ function loadFormOnUpdate(){
 				$("#PFMS_BILL_NO_SECTION").show();
 				$("#CER_NO_SECTION").show();
 			}
-			if(CURRENT_BILL_SUB_TYPE == DTE_TOUR_TA_CLAIM_BILL || CURRENT_BILL_SUB_TYPE == DTE_TRANSFER_TA_CLAIM_BILL){
+			if(CURRENT_BILL_SUB_TYPE == DTE_TOUR_TA_CLAIM_BILL){
+				$("#tour-ta-advance-bill").show();
+				$("#dte-emp").show();
+				$("#BILL_NO_SECTION").show();
+				$("#BILL_TITLE_SECTION").show();
+				$("#MONTH_SECTION").show();
+				$("#YEAR_SECTION").show();
+				$("#CREATION_DATE_SECTION").show();
+				$("#BILL_AMOUNT_SECTION").show();
+				$("#FILE_NO_SECTION").show();
+				$("#PFMS_BILL_NO_SECTION").show();
+				$("#CER_NO_SECTION").show();
+				$("#CLAIM_GROSS_SECTION").show();
+				$("#CLAIM_ADVANCE_SECTION").show();
+			}
+			if(CURRENT_BILL_SUB_TYPE == DTE_TRANSFER_TA_CLAIM_BILL){
+				$("#transfer-ta-advance-bill").show();
 				$("#dte-emp").show();
 				$("#BILL_NO_SECTION").show();
 				$("#BILL_TITLE_SECTION").show();
@@ -1403,7 +1406,20 @@ function loadFormOnUpdate(){
 			}
 		}
 		else if(CURRENT_BILL_TYPE == MEDICAL_BILL){
-			if(CURRENT_BILL_SUB_TYPE == MEDICAL_CLAIM || CURRENT_BILL_SUB_TYPE == MEDICAL_ADVANCE){
+			if(CURRENT_BILL_SUB_TYPE == MEDICAL_ADVANCE){
+				$("#medical-emp").show();
+				$("#BILL_NO_SECTION").show();
+				$("#BILL_TITLE_SECTION").show();
+				$("#MONTH_SECTION").show();
+				$("#YEAR_SECTION").show();
+				$("#CREATION_DATE_SECTION").show();
+				$("#BILL_AMOUNT_SECTION").show();
+				$("#FILE_NO_SECTION").show();
+				$("#PFMS_BILL_NO_SECTION").show();
+				$("#CER_NO_SECTION").show();
+			}
+			if(CURRENT_BILL_SUB_TYPE == MEDICAL_CLAIM){
+				$("#medical-advance-bill").show();
 				$("#medical-emp").show();
 				$("#BILL_NO_SECTION").show();
 				$("#BILL_TITLE_SECTION").show();
@@ -1430,6 +1446,11 @@ function resetBiilSelection(){
 	$('#medical-emp').hide();
 	$("#ceabills").hide();
 	$("#oebills").hide();
+	
+	$("#ltc-htc-advance-bill").hide();
+	$("#tour-ta-advance-bill").hide();
+	$("#transfer-ta-advance-bill").hide();
+	$("#medical-advance-bill").hide();
 	
 	$("#IS_ARREAR_BILL").val(0);
 	$("#IS_DA_ARREAR_BILL").val(0);

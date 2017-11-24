@@ -1,7 +1,17 @@
 var startTab = 0,
 	activeTab = 0,
-	endTab = 0;
+	endTab = 0,
+	unsaved = false;
+
+window.onbeforeunload = unloadPage;
+
 $(document).ready(function(){
+	$((TABLE_FORMAT) ? "#data-table select": ".tabcontent select").change(function(){ //trigers change in all input fields including text type
+		unsaved = true;
+	});
+	$((TABLE_FORMAT) ? "#data-table input[type=text]": ".tabcontent input[type=text]").keyup(function(){ //trigers change in all input fields including text type
+		unsaved = true;
+	});
 	$('#btn-prev').click(function(){
 		if(activeTab == startTab)
 			return;
@@ -54,7 +64,7 @@ $(document).ready(function(){
 		
 		selfWithDependentSelector = GetSelftWithDependentSelector(attribute, monthParent, employeeParent);
 		
-		if(IS_LTC_HTC_CLAIM_BILL){
+		if(IS_LTC_HTC_CLAIM_BILL || IS_LTC_HTC_GROSS_BILL){
 			$(selfWithDependentSelector).each(function(){
 				LTCValueChange(this);
 			});
@@ -65,7 +75,6 @@ $(document).ready(function(){
 			});
 		}
 	});
-	
 	
 });
 	
@@ -182,6 +191,7 @@ function ValueChange(field){
 	var container = (TABLE_FORMAT) ? $(field).parents('tr') : $(field).parents('table'),
 	basicComponentElement = $(container).find('.basic-amount'),
 	hraComponentElement = $(container).find('.hra-amount'),
+	lfComponentElement = $(container).find('.licence-fee-amount'),
 	daComponentElement = $(container).find('.da-amount'),
 	
 	ceaTuitionComponentElement = $(container).find('.cea-tuition-amount'),
@@ -224,7 +234,7 @@ function ValueChange(field){
 	NET_AMOUNT = 0,
 	CREDIT_AMOUNT = 0; 
 	
-	if(!IS_ARREAR_BILL){
+	/*if(!IS_ARREAR_BILL){
 		var DA_AMOUNT = Math.round(parseInt($(basicComponentElement).val())*(DA_RATE/100));
 		if(!QUARTER_ALLOCATED){
 			var HRA_AMOUNT = Math.round(parseInt($(basicComponentElement).val())*(HRA_RATE/100));
@@ -238,12 +248,16 @@ function ValueChange(field){
 		if($(basicComponentElement).length > 0){
 			daComponentElement.val(DA_AMOUNT);
 		}
-		
-		if(container.find("#PENSION_TYPE").val() == "NPS"){
-			cpfComponentElement.val(Math.round((parseInt(getElementValue(daComponentElement)) + parseInt(getElementValue($(basicComponentElement)))) * (CPF_RATE/100)));
-		}
+	}*/
+	
+	if(parseInt($(hraComponentElement).val()) !=0 && parseInt($(lfComponentElement).val()) !=0){
+		alert('Are you sure about filling both HRA and LF ?');
 	}
 	
+	if(container.find("#PENSION_TYPE").val() == "NPS"){
+		cpfComponentElement.val(Math.round((parseInt(getElementValue(daComponentElement)) + parseInt(getElementValue($(basicComponentElement)))) * (CPF_RATE/100)));
+	}
+
 	if(IS_CEA_BILL){
 		ceaTotalComponentElement.val( parseInt(getElementValue(ceaTuitionComponentElement)) + parseInt(getElementValue(ceaOtherComponentElement)));
 	}
@@ -395,4 +409,20 @@ function getElementValue(element){
 	else{
 		return 0;
 	}
+}
+function submitSalaryDetails(){
+	var result = false;
+	if(confirm('Are you sure wants to submit the bill, This will change the Appropiation Register')){
+		if(unsaved){
+			unsaved = false;
+		} 
+		result = true;
+	}
+	return result;
+}
+
+function unloadPage(){ 
+    if(unsaved){
+        return "You have unsaved changes. Do you want to leave this page and discard your changes or stay on this page?";
+    }
 }

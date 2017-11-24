@@ -163,3 +163,6 @@ ul.tab li a:focus, .active {
     background: #fdfdfd;
     width: 375px;
 }
+tfoot{
+	display: table-row-group;
+}

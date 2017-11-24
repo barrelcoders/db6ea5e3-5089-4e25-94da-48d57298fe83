@@ -17,8 +17,7 @@
 			<?php if($model->IS_MULTIPLE_MONTH) {?>
 			<th class="small right-br">MONTH</th>
 			<?php } ?>
-			<th class="small-xx">PAY</th>
-			<th class="small-xx">GP</th>
+			<th class="small-xx">BASIC</th>
 			<th class="small-xx">DA</th>
 			<th class="small-xx">CPF TIER I</th>
 			<th class="small-xx">CPF TIER II</th>
@@ -51,7 +50,6 @@
 									<td rowspan="<?php echo $total_months;?>" class="small right-br"><b><?php echo Designations::model()->findByPK(Employee::model()->findByPK($salary->EMPLOYEE_ID_FK)->DESIGNATION_ID_FK)->DESIGNATION;?></b></td>
 									<td class="small-xx"><?php echo $period['FORMAT']; ?></td>
 									<td class="small-xx"><?php echo $salary->BASIC; ?></td>
-									<td class="small-xx"><?php echo $salary->GP; ?></td>
 									<td class="small-xx"><?php echo $salary->DA; ?></td>
 									<td class="small-xx"><?php echo $salary->CPF_TIER_I; ?></td>
 									<td class="small-xx"><?php echo $salary->CPF_TIER_II; ?></td>
@@ -64,7 +62,6 @@
 								<tr>
 									<td class="small-xx"><?php echo $period['FORMAT']; ?></td>
 									<td class="small-xx"><?php echo $salary->BASIC; ?></td>
-									<td class="small-xx"><?php echo $salary->GP; ?></td>
 									<td class="small-xx"><?php echo $salary->DA; ?></td>
 									<td class="small-xx"><?php echo $salary->CPF_TIER_I; ?></td>
 									<td class="small-xx"><?php echo $salary->CPF_TIER_II; ?></td>
@@ -81,7 +78,6 @@
 								<td class="small right-br"><b><?php echo Employee::model()->findByPK($salary->EMPLOYEE_ID_FK)->NAME;?></b></td>
 								<td class="small right-br"><b><?php echo Designations::model()->findByPK(Employee::model()->findByPK($salary->EMPLOYEE_ID_FK)->DESIGNATION_ID_FK)->DESIGNATION;?></b></td>
 								<td class="small-xx"><?php echo $salary->BASIC; ?></td>
-								<td class="small-xx"><?php echo $salary->GP; ?></td>
 								<td class="small-xx"><?php echo $salary->DA; ?></td>
 								<td class="small-xx"><?php echo $salary->CPF_TIER_I; ?></td>
 								<td class="small-xx"><?php echo $salary->CPF_TIER_II; ?></td>

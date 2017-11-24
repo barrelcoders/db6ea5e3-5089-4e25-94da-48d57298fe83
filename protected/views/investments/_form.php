@@ -134,6 +134,14 @@
 							<?php echo $form->textField($model,'MEDICAL_INSURANCE',array('size'=>10,'maxlength'=>100, 'value'=>$model->MEDICAL_INSURANCE, 'style'=>'text-transform: uppercase;')); ?>
 						</p>
 					</div>
+				</div>		
+				<div class="form-group row">
+					<?php echo $form->labelEx($model,'MEDICAL_INSURANCE_PARENTS', array('class'=>'col-sm-8 form-control-label')); ?>
+					<div class="col-sm-4">
+						<p class="form-control-static">
+							<?php echo $form->textField($model,'MEDICAL_INSURANCE_PARENTS',array('size'=>10,'maxlength'=>100, 'value'=>$model->MEDICAL_INSURANCE_PARENTS, 'style'=>'text-transform: uppercase;')); ?>
+						</p>
+					</div>
 				</div>				
 				<div class="form-group row">
 					<?php echo $form->labelEx($model,'DONATION', array('class'=>'col-sm-8 form-control-label')); ?>

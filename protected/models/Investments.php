@@ -49,7 +49,7 @@ class Investments extends CActiveRecord
 			HRA, MEDICAL_INSURANCE, DONATION, DISABILITY_MED_EXP, EDU_LOAD_INT, SELF_DISABILITY, HOME_LOAN_INT, 
 			HOME_LOAD_EXCESS_2013_14, REGISTRY_STAMP, INSURANCE_LIC_OTHER, TUITION_FESS_EXEMPTION, PPF_NSC, HOME_LOAN_PR, PLI_ULIP, 
 			TERM_DEPOSIT_ABOVE_5, MUTUAL_FUND, PENSION_FUND, CPF,
-			NPS_UNDER_80CCD_1B, BANK_INTEREST_DED_80TTA', 'length', 'max'=>10),
+			NPS_UNDER_80CCD_1B, BANK_INTEREST_DED_80TTA, MEDICAL_INSURANCE_PARENTS', 'length', 'max'=>10),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
 			array('BONUS, ID, CEA_TUITION, FINANCIAL_YEAR_ID_FK, EMPLOYEE_ID, HRA, MEDICAL_INSURANCE, DONATION, DISABILITY_MED_EXP, 
@@ -80,6 +80,7 @@ class Investments extends CActiveRecord
 			'EMPLOYEE_ID' => 'Employee Name',
 			'HRA' => 'House Rent (Annually)',
 			'MEDICAL_INSURANCE' => 'Medical Insurance',
+			'MEDICAL_INSURANCE_PARENTS'=>'Medical Insurance (Parents)',
 			'DONATION' => 'Donation',
 			'DISABILITY_MED_EXP' => 'Disability Medical Expenses',
 			'EDU_LOAD_INT' => 'Education Loan Interest',
@@ -162,7 +163,8 @@ class Investments extends CActiveRecord
 		$criteria->compare('HOUSE_INCOME',$this->HOUSE_INCOME,true);
 		$criteria->compare('NPS_UNDER_80CCD_1B',$this->NPS_UNDER_80CCD_1B,true);
 		$criteria->compare('BANK_INTEREST_DED_80TTA',$this->BANK_INTEREST_DED_80TTA,true);
-		
+		$criteria->compare('MEDICAL_INSURANCE_PARENTS',$this->MEDICAL_INSURANCE_PARENTS,true);
+
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
 		));

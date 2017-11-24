@@ -239,23 +239,7 @@
 		$('.panel').on('dragged.lobiPanel', function(ev, lobiPanel){
 			$('.dahsboard-column').matchHeight();
 		});
-
 	});
-	/*$(function() {
-		var table = $('#data-table').DataTable({
-			scrollX:        true,
-			scrollCollapse: true,
-			paging:         true,
-			fixedColumns:   {
-				leftColumns:2,
-			}
-		});
-
-		setTimeout(function() {
-			table.draw();
-		}, 50);
-
-	});*/
 </script>
 <script src="<?php echo Yii::app()->request->baseUrl; ?>/js/app.js"></script>
 

@@ -38,7 +38,7 @@ function openEmployeeSalaryDetails(evt, empID) {
 						
 							<tr <?php 
 								if($appropiation->BILL_NO != 0) {
-									if(Bill::model()->findByPK($appropiation->BILL_NO)->PFMS_STATUS == 'Passed') {
+									if(Bill::model()->findByPK($appropiation->BILL_NO)->IS_PASSED) {
 										echo "style='border-left:10px Solid #009a00;color:#000;'";
 									}
 									else{
@@ -50,7 +50,7 @@ function openEmployeeSalaryDetails(evt, empID) {
 								} ?>>
 								<td style=""> 
 					<?php if($appropiation->BILL_NO != 0){
-						if(Bill::model()->findByPK($appropiation->BILL_NO)->PFMS_STATUS == 'Passed') {
+						if(Bill::model()->findByPK($appropiation->BILL_NO)->IS_PASSED) {
 							echo Bill::model()->findByPK($appropiation->BILL_NO)->BILL_NO;
 							if(Bill::model()->findByPK($appropiation->BILL_NO)->PFMS_BILL_NO != ''){
 								echo "<hr>".Bill::model()->findByPK($appropiation->BILL_NO)->PFMS_BILL_NO;

@@ -1,4 +1,3 @@
-
 <link href="<?php echo Yii::app()->request->baseUrl; ?>/css/oneadmin.css" rel="stylesheet">
 <div class="container-fluid">
 	<div id="form-16-panel" style="display:none;">
@@ -47,7 +46,8 @@
 				<form id="bill-form" action="<?php echo Yii::app()->createUrl('Bill/update', array('id'=>$bill->ID, 'isSalaryHead'=>1))?>" method="post">
 					<tr>
 						<td colspan="5"><b class="one-label">PFMS BILL NO: </b> <input size="100" maxlength="100" name="Bill[PFMS_BILL_NO]" id="Bill_PFMS_BILL_NO"  value="<?php echo Bill::model()->findByPK($bill->ID)->PFMS_BILL_NO;?>" type="text" style="line-height:30px;font-size: 20px;width: 80%;" ></td>
-						<td colspan="3"><input class="btn btn-success" type="submit" name="yt0" value="SAVE PFMS BILL NO"></td>
+						<td colspan="3"><input class="btn btn-success" type="submit" name="yt0" value="SAVE PFMS BILL NO" 
+						onclick="if(unsaved){unsaved = false;}"></td>
 					</tr>
 				</form>
 				<?php } ?>
@@ -56,8 +56,9 @@
 			<div class="row">
 				<div class="col-sm-2">
 					<p class="form-control-static">
-						<?php if($model->PFMS_STATUS != "Passed"){?>
-						<input type="submit" name="SalaryDetails[save]" class="btn btn-inline" value="Save" style="float:left;">
+						<?php if($model->IS_GENERATED){?>
+						<input type="submit" name="SalaryDetails[save]" class="btn btn-inline" value="Save" style="float:left;" 
+						onclick="if(unsaved){unsaved = false;}">
 						<?php } ?>
 					</p>
 				</div>
@@ -68,9 +69,9 @@
 				</div>
 				<div class="col-sm-2">
 					<p class="form-control-static">
-						<?php if($model->PFMS_STATUS != "Passed"){?>
+						<?php if($model->IS_GENERATED){?>
 						<input type="submit" name="SalaryDetails[submit]" class="btn btn-inline" style="float: right;" value="Submit" onsubmit="return confirm('Are you sure wants to submit the bill, This will change the Appropiation Register');"
-						onclick="return confirm('Are you sure wants to submit the bill, This will change the Appropiation Register');">
+						onclick="submitSalaryDetails();">
 						<?php } ?>
 					</p>
 				</div>
@@ -275,7 +276,7 @@
 								<tr>
 									<td>IT: <input type="text" size="10" name="SalaryDetails[<?php echo $employee->ID?>][<?php echo $year;?>][<?php echo $month;?>][IT]" data-type="IT" class="ded-inc-amount" value="<?php echo $salary->IT ? $salary->IT : 0;?>" placeholder="IT"/></td>
 									<td>CGHS: <input type="text" size="10" name="SalaryDetails[<?php echo $employee->ID?>][<?php echo $year;?>][<?php echo $month;?>][CGHS]" data-type="CGHS" class="ded-inc-amount" value="<?php echo $salary->CGHS ? $salary->CGHS : 0;?>" placeholder="CGHS"/></td>
-									<td>LF: <input type="text" size="10" name="SalaryDetails[<?php echo $employee->ID?>][<?php echo $year;?>][<?php echo $month;?>][LF]" data-type="LF" class="ded-inc-amount" value="<?php echo $salary->LF ? $salary->LF : 0;?>" placeholder="LF"/></td>
+									<td>LF: <input type="text" size="10" name="SalaryDetails[<?php echo $employee->ID?>][<?php echo $year;?>][<?php echo $month;?>][LF]" data-type="LF" class="licence-fee-amount ded-inc-amount" value="<?php echo $salary->LF ? $salary->LF : 0;?>" placeholder="LF"/></td>
 									<td>CGEGIS: <input type="text" size="10" name="SalaryDetails[<?php echo $employee->ID?>][<?php echo $year;?>][<?php echo $month;?>][CGEGIS]" data-type="CGEGIS" class="ded-inc-amount" value="<?php echo $salary->CGEGIS ? $salary->CGEGIS : 0;?>" placeholder="CGEGIS"/></td>
 									<td><?php echo ( $employee->PENSION_TYPE == 'OPS' ) ? "GPFC" : "CPF TIER I"; ?>: <input type="text" size="10" name="SalaryDetails[<?php echo $employee->ID?>][<?php echo $year;?>][<?php echo $month;?>][CPF_TIER_I]" data-type="CPF_TIER_I" class="ded-inc-amount  cpf-1-amount" value="<?php echo $salary->CPF_TIER_I ? $salary->CPF_TIER_I : 0;?>" placeholder="<?php echo ( $employee->PENSION_TYPE == 'OPS' ) ? "GPFC" : "CPF TIER I"; ?>"/></td>
 									<td><?php echo ( $employee->PENSION_TYPE == 'OPS' ) ? "GPFR" : "CPF TIER II"; ?>: <input type="text" size="10" name="SalaryDetails[<?php echo $employee->ID?>][<?php echo $year;?>][<?php echo $month;?>][CPF_TIER_II]" data-type="CPF_TIER_II" class="ded-inc-amount" value="<?php echo $salary->CPF_TIER_II ? $salary->CPF_TIER_II : 0;?>" placeholder="<?php echo ( $employee->PENSION_TYPE == 'OPS' ) ? "GPFR" : "CPF TIER II"; ?>"/></td>
@@ -371,7 +372,6 @@
 						<?php  if($bill->IS_DA_ARREAR_BILL) { ?>
 							<input type="hidden" name="SalaryDetails[<?php echo $employee->ID?>][<?php echo $year;?>][<?php echo $month;?>][MONTH]" value="<?php echo $month?>"/>
 							<input type="hidden" name="SalaryDetails[<?php echo $employee->ID?>][<?php echo $year;?>][<?php echo $month;?>][YEAR]" value="<?php echo $year?>"/>
-							
 							<table class="table table-bordered table-hover" style="margin-bottom: 10px;" id="<?php echo $month."-".$year;?>">
 								<tr>
 									<input type="hidden" id="PENSION_TYPE" value="<?php echo $employee->PENSION_TYPE;?>"/>
@@ -479,7 +479,15 @@
 						<?php if($bill->IS_EL_ENCASHMENT_BILL) {?>
 							<table class="table table-bordered table-hover" style="margin-bottom: 10px;" id="<?php echo $month."-".$year;?>">
 								<tr>
+									<td>BLOCK YEAR: <input type="text" size="10" name="SalaryDetails[<?php echo $employee->ID?>][<?php echo $year;?>][<?php echo $month;?>][BLOCK_YEAR]" data-type="BLOCK_YEAR" value="<?php echo $salary->BLOCK_YEAR ? $salary->BLOCK_YEAR : '';?>" placeholder="BLOCK YEAR"/></td>
+									<td>DAYS: <input type="text" size="10" name="SalaryDetails[<?php echo $employee->ID?>][<?php echo $year;?>][<?php echo $month;?>][EL_ENCASH_DAYS]" data-type="EL_ENCASH_DAYS" value="<?php echo $salary->EL_ENCASH_DAYS ? $salary->EL_ENCASH_DAYS : '';?>" placeholder="xx days"/></td>
+									<td>EL APPLIED: <input type="text" size="10" name="SalaryDetails[<?php echo $employee->ID?>][<?php echo $year;?>][<?php echo $month;?>][EL_ENCASH_LEAVE_APPLIED]" data-type="EL_ENCASH_LEAVE_APPLIED" value="<?php echo $salary->EL_ENCASH_LEAVE_APPLIED ? $salary->EL_ENCASH_LEAVE_APPLIED : '';?>" placeholder="xx days EL "/></td>
+									<td colspan="2">EL BALANCE: <input type="text" size="10" name="SalaryDetails[<?php echo $employee->ID?>][<?php echo $year;?>][<?php echo $month;?>][EL_ENCASH_LEAVE_BALANCE_BEFORE]" value="<?php echo $salary->EL_ENCASH_LEAVE_BALANCE_BEFORE ? $salary->EL_ENCASH_LEAVE_BALANCE_BEFORE : '';?>" placeholder="xx Days"/></td>
+									<td colspan="2">PREVIOUS EL ENCASH DAYS: <input type="text" size="10" name="SalaryDetails[<?php echo $employee->ID?>][<?php echo $year;?>][<?php echo $month;?>][PREVIOUS_EL_ENCASH_DAYS]" value="<?php echo $salary->PREVIOUS_EL_ENCASH_DAYS ? $salary->PREVIOUS_EL_ENCASH_DAYS : 0;?>" placeholder="PREVIOUS EL ENCASHMENT AMOUNT" /></td>
+								</tr>
+								<tr>
 									<td>EL ENCASHMENT: <input type="text" size="10" name="SalaryDetails[<?php echo $employee->ID?>][<?php echo $year;?>][<?php echo $month;?>][EL_ENCASHMENT]" data-type="EL_ENCASHMENT" class="gross-inc-amount" value="<?php echo $salary->EL_ENCASHMENT ? $salary->EL_ENCASHMENT : 0;?>" placeholder="EL ENCASHMENT"/></td>
+									<td>IT: <input type="text" size="10" name="SalaryDetails[<?php echo $employee->ID?>][<?php echo $year;?>][<?php echo $month;?>][IT]" data-type="IT" class="ded-inc-amount" value="<?php echo $salary->IT ? $salary->IT : 0;?>" placeholder="IT"/></td>
 									<td>GROSS: <input type="text" size="10" id='gross-components' name="SalaryDetails[<?php echo $employee->ID?>][<?php echo $year;?>][<?php echo $month;?>][GROSS]" value="<?php echo $salary->GROSS ? $salary->GROSS : 0;?>" placeholder="GROSS"/></td>
 									<td>DED: <input type="text" size="10" id='ded-components' name="SalaryDetails[<?php echo $employee->ID?>][<?php echo $year;?>][<?php echo $month;?>][DED]" value="<?php echo $salary->DED ? $salary->DED : 0;?>" placeholder="DED"/></td>
 									<td>NET: <input type="text" size="10" id='net-components' name="SalaryDetails[<?php echo $employee->ID?>][<?php echo $year;?>][<?php echo $month;?>][NET]" value="<?php echo $salary->NET ? $salary->NET : 0;?>" placeholder="NET"/></td>
@@ -542,7 +550,15 @@
 	var IS_LTC_HTC_CLAIM_BILL = <?php echo ($bill->IS_LTC_CLAIM_BILL) ? 1 : 0;?>;
 	var FORM_16_URL = '<?php echo Yii::app()->createUrl('IncomeTax/Form16', array('type'=>'Dialog'));?>&id=';
 	var TABLE_FORMAT = 0;
-	var IS_ARREAR_BILL = <?php echo $bill->IS_ARREAR_BILL;?>;
-	var IS_CEA_BILL = <?php echo $bill->IS_CEA_BILL;?>;
+	var IS_ARREAR_BILL = <?php echo ($bill->IS_ARREAR_BILL) ? 1 : 0;?>;
+	var IS_CEA_BILL = <?php echo ($bill->IS_CEA_BILL) ? 1 : 0;?>;
+	var IS_BILL_PASSED = <?php echo ($bill->IS_PASSED) ? 1 : 0;?>;
+	
+	$(document).ready(function(){
+		if(IS_BILL_PASSED){
+			$('input, textarea').prop('readonly', true);
+			$('select').prop('disabled', true);
+		}
+	});
 </script>	
 <script type="text/javascript" src="js/salary-details.js"></script>

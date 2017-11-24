@@ -51,7 +51,7 @@
 					<td width="20%"><?php echo $bill->BILL_NO."<br/>".$bill->PFMS_BILL_NO;?></td>
 					<td width="50%"><?php echo $bill->BILL_TITLE;?></td>
 					<td width="10%"><?php echo $bill->BILL_AMOUNT;?></td>
-					<td width="15%"><?php echo ($bill->PFMS_STATUS == 'Generated') ? 'Pending' : 'Passed';?></td>
+					<td width="15%"><?php echo ($bill->IS_GENERATED) ? 'Pending' : 'Passed';?></td>
 				</tr>
 			<?php
 				$total = $total + $bill->BILL_AMOUNT;

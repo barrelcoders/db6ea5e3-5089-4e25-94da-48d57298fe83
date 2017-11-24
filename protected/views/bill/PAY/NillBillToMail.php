@@ -1,11 +1,9 @@
 <link href="<?php echo Yii::app()->request->baseUrl; ?>/css/oneadmin.css" rel="stylesheet">
-<script type="text/javascript">window.onload = function() { window.print(); }</script>
 <?php $master = Master::model()->findByPK(1); ?>
-<table class="pay-schedule-table" style="margin-top:0;">
+<table class="pay-schedule-table" style="margin-top:0;" id="nillbilltomail">
 	<thead>
 		<tr>
-			<td colspan="1">292251</td>
-			<td colspan="3"><?php echo $master->DEPT_NAME ."(".$master->DEPT_NAME_HINDI.")";?></td>
+			<td colspan="4" id="GenerateExcel" style="cursor: pointer;text-align: center;"><?php echo $master->DEPT_NAME ."<br>(".$master->DEPT_NAME_HINDI.")";?></td>
 		</tr>
 		<tr>
 			<th class="small-xxx left-br right-br">S.No.</th>
@@ -58,3 +56,22 @@
 		</tr>
 	</tfoot>
 </table>
+<script src="<?php echo Yii::app()->request->baseUrl; ?>/js/lib/jquery/jquery.min.js"></script>
+<script type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/js/jquery.table2excel.min"></script>
+<script>
+	$(document).ready(function() {
+		$("#GenerateExcel").click(function(){			
+			$("#nillbilltomail").table2excel({
+				name: "NPS",
+				exclude: ".noExl",
+				filename: "CPF CONTRIBUTION",
+				fileext: ".xlsx",
+				exclude_img: true,
+				exclude_links: true,
+				exclude_inputs: true
+					
+					
+			});
+		});
+	});
+</script>

@@ -77,6 +77,7 @@
 					'IT'=>$salary->IT,
 					'PLI'=>$salary->PLI,
 					'LIC'=>$salary->LIC,
+					'MISC'=>$salary->MISC,
 					'TYPE'=>'SALARY'
 				));
 			}
@@ -99,6 +100,7 @@
 					'IT'=>$salary->IT,
 					'PLI'=>$salary->PLI,
 					'LIC'=>$salary->LIC,
+					'MISC'=>$salary->MISC,
 					'TYPE'=>'SALARY'
 				));
 			}
@@ -128,6 +130,7 @@
 					'IT'=>0,
 					'PLI'=>0,
 					'LIC'=>0,
+					'MISC'=>0,
 					'TYPE'=>'SALARY'
 				));
 			}
@@ -154,6 +157,7 @@
 						'IT'=>$salary->IT,
 						'PLI'=>$salary->PLI,
 						'LIC'=>$salary->LIC,
+						'MISC'=>$salary->MISC,
 						'TYPE'=>'ARREAR',
 					));
 				}
@@ -178,6 +182,7 @@
 						'IT'=>$salary->IT,
 						'PLI'=>$salary->PLI,
 						'LIC'=>$salary->LIC,
+						'MISC'=>0,
 						'TYPE'=>'ARREAR',
 					));
 				}
@@ -275,7 +280,10 @@
 		$EL_ENCASH_PREVIOUS_OFFICE = isset($investment->EL_ENCASH) ? $investment->EL_ENCASH : 0;
 		$TOTAL_EL_ENCASH = $EL_ENCASH_CURRENT_OFFICE + $EL_ENCASH_PREVIOUS_OFFICE;
 		
-		$TOTAL_INCOME_FROM_SALARY = $TOTAL_SALARIES[0]['TOTAL'] + $TOTAL_DA_TA_ARREAR + $TOTAL_OTA_HONORIUM + $TOTAL_BONUS + $TOTAL_UA + $TOTAL_CEA + $TOTAL_LTC_HTC + $TOTAL_EL_ENCASH;
+		$TOTAL_MISC = $TOTAL_SALARIES[0]['MISC'];
+		$TOTAL_SALARY_WITHOUT_MISC = $TOTAL_SALARIES[0]['TOTAL'] - $TOTAL_MISC; 
+		$TOTAL_INCOME_FROM_SALARY = $TOTAL_SALARY_WITHOUT_MISC + $TOTAL_DA_TA_ARREAR + $TOTAL_OTA_HONORIUM + $TOTAL_BONUS + $TOTAL_UA + $TOTAL_CEA + 
+		$TOTAL_LTC_HTC + $TOTAL_EL_ENCASH;
 		
 		$RENT_PAID = isset($investment->HRA) ? $investment->HRA : 0;
 		$ACTUAL_HRA = $TOTAL_SALARIES[0]['HRA'];
@@ -304,6 +312,7 @@
 		
 		$TOTAL_CGHS = $TOTAL_SALARIES[0]['CGHS'];
 		$MEDICAL_INSURANCE = isset($investment->MEDICAL_INSURANCE) ? min($investment->MEDICAL_INSURANCE,25000) : 0;
+		$MEDICAL_INSURANCE_PARENTS = isset($investment->MEDICAL_INSURANCE_PARENTS) ? min($investment->MEDICAL_INSURANCE_PARENTS,25000) : 0;
 		$DONATION = isset($investment->DONATION) ? $investment->DONATION : 0;
 		$DISABILITY_MED_EXP = isset($investment->DISABILITY_MED_EXP) ? $investment->DISABILITY_MED_EXP : 0;
 		$EDU_LOAD_INT = isset($investment->EDU_LOAD_INT) ? $investment->EDU_LOAD_INT : 0;
@@ -358,7 +367,7 @@
 		if($employee->PENSION_TYPE == "OPS"){
 			$NPS_UNDER_80CCD_1B = isset($investment->NPS_UNDER_80CCD_1B) ? $investment->NPS_UNDER_80CCD_1B : 0;
 		}
-		$TOTAL_EXEMPTION = $TOTAL_CGHS+$MEDICAL_INSURANCE+$DONATION+$DISABILITY_MED_EXP+$EDU_LOAD_INT+$SELF_DISABILITY+
+		$TOTAL_EXEMPTION = $TOTAL_CGHS+$MEDICAL_INSURANCE+$MEDICAL_INSURANCE_PARENTS+$DONATION+$DISABILITY_MED_EXP+$EDU_LOAD_INT+$SELF_DISABILITY+
 		$MIN_HOME_LOAN_INT+$HOME_LOAD_EXCESS_2013_14+$NPS_UNDER_80CCD_1B+$BANK_INTEREST_DED_80TTA;	
 		
 		$TOTAL_CPF = ($employee->PENSION_TYPE == "OPS") ? $TOTAL_CPF_EMPLOYEE : ($TOTAL_CPF_EMPLOYEE + $TOTAL_CPF_GOVT);
@@ -460,6 +469,7 @@ function getSalaryTotal($salaries){
 	$IT = 0;
 	$PLI = 0;
 	$LIC = 0;
+	$MISC = 0;
 	
 	for($i=0;$i<=count($salaries)-1;$i++){
 		$BASIC += $salaries[$i]['BASIC'];
@@ -475,6 +485,7 @@ function getSalaryTotal($salaries){
 		$IT += $salaries[$i]['IT'];
 		$PLI += $salaries[$i]['PLI'];
 		$LIC += $salaries[$i]['LIC'];
+		$MISC += $salaries[$i]['MISC'];
 	}
 	array_push($total, array(
 		'MONTH'=>'',
@@ -493,6 +504,7 @@ function getSalaryTotal($salaries){
 		'IT'=>$IT,
 		'PLI'=>$PLI,
 		'LIC'=>$LIC,
+		'MISC'=>$MISC,
 	));
 	
 	return $total;
