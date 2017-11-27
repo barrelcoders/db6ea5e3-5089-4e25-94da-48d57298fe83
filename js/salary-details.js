@@ -19,7 +19,7 @@ $(document).ready(function(){
 		var marginleft = parseInt(document.getElementById('tab').style.marginLeft),
 			left = parseInt(marginleft ? marginleft : 0);
 		//if(left > 100){
-			document.getElementById('tab').style.marginLeft = (left + 300) + "px";
+			document.getElementById('tab').style.marginLeft = (left + 400) + "px";
 		//}
 		if($("#tablink-"+activeTab).prev().length){
 			$("#tablink-"+activeTab).prev().trigger('click');
@@ -32,7 +32,7 @@ $(document).ready(function(){
 		var marginleft = document.getElementById('tab').style.marginLeft,
 			left = parseInt(marginleft ? marginleft : 0);
 		//if(left > 0){
-			document.getElementById('tab').style.marginLeft = (left - 300) + "px";
+			document.getElementById('tab').style.marginLeft = (left - 400) + "px";
 		//}
 		
 		if($("#tablink-"+activeTab).next().length){

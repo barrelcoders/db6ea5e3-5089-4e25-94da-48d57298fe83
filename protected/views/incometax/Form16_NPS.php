@@ -266,47 +266,47 @@
 	<tr class="no-border">
 		
 		<td colspan="2" class="no-border"></td>
-		<td colspan="4" class="left-text">ix) 80-EE (Housing Loans sanctioned during 2013-14)</td>
-		<td><?php echo $HOME_LOAD_EXCESS_2013_14;?></td>
+		<td colspan="4" class="left-text">ix) 80-EE (Housing Loans sanctioned during <?php echo $HOME_LOAN_YEAR;?>)</td>
+		<td><?php echo $HOME_LOAN_80_EE_REBATE;?></td>
 		<td class="no-border"></td>
 		<td colspan="3" class="left-text">Stamp Duty/ Registration Charges</td>
 		<td><?php echo $REGISTRY_STAMP;?></td>
 	</tr>
 	<tr class="no-border">
 		<td colspan="2" class="no-border"></td>
-		<td colspan="4" class="right-text no-border-bottom">(Addl Exe. upto Rs.1 lakh)</td>
-		<td><?php echo $HOME_LOAD_EXCESS_2013_14_ADDTIONAL;?></td>
+		<td colspan="4" class="left-text no-border-bottom">x) Bank Interest deduction 80TTA</td>
+		<td><?php echo $BANK_INTEREST_DED_80TTA;?></td>
 		<td class="no-border"></td>
 		<td colspan="3" class="left-text">Total</td>
 		<td><?php echo $TOTAL_SAVING_80C;?></td>
 	</tr>
 	<tr class="no-border">
 		<td colspan="2" class="no-border"></td>
-		<td colspan="4" class="left-text">x) Bank Interest deduction 80TTA</td>
-		<td><?php echo $BANK_INTEREST_DED_80TTA;?></td>
+		<td colspan="4" class="left-text">xi) Investment NPS under 80CCD(1B)</td>
+		<td><?php echo $NPS_UNDER_80CCD_1B;?></td>
 		<td class="no-border"></td>
 		<td colspan="3" class="left-text">Savings (Rest.  to max)</td>
 		<td><?php echo $MIN_SAVING_80C;?></td>
 	</tr>
 	<tr class="no-border">
-		<td colspan="2" class="no-border"></td>
-		<td colspan="4" class="left-text">xi) Investment NPS under 80CCD(1B)</td>
-		<td><?php echo $NPS_UNDER_80CCD_1B;?></td>
+		<td colspan="2" class="no-border right-text"></td>
+		<td colspan="4" class="left-text">SAVINGS (U/s.80C)</td>
+		<td><?php echo $NET_SAVING_80C;?></td>
 		<td class="no-border"></td>
 		<td colspan="3" class="left-text">Total Savings under VI-A</td>
 		<td><?php echo $MIN_SAVING_80C;?></td>
 	</tr>
 	<tr class="no-border">
 		<td colspan="2" class="no-border right-text">B</td>
-		<td colspan="4" class="left-text">SAVINGS (U/s.80C)</td>
-		<td><?php echo $NET_SAVING_80C;?></td>
+		<td colspan="4" class="left-text">TOTAL DEDUCTIONS</td>
+		<td ><?php echo $TOTAL_DEDUCTIONS;?></td>
 		<td class="no-border"></td>
 		<td class="no-border"></td>
 	</tr>
 	<tr class="no-border">
 		<td colspan="2" class="no-border"></td>
-		<td colspan="4" class="left-text">TOTAL DEDUCTIONS</td>
-		<td><?php echo $TOTAL_DEDUCTIONS;?></td>
+		<td colspan="4" class="left-text no-border"></td>
+		<td class="no-border"></td>
 		<td class="no-border"></td>
 		<td colspan="3" class="left-text">Govt. CPF contr. 80CCD(2)</td>
 		<td><?php echo $TOTAL_CPF_GOVT;?></td>

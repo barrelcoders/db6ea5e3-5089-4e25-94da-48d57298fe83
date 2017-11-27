@@ -134,17 +134,17 @@
 			<div id="employee-container" style="position:relative;border: 1px solid #ccc;background-color: #f1f1f1;height: 50px;">
 			<a href="javascript:void(0);" style="position: absolute;left: 0;width: 50px;height: 49px;background: #ccc;font-size: 30px;padding: 7px 10px;border: 1px solid #999;text-align: center;font-weight: bold;color: #000;" id="btn-prev"><i class="fa fa-angle-left"></i></a>
 			<div style="position: absolute;right: 50px;left:50px;overflow:hidden;">
-				<ul class="tab" id="tab" style="width:<?php echo count($employees)*300;?>px; min-width:400px;">    
+				<ul class="tab" id="tab" style="width:<?php echo count($employees)*400;?>px; min-width:400px;">    
 				<?php 
 					$i=0;
 					foreach($employees as $employee){ 
 						if($i == 0){
 							?>
-								<li id="tablink-<?php echo $employee->ID?>" onclick="openEmployeeSalaryDetails(<?php echo $employee->ID?>)" ><a href="javascript:void(0)" class="tablinks" style="border-left: 1px solid #999;border-right: 1px solid #999;"><?php echo $employee->NAME?></a></li>
+								<li id="tablink-<?php echo $employee->ID?>" onclick="openEmployeeSalaryDetails(<?php echo $employee->ID?>)" ><a href="javascript:void(0)" class="tablinks" style="border-left: 1px solid #999;border-right: 1px solid #999;"><?php echo $employee->NAME.", ".Designations::model()->findByPK($employee->DESIGNATION_ID_FK)->ABBREVIATIONS;?></a></li>
 							<?php
 						} else {
 							?>
-								<li id="tablink-<?php echo $employee->ID?>" onclick="openEmployeeSalaryDetails(<?php echo $employee->ID?>)" ><a href="javascript:void(0)" class="tablinks"style="border-right: 1px solid #999;"><?php echo $employee->NAME?></a></li>
+								<li id="tablink-<?php echo $employee->ID?>" onclick="openEmployeeSalaryDetails(<?php echo $employee->ID?>)" ><a href="javascript:void(0)" class="tablinks"style="border-right: 1px solid #999;"><?php echo $employee->NAME.", ".Designations::model()->findByPK($employee->DESIGNATION_ID_FK)->ABBREVIATIONS;?></a></li>
 							<?php
 						}
 						$i++;
@@ -179,7 +179,6 @@
 			<?php
 			foreach($employees as $employee){ ?>
 				<div id="<?php echo $employee->ID?>" class="tabcontent" >
-				  <h1 style='margin-top:10px;'><?php echo $employee->NAME_HINDI?>, <?php echo Designations::model()->findByPK($employee->DESIGNATION_ID_FK)->DESIGNATION_HINDI?></h1>
 				  <table class="table table-bordered table-hover" style="margin-bottom: 10px;">
 					<tr>
 						<td><b class="one-label">Group: </b><span style="float: right;"><?php echo Groups::model()->findByPK($employee->GROUP_ID_FK)->GROUP_NAME; ?></span></td>
@@ -192,9 +191,13 @@
 							}
 							echo $matrix; ?></span>
 						</td>
+						<td><b class="one-label">HRA SLAB: </b><span style="float: right;"><?php echo HRASlabs::model()->findByPK($employee->HRA_SLAB_ID_FK)->DESCRIPTION; ?></span></td>
+						<td><b class="one-label">Quarter Alloc.: </b><span style="float: right;"><?php echo ($employee->IS_QUARTER_ALLOCATED == 1) ? "YES" : "NO"; ?></span></td>
+					</tr>
+					<tr>
 						<td><b class="one-label">DOI: </b><span style="float: right;"><?php echo date('d M, Y',strtotime($employee->DOI))?></span></td>
-						<td colspan="2"><b class="one-label">MICR: </b><span style="float: right;"><?php echo $employee->MICR?></span></td>
-						<td colspan="2"><b class="one-label">Account No: </b><span style="float: right;"><?php echo $employee->ACCOUNT_NO?></span></td>
+						<td><b class="one-label">MICR: </b><span style="float: right;"><?php echo $employee->MICR?></span></td>
+						<td><b class="one-label">Account No: </b><span style="float: right;"><?php echo $employee->ACCOUNT_NO?></span></td>
 						<td><b class="one-label">IFSC: </b><span style="float: right;"><?php echo $employee->IFSC?></span></td>
 					</tr>
 				  </table>

@@ -7,10 +7,8 @@
 ?>
 <h3 style="text-transform: uppercase;text-align:center;">OFFICE OF THE <?php echo $master->OFFICE_NAME?></h3>
 <br>
-<h3 style="text-transform: uppercase;text-align: center">LIC PREMIUM RECOVERED FROM THE PAY OF THE OFFICERS /STAFF FOR THE MONTH OF <?php echo $monthName[$model->MONTH]."-".$model->YEAR; ?></h3>
+<h3 style="text-transform: uppercase;text-align: center">PLI PREMIUM RECOVERED FROM THE PAY OF THE OFFICERS /STAFF FOR THE MONTH OF <?php echo $monthName[$model->MONTH]."-".$model->YEAR; ?></h3>
 <br>
-<p style="text-align: right">BRANCH CODE: 614</p>
-<p style="text-align: right">P.A. Code No.: 0533261 </p>
 <br>
 <table class="one-table small">
 	<thead>
@@ -41,13 +39,13 @@
 	?>
 	<tbody>
 		<?php foreach ($salaries as $salary) { 
-			if($salary->LIC > 0){
+			if($salary->PLI > 0){
 		?>
 		<tr>
 			<td><?php echo $i; ?></td>
 			<td><b><?php echo Employee::model()->findByPK($salary->EMPLOYEE_ID_FK)->NAME;?></b></td>
 			<td style="text-align: center;"><b><?php echo Designations::model()->findByPK(Employee::model()->findByPK($salary->EMPLOYEE_ID_FK)->DESIGNATION_ID_FK)->DESIGNATION;?></b></td>
-			<?php $policies = EmployeeLICPolicies::model()->findAll('EMPLOYEE_ID_FK='.$salary->EMPLOYEE_ID_FK.' AND STATUS=1'); ?>
+			<?php $policies = EmployeePLIPolicies::model()->findAll('EMPLOYEE_ID_FK='.$salary->EMPLOYEE_ID_FK.' AND STATUS=1'); ?>
 			<td>
 				<table>
 					<?php 
@@ -87,7 +85,7 @@
 				</table>
 			</td>
 			<td style="text-align: center">
-				<?php echo $salary->LIC; ?>
+				<?php echo $salary->PLI; ?>
 			</td>
 			<td></td>
 		</tr>
@@ -100,14 +98,14 @@
 	<tfoot>
 		<tr>
 			<td colspan="4"></td>
-			<td style="text-align: center;"><?php $LIC = Yii::app()->db->createCommand("SELECT SUM(LIC) as LIC FROM tbl_salary_details WHERE BILL_ID_FK = $model->ID;")->queryRow()['LIC']; echo $LIC;?></td>
-			<td style="text-align: center;"><?php echo $LIC;?></td>
+			<td style="text-align: center;"><?php $PLI = Yii::app()->db->createCommand("SELECT SUM(PLI) as PLI FROM tbl_salary_details WHERE BILL_ID_FK = $model->ID;")->queryRow()['PLI']; echo $PLI;?></td>
+			<td style="text-align: center;"><?php echo $PLI;?></td>
 			<td></td>
 		</tr>
 	</tfoot>
 </table>
 
-<p style="text-align: center; margin-top: 50px;"><b><?php echo $this->amountToWord($LIC);?><b></p>
+<p style="text-align: center; margin-top: 50px;"><b><?php echo $this->amountToWord($PLI);?><b></p>
 
 <div style="font-weight: bold; width:400px; float: right;text-align:center; margin-top:100px;margin-right:-10px;">
 	<p>(<?php echo Employee::model()->findByPK($master['DEPT_ADMIN_EMPLOYEE'])->NAME;?>)</p>

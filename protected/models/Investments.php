@@ -50,12 +50,14 @@ class Investments extends CActiveRecord
 			HOME_LOAD_EXCESS_2013_14, REGISTRY_STAMP, INSURANCE_LIC_OTHER, TUITION_FESS_EXEMPTION, PPF_NSC, HOME_LOAN_PR, PLI_ULIP, 
 			TERM_DEPOSIT_ABOVE_5, MUTUAL_FUND, PENSION_FUND, CPF,
 			NPS_UNDER_80CCD_1B, BANK_INTEREST_DED_80TTA, MEDICAL_INSURANCE_PARENTS', 'length', 'max'=>10),
+			array('LOAN_YEAR', 'length', 'max'=>45),
+			
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
 			array('BONUS, ID, CEA_TUITION, FINANCIAL_YEAR_ID_FK, EMPLOYEE_ID, HRA, MEDICAL_INSURANCE, DONATION, DISABILITY_MED_EXP, 
 			EDU_LOAD_INT, SELF_DISABILITY, HOME_LOAN_INT, HOME_LOAD_EXCESS_2013_14, REGISTRY_STAMP,
 			INSURANCE_LIC_OTHER, TUITION_FESS_EXEMPTION, PPF_NSC, HOME_LOAN_PR, PLI_ULIP, TERM_DEPOSIT_ABOVE_5, MUTUAL_FUND, PENSION_FUND, 
-			CPF, NPS_UNDER_80CCD_1B, BANK_INTEREST_DED_80TTA', 'safe', 'on'=>'search'),
+			CPF, NPS_UNDER_80CCD_1B, BANK_INTEREST_DED_80TTA, LOAN_YEAR', 'safe', 'on'=>'search'),
 		);
 	}
 	/**
@@ -109,6 +111,7 @@ class Investments extends CActiveRecord
 			'HOUSE_INCOME'=>'HOUSE INCOME', 
 			'NPS_UNDER_80CCD_1B'=>'NPS under 80CCD(1B) Income', 
 			'BANK_INTEREST_DED_80TTA'=>'Bank Interest Deduction 80TTA', 
+			'LOAN_YEAR'=>'LOAN YEAR', 
 		);
 	}
 
@@ -164,6 +167,8 @@ class Investments extends CActiveRecord
 		$criteria->compare('NPS_UNDER_80CCD_1B',$this->NPS_UNDER_80CCD_1B,true);
 		$criteria->compare('BANK_INTEREST_DED_80TTA',$this->BANK_INTEREST_DED_80TTA,true);
 		$criteria->compare('MEDICAL_INSURANCE_PARENTS',$this->MEDICAL_INSURANCE_PARENTS,true);
+		$criteria->compare('LOAN_YEAR',$this->LOAN_YEAR,true);
+		
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,

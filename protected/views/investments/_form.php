@@ -176,10 +176,19 @@
 					</div>
 				</div>
 				<div class="form-group row">
-					<?php echo $form->labelEx($model,'HOME_LOAN_INT', array('class'=>'col-sm-8 form-control-label')); ?>
-					<div class="col-sm-4">
+					<?php echo $form->labelEx($model,'HOME_LOAN_INT', array('class'=>'col-sm-6 form-control-label')); ?>
+					<div class="col-sm-6">
 						<p class="form-control-static">
 							<?php echo $form->textField($model,'HOME_LOAN_INT',array('size'=>10,'maxlength'=>100, 'value'=>$model->HOME_LOAN_INT, 'style'=>'text-transform: uppercase;')); ?>
+							<select name="Investments[LOAN_YEAR]" id="Investments_LOAN_YEAR">
+								<option></option>
+								<option <?php echo ($model->LOAN_YEAR == '2013-14') ? "selected" :"";?>>2013-14</option>
+								<option <?php echo ($model->LOAN_YEAR == '2014-15') ? "selected" :"";?>>2014-15</option>
+								<option <?php echo ($model->LOAN_YEAR == '2015-16') ? "selected" :"";?>>2015-16</option>
+								<option <?php echo ($model->LOAN_YEAR == '2016-17') ? "selected" :"";?>>2016-17</option>
+								<option <?php echo ($model->LOAN_YEAR == '2017-18') ? "selected" :"";?>>2017-18</option>
+								<option <?php echo ($model->LOAN_YEAR == '2018-19') ? "selected" :"";?>>2018-19</option>
+							</select>
 						</p>
 					</div>
 				</div>

@@ -67,7 +67,7 @@ ul.tab {
 }
 
 /* Float the list items side by side */
-ul.tab li {float: left;width: 300px;text-align: center;}
+ul.tab li {float: left;width: 400px;text-align: center;}
 
 /* Style the links inside the list items */
 ul.tab li a {

@@ -222,7 +222,7 @@
 				<?php echo $form->labelEx($model,'NAME', array('class'=>'col-sm-2 form-control-label')); ?>
 				<div class="col-sm-10">
 					<p class="form-control-static">
-						<?php echo $form->textField($model,'NAME',array('size'=>40,'maxlength'=>100, 'value'=>$model->NAME, 'style'=>'text-transform: uppercase;')); ?>
+						<?php echo $form->textField($model,'NAME',array('size'=>40,'maxlength'=>100, 'value'=>$model->NAME)); ?>
 					</p>
 				</div>
 			</div>

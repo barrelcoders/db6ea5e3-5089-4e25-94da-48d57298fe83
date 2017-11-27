@@ -972,6 +972,7 @@ class BillController extends Controller
 	public function actionMCA_INTEREST($id){$this->layout='//layouts/column1';$model = $this->loadModel($id);$this->render('PAY/MCA_INTEREST',array('model'=>$model,));}
 	public function actionCYCLE__INTEREST($id){$this->layout='//layouts/column1';$model = $this->loadModel($id);$this->render('PAY/CYCLE__INTEREST',array('model'=>$model,));}
 	public function actionLIC_PREMIUM($id){$this->layout='//layouts/column1';$model = $this->loadModel($id);$this->render('PAY/LIC_PREMIUM',array('model'=>$model,));}
+	public function actionPLI_PREMIUM($id){$this->layout='//layouts/column1';$model = $this->loadModel($id);$this->render('PAY/PLI_PREMIUM',array('model'=>$model,));}
 	public function actionLIC_PREMIUM_COVER($id){$this->layout='//layouts/column1';$model = $this->loadModel($id);$this->render('PAY/LIC_PREMIUM_COVER',array('model'=>$model,));}
 	public function actionMADIWALA($id){$this->layout='//layouts/column1';$model = $this->loadModel($id);$this->render('PAY/MADIWALA',array('model'=>$model,));}
 	public function actionJAYAMAHAL($id){$this->layout='//layouts/column1';$model = $this->loadModel($id);$this->render('PAY/JAYAMAHAL',array('model'=>$model,));}
