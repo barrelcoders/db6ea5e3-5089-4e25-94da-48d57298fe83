@@ -119,24 +119,29 @@ class InvestmentsController extends Controller
 			if($model->save(false)){
 				$arrears = $_POST['Employee']['ARREAR'];
 				foreach($arrears as $arrear){
-					$PreviousOfficePayArrears = new PreviousOfficePayArrears;
-					$PreviousOfficePayArrears->EMPLOYEE_ID_FK = $id;
-					$PreviousOfficePayArrears->MONTH = $arrear['MONTH'];
-					$PreviousOfficePayArrears->YEAR = $arrear['YEAR'];
-					$PreviousOfficePayArrears->BASIC = $arrear['BASIC'];
-					$PreviousOfficePayArrears->PP_SP = $arrear['PP_SP'];
-					$PreviousOfficePayArrears->TA = $arrear['TA'];
-					$PreviousOfficePayArrears->HRA = $arrear['HRA'];
-					$PreviousOfficePayArrears->DA = $arrear['DA'];
-					$PreviousOfficePayArrears->TOTAL = $arrear['TOTAL'];
-					$PreviousOfficePayArrears->CGEGIS = $arrear['CGEGIS'];
-					$PreviousOfficePayArrears->CGHS = $arrear['CGHS'];
-					$PreviousOfficePayArrears->CPF = $arrear['CPF'];
-					$PreviousOfficePayArrears->PT = $arrear['PT'];
-					$PreviousOfficePayArrears->IT = $arrear['IT'];
-					$PreviousOfficePayArrears->PLI = $arrear['PLI'];
-					$PreviousOfficePayArrears->LIC = $arrear['LIC'];
-					$PreviousOfficePayArrears->save(false);
+					if(!($arrear['BASIC'] == 0 && $arrear['PP_SP'] == 0 && $arrear['TA'] == 0 && $arrear['HRA'] == 0 &&
+					$arrear['DA'] == 0 && $arrear['TOTAL'] == 0 && $arrear['CGEGIS'] == 0 && $arrear['CGHS'] == 0 &&
+					$arrear['CPF'] == 0 && $arrear['PT'] == 0 && $arrear['IT'] == 0 && $arrear['PLI'] == 0 && 
+					$arrear['LIC'] == 0)){
+						$PreviousOfficePayArrears = new PreviousOfficePayArrears;
+						$PreviousOfficePayArrears->EMPLOYEE_ID_FK = $id;
+						$PreviousOfficePayArrears->MONTH = $arrear['MONTH'];
+						$PreviousOfficePayArrears->YEAR = $arrear['YEAR'];
+						$PreviousOfficePayArrears->BASIC = $arrear['BASIC'];
+						$PreviousOfficePayArrears->PP_SP = $arrear['PP_SP'];
+						$PreviousOfficePayArrears->TA = $arrear['TA'];
+						$PreviousOfficePayArrears->HRA = $arrear['HRA'];
+						$PreviousOfficePayArrears->DA = $arrear['DA'];
+						$PreviousOfficePayArrears->TOTAL = $arrear['TOTAL'];
+						$PreviousOfficePayArrears->CGEGIS = $arrear['CGEGIS'];
+						$PreviousOfficePayArrears->CGHS = $arrear['CGHS'];
+						$PreviousOfficePayArrears->CPF = $arrear['CPF'];
+						$PreviousOfficePayArrears->PT = $arrear['PT'];
+						$PreviousOfficePayArrears->IT = $arrear['IT'];
+						$PreviousOfficePayArrears->PLI = $arrear['PLI'];
+						$PreviousOfficePayArrears->LIC = $arrear['LIC'];
+						$PreviousOfficePayArrears->save(false);
+					}
 				}
 				$this->redirect(array('update','id'=>$id, 'msg'=>1));
 			}
