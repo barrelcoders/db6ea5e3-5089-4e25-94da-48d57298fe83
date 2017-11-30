@@ -213,8 +213,8 @@
 		$ota_honorium_bills = array(); 
 		$OTA_HONORIUM_CURRENT_OFFICE = 0;
 		foreach($bills as $bill){
-			$OtherBillEmployees = explode(",", OtherBillEmployees::model()->find('BILL_ID='.$bill->ID)->EMPLOYEE_ID);
-			if(in_array($id, $OtherBillEmployees)){
+			$BillEmployees = explode(",", BillEmployees::model()->find('BILL_ID='.$bill->ID)->EMPLOYEE_ID);
+			if(in_array($id, $BillEmployees)){
 				$OTA_HONORIUM_CURRENT_OFFICE += $bill->AMOUNT;
 			}
 		}
@@ -224,8 +224,8 @@
 		$bills = Bill::model()->findAll('PFMS_STATUS="Passed" AND FINANCIAL_YEAR_ID_FK='.$financialYear->ID.' AND IS_BONUS_BILL=1');
 		$BONUS_CURRENT_OFFICE = 0;
 		foreach($bills as $bill){
-			$OtherBillEmployees = explode(",", OtherBillEmployees::model()->find('BILL_ID='.$bill->ID)->EMPLOYEE_ID);
-			if(in_array($id, $OtherBillEmployees)){
+			$BillEmployees = explode(",", BillEmployees::model()->find('BILL_ID='.$bill->ID)->EMPLOYEE_ID);
+			if(in_array($id, $BillEmployees)){
 				$BONUS_CURRENT_OFFICE = Yii::app()->db->createCommand("SELECT SUM(BONUS) AS TOTAL FROM tbl_salary_details WHERE EMPLOYEE_ID_FK=".$id." AND BILL_ID_FK=".$bill->ID)->queryRow()['TOTAL'];
 			}
 		}
@@ -236,8 +236,8 @@
 		//$bills = Bill::model()->findAll('PFMS_STATUS="Passed" AND FINANCIAL_YEAR_ID_FK='.$financialYear->ID.' AND IS_UA_BILL=1');
 		//$UA_CURRENT_OFFICE = 0;
 		//foreach($bills as $bill){
-		//	$OtherBillEmployees = explode(",", OtherBillEmployees::model()->find('BILL_ID='.$bill->ID)->EMPLOYEE_ID);
-		//	if(in_array($id, $OtherBillEmployees)){
+		//	$BillEmployees = explode(",", BillEmployees::model()->find('BILL_ID='.$bill->ID)->EMPLOYEE_ID);
+		//	if(in_array($id, $BillEmployees)){
 		//		$UA_CURRENT_OFFICE = Yii::app()->db->createCommand("SELECT SUM(UA) AS TOTAL FROM tbl_salary_details WHERE EMPLOYEE_ID_FK=".$id." AND BILL_ID_FK=".$bill->ID)->queryRow()['TOTAL'];
 		//	}
 		//}
@@ -249,8 +249,8 @@
 		$bills = Bill::model()->findAll('PFMS_STATUS="Passed" AND FINANCIAL_YEAR_ID_FK='.$financialYear->ID.' AND IS_CEA_BILL=1');
 		$CEA_TUITION_CURRENT_OFFICE = 0;
 		foreach($bills as $bill){
-			$OtherBillEmployees = explode(",", OtherBillEmployees::model()->find('BILL_ID='.$bill->ID)->EMPLOYEE_ID);
-			if(in_array($id, $OtherBillEmployees)){
+			$BillEmployees = explode(",", BillEmployees::model()->find('BILL_ID='.$bill->ID)->EMPLOYEE_ID);
+			if(in_array($id, $BillEmployees)){
 				$CEA_TUITION_CURRENT_OFFICE = Yii::app()->db->createCommand("SELECT SUM(CEA_TUITION) AS TOTAL FROM tbl_salary_details WHERE EMPLOYEE_ID_FK=".$id." AND BILL_ID_FK=".$bill->ID)->queryRow()['TOTAL'];
 			}
 		}
@@ -260,8 +260,8 @@
 		//$bills = Bill::model()->findAll('PFMS_STATUS="Passed" AND FINANCIAL_YEAR_ID_FK='.$financialYear->ID.' AND (IS_LTC_ADVANCE_BILL=1 OR IS_LTC_CLAIM_BILL=1)');
 		//$LTC_HTC_CURRENT_OFFICE = 0;
 		//foreach($bills as $bill){
-		//	$OtherBillEmployees = explode(",", OtherBillEmployees::model()->find('BILL_ID='.$bill->ID)->EMPLOYEE_ID);
-		//	if(in_array($id, $OtherBillEmployees)){
+		//	$BillEmployees = explode(",", BillEmployees::model()->find('BILL_ID='.$bill->ID)->EMPLOYEE_ID);
+		//	if(in_array($id, $BillEmployees)){
 		//		$LTC_HTC_CURRENT_OFFICE = Yii::app()->db->createCommand("SELECT SUM(LTC_HTC) AS TOTAL FROM tbl_salary_details WHERE EMPLOYEE_ID_FK=".$id." AND BILL_ID_FK=".$bill->ID)->queryRow()['TOTAL'];
 		//	}
 		//}
@@ -272,8 +272,8 @@
 		$bills = Bill::model()->findAll('PFMS_STATUS="Passed" AND FINANCIAL_YEAR_ID_FK='.$financialYear->ID.' AND IS_EL_ENCASHMENT_BILL=1');
 		$EL_ENCASH_CURRENT_OFFICE = 0;
 		foreach($bills as $bill){
-			$OtherBillEmployees = explode(",", OtherBillEmployees::model()->find('BILL_ID='.$bill->ID)->EMPLOYEE_ID);
-			if(in_array($id, $OtherBillEmployees)){
+			$BillEmployees = explode(",", BillEmployees::model()->find('BILL_ID='.$bill->ID)->EMPLOYEE_ID);
+			if(in_array($id, $BillEmployees)){
 				$EL_ENCASH_CURRENT_OFFICE = Yii::app()->db->createCommand("SELECT SUM(EL_ENCASHMENT) AS TOTAL FROM tbl_salary_details WHERE EMPLOYEE_ID_FK=".$id." AND BILL_ID_FK=".$bill->ID)->queryRow()['TOTAL'];
 			}
 		}
@@ -287,8 +287,12 @@
 		
 		$RENT_PAID = isset($investment->HRA) ? $investment->HRA : 0;
 		$ACTUAL_HRA = $TOTAL_SALARIES[0]['HRA'];
-		$RENT_PAID_EXCESS_OF_TEN_PERCENT = max(0, round($RENT_PAID - (0.1*($TOTAL_SALARIES[0]['BASIC'] + $TOTAL_SALARIES[0]['DA']))));
-		$FOURTY_PERCENT_OF_SALARY = round(0.4*($TOTAL_SALARIES[0]['BASIC'] + $TOTAL_SALARIES[0]['DA']));
+		
+		$TOTAL_VALID_BASIC_FOR_HRA_CALCULATION = ValidBasicTotalforHRACalculation($SALARIES);
+		$TOTAL_VALID_DA_FOR_HRA_CALCULATION = ValidDATotalforHRACalculation($SALARIES);
+		
+		$RENT_PAID_EXCESS_OF_TEN_PERCENT = max(0, round($RENT_PAID - (0.1*($TOTAL_VALID_BASIC_FOR_HRA_CALCULATION + $TOTAL_VALID_DA_FOR_HRA_CALCULATION))));
+		$FOURTY_PERCENT_OF_SALARY = round(0.4*($TOTAL_VALID_BASIC_FOR_HRA_CALCULATION + $TOTAL_VALID_DA_FOR_HRA_CALCULATION));
 		$TOTAL_RENT = min ($ACTUAL_HRA, $RENT_PAID_EXCESS_OF_TEN_PERCENT, $FOURTY_PERCENT_OF_SALARY);
 		
 		$TOTAL_OTHER_INCOME = isset($investment->OTHER_INCOME) ? $investment->OTHER_INCOME : 0;
@@ -555,4 +559,23 @@ function findLastMonthSalary($array, $index){
 	
 	return $result;
 }
+function ValidBasicTotalforHRACalculation($salaries){
+	$TOTAL_BASIC = 0;
+	foreach($salaries as $salary){
+		if($salary['HRA'] > 0){
+			$TOTAL_BASIC += $salary['BASIC'];
+		}
+	}
+	return $TOTAL_BASIC;
+}
+function ValidDATotalforHRACalculation($salaries){
+	$TOTAL_DA = 0;
+	foreach($salaries as $salary){
+		if($salary['HRA'] > 0){
+			$TOTAL_DA += $salary['DA'];
+		}
+	}
+	return $TOTAL_DA;
+}
+
 ?>

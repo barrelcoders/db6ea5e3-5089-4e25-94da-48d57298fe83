@@ -51,8 +51,8 @@
 			?>
 			<tr>
 				<td><?php echo $i;?></td>	
-				<td style="text-align: center;" rowspan="<?php echo OtherBillEmployees::model()->count('BILL_ID='.$model->ID);?>"><?php 
-					$empID = OtherBillEmployees::model()->find('BILL_ID='.$model->ID)->EMPLOYEE_ID;
+				<td style="text-align: center;" rowspan="<?php echo BillEmployees::model()->count('BILL_ID='.$model->ID);?>"><?php 
+					$empID = BillEmployees::model()->find('BILL_ID='.$model->ID)->EMPLOYEE_ID;
 					$empName = Employee::model()->findByPK($empID)->NAME;
 					$empDesign = Designations::model()->findByPK(Employee::model()->findByPK($empID)->DESIGNATION_ID_FK)->DESIGNATION;
 					echo $empName."<br>".$empDesign;?></td>

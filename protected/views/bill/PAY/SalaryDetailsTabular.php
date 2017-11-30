@@ -162,7 +162,7 @@
 				<input type="hidden" name="SalaryDetails[IS_SALARY_BILL]" value="1"/>
 				<?php
 				if($bill->IS_OPS_PAY_BILL){
-					if(SalaryDetails::model()->exists('BILL_ID_FK='.$model->ID)){
+					/*if(SalaryDetails::model()->exists('BILL_ID_FK='.$model->ID)){
 						$salaries = SalaryDetails::model()->findAllByAttributes(array('BILL_ID_FK'=>$model->ID));
 						$salaryBillEmployees = array();foreach($salaries as $salary){array_push($salaryBillEmployees, $salary->EMPLOYEE_ID_FK);}
 						$criteria=new CDbCriteria;
@@ -172,11 +172,14 @@
 					}
 					else{
 						$employees = Employee::model()->ByDesignation()->findAllByAttributes(array('PENSION_TYPE'=>'OPS', 'IS_TRANSFERRED'=>0, 'IS_RETIRED'=>0, 'IS_PERMANENT'=>1, 'IS_SUSPENDED'=>0));
-					}
+					}*/
+					
+					$BillEmployees = explode(",", BillEmployees::model()->findByAttributes(array('BILL_ID'=>$model->ID))->EMPLOYEE_ID);
+					$employees = Employee::model()->ByDesignation()->findAllByAttributes(array('ID'=>$BillEmployees));
 					$DATA_URL = Yii::app()->createUrl('Employee/OPSSalaryBillEmployees');
 				}
 				if($bill->IS_NPS_PAY_BILL){
-					if(SalaryDetails::model()->exists('BILL_ID_FK='.$model->ID)){
+					/*if(SalaryDetails::model()->exists('BILL_ID_FK='.$model->ID)){
 						$salaries = SalaryDetails::model()->findAllByAttributes(array('BILL_ID_FK'=>$model->ID));
 						$salaryBillEmployees = array();foreach($salaries as $salary){array_push($salaryBillEmployees, $salary->EMPLOYEE_ID_FK);}
 						$criteria=new CDbCriteria;
@@ -186,22 +189,24 @@
 					}
 					else{
 						$employees = Employee::model()->ByDesignation()->findAllByAttributes(array('PENSION_TYPE'=>'NPS', 'IS_TRANSFERRED'=>0, 'IS_RETIRED'=>0, 'IS_PERMANENT'=>1, 'IS_SUSPENDED'=>0));
-					}
+					}*/
+					$BillEmployees = explode(",", BillEmployees::model()->findByAttributes(array('BILL_ID'=>$model->ID))->EMPLOYEE_ID);
+					$employees = Employee::model()->ByDesignation()->findAllByAttributes(array('ID'=>$BillEmployees));
 					$DATA_URL = Yii::app()->createUrl('Employee/NPSSalaryBillEmployees');
 				}
 			}
 			if($bill->IS_WAGES_HEAD_PAY_BILL){
-				$OtherBillEmployees = explode(",", OtherBillEmployees::model()->findByAttributes(array('BILL_ID'=>$model->ID))->EMPLOYEE_ID);
-				$employees = Employee::model()->ByDesignation()->findAllByAttributes(array('ID'=>$OtherBillEmployees));
+				$BillEmployees = explode(",", BillEmployees::model()->findByAttributes(array('BILL_ID'=>$model->ID))->EMPLOYEE_ID);
+				$employees = Employee::model()->ByDesignation()->findAllByAttributes(array('ID'=>$BillEmployees));
 				$DATA_URL = Yii::app()->createUrl('Employee/WagesBillEmployees', array('BILL_ID'=>$model->ID));
 				?>
 				<input type="hidden" name="SalaryDetails[IS_SALARY_BILL]" value="1"/>
 				<?php
 			}
 			if($bill->IS_SALARY_HEAD_OTHER_BILL || $bill->IS_WAGES_HEAD_OTHER_BILL){ 
-				$OtherBillEmployees = explode(",", OtherBillEmployees::model()->findByAttributes(array('BILL_ID'=>$model->ID))->EMPLOYEE_ID);
-				$employees = Employee::model()->ByDesignation()->findAllByAttributes(array('ID'=>$OtherBillEmployees));
-				$DATA_URL = Yii::app()->createUrl('Employee/OtherBillEmployees', array('BILL_ID'=>$model->ID));
+				$BillEmployees = explode(",", BillEmployees::model()->findByAttributes(array('BILL_ID'=>$model->ID))->EMPLOYEE_ID);
+				$employees = Employee::model()->ByDesignation()->findAllByAttributes(array('ID'=>$BillEmployees));
+				$DATA_URL = Yii::app()->createUrl('Employee/BillEmployees', array('BILL_ID'=>$model->ID));
 				?>
 				<input type="hidden" name="SalaryDetails[IS_SALARY_BILL]" value="0"/>
 				<?php
@@ -657,7 +662,7 @@
 	var TABLE_FORMAT = 1;
 	var IS_ARREAR_BILL = <?php echo $bill->IS_ARREAR_BILL;?>;
 	var IS_CEA_BILL = <?php echo $bill->IS_CEA_BILL;?>;
-	var IS_BILL_PASSED = <?php echo $bill->IS_PASSED;?>;
+	var IS_BILL_PASSED = <?php echo ($bill->IS_PASSED) ? 1 : 0;?>;
 	
 	$(document).ready(function(){
 		if(IS_BILL_PASSED){

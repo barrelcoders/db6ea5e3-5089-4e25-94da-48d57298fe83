@@ -53,7 +53,8 @@
 				foreach($salaryBills as $bill){
 					array_push($billsArray, $bill->ID);
 					if(count($billsArray) > 0) {
-						if(!$bill->IS_ARREAR_BILL && !$bill->IS_BONUS_BILL && !$bill->IS_UA_BILL && !$bill->IS_LTC_HTC_BILL && !$bill->IS_CEA_BILL){ ?>
+						if(!$bill->IS_ARREAR_BILL && !$bill->IS_BONUS_BILL && !$bill->IS_UA_BILL && !$bill->IS_CEA_BILL &&
+						!$bill->IS_LTC_ADVANCE_BILL && !$bill->IS_LTC_CLAIM_BILL && !$bill->IS_EL_ENCASHMENT_BILL && !$bill->IS_RECOVERY_BILL){ ?>
 								<tr>
 									<td rowspan="2"><?php echo $i;?></td>
 									<td rowspan="2"><?php echo $bill->BILL_NO;?></td>

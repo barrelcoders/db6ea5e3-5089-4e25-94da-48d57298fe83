@@ -85,7 +85,7 @@
 				<input type="hidden" name="SalaryDetails[IS_SALARY_BILL]" value="1"/>
 				<?php
 				if($bill->IS_OPS_PAY_BILL){
-					if(SalaryDetails::model()->exists('BILL_ID_FK='.$model->ID)){
+					/*if(SalaryDetails::model()->exists('BILL_ID_FK='.$model->ID)){
 						$salaries = SalaryDetails::model()->findAllByAttributes(array('BILL_ID_FK'=>$model->ID));
 						$salaryBillEmployees = array();foreach($salaries as $salary){array_push($salaryBillEmployees, $salary->EMPLOYEE_ID_FK);}
 						$criteria=new CDbCriteria;
@@ -95,11 +95,14 @@
 					}
 					else{
 						$employees = Employee::model()->ByDesignation()->findAllByAttributes(array('PENSION_TYPE'=>'OPS', 'IS_TRANSFERRED'=>0, 'IS_RETIRED'=>0, 'IS_PERMANENT'=>1, 'IS_SUSPENDED'=>0));
-					}
+					}*/
+					
+					$BillEmployees = explode(",", BillEmployees::model()->findByAttributes(array('BILL_ID'=>$model->ID))->EMPLOYEE_ID);
+					$employees = Employee::model()->ByDesignation()->findAllByAttributes(array('ID'=>$BillEmployees));
 					$DATA_URL = Yii::app()->createUrl('Employee/OPSSalaryBillEmployees');
 				}
 				if($bill->IS_NPS_PAY_BILL){
-					if(SalaryDetails::model()->exists('BILL_ID_FK='.$model->ID)){
+					/*if(SalaryDetails::model()->exists('BILL_ID_FK='.$model->ID)){
 						$salaries = SalaryDetails::model()->findAllByAttributes(array('BILL_ID_FK'=>$model->ID));
 						$salaryBillEmployees = array();foreach($salaries as $salary){array_push($salaryBillEmployees, $salary->EMPLOYEE_ID_FK);}
 						$criteria=new CDbCriteria;
@@ -109,13 +112,15 @@
 					}
 					else{
 						$employees = Employee::model()->ByDesignation()->findAllByAttributes(array('PENSION_TYPE'=>'NPS', 'IS_TRANSFERRED'=>0, 'IS_RETIRED'=>0, 'IS_PERMANENT'=>1, 'IS_SUSPENDED'=>0));
-					}
+					}*/
+					$BillEmployees = explode(",", BillEmployees::model()->findByAttributes(array('BILL_ID'=>$model->ID))->EMPLOYEE_ID);
+					$employees = Employee::model()->ByDesignation()->findAllByAttributes(array('ID'=>$BillEmployees));
 					$DATA_URL = Yii::app()->createUrl('Employee/NPSSalaryBillEmployees');
 				}
 			}
 			if($bill->IS_WAGES_HEAD_PAY_BILL){
-				$OtherBillEmployees = explode(",", OtherBillEmployees::model()->findByAttributes(array('BILL_ID'=>$model->ID))->EMPLOYEE_ID);
-				$employees = Employee::model()->ByDesignation()->findAllByAttributes(array('ID'=>$OtherBillEmployees));
+				$BillEmployees = explode(",", BillEmployees::model()->findByAttributes(array('BILL_ID'=>$model->ID))->EMPLOYEE_ID);
+				$employees = Employee::model()->ByDesignation()->findAllByAttributes(array('ID'=>$BillEmployees));
 				$DATA_URL = Yii::app()->createUrl('Employee/WagesBillEmployees', array('BILL_ID'=>$model->ID));
 				?>
 				<p style="text-align: center;font-weight bold;font-size:11px;margin-bottom: 10px;">1. For IT Provisional <?php echo FinancialYears::model()->find('STATUS=1')->NAME?> Toggle, click Employee Name & Press ( q )</p>
@@ -123,9 +128,9 @@
 				<?php
 			}
 			if($bill->IS_SALARY_HEAD_OTHER_BILL || $bill->IS_WAGES_HEAD_OTHER_BILL){ 
-				$OtherBillEmployees = explode(",", OtherBillEmployees::model()->findByAttributes(array('BILL_ID'=>$model->ID))->EMPLOYEE_ID);
-				$employees = Employee::model()->ByDesignation()->findAllByAttributes(array('ID'=>$OtherBillEmployees));
-				$DATA_URL = Yii::app()->createUrl('Employee/OtherBillEmployees', array('BILL_ID'=>$model->ID));
+				$BillEmployees = explode(",", BillEmployees::model()->findByAttributes(array('BILL_ID'=>$model->ID))->EMPLOYEE_ID);
+				$employees = Employee::model()->ByDesignation()->findAllByAttributes(array('ID'=>$BillEmployees));
+				$DATA_URL = Yii::app()->createUrl('Employee/BillEmployees', array('BILL_ID'=>$model->ID));
 				?>
 				<input type="hidden" name="SalaryDetails[IS_SALARY_BILL]" value="0"/>
 				<?php
@@ -551,6 +556,7 @@
 </style>
 <script type="text/javascript"> 
 	var IS_LTC_HTC_CLAIM_BILL = <?php echo ($bill->IS_LTC_CLAIM_BILL) ? 1 : 0;?>;
+	var IS_LTC_ADVANCE_BILL = <?php echo ($bill->IS_LTC_ADVANCE_BILL) ? 1 : 0;?>;
 	var FORM_16_URL = '<?php echo Yii::app()->createUrl('IncomeTax/Form16', array('type'=>'Dialog'));?>&id=';
 	var TABLE_FORMAT = 0;
 	var IS_ARREAR_BILL = <?php echo ($bill->IS_ARREAR_BILL) ? 1 : 0;?>;

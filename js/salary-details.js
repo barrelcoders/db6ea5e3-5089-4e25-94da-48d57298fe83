@@ -64,7 +64,7 @@ $(document).ready(function(){
 		
 		selfWithDependentSelector = GetSelftWithDependentSelector(attribute, monthParent, employeeParent);
 		
-		if(IS_LTC_HTC_CLAIM_BILL || IS_LTC_HTC_GROSS_BILL){
+		if(IS_LTC_HTC_CLAIM_BILL || IS_LTC_ADVANCE_BILL){
 			$(selfWithDependentSelector).each(function(){
 				LTCValueChange(this);
 			});

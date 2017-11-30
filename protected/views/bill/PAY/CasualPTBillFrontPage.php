@@ -22,7 +22,7 @@
 <div style="text-align: center;">Account (Receipts & Payments) Rules</div>
 <div style="text-align: center;">[See Rules 306 of Central treasury Rules]</div>
 <br><br>
-<div style="text-align: center;"><span style="font-weight: bold;">BILL NO: </span><span style="text-decoration: underline"><?php echo $model->BILL_NO;?></span></div>		
+<div style="text-align: center;"><span style="font-weight: bold;">BILL NO: </span><span style="text-decoration: underline"><?php echo $model->PT_DED_BILL_NO;?></span></div>		
 <br><br>
 <div><span style="font-weight: bold;">Ministry/Department/ Office of:  </span><span style="text-decoration: underline"><?php echo $master->OFFICE_NAME;?></span></div>	<br>
 <div ><span style="font-weight: bold;">Detailed Bill of Contigent Charges for the month of </span><span style="text-decoration: underline"><?php echo date('M-Y', strtotime($model->CREATION_DATE));?></span></div>	<br>
@@ -54,7 +54,7 @@ table.mandate{width: 100%;height:100%;border-collapse: collapse;}
 				<th>PT</th>
 			</tr>
 		<?php 
-			$employees = explode(",", OtherBillEmployees::model()->find('BILL_ID='.$model->ID)->EMPLOYEE_ID);
+			$employees = explode(",", BillEmployees::model()->find('BILL_ID='.$model->ID)->EMPLOYEE_ID);
 			foreach($employees as $id){
 				?>
 				<tr>

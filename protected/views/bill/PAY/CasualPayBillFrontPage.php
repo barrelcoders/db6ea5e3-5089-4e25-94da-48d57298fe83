@@ -45,7 +45,7 @@ table.mandate{width: 100%;height:100%;border-collapse: collapse;}
 		<td style="vertical-align: top;position:relative">Towards <?php echo $model->BILL_TITLE;?>.
 		The details are enclosed with this bill.
 		<br/><br/>
-		<b><?php echo $this->amountToWord(SalaryDetails::model()->find('BILL_ID_FK='.$model->ID)->AMOUNT_BANK);?></b><br>
+		<b><?php echo $this->amountToWord($model->BILL_AMOUNT);?></b><br>
 		
 		<p><br><b>MANDATE FORM</b></p><br>
 		<table class="mandate">
@@ -56,7 +56,7 @@ table.mandate{width: 100%;height:100%;border-collapse: collapse;}
 				<th>IFSC</th>
 			</tr>
 		<?php 
-			$employees = explode(",", OtherBillEmployees::model()->find('BILL_ID='.$model->ID)->EMPLOYEE_ID);
+			$employees = explode(",", BillEmployees::model()->find('BILL_ID='.$model->ID)->EMPLOYEE_ID);
 			foreach($employees as $id){
 				?>
 				<tr>

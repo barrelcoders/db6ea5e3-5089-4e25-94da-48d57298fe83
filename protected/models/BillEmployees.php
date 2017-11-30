@@ -8,14 +8,14 @@
  * @property string $BILL_ID
  * @property string $EMPLOYEE_ID
  */
-class OtherBillEmployees extends CActiveRecord
+class BillEmployees extends CActiveRecord
 {
 	/**
 	 * @return string the associated database table name
 	 */
 	public function tableName()
 	{
-		return 'tbl_other_bill_employees';
+		return 'tbl_bill_employees';
 	}
 
 	/**
@@ -28,7 +28,6 @@ class OtherBillEmployees extends CActiveRecord
 		return array(
 			array('BILL_ID, EMPLOYEE_ID', 'required'),
 			array('BILL_ID', 'length', 'max'=>10),
-			array('EMPLOYEE_ID', 'length', 'max'=>200),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
 			array('ID, BILL_ID, EMPLOYEE_ID', 'safe', 'on'=>'search'),
@@ -89,7 +88,7 @@ class OtherBillEmployees extends CActiveRecord
 	 * Returns the static model of the specified AR class.
 	 * Please note that you should have this exact method in all your CActiveRecord descendants!
 	 * @param string $className active record class name.
-	 * @return OtherBillEmployees the static model class
+	 * @return BillEmployees the static model class
 	 */
 	public static function model($className=__CLASS__)
 	{

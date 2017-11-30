@@ -86,9 +86,9 @@ class EmployeeController extends Controller
 	}
 	
 	public function actionOtherBillEmployees($BILL_ID){
-		$OtherBillEmployeesIDs = explode(",", OtherBillEmployees::model()->findByAttributes(array('BILL_ID'=>$BILL_ID))->EMPLOYEE_ID);
+		$BillEmployeesIDs = explode(",", BillEmployees::model()->findByAttributes(array('BILL_ID'=>$BILL_ID))->EMPLOYEE_ID);
 		$result = array();
-		foreach($OtherBillEmployeesIDs as $id){
+		foreach($BillEmployeesIDs as $id){
 			$employee = Employee::model()->findByPk($id);
 			array_push($result, array('id'=>$employee->ID, 'value'=>$employee->ID, 'label'=>$employee->NAME));
 		}
@@ -96,9 +96,9 @@ class EmployeeController extends Controller
 	}
 	
 	public function actionWagesBillEmployees($BILL_ID){
-		$OtherBillEmployeesIDs = explode(",", OtherBillEmployees::model()->findByAttributes(array('BILL_ID'=>$BILL_ID))->EMPLOYEE_ID);
+		$BillEmployeesIDs = explode(",", BillEmployees::model()->findByAttributes(array('BILL_ID'=>$BILL_ID))->EMPLOYEE_ID);
 		$result = array();
-		foreach($OtherBillEmployeesIDs as $id){
+		foreach($BillEmployeesIDs as $id){
 			$employee = Employee::model()->findByPk($id);
 			array_push($result, array('id'=>$employee->ID, 'value'=>$employee->ID, 'label'=>$employee->NAME));
 		}

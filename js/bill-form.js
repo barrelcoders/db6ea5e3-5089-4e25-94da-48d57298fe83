@@ -94,12 +94,14 @@ $(document).ready(function(){
 				//$("#BILL_ENTRY_COUNT").val(2);
 				//$("#Bill_NILL_BILL_NO").val("");
 				
+				$("#ops-emp").show();
 				$("#BILL_NO_SECTION").show();
 				$("#PT_BILL_NO_SECTION").show();
 				$("#BILL_TITLE_SECTION").show();
 				$("#MONTH_SECTION").show();
 				$("#YEAR_SECTION").show();
 				$("#CREATION_DATE_SECTION").show();
+				$("#IS_SALARY_BILL").val(1);
 				$('#txtBillTitle').val("PAY AND ALLOWANCE in R/O OPS Staff of "+DEPT_NAME+" (OLD PENSION SCHEME) for the month of "+MONTH_YEAR);
 			}
 			if(bill_sub_type == OPS_ARREAR_BILL){
@@ -245,6 +247,7 @@ $(document).ready(function(){
 				//$("#Bill_PT_DED_BILL_NO").val("P/"+zeroPad((register_count+4), 2)+"/"+FIANANCIAL_YEAR+" dt "+TODAY_DATE);
 				//$("#BILL_ENTRY_COUNT").val(4);
 				
+				$("#nps-emp").show();
 				$("#BILL_NO_SECTION").show();
 				$("#NILL_BILL_NO_SECTION").show();
 				$("#PT_BILL_NO_SECTION").show();
@@ -252,6 +255,7 @@ $(document).ready(function(){
 				$("#MONTH_SECTION").show();
 				$("#YEAR_SECTION").show();
 				$("#CREATION_DATE_SECTION").show();
+				$("#IS_SALARY_BILL").val(1);
 				$('#txtBillTitle').val("PAY AND ALLOWANCE in R/O NPS Staff of "+DEPT_NAME+" (NEW PENSION SCHEME) for the month of "+MONTH_YEAR);
 			}
 			if(bill_sub_type == NPS_ARREAR_BILL){
@@ -898,15 +902,19 @@ $(document).ready(function(){
 
 function loadFormOnUpdate(){
 	if(CONTROLLER_ACTION == 'update'){
-		$("#employee-selection-lists input").attr('disabled', 'disabled');
+		if(parseInt(IS_BILL_PASSED) == 1){
+			$("#employee-selection-listsinput").attr('disabled', 'disabled');
+		}
 		if(CURRENT_BILL_TYPE == SALARY_OPS_BILL){
 			if(CURRENT_BILL_SUB_TYPE == OPS_PAY_BILL){
+				$("#ops-emp").show();
 				$("#BILL_NO_SECTION").show();
 				$("#PT_BILL_NO_SECTION").show();
 				$("#BILL_TITLE_SECTION").show();
 				$("#MONTH_SECTION").show();
 				$("#YEAR_SECTION").show();
 				$("#CREATION_DATE_SECTION").show();
+				$("#IS_SALARY_BILL").val(1);
 			}
 			if(CURRENT_BILL_SUB_TYPE == OPS_ARREAR_BILL){
 				$("#ops-emp").show();
@@ -1018,6 +1026,7 @@ function loadFormOnUpdate(){
 		}
 		else if(CURRENT_BILL_TYPE == SALARY_NPS_BILL){
 			if(CURRENT_BILL_SUB_TYPE == NPS_PAY_BILL){
+				$("#nps-emp").show();
 				$("#BILL_NO_SECTION").show();
 				$("#PT_BILL_NO_SECTION").show();
 				$("#NILL_BILL_NO_SECTION").show();
@@ -1025,6 +1034,7 @@ function loadFormOnUpdate(){
 				$("#MONTH_SECTION").show();
 				$("#YEAR_SECTION").show();
 				$("#CREATION_DATE_SECTION").show();
+				$("#IS_SALARY_BILL").val(1);
 			}
 			if(CURRENT_BILL_SUB_TYPE == NPS_ARREAR_BILL){
 				$("#nps-emp").show();
@@ -1452,6 +1462,7 @@ function resetBiilSelection(){
 	$("#transfer-ta-advance-bill").hide();
 	$("#medical-advance-bill").hide();
 	
+	$("#IS_SALARY_BILL").val(0);
 	$("#IS_ARREAR_BILL").val(0);
 	$("#IS_DA_ARREAR_BILL").val(0);
 	$("#IS_BONUS_BILL").val(0);
@@ -1506,18 +1517,20 @@ function search(searchBox, list){
 		}
 	}
 }
-function selectList(list){
+function selectList(checkbox, list){
 	var ul, li, i;
 	ul = $("#"+list+" ul");
 	li = ul.find('li');
 
 	// Loop through all list items, and hide those who don't match the search query
 	for (i = 0; i < li.length; i++) {
-		checkbox = li[i].getElementsByTagName("input")[0];
-		if (checkbox.checked) {
-			checkbox.checked = false;
+		item = li[i].getElementsByTagName("input")[0];
+		if (!checkbox.checked) {
+			item.checked = false;
 		} else {
-			checkbox.checked = true;
+			if(!li[i].classList.contains('TRANSFERRED') && !li[i].classList.contains('RETIRED') && !li[i].classList.contains('SUSPENDED')){
+				item.checked = true;
+			}
 		}
 	}
 }
