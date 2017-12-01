@@ -220,7 +220,7 @@ $monthName = array('1'=>'January', '2'=>'February', '3'=>'March', '4'=>'April', 
 	</tr>
 	<?php 
 		$i = 1;	
-		$employees = Yii::app()->db->createCommand("SELECT EMPLOYEE_ID FROM tbl_other_bill_employees WHERE BILL_ID=".$model->ID)->queryAll();
+		$employees = Yii::app()->db->createCommand("SELECT EMPLOYEE_ID FROM tbl_bill_employees WHERE BILL_ID=".$model->ID)->queryAll();
 		foreach($employees as $employee){
 	?>
 		<tr>

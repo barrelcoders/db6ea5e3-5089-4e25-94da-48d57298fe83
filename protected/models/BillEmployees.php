@@ -1,9 +1,9 @@
 <?php
 
 /**
- * This is the model class for table "tbl_other_bill_employees".
+ * This is the model class for table "tbl_bill_employees".
  *
- * The followings are the available columns in table 'tbl_other_bill_employees':
+ * The followings are the available columns in table 'tbl_bill_employees':
  * @property string $ID
  * @property string $BILL_ID
  * @property string $EMPLOYEE_ID

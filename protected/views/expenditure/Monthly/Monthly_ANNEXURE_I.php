@@ -214,7 +214,7 @@
 						}
 						else {
 							$EmployeesIds = array();
-							$employees = explode(",", Yii::app()->db->createCommand("SELECT EMPLOYEE_ID FROM tbl_other_bill_employees WHERE BILL_ID=$bill->ID")->queryRow()['EMPLOYEE_ID']);
+							$employees = explode(",", Yii::app()->db->createCommand("SELECT EMPLOYEE_ID FROM tbl_bill_employees WHERE BILL_ID=$bill->ID")->queryRow()['EMPLOYEE_ID']);
 							foreach($employees as $id){
 								array_push($EmployeesIds, $id);
 							}

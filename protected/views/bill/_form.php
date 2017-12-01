@@ -237,9 +237,16 @@
 							<ul class="list">
 							<?php
 								$employees = Employee::model()->findAllByAttributes(array('IS_PERMANENT'=>1, 'UA_ELIGIBLE'=>1));
+								$BillEmployees = explode(",", BillEmployees::model()->findByAttributes(array('BILL_ID'=>$model->ID))->EMPLOYEE_ID);
 								foreach($employees as $employee){
 									$class="";
 									$status="";
+									$status="";
+									$checkedString="";
+									
+									if (in_array($employee->ID, $BillEmployees)){
+										$checkedString = "checked";
+									}
 									if($employee->IS_TRANSFERRED == 1){
 										$class="TRANSFERRED";
 										$status="TRANSFERRED on ".date("d-m-Y", strtotime($employee->DEPT_RELIEF_DATE))." to ".$employee->TRANSFERED_TO;
@@ -254,7 +261,7 @@
 									}
 									?>
 										<li class="<?php echo $class;?>">
-											<input type="checkBox" name="Bill[Employee][UA][]" value="<?php echo $employee->ID;?>">
+											<input type="checkBox" name="Bill[Employee][UA][]" value="<?php echo $employee->ID;?>" <?php echo $checkedString;?>>
 											<span><?php echo $employee->NAME.", ".Designations::model()->findByPK($employee->DESIGNATION_ID_FK)->DESIGNATION;?></span>
 											<span class="status"><?php echo $status;?></span>
 										</li>
@@ -272,9 +279,15 @@
 							<ul class="list">
 							<?php
 								$employees = Employee::model()->findAllByAttributes(array('IS_PERMANENT'=>1));
+								$BillEmployees = explode(",", BillEmployees::model()->findByAttributes(array('BILL_ID'=>$model->ID))->EMPLOYEE_ID);
 								foreach($employees as $employee){
 									$class="";
 									$status="";
+									$checkedString="";
+									
+									if (in_array($employee->ID, $BillEmployees)){
+										$checkedString = "checked";
+									}
 									if($employee->IS_TRANSFERRED == 1){
 										$class="TRANSFERRED";
 										$status="TRANSFERRED on ".date("d-m-Y", strtotime($employee->DEPT_RELIEF_DATE))." to ".$employee->TRANSFERED_TO;
@@ -289,7 +302,7 @@
 									}
 									?>
 										<li class="<?php echo $class;?>">
-											<input type="checkBox" name="Bill[Employee][MEDICAL][]" value="<?php echo $employee->ID;?>">
+											<input type="checkBox" name="Bill[Employee][MEDICAL][]" value="<?php echo $employee->ID;?>" <?php echo $checkedString;?>>
 											<span><?php echo $employee->NAME.", ".Designations::model()->findByPK($employee->DESIGNATION_ID_FK)->DESIGNATION;?></span>
 											<span class="status"><?php echo $status;?></span>
 										</li>
@@ -307,9 +320,15 @@
 							<ul class="list">
 							<?php
 								$employees = Employee::model()->findAllByAttributes(array('IS_PERMANENT'=>1));
+								$BillEmployees = explode(",", BillEmployees::model()->findByAttributes(array('BILL_ID'=>$model->ID))->EMPLOYEE_ID);
 								foreach($employees as $employee){
 									$class="";
 									$status="";
+									$checkedString="";
+									
+									if (in_array($employee->ID, $BillEmployees)){
+										$checkedString = "checked";
+									}
 									if($employee->IS_TRANSFERRED == 1){
 										$class="TRANSFERRED";
 										$status="TRANSFERRED on ".date("d-m-Y", strtotime($employee->DEPT_RELIEF_DATE))." to ".$employee->TRANSFERED_TO;
@@ -324,7 +343,7 @@
 									}
 									?>
 										<li class="<?php echo $class;?>">
-											<input type="checkBox" name="Bill[Employee][DTE][]" value="<?php echo $employee->ID;?>" >
+											<input type="checkBox" name="Bill[Employee][DTE][]" value="<?php echo $employee->ID;?>"  <?php echo $checkedString;?>>
 											<span><?php echo $employee->NAME.", ".Designations::model()->findByPK($employee->DESIGNATION_ID_FK)->DESIGNATION;?></span>
 											<span class="status"><?php echo $status;?></span>
 										</li>
@@ -342,9 +361,15 @@
 							<ul class="list">
 							<?php
 								$employees = Employee::model()->findAllByAttributes(array('IS_PERMANENT'=>0));
+								$BillEmployees = explode(",", BillEmployees::model()->findByAttributes(array('BILL_ID'=>$model->ID))->EMPLOYEE_ID);
 								foreach($employees as $employee){
 									$class="";
 									$status="";
+									$checkedString="";
+									
+									if (in_array($employee->ID, $BillEmployees)){
+										$checkedString = "checked";
+									}
 									if($employee->IS_TRANSFERRED == 1){
 										$class="TRANSFERRED";
 										$status="TRANSFERRED on ".date("d-m-Y", strtotime($employee->DEPT_RELIEF_DATE))." to ".$employee->TRANSFERED_TO;
@@ -359,7 +384,7 @@
 									}
 									?>
 										<li class="<?php echo $class;?>">
-											<input type="checkBox" name="Bill[Employee][WAGES][]" value="<?php echo $employee->ID;?>" >
+											<input type="checkBox" name="Bill[Employee][WAGES][]" value="<?php echo $employee->ID;?>"  <?php echo $checkedString;?>>
 											<span><?php echo $employee->NAME.", ".Designations::model()->findByPK($employee->DESIGNATION_ID_FK)->DESIGNATION;?></span>
 											<span class="status"><?php echo $status;?></span>
 										</li>
@@ -377,9 +402,15 @@
 							<ul class="list">
 							<?php
 								$employees = Employee::model()->findAllByAttributes(array('IS_PERMANENT'=>0, 'BONUS_ELIGIBLE'=>1));
+								$BillEmployees = explode(",", BillEmployees::model()->findByAttributes(array('BILL_ID'=>$model->ID))->EMPLOYEE_ID);
 								foreach($employees as $employee){
 									$class="";
 									$status="";
+									$checkedString="";
+									
+									if (in_array($employee->ID, $BillEmployees)){
+										$checkedString = "checked";
+									}
 									if($employee->IS_TRANSFERRED == 1){
 										$class="TRANSFERRED";
 										$status="TRANSFERRED on ".date("d-m-Y", strtotime($employee->DEPT_RELIEF_DATE))." to ".$employee->TRANSFERED_TO;
@@ -394,7 +425,7 @@
 									}
 									?>
 										<li>
-											<input type="checkBox" name="Bill[Employee][WAGES_BONUS][]" value="<?php echo $employee->ID;?>" >
+											<input type="checkBox" name="Bill[Employee][WAGES_BONUS][]" value="<?php echo $employee->ID;?>" <?php echo $checkedString;?>>
 											<span><?php echo $employee->NAME.", ".Designations::model()->findByPK($employee->DESIGNATION_ID_FK)->DESIGNATION;?></span>
 											<span class="status"><?php echo $status;?></span>
 										</li>

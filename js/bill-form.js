@@ -420,6 +420,7 @@ $(document).ready(function(){
 				$("#PFMS_BILL_NO_SECTION").show();
 				$("#CER_NO_SECTION").show();
 				$("#MULTI_MONTH_CHOICE").show();
+				$("#IS_SALARY_BILL").val(1);
 				$('#txtBillTitle').val($("#Bill_BILL_SUB_TYPE option:selected").text()+" in R/O OPS Staff of "+DEPT_NAME);
 			}
 			if(bill_sub_type == WAGES_AD_BONUS_BILL){
@@ -1163,6 +1164,7 @@ function loadFormOnUpdate(){
 				$("#CER_NO_SECTION").show();
 				$("#MULTI_MONTH_CHOICE").show();
 				$("#MULTI_MONTH").show();
+				$("#IS_SALARY_BILL").val(1);
 			}
 			if(CURRENT_BILL_SUB_TYPE == WAGES_AD_BONUS_BILL){
 				$("#wages-bonus-emp").show();

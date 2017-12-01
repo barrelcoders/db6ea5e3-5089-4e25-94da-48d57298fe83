@@ -105,12 +105,14 @@ class SupplementarySalaryDetailsController extends Controller
 					$salaryModel = SupplementarySalaryDetails::model()->find('MONTH='.$attributes['MONTH'].' AND EMPLOYEE_ID_FK='.$this->ID);
 					$salaryModel->attributes = $attributes;
 					$salaryModel->EMPLOYEE_ID_FK = $this->ID;
+					$salaryModel->FINANCIAL_YEAR_ID_FK = FinancialYears::model()->find('STATUS=1')->ID;
 					$salaryModel->save(false);
 				}
 				else{
 					$salaryModel = new SupplementarySalaryDetails;
 					$salaryModel->attributes = $attributes;
 					$salaryModel->EMPLOYEE_ID_FK = $this->ID;
+					$salaryModel->FINANCIAL_YEAR_ID_FK = FinancialYears::model()->find('STATUS=1')->ID;
 					$salaryModel->save(false);
 				}
 			}

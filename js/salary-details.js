@@ -250,7 +250,7 @@ function ValueChange(field){
 		}
 	}*/
 	
-	if(parseInt($(hraComponentElement).val()) !=0 && parseInt($(lfComponentElement).val()) !=0){
+	if($(hraComponentElement).length > 0 && $(lfComponentElement).length > 0 && parseInt($(hraComponentElement).val()) !=0 && parseInt($(lfComponentElement).val()) !=0){
 		alert('Are you sure about filling both HRA and LF ?');
 	}
 	
