@@ -790,6 +790,8 @@ $(document).ready(function(){
 				$("#YEAR_SECTION").show();
 				$("#CREATION_DATE_SECTION").show();
 				$("#BILL_AMOUNT_SECTION").show();
+				$("#CLAIM_GROSS_SECTION").show();
+				$("#CLAIM_ADVANCE_SECTION").show();
 				$("#FILE_NO_SECTION").show();
 				$("#PFMS_BILL_NO_SECTION").show();
 				$("#CER_NO_SECTION").show();
@@ -1439,6 +1441,8 @@ function loadFormOnUpdate(){
 				$("#YEAR_SECTION").show();
 				$("#CREATION_DATE_SECTION").show();
 				$("#BILL_AMOUNT_SECTION").show();
+				$("#CLAIM_GROSS_SECTION").show();
+				$("#CLAIM_ADVANCE_SECTION").show();
 				$("#FILE_NO_SECTION").show();
 				$("#PFMS_BILL_NO_SECTION").show();
 				$("#CER_NO_SECTION").show();

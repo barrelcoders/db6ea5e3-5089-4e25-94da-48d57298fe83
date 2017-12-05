@@ -116,8 +116,8 @@ $monthName = array('1'=>'January', '2'=>'February', '3'=>'March', '4'=>'April', 
 		<td style="vertical-align: top;">
 		<?php echo $model->BILL_TITLE; ?>
 		</td>
-		<td style="vertical-align: top;">Rs. <?php echo DTEBillDetails::model()->find('BILL_ID_FK='.$model->ID)->GROSS; ?></td>
-		<td style="vertical-align: top;">Rs. <?php echo DTEBillDetails::model()->find('BILL_ID_FK='.$model->ID)->ADVANCE; ?></td>
+		<td style="vertical-align: top;">Rs. <?php echo $model->CLAIM_GROSS_AMOUNT; ?></td>
+		<td style="vertical-align: top;">Rs. <?php echo $model->CLAIM_ADVANCE_AMOUNT; ?></td>
 		<td style="vertical-align: top;">Rs. <?php echo $model->BILL_AMOUNT; ?></td>
 		<td style="vertical-align: top;"></td>
 		
@@ -145,8 +145,8 @@ $monthName = array('1'=>'January', '2'=>'February', '3'=>'March', '4'=>'April', 
 		<td style="vertical-align: top;"></td>
 		<td style="vertical-align: top;"></td>
 		<td style="vertical-align: top;">TOTAL [A]</td>
-		<td style="vertical-align: top;">Rs. <?php echo DTEBillDetails::model()->find('BILL_ID_FK='.$model->ID)->GROSS; ?></td>
-		<td style="vertical-align: top;">Rs. <?php echo DTEBillDetails::model()->find('BILL_ID_FK='.$model->ID)->ADVANCE; ?></td>
+		<td style="vertical-align: top;">Rs. <?php echo $model->CLAIM_GROSS_AMOUNT; ?></td>
+		<td style="vertical-align: top;">Rs. <?php echo $model->CLAIM_ADVANCE_AMOUNT; ?></td>
 		<td style="vertical-align: top;">Rs. <?php echo $model->BILL_AMOUNT; ?></td>
 		<td style="vertical-align: top;"></td>
 	</tr>

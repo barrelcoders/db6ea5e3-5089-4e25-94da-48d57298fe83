@@ -55,8 +55,8 @@ $monthName = array('1'=>'January', '2'=>'February', '3'=>'March', '4'=>'April', 
 				</tr>
 			</table>
 		</td>
-		<td style="vertical-align: top;"><?php echo $model->BILL_AMOUNT; ?></td>
-		<td style="vertical-align: top;"></td>
+		<td style="vertical-align: top;"><?php echo $model->CLAIM_GROSS_AMOUNT; ?></td>
+		<td style="vertical-align: top;"><?php echo $model->CLAIM_ADVANCE_AMOUNT; ?></td>
 		<td style="vertical-align: top;"><?php echo $model->BILL_AMOUNT; ?></td>
 		<td style="vertical-align: top;"></td>
 		
@@ -65,8 +65,8 @@ $monthName = array('1'=>'January', '2'=>'February', '3'=>'March', '4'=>'April', 
 	<tr>
 		<td style="vertical-align: top;"></td>
 		<td style="vertical-align: top;">TOTAL</td>
-		<td style="vertical-align: top;"><?php echo $model->BILL_AMOUNT; ?></td>
-		<td style="vertical-align: top;"></td>
+		<td style="vertical-align: top;"><?php echo $model->CLAIM_GROSS_AMOUNT; ?></td>
+		<td style="vertical-align: top;"><?php echo $model->CLAIM_ADVANCE_AMOUNT; ?></td>
 		<td style="vertical-align: top;"><?php echo $model->BILL_AMOUNT; ?></td>
 		<td style="vertical-align: top;"></td>
 	</tr>

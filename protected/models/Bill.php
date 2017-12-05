@@ -34,7 +34,7 @@ class Bill extends CActiveRecord
 	 * @return string the associated database table name
 	 */
 	 
-	public $OE_IT_DED, $OE_NET_AMOUNT, $CLAIM_GROSS_AMOUNT, $CLAIM_ADVANCE_AMOUNT;
+	public $OE_IT_DED, $OE_NET_AMOUNT;
 	public function tableName()
 	{
 		return 'tbl_bill';
@@ -51,7 +51,7 @@ class Bill extends CActiveRecord
 			array('BILL_NO, MONTH, YEAR, MONTH_END, YEAR_END, CREATION_DATE, BILL_TYPE, BILL_TITLE, PFMS_STATUS', 'required'),
 			array('BILL_NO, PT_DED_BILL_NO, LIC_DED_BILL_NO, NILL_BILL_NO, PFMS_BILL_NO, FILE_NO', 'length', 'max'=>100),
 			array('BILL_TITLE', 'length', 'max'=>500),
-			array('BILL_TYPE, BILL_SUB_TYPE, VENDOR_ID, RELATED_BILL_ID', 'length', 'max'=>10),
+			array('BILL_TYPE, BILL_SUB_TYPE, VENDOR_ID, RELATED_BILL_ID, CLAIM_GROSS_AMOUNT, CLAIM_ADVANCE_AMOUNT', 'length', 'max'=>10),
 			array('BILL_AMOUNT, EXPENDITURE_INC_BILL, APPROPIATION_BALANCE', 'length', 'max'=>100),
 			array('CER_NO, UA_PERIOD', 'length', 'max'=>50),
 			array('IS_ARREAR_BILL, IS_CEA_BILL, IS_BONUS_BILL, IS_UA_BILL, IS_LTC_ADVANCE_BILL, IS_LTC_CLAIM_BILL, IS_EL_ENCASHMENT_BILL, IS_RECOVERY_BILL, 
@@ -60,7 +60,8 @@ class Bill extends CActiveRecord
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
 			array('ID, BILL_NO, PT_DED_BILL_NO, LIC_DED_BILL_NO, NILL_BILL_NO, MONTH, YEAR, CREATION_DATE, BILL_TYPE, BILL_AMOUNT, EXPENDITURE_INC_BILL, APPROPIATION_BALANCE, PFMS_BILL_NO, FILE_NO, 
-			BILL_TITLE, CER_NO, PFMS_STATUS, BILL_SUB_TYPE, IS_ARREAR_BILL, IS_CEA_BILL, IS_BONUS_BILL, IS_UA_BILL, UA_PERIOD, IS_DA_ARREAR_BILL, IS_MULTIPLE_MONTH, MONTH_END, YEAR_END', 'safe', 'on'=>'search'),
+			BILL_TITLE, CER_NO, PFMS_STATUS, BILL_SUB_TYPE, IS_ARREAR_BILL, IS_CEA_BILL, IS_BONUS_BILL, IS_UA_BILL, UA_PERIOD, IS_DA_ARREAR_BILL, IS_MULTIPLE_MONTH, 
+			MONTH_END, YEAR_END, CLAIM_GROSS_AMOUNT, CLAIM_ADVANCE_AMOUNT', 'safe', 'on'=>'search'),
 			
 		);
 	}
@@ -169,8 +170,9 @@ class Bill extends CActiveRecord
 	public function getIS_UA_BILL() {
       return ($this->BILL_TYPE == 1 ||  $this->BILL_TYPE == 2) && ( $this->BILL_SUB_TYPE == 23 ||$this->BILL_SUB_TYPE == 24 );
     }
-	public function getIS_TOUR_OR_TRANSFER_TA_CLAIM_BILL() {
-      return ($this->BILL_TYPE == 4 && ( $this->BILL_SUB_TYPE == 35 ||$this->BILL_SUB_TYPE == 36 ));
+	public function getIS_TOUR_OR_TRANSFER_TA_OR_MEDICAL_CLAIM_BILL() {
+      return (($this->BILL_TYPE == 4 || $this->BILL_TYPE == 6) && 
+	  (( $this->BILL_SUB_TYPE == 35 ||$this->BILL_SUB_TYPE == 36 ) || ( $this->BILL_SUB_TYPE == 38 ||$this->BILL_SUB_TYPE == 39 )));
     }
 	public function getIS_OE_BILL() {
       return ($this->BILL_TYPE == 3);
@@ -236,7 +238,9 @@ class Bill extends CActiveRecord
 			'MONTH_END'=>'MONTH END',
 			'YEAR_END'=>'YEAR END',
 			'RELATED_BILL_ID'=>'RELATED BILL',
-			'IS_SALARY_BILL'=>'Salary Bill'
+			'IS_SALARY_BILL'=>'Salary Bill',
+			'CLAIM_GROSS_AMOUNT'=>'Claim Gross Amount',
+			'CLAIM_ADVANCE_AMOUNT'=>'Claim Advance Amount',
 		);
 	}
 
@@ -308,6 +312,8 @@ class Bill extends CActiveRecord
 		$criteria->compare('YEAR_END',$this->YEAR_END,true);
 		$criteria->compare('RELATED_BILL_ID',$this->RELATED_BILL_ID,true);
 		$criteria->compare('IS_SALARY_BILL',$this->IS_SALARY_BILL,true);
+		$criteria->compare('CLAIM_GROSS_AMOUNT',$this->CLAIM_GROSS_AMOUNT,true);
+		$criteria->compare('CLAIM_ADVANCE_AMOUNT',$this->CLAIM_ADVANCE_AMOUNT,true);
 		
 		$criteria->order = 'CREATION_DATE DESC';
 		

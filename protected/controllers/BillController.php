@@ -577,14 +577,6 @@ class BillController extends Controller
 					$BillEmployees->EMPLOYEE_ID = implode(",", $_POST['Bill']['Employee']['DTE']);
 					$BillEmployees->save(false);
 					
-					if(isset($_POST['Bill']['BILL_SUB_TYPE']) && ($_POST['Bill']['BILL_SUB_TYPE'] == 35 || $_POST['Bill']['BILL_SUB_TYPE'] == 36)){
-						$DTEBillsDetailsModel = new DTEBillDetails;
-						$DTEBillsDetailsModel->BILL_ID_FK = $model->ID;
-						$DTEBillsDetailsModel->GROSS = $_POST['Bill']['CLAIM_GROSS_AMOUNT'];
-						$DTEBillsDetailsModel->ADVANCE = $_POST['Bill']['CLAIM_ADVANCE_AMOUNT'];
-						$DTEBillsDetailsModel->save(false);
-					}
-					
 					$BUDGET_ID = 3;
 					$attribs = array('BUDGET_ID'=>$BUDGET_ID);
 					$criteria = new CDbCriteria(array('order'=>'ID DESC','limit'=>1));

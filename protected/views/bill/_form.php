@@ -895,12 +895,12 @@
 				</p>
 			</div>
 		</div>
-		<?php if($model->IS_TOUR_OR_TRANSFER_TA_CLAIM_BILL && Yii::app()->controller->action->id == 'update'){ ?>
+		<?php if($model->IS_TOUR_OR_TRANSFER_TA_OR_MEDICAL_CLAIM_BILL && Yii::app()->controller->action->id == 'update'){ ?>
 		<div class="form-group row" id="CLAIM_GROSS_SECTION">
 			<?php echo $form->labelEx($model,'CLAIM_GROSS_AMOUNT', array('class'=>'col-sm-2 form-control-label')); ?>
 			<div class="col-sm-10">
 				<p class="form-control-static">
-					<?php echo $form->textField($model,'CLAIM_GROSS_AMOUNT',array('size'=>20,'maxlength'=>20, 'value'=>DTEBillDetails::model()->find('BILL_ID_FK='.$model->ID)->GROSS, 'disabled'=>true)); ?>
+					<?php echo $form->textField($model,'CLAIM_GROSS_AMOUNT',array('size'=>20,'maxlength'=>20, 'value'=>$model->CLAIM_GROSS_AMOUNT, 'disabled'=>true)); ?>
 				</p>
 			</div>
 		</div>
@@ -908,7 +908,7 @@
 			<?php echo $form->labelEx($model,'CLAIM_ADVANCE_AMOUNT', array('class'=>'col-sm-2 form-control-label')); ?>
 			<div class="col-sm-10">
 				<p class="form-control-static">
-					<?php echo $form->textField($model,'CLAIM_ADVANCE_AMOUNT',array('size'=>20,'maxlength'=>20, 'value'=>DTEBillDetails::model()->find('BILL_ID_FK='.$model->ID)->ADVANCE, 'disabled'=>true)); ?>
+					<?php echo $form->textField($model,'CLAIM_ADVANCE_AMOUNT',array('size'=>20,'maxlength'=>20, 'value'=>$model->CLAIM_ADVANCE_AMOUNT, 'disabled'=>true)); ?>
 				</p>
 			</div>
 		</div>
@@ -917,7 +917,7 @@
 			<?php echo $form->labelEx($model,'CLAIM_GROSS_AMOUNT', array('class'=>'col-sm-2 form-control-label')); ?>
 			<div class="col-sm-10">
 				<p class="form-control-static">
-					<?php echo $form->textField($model,'CLAIM_GROSS_AMOUNT',array('size'=>20,'maxlength'=>20, 'disabled'=>Yii::app()->controller->action->id == 'update')); ?>
+					<?php echo $form->textField($model,'CLAIM_GROSS_AMOUNT',array('size'=>20,'maxlength'=>20)); ?>
 				</p>
 			</div>
 		</div>
@@ -925,7 +925,7 @@
 			<?php echo $form->labelEx($model,'CLAIM_ADVANCE_AMOUNT', array('class'=>'col-sm-2 form-control-label')); ?>
 			<div class="col-sm-10">
 				<p class="form-control-static">
-					<?php echo $form->textField($model,'CLAIM_ADVANCE_AMOUNT',array('size'=>20,'maxlength'=>20, 'disabled'=>Yii::app()->controller->action->id == 'update')); ?>
+					<?php echo $form->textField($model,'CLAIM_ADVANCE_AMOUNT',array('size'=>20,'maxlength'=>20)); ?>
 				</p>
 			</div>
 		</div>
