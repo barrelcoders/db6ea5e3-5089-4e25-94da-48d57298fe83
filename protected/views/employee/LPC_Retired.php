@@ -139,7 +139,8 @@ Ministry / Department / Office  <b><?php echo $master->OFFICE_NAME_HINDI;?>/<?ph
 </table>
 <br>
 <li> His/Her GPF Account NO. <?php if(Employee::model()->findByPK($id)->PENSION_TYPE == "OPS") echo "BGR/CCE/".Employee::model()->findByPK($id)->PENSION_ACC_NO; else echo Employee::model()->findByPK($id)->PENSION_ACC_NO; ?>  is maintained by PAO,C.Ex, Bangalore.</li>
-<li> He/She made over charge of the Office/Post of <?php echo Designations::model()->findByPK(Employee::model()->findByPK($id)->DESIGNATION_ID_FK)->DESIGNATION; ?> of <?php echo $master->OFFICE_NAME;?>  in the after noon of <?php echo date('d-M-Y', strtotime(Employee::model()->findByPK($id)->DEPT_JOIN_DATE));?></li>
+<li> He/She made over charge of the Office/Post of <?php echo Designations::model()->findByPK(Employee::model()->findByPK($id)->DESIGNATION_ID_FK)->DESIGNATION; ?> of <?php echo $master->OFFICE_NAME;?>, <?php echo (Employee::model()->findByPK($id)->POSTING_ID_FK != 0) ? Posting::model()->findByPK(Employee::model()->findByPK($id)->POSTING_ID_FK)->PLACE : "";?> 
+in the <?php echo Employee::model()->findByPK($id)->DEPT_RELIEF_TIME;?> of <?php echo date('d-M-Y', strtotime(Employee::model()->findByPK($id)->DEPT_RELIEF_DATE));?></li>
 <li>Recoveries are to be made from the pay of the Government Servent as detailed below.</li>
 <li> He/She is also entitled to joining time     for as Admissible days.</li>
 <li> He/She has been sanctioned leave preceding joining time   for As Admissible days.</li>
@@ -173,6 +174,20 @@ Ministry / Department / Office  <b><?php echo $master->OFFICE_NAME_HINDI;?>/<?ph
 <li> Details of Income Tax recovered up to the date from the begining of the current financial year are noted in the annexure</li>
 <li> Service for the period <?php echo date('M-Y', strtotime(Employee::model()->findByPK($id)->DEPT_JOIN_DATE));?> to 
 <?php echo date('M-Y', strtotime(Employee::model()->findByPK($id)->DEPT_RELIEF_DATE));?> ( during his/her stay in this office ) has been verified.</li>
+<?php
+	$bills = Bill::model()->findAll('PFMS_STATUS="Passed" AND FINANCIAL_YEAR_ID_FK='.$financialYear->ID.' AND IS_DA_ARREAR_BILL=1');
+	
+	foreach($bills as $bill){
+		if(SalaryDetails::model()->exists('EMPLOYEE_ID_FK='.$id.' AND BILL_ID_FK = '.$bill->ID)){
+			$TOTAL_DA_TA_ARREAR = Yii::app()->db->createCommand("SELECT SUM(DA) + SUM(TA) AS TOTAL FROM tbl_salary_details WHERE EMPLOYEE_ID_FK=".$id." AND BILL_ID_FK = ".$bill->ID)->queryRow()['TOTAL'];
+			$TOTAL_DA_TA_ARREAR_CPF = Yii::app()->db->createCommand("SELECT SUM(CPF_TIER_I) AS TOTAL FROM tbl_salary_details WHERE EMPLOYEE_ID_FK=".$id." AND BILL_ID_FK = ".$bill->ID)->queryRow()['TOTAL'];
+		?>
+			<li> He/She has received DA/TA arrear of Rs.<?php echo $TOTAL_DA_TA_ARREAR;?>/- <?php ($TOTAL_DA_TA_ARREAR_CPF == 0) ? "": ", and CPF: ".$TOTAL_DA_TA_ARREAR_CPF;?>. against Bill No. <?php echo $bill->BILL_NO;?></li>
+		<?php
+				
+		}
+	}
+?>
 <li><b style="font-weight: bold;">Remarks:</b> <?php echo Employee::model()->findByPK($id)->LPC_REMARKS; ?></li>
 <br>
 <li style="font-size: 15px;font-weight: bold;">वसूली का विवरण/Details of recoveries</p>
