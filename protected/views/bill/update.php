@@ -319,7 +319,8 @@ if(isset($_REQUEST['id']) && $_REQUEST['id']){
 						<?php } ?>
 					<?php } ?>
 					<?php if( $model->BILL_TYPE == 6 ) { ?>
-					<li><a href="<?php echo Yii::app()->createUrl("Bill/MedicalBill",array("id"=>$id))?>" target="_blank"><span class="tbl-row"><span class="tbl-cell tbl-cell-caption">Medical Bill</span></span></a></li>
+					<li><a href="<?php echo Yii::app()->createUrl("Bill/MedicalBillFront",array("id"=>$id))?>" target="_blank"><span class="tbl-row"><span class="tbl-cell tbl-cell-caption">Medical Front Sheet</span></span></a></li>
+					<li><a href="<?php echo Yii::app()->createUrl("Bill/MedicalBillBack",array("id"=>$id))?>" target="_blank"><span class="tbl-row"><span class="tbl-cell tbl-cell-caption">Medical Back Sheet</span></span></a></li>
 					<?php } ?>
 					<?php if($model->IS_WAGES_HEAD_PAY_BILL) {?>
 						<li><a href="<?php echo Yii::app()->createUrl("Bill/SalaryDetails",array("id"=>$id))?>"><span class="tbl-row"><span class="tbl-cell tbl-cell-caption">Salary Details</span></span></a></li>

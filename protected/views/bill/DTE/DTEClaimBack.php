@@ -252,7 +252,7 @@ by …………………………………………………………………�
 <p style="text-align: right;">Pay and Account Officer</p><br>
 <p style="text-align: left;">Post-check of vouchers received from cheque drawing D.D.O s</p>
 <p style="text-align: right;">Post-check of pre-checked vouchers</p>
-<p style="text-align: left;">Admmitted for Rs.......................................</p><br>
+<p style="text-align: left;">Admitted for Rs.......................................</p><br>
 <p style="text-align: left;">Objected for Rs........................................</p><br>
 <p style="text-align: left;">(with brief reasons)...................................</p><br>
 <p style="text-align: left;"><span style="font-weight: bold">J.A.O/A.A.O</span><span style="font-weight: bold;margin-left: 70px;">Pay and Account Officer</span><span style="font-weight: bold;margin-left: 70px;">J.A.O/A.A.O</span><span style="font-weight: bold;margin-left: 70px;">Pay and Account Officer</span></p><br>

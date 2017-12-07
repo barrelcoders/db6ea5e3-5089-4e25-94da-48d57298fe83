@@ -957,7 +957,8 @@ class BillController extends Controller
 	public function actionLTCClaimBack($id){$this->layout='//layouts/column1';$model = $this->loadModel($id);$this->render('PAY/LTCClaimBack',array('model'=>$model,));}
 	public function actionLTCAdvanceFront($id){$this->layout='//layouts/column1';$model = $this->loadModel($id);$this->render('PAY/LTCAdvanceFront',array('model'=>$model,));}
 	public function actionLTCAdvanceBack($id){$this->layout='//layouts/column1';$model = $this->loadModel($id);$this->render('PAY/LTCAdvanceBack',array('model'=>$model,));}
-	public function actionMedicalBill($id){$this->layout='//layouts/column1';$model = $this->loadModel($id);$this->render('MEDICAL/Medical',array('model'=>$model,));}
+	public function actionMedicalBillFront($id){$this->layout='//layouts/column1';$model = $this->loadModel($id);$this->render('MEDICAL/MedicalFront',array('model'=>$model,));}
+	public function actionMedicalBillBack($id){$this->layout='//layouts/column1';$model = $this->loadModel($id);$this->render('MEDICAL/MedicalBack',array('model'=>$model,));}
 	public function actionDTEClaimFront($id){$this->layout='//layouts/column1';$model = $this->loadModel($id);$this->render('DTE/DTEClaimFront',array('model'=>$model,));}
 	public function actionDTEClaimBack($id){$this->layout='//layouts/column1';$model = $this->loadModel($id);$this->render('DTE/DTEClaimBack',array('model'=>$model,));}
 	public function actionDTEAdvanceFront($id){$this->layout='//layouts/column1';$model = $this->loadModel($id);$this->render('DTE/DTEAdvanceFront',array('model'=>$model,));}
