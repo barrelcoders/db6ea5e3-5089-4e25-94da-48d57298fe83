@@ -128,6 +128,13 @@ class EmployeeController extends Controller
 	 * @param integer $id the ID of the model to be displayed
 	 */
 	
+	public function actionEISExport(){
+		$this->layout='//layouts/content1';
+		$employees = Employee::model()->findAll('IS_TRANSFERRED = 0 AND IS_RETIRED = 0 AND IS_SUSPENDED = 0 AND IS_PERMANENT = 1');
+		$this->render('eis_export_report',array(
+			'employees'=>$employees,
+		));
+	}
 
 	/**
 	 * Creates a new model.
@@ -138,6 +145,7 @@ class EmployeeController extends Controller
 		//echo Yii::app()->Security->Encrypt("umang");exit;
 		$model=new Employee;
 		$licModel=new EmployeeLICPolicies;
+		$master = Master::model()->findByPK(1);
 
 		// Uncomment the following line if AJAX validation is needed
 		// $this->performAjaxValidation($model);
@@ -145,13 +153,36 @@ class EmployeeController extends Controller
 		{
 			//echo "<pre>";print_r($_POST);echo "</pre>";exit;
 			$model->attributes=$_POST['Employee'];
-			$model->DEPT_JOIN_DATE = ($_POST['Employee']['DEPT_JOIN_DATE'] != "") ? $_POST['Employee']['DEPT_JOIN_DATE'] : NULL;
-			$model->DEPT_RELIEF_DATE = ($_POST['Employee']['DEPT_RELIEF_DATE'] != "") ? $_POST['Employee']['DEPT_RELIEF_DATE'] : NULL;
-			$model->ORG_JOIN_DATE = ($_POST['Employee']['ORG_JOIN_DATE'] != "") ? $_POST['Employee']['ORG_JOIN_DATE'] : NULL;
-			$model->ORG_RETIRE_DATE = ($_POST['Employee']['ORG_RETIRE_DATE'] != "") ? $_POST['Employee']['ORG_RETIRE_DATE'] : NULL;
-			$model->PRESENT_PROMOTION_DATE = ($_POST['Employee']['PRESENT_PROMOTION_DATE'] != "") ? $_POST['Employee']['PRESENT_PROMOTION_DATE'] : NULL;
+			$model->NAME = $_POST['Employee']['SALUTATION_CODE_TEXT']." ".$_POST['Employee']['FIRST_NAME']." ".$_POST['Employee']['MIDDLE_NAME']." ".$_POST['Employee']['LAST_NAME'];
+			
+			$model->GOVT_SERVICE_ENTRY_DATE = ($_POST['Employee']['GOVT_SERVICE_ENTRY_DATE'] != "") ? $_POST['Employee']['GOVT_SERVICE_ENTRY_DATE'] : NULL;
+			$model->CONTROLLER_JOIN_DATE = ($_POST['Employee']['CONTROLLER_JOIN_DATE'] != "") ? $_POST['Employee']['CONTROLLER_JOIN_DATE'] : NULL;
+			$model->CURRENT_OFFICE_JOIN_DATE = ($_POST['Employee']['CURRENT_OFFICE_JOIN_DATE'] != "") ? $_POST['Employee']['CURRENT_OFFICE_JOIN_DATE'] : NULL;
+			$model->CURRENT_POST_JOIN_DATE = ($_POST['Employee']['CURRENT_POST_JOIN_DATE'] != "") ? $_POST['Employee']['CURRENT_POST_JOIN_DATE'] : NULL;
+			$model->CURRENT_OFFICE_RELIEF_DATE = ($_POST['Employee']['CURRENT_OFFICE_RELIEF_DATE'] != "") ? $_POST['Employee']['CURRENT_OFFICE_RELIEF_DATE'] : NULL;
+			$model->CONTROLLER_RELIEF_DATE = ($_POST['Employee']['CONTROLLER_RELIEF_DATE'] != "") ? $_POST['Employee']['CONTROLLER_RELIEF_DATE'] : NULL;
+			$model->GOVT_SERVICE_EXIT_DATE = ($_POST['Employee']['GOVT_SERVICE_EXIT_DATE'] != "") ? $_POST['Employee']['GOVT_SERVICE_EXIT_DATE'] : NULL;
+			$model->NEXT_INCREMENT_DATE = ($_POST['Employee']['NEXT_INCREMENT_DATE'] != "") ? $_POST['Employee']['NEXT_INCREMENT_DATE'] : NULL;
+			$model->PAY_WEF_DATE = ($_POST['Employee']['PAY_WEF_DATE'] != "") ? $_POST['Employee']['PAY_WEF_DATE'] : NULL;
 			$model->DOB = ($_POST['Employee']['DOB'] != "") ? $_POST['Employee']['DOB'] : NULL;
-			$model->DOI = ($_POST['Employee']['DOI'] != "") ? $_POST['Employee']['DOI'] : NULL;
+			$model->CGEGIS_MEMBER_DATE = ($_POST['Employee']['CGEGIS_MEMBER_DATE'] != "") ? $_POST['Employee']['CGEGIS_MEMBER_DATE'] : NULL;
+			
+			
+			$model->FIRST_NAME = ucfirst(strtolower($_POST['Employee']['FIRST_NAME']));
+			$model->MIDDLE_NAME = ucfirst(strtolower($_POST['Employee']['MIDDLE_NAME']));
+			$model->LAST_NAME = ucfirst(strtolower($_POST['Employee']['LAST_NAME']));
+			
+			$exists_data = Yii::app()->db->createCommand("SELECT COUNT(ID) AS COUNT FROM tbl_employee WHERE EMPLOYEE_CODE like '%".$master->CONTROLLER_CODE.''.$model->FIRST_NAME[0].(($model->MIDDLE_NAME != '') ? $model->MIDDLE_NAME[0] : '*').
+			(($model->LAST_NAME != '') ? $model->LAST_NAME[0] : '*').strtoupper($_POST['Employee']['GENDER']).date('y', strtotime($model->DOB))."%'")->queryRow()['COUNT'];	
+			
+			$new_count = str_pad(intVal($exists_data), 3, '0', STR_PAD_LEFT);
+			
+			$model->EMPLOYEE_NAME_AND_CODE = $_POST['Employee']['FIRST_NAME'].' '.$_POST['Employee']['MIDDLE_NAME'].' '.$_POST['Employee']['LAST_NAME'].
+			' #'.$master->CONTROLLER_CODE.''.$model->FIRST_NAME[0].(($model->MIDDLE_NAME != '') ? $model->MIDDLE_NAME[0] : '*').
+			(($model->LAST_NAME != '') ? $model->LAST_NAME[0] : '*').strtoupper($_POST['Employee']['GENDER']).date('y', strtotime($model->DOB)).$new_count;
+			
+			$model->EMPLOYEE_CODE = $master->CONTROLLER_CODE.''.$model->FIRST_NAME[0].(($model->MIDDLE_NAME != '') ? $model->MIDDLE_NAME[0] : '*').
+			(($model->LAST_NAME != '') ? $model->LAST_NAME[0] : '*').strtoupper($_POST['Employee']['GENDER']).date('y', strtotime($model->DOB)).$new_count;
 			
 			if(!Employee::model()->exists("NAME='".$model->NAME."'")){
 				if($model->save(false)){
@@ -209,8 +240,8 @@ class EmployeeController extends Controller
 		{
 			$model=$this->loadModel($_POST['Employee']['ID']);
 			$model->IS_TRANSFERRED = 1;
-			$model->DEPT_RELIEF_DATE = $_POST['Employee']['DEPT_RELIEF_DATE'] ? $_POST['Employee']['DEPT_RELIEF_DATE'] : NULL;
-			$model->DEPT_RELIEF_TIME = $_POST['Employee']['DEPT_RELIEF_TIME'] ? $_POST['Employee']['DEPT_RELIEF_TIME'] : NULL;
+			$model->CURRENT_OFFICE_RELIEF_DATE = $_POST['Employee']['CURRENT_OFFICE_RELIEF_DATE'] ? $_POST['Employee']['CURRENT_OFFICE_RELIEF_DATE'] : NULL;
+			$model->CURRENT_OFFICE_RELIEF_TIME = $_POST['Employee']['CURRENT_OFFICE_RELIEF_TIME'] ? $_POST['Employee']['CURRENT_OFFICE_RELIEF_TIME'] : NULL;
 			$model->TRANSFERED_TO = $_POST['Employee']['TRANSFERED_TO'];
 			$model->TRANSFER_ORDER = $_POST['Employee']['TRANSFER_ORDER'];
 			$model->LPC_REMARKS = $_POST['Employee']['LPC_REMARKS'];
@@ -232,7 +263,11 @@ class EmployeeController extends Controller
 		{
 			$model=$this->loadModel($_POST['Employee']['ID']);
 			$model->IS_RETIRED = 1;
-			$model->ORG_RETIRE_DATE = $_POST['Employee']['ORG_RETIRE_DATE'] ? $_POST['Employee']['ORG_RETIRE_DATE'] : NULL;
+			$model->GOVT_SERVICE_EXIT_DATE = $_POST['Employee']['GOVT_SERVICE_EXIT_DATE'] ? $_POST['Employee']['GOVT_SERVICE_EXIT_DATE'] : NULL;
+			$model->CURRENT_OFFICE_RELIEF_DATE =  $_POST['Employee']['GOVT_SERVICE_EXIT_DATE'] ? $_POST['Employee']['GOVT_SERVICE_EXIT_DATE'] : NULL;
+			$model->CURRENT_OFFICE_RELIEF_TIME = 'A/F';
+			$model->CONTROLLER_RELIEF_DATE =  $_POST['Employee']['GOVT_SERVICE_EXIT_DATE'] ? $_POST['Employee']['GOVT_SERVICE_EXIT_DATE'] : NULL;
+			$model->CONTROLLER_RELIEF_TIME = 'A/F';
 			$model->LPC_REMARKS = $_POST['Employee']['LPC_REMARKS'];
 
 			if($model->save(false)){
@@ -368,6 +403,7 @@ class EmployeeController extends Controller
 				'suspended'=>isset($_POST['Employee']['IS_SUSPENDED']) ? $_POST['Employee']['IS_SUSPENDED'] : array(),
 				'quarter'=>isset($_POST['Employee']['QUARTER_ALLOCATE']) ? $_POST['Employee']['QUARTER_ALLOCATE'] : array(),
 				'hra_slab'=>isset($_POST['Employee']['HRA_SLAB']) ? $_POST['Employee']['HRA_SLAB'] : array(),
+				'posting'=>isset($_POST['Employee']['POSTING_ID_FK']) ? $_POST['Employee']['POSTING_ID_FK'] : array(),
 			));
 		}
 		else{
@@ -407,6 +443,7 @@ class EmployeeController extends Controller
 				'suspended'=>isset($_POST['Employee']['IS_SUSPENDED']) ? $_POST['Employee']['IS_SUSPENDED'] : array(),
 				'quarter'=>isset($_POST['Employee']['QUARTER_ALLOCATE']) ? $_POST['Employee']['QUARTER_ALLOCATE'] : array(),
 				'hra_slab'=>isset($_POST['Employee']['HRA_SLAB']) ? $_POST['Employee']['HRA_SLAB'] : array(),
+				'posting'=>isset($_POST['Employee']['POSTING_ID_FK']) ? $_POST['Employee']['POSTING_ID_FK'] : array(),
 			));
 		}
 		else{
@@ -427,7 +464,8 @@ class EmployeeController extends Controller
 	public function actionUpdate($id)
 	{
 		$model=$this->loadModel($id);
-
+		$master = Master::model()->findByPK(1);
+		
 		// Uncomment the following line if AJAX validation is needed
 		// $this->performAjaxValidation($model);
 	
@@ -436,13 +474,34 @@ class EmployeeController extends Controller
 		{
 			//echo "<pre>";print_r($_POST);echo "</pre>";exit;/
 			$model->attributes=$_POST['Employee'];
-			$model->DEPT_JOIN_DATE = $_POST['Employee']['DEPT_JOIN_DATE'] ? $_POST['Employee']['DEPT_JOIN_DATE'] : NULL;
-			$model->DEPT_RELIEF_DATE = $_POST['Employee']['DEPT_RELIEF_DATE'] ? $_POST['Employee']['DEPT_RELIEF_DATE'] : NULL;
-			$model->ORG_JOIN_DATE = $_POST['Employee']['ORG_JOIN_DATE'] ? $_POST['Employee']['ORG_JOIN_DATE'] : NULL;
-			$model->ORG_RETIRE_DATE = $_POST['Employee']['ORG_RETIRE_DATE'] ? $_POST['Employee']['ORG_RETIRE_DATE'] : NULL;
-			$model->PRESENT_PROMOTION_DATE = $_POST['Employee']['PRESENT_PROMOTION_DATE'] ? $_POST['Employee']['PRESENT_PROMOTION_DATE'] : NULL;
-			$model->DOB = $_POST['Employee']['DOB'] ? $_POST['Employee']['DOB'] : NULL;
-			$model->DOI = $_POST['Employee']['DOI'] ? $_POST['Employee']['DOI'] : NULL;
+			$model->GOVT_SERVICE_ENTRY_DATE = ($_POST['Employee']['GOVT_SERVICE_ENTRY_DATE'] != "") ? $_POST['Employee']['GOVT_SERVICE_ENTRY_DATE'] : NULL;
+			$model->CONTROLLER_JOIN_DATE = ($_POST['Employee']['CONTROLLER_JOIN_DATE'] != "") ? $_POST['Employee']['CONTROLLER_JOIN_DATE'] : NULL;
+			$model->CURRENT_OFFICE_JOIN_DATE = ($_POST['Employee']['CURRENT_OFFICE_JOIN_DATE'] != "") ? $_POST['Employee']['CURRENT_OFFICE_JOIN_DATE'] : NULL;
+			$model->CURRENT_POST_JOIN_DATE = ($_POST['Employee']['CURRENT_POST_JOIN_DATE'] != "") ? $_POST['Employee']['CURRENT_POST_JOIN_DATE'] : NULL;
+			$model->CURRENT_OFFICE_RELIEF_DATE = ($_POST['Employee']['CURRENT_OFFICE_RELIEF_DATE'] != "") ? $_POST['Employee']['CURRENT_OFFICE_RELIEF_DATE'] : NULL;
+			$model->CONTROLLER_RELIEF_DATE = ($_POST['Employee']['CONTROLLER_RELIEF_DATE'] != "") ? $_POST['Employee']['CONTROLLER_RELIEF_DATE'] : NULL;
+			$model->GOVT_SERVICE_EXIT_DATE = ($_POST['Employee']['GOVT_SERVICE_EXIT_DATE'] != "") ? $_POST['Employee']['GOVT_SERVICE_EXIT_DATE'] : NULL;
+			$model->NEXT_INCREMENT_DATE = ($_POST['Employee']['NEXT_INCREMENT_DATE'] != "") ? $_POST['Employee']['NEXT_INCREMENT_DATE'] : NULL;
+			$model->PAY_WEF_DATE = ($_POST['Employee']['PAY_WEF_DATE'] != "") ? $_POST['Employee']['PAY_WEF_DATE'] : NULL;
+			$model->DOB = ($_POST['Employee']['DOB'] != "") ? $_POST['Employee']['DOB'] : NULL;
+			$model->CGEGIS_MEMBER_DATE = ($_POST['Employee']['CGEGIS_MEMBER_DATE'] != "") ? $_POST['Employee']['CGEGIS_MEMBER_DATE'] : NULL;
+			
+			$model->FIRST_NAME = ucfirst(strtolower($_POST['Employee']['FIRST_NAME']));
+			$model->MIDDLE_NAME = ucfirst(strtolower($_POST['Employee']['MIDDLE_NAME']));
+			$model->LAST_NAME = ucfirst(strtolower($_POST['Employee']['LAST_NAME']));
+			
+			$exists_data = Yii::app()->db->createCommand("SELECT COUNT(ID) AS COUNT FROM tbl_employee WHERE ID != ".$model->ID." AND EMPLOYEE_CODE like '%".$master->CONTROLLER_CODE.''.$model->FIRST_NAME[0].(($model->MIDDLE_NAME != '') ? $model->MIDDLE_NAME[0] : '*').
+			(($model->LAST_NAME != '') ? $model->LAST_NAME[0] : '*').strtoupper($_POST['Employee']['GENDER']).date('y', strtotime($model->DOB))."%'")->queryRow()['COUNT'];	
+			
+			$new_count = str_pad(intVal($exists_data), 3, '0', STR_PAD_LEFT);
+			
+			$model->EMPLOYEE_NAME_AND_CODE = $_POST['Employee']['FIRST_NAME'].' '.$_POST['Employee']['MIDDLE_NAME'].' '.$_POST['Employee']['LAST_NAME'].
+			' #'.$master->CONTROLLER_CODE.''.$model->FIRST_NAME[0].(($model->MIDDLE_NAME != '') ? $model->MIDDLE_NAME[0] : '*').
+			(($model->LAST_NAME != '') ? $model->LAST_NAME[0] : '*').strtoupper($_POST['Employee']['GENDER']).date('y', strtotime($model->DOB)).$new_count;
+			
+			$model->EMPLOYEE_CODE = $master->CONTROLLER_CODE.''.$model->FIRST_NAME[0].(($model->MIDDLE_NAME != '') ? $model->MIDDLE_NAME[0] : '*').
+			(($model->LAST_NAME != '') ? $model->LAST_NAME[0] : '*').strtoupper($_POST['Employee']['GENDER']).date('y', strtotime($model->DOB)).$new_count;
+			
 			if($model->save(false)){
 				$lic_policies = $_POST['Employee']['LIC'];
 				foreach($lic_policies as $policy){

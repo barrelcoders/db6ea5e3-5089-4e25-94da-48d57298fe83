@@ -25,8 +25,8 @@
 	<?php echo CHtml::encode($data->PAY_MATRIX_ID_FK); ?>
 	<br />
 
-	<b><?php echo CHtml::encode($data->getAttributeLabel('DOI')); ?>:</b>
-	<?php echo CHtml::encode($data->DOI); ?>
+	<b><?php echo CHtml::encode($data->getAttributeLabel('NEXT_INCREMENT_DATE')); ?>:</b>
+	<?php echo CHtml::encode($data->NEXT_INCREMENT_DATE); ?>
 	<br />
 
 	<b><?php echo CHtml::encode($data->getAttributeLabel('PENSION_ACC_NO')); ?>:</b>

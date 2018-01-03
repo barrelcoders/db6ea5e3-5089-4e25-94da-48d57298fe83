@@ -190,6 +190,22 @@ $this->menu=array(
 						<li><input type="checkbox" name="Employee[IS_SUSPENDED][]" value="1"> <span>YES</span></li>
 					</ul>
 				</div>
+				<div id="posting" style="margin-bottom:10px;" class="col-sm-12">
+					<div class="list-header">
+						<label>POSTING</label>
+						<span style="float: right;color: #FFF;"><input type="checkBox" class="suspended-select-all" onclick="selectList(event, 'suspended');"> SELECT ALL</span>
+					</div>
+					<ul class="list closed">
+						<?php 
+							$postings = Posting::model()->findAll();
+							foreach($postings as $posting){
+						?>
+							<li><input type="checkbox" name="Employee[POSTING_ID_FK][]" value="<?php echo $posting->ID?>"> <span><?php echo $posting->PLACE?></span></li>
+						<?php
+							}
+						?>
+					</ul>
+				</div>
 				<div id="hra-slab" style="margin-bottom:10px;" class="col-sm-12">
 					<div class="list-header">
 						<label>HRA SLAB</label>

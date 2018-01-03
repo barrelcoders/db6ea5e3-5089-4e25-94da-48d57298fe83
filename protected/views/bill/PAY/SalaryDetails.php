@@ -200,7 +200,7 @@
 						<td><b class="one-label">Quarter Alloc.: </b><span style="float: right;"><?php echo ($employee->IS_QUARTER_ALLOCATED == 1) ? "YES" : "NO"; ?></span></td>
 					</tr>
 					<tr>
-						<td><b class="one-label">DOI: </b><span style="float: right;"><?php echo date('d M, Y',strtotime($employee->DOI))?></span></td>
+						<td><b class="one-label">Next Increment Date: </b><span style="float: right;"><?php echo date('d M, Y',strtotime($employee->NEXT_INCREMENT_DATE))?></span></td>
 						<td><b class="one-label">MICR: </b><span style="float: right;"><?php echo $employee->MICR?></span></td>
 						<td><b class="one-label">Account No: </b><span style="float: right;"><?php echo $employee->ACCOUNT_NO?></span></td>
 						<td><b class="one-label">IFSC: </b><span style="float: right;"><?php echo $employee->IFSC?></span></td>

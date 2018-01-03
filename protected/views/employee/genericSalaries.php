@@ -110,11 +110,11 @@ $this->menu=array(
 							$status="";
 							if($employee->IS_TRANSFERRED == 1){
 								$class="TRANSFERRED";
-								$status="TRANSFERRED on ".date("d-m-Y", strtotime($employee->DEPT_RELIEF_DATE))." to ".$employee->TRANSFERED_TO;
+								$status="TRANSFERRED on ".date("d-m-Y", strtotime($employee->CURRENT_OFFICE_RELIEF_DATE))." to ".$employee->TRANSFERED_TO;
 							}
 							if($employee->IS_RETIRED == 1){
 								$class="RETIRED";
-								$status="RETIRED on ".date("d-m-Y", strtotime($employee->ORG_RETIRE_DATE));
+								$status="RETIRED on ".date("d-m-Y", strtotime($employee->GOVT_SERVICE_EXIT_DATE));
 							}
 							if($employee->IS_SUSPENDED == 1){
 								$class="SUSPENDED";
@@ -236,6 +236,22 @@ $this->menu=array(
 					<ul class="list closed">
 						<li><input type="checkbox" name="Employee[IS_SUSPENDED][]" value="0"> <span>NO</span></li>
 						<li><input type="checkbox" name="Employee[IS_SUSPENDED][]" value="1"> <span>YES</span></li>
+					</ul>
+				</div>
+				<div id="posting" style="margin-bottom:10px;" class="col-sm-12">
+					<div class="list-header">
+						<label>POSTING</label>
+						<span style="float: right;color: #FFF;"><input type="checkBox" class="suspended-select-all" onclick="selectList(event, 'suspended');"> SELECT ALL</span>
+					</div>
+					<ul class="list closed">
+						<?php 
+							$postings = Posting::model()->findAll();
+							foreach($postings as $posting){
+						?>
+							<li><input type="checkbox" name="Employee[POSTING_ID_FK][]" value="<?php echo $posting->ID?>"> <span><?php echo $posting->PLACE?></span></li>
+						<?php
+							}
+						?>
 					</ul>
 				</div>
 				<div id="hra-slab" style="margin-bottom:10px;" class="col-sm-12">

@@ -24,7 +24,7 @@
 <?php echo Employee::model()->findByPK($id)->NAME?>, <?php echo Designations::model()->findByPK(Employee::model()->findByPK($id)->DESIGNATION_ID_FK)->DESIGNATION; ?></b>, Bangalore. of 
 Ministry / Department / Office  <b><?php echo $master->OFFICE_NAME_HINDI;?>/<?php echo $master->OFFICE_NAME;?></b>
  proceeding on  transfer to  <b><?php echo Employee::model()->findByPK($id)->TRANSFERED_TO;?></b> with reference to  Order <b><?php echo Employee::model()->findByPK($id)->TRANSFER_ORDER;?></b>. 
- He has been relieved in <?php echo Employee::model()->findByPK($id)->DEPT_RELIEF_TIME;?> of <?php echo date('d-M-Y', strtotime(Employee::model()->findByPK($id)->DEPT_RELIEF_DATE));?>.</li>
+ He/She has been relieved in <?php echo Employee::model()->findByPK($id)->CURRENT_OFFICE_RELIEF_TIME;?> of <?php echo date('d-M-Y', strtotime(Employee::model()->findByPK($id)->CURRENT_OFFICE_RELIEF_DATE));?>.</li>
 <br>
 <table class="one-table" cellmargin="10" style="display: block; clear: both;width: 300px;">
 	<tbody>
@@ -140,7 +140,10 @@ Ministry / Department / Office  <b><?php echo $master->OFFICE_NAME_HINDI;?>/<?ph
 </table>
 <br>
 <li> His/Her GPF Account NO. <?php if(Employee::model()->findByPK($id)->PENSION_TYPE == "OPS") echo "BGR/CCE/".Employee::model()->findByPK($id)->PENSION_ACC_NO; else echo Employee::model()->findByPK($id)->PENSION_ACC_NO; ?>  is maintained by PAO,C.Ex, Bangalore.</li>
-<li> He/She made over charge of the Office/Post of <?php echo Designations::model()->findByPK(Employee::model()->findByPK($id)->DESIGNATION_ID_FK)->DESIGNATION; ?> of <?php echo $master->OFFICE_NAME;?>, <?php echo Posting::model()->findByPK(Employee::model()->findByPK($id)->POSTING_ID_FK)->PLACE;?> in the <?php echo Employee::model()->findByPK($id)->DEPT_RELIEF_TIME;?> of <?php echo date('d-M-Y', strtotime(Employee::model()->findByPK($id)->DEPT_RELIEF_DATE));?></li>
+<li> He/She made over charge of the Office/Post of <?php echo Designations::model()->findByPK(Employee::model()->findByPK($id)->DESIGNATION_ID_FK)->DESIGNATION; ?> of
+<?php echo Posting::model()->findByPK(Employee::model()->findByPK($id)->POSTING_ID_FK)->PLACE;?>, 
+ <?php echo $master->OFFICE_NAME;?> in the 
+ <?php echo Employee::model()->findByPK($id)->CURRENT_OFFICE_RELIEF_TIME;?> of <?php echo date('d-M-Y', strtotime(Employee::model()->findByPK($id)->CURRENT_OFFICE_RELIEF_DATE));?></li>
 <li>Recoveries are to be made from the pay of the Government Servent as detailed below.</li>
 <li> He/She is also entitled to joining time     for as Admissible days.</li>
 <li> He/She has been sanctioned leave preceding joining time   for As Admissible days.</li>
@@ -172,8 +175,8 @@ Ministry / Department / Office  <b><?php echo $master->OFFICE_NAME_HINDI;?>/<?ph
 	</tbody>
 </table>
 <li> Details of Income Tax recovered up to the date from the begining of the current financial year are noted in the annexure</li>
-<li> Service for the period <?php echo date('M-Y', strtotime(Employee::model()->findByPK($id)->DEPT_JOIN_DATE));?> to 
-<?php echo date('M-Y', strtotime(Employee::model()->findByPK($id)->DEPT_RELIEF_DATE));?> ( during his/her stay in this office ) has been verified.</li>
+<li> Service for the period <?php echo date('M-Y', strtotime(Employee::model()->findByPK($id)->CURRENT_OFFICE_JOIN_DATE));?> to 
+<?php echo date('M-Y', strtotime(Employee::model()->findByPK($id)->CURRENT_OFFICE_RELIEF_DATE));?> ( during his/her stay in this office ) has been verified.</li>
 <?php
 	$bills = Bill::model()->findAll('PFMS_STATUS="Passed" AND FINANCIAL_YEAR_ID_FK='.$financialYear->ID.' AND IS_DA_ARREAR_BILL=1');
 	

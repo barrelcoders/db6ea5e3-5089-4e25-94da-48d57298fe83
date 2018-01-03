@@ -51,6 +51,9 @@
 		if(count($hra_slab) > 0){
 			array_push($conditions, "HRA_SLAB_ID_FK IN (".implode(",", $hra_slab).")");
 		}
+		if(count($posting) > 0){
+			array_push($conditions, "POSTING_ID_FK IN (".implode(",", $posting).")");
+		}
 		
 		$conditionString = implode(" AND ", $conditions);
 		
@@ -93,20 +96,20 @@
 					else if($value == 'DOB'){
 						echo ($employee[$value] == "") ? "": date('d-m-Y', strtotime($employee['DOB']));
 					}
-					else if($value == 'DOI'){
-						echo ($employee[$value] == "") ? "": date('d-m-Y', strtotime($employee['DOI']));
+					else if($value == 'NEXT_INCREMENT_DATE'){
+						echo ($employee[$value] == "") ? "": date('d-m-Y', strtotime($employee['NEXT_INCREMENT_DATE']));
 					}
-					else if($value == 'ORG_JOIN_DATE'){
-						echo ($employee[$value] == "") ? "": date('d-m-Y', strtotime($employee['ORG_JOIN_DATE']));
+					else if($value == 'CONTROLLER_JOIN_DATE'){
+						echo ($employee[$value] == "") ? "": date('d-m-Y', strtotime($employee['CONTROLLER_JOIN_DATE']));
 					}
-					else if($value == 'DEPT_JOIN_DATE'){
-						echo ($employee[$value] == "") ? "": date('d-m-Y', strtotime($employee['DEPT_JOIN_DATE']));
+					else if($value == 'CURRENT_OFFICE_JOIN_DATE'){
+						echo ($employee[$value] == "") ? "": date('d-m-Y', strtotime($employee['CURRENT_OFFICE_JOIN_DATE']));
 					}
-					else if($value == 'DEPT_RELIEF_DATE'){
-						echo ($employee[$value] == "") ? "": date('d-m-Y', strtotime($employee['DEPT_RELIEF_DATE']));
+					else if($value == 'CURRENT_OFFICE_RELIEF_DATE'){
+						echo ($employee[$value] == "") ? "": date('d-m-Y', strtotime($employee['CURRENT_OFFICE_RELIEF_DATE']));
 					}
-					else if($value == 'PRESENT_PROMOTION_DATE'){
-						echo ($employee[$value] == "") ? "": date('d-m-Y', strtotime($employee['PRESENT_PROMOTION_DATE']));
+					else if($value == 'CURRENT_POST_JOIN_DATE'){
+						echo ($employee[$value] == "") ? "": date('d-m-Y', strtotime($employee['CURRENT_POST_JOIN_DATE']));
 					}
 					else{
 						echo $employee[$value];

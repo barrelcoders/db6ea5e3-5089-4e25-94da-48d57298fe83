@@ -70,10 +70,10 @@ $this->menu=array(
 			</div>
 		</div>
 		<div class="form-group row">
-			<?php echo $form->labelEx($model,'ORG_RETIRE_DATE', array('class'=>'col-sm-2 form-control-label')); ?>
+			<?php echo $form->labelEx($model,'GOVT_SERVICE_EXIT_DATE', array('class'=>'col-sm-2 form-control-label')); ?>
 			<div class="col-sm-10">
 				<p class="form-control-static">
-					<input value="<?php echo ($model->ORG_RETIRE_DATE == "") ? "" : date('Y-m-d', strtotime($model->ORG_RETIRE_DATE))?>" id="Employee_ORG_RETIRE_DATE" name="Employee[ORG_RETIRE_DATE]" type="date">
+					<input value="<?php echo ($model->GOVT_SERVICE_EXIT_DATE == "") ? "" : date('Y-m-d', strtotime($model->GOVT_SERVICE_EXIT_DATE))?>" id="Employee_GOVT_SERVICE_EXIT_DATE" name="Employee[GOVT_SERVICE_EXIT_DATE]" type="date">
 				</p>
 			</div>
 		</div>

@@ -70,11 +70,11 @@ $this->menu=array(
 			</div>
 		</div>
 		<div class="form-group row">
-			<?php echo $form->labelEx($model,'DEPT_RELIEF_DATE', array('class'=>'col-sm-2 form-control-label')); ?>
+			<?php echo $form->labelEx($model,'CURRENT_OFFICE_RELIEF_DATE', array('class'=>'col-sm-2 form-control-label')); ?>
 			<div class="col-sm-10">
 				<p class="form-control-static">
-					<input value="<?php echo ($model->DEPT_RELIEF_DATE == "") ? "" : date('Y-m-d', strtotime($model->DEPT_RELIEF_DATE))?>" id="Employee_DEPT_RELIEF_DATE" name="Employee[DEPT_RELIEF_DATE]" type="date">
-					<?php echo $form->dropDownList($model,'DEPT_RELIEF_TIME',array(''=>'', 'F/N'=>'F/N', 'A/N'=>'A/N'), array('options'=>array($model->DEPT_RELIEF_TIME=>array('selected'=>true)))); ?>
+					<input value="<?php echo ($model->CURRENT_OFFICE_RELIEF_DATE == "") ? "" : date('Y-m-d', strtotime($model->CURRENT_OFFICE_RELIEF_DATE))?>" id="Employee_CURRENT_OFFICE_RELIEF_DATE" name="Employee[CURRENT_OFFICE_RELIEF_DATE]" type="date">
+					<?php echo $form->dropDownList($model,'CURRENT_OFFICE_RELIEF_TIME',array(''=>'', 'F/N'=>'F/N', 'A/N'=>'A/N'), array('options'=>array($model->CURRENT_OFFICE_RELIEF_TIME=>array('selected'=>true)))); ?>
 				</p>
 			</div>
 		</div>

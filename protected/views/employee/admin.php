@@ -42,10 +42,10 @@ for($i=1; $i<=$EMPLOYEE_COUNT; $i++){
 					'value'=>function ($data){ 
 						$status="";
 						if($data->IS_TRANSFERRED == 1){
-							$status="TRANSFERRED on ".date("d-m-Y", strtotime($data->DEPT_RELIEF_DATE))." to ".$data->TRANSFERED_TO;
+							$status="TRANSFERRED on ".date("d-m-Y", strtotime($data->CURRENT_OFFICE_RELIEF_DATE))." to ".$data->TRANSFERED_TO;
 						}
 						if($data->IS_RETIRED == 1){
-							$status="RETIRED on ".date("d-m-Y", strtotime($data->ORG_RETIRE_DATE));
+							$status="RETIRED on ".date("d-m-Y", strtotime($data->GOVT_SERVICE_EXIT_DATE));
 						}
 						if($data->IS_SUSPENDED == 1){
 							$status="SUSPENDED on ".date("d-m-Y", strtotime($data->SUSPENSION_DATE));
@@ -68,8 +68,8 @@ for($i=1; $i<=$EMPLOYEE_COUNT; $i++){
 					'type'=>'raw',
 					'value'=>function ($data){ 
 						$content="";
-						if($data->PRESENT_PROMOTION_DATE != '0000-00-00' && $data->JOIN_DESIGNATION_ID_FK !=0){
-							$content=date('d-m-Y', strtotime($data->ORG_JOIN_DATE)).", ".Designations::model()->findByPK($data->JOIN_DESIGNATION_ID_FK)->DESIGNATION;
+						if($data->CURRENT_POST_JOIN_DATE != '0000-00-00' && $data->JOIN_DESIGNATION_ID_FK !=0){
+							$content=date('d-m-Y', strtotime($data->CONTROLLER_JOIN_DATE)).", ".Designations::model()->findByPK($data->JOIN_DESIGNATION_ID_FK)->DESIGNATION;
 						}
 						return $content;
 					}
@@ -83,10 +83,10 @@ for($i=1; $i<=$EMPLOYEE_COUNT; $i++){
 					}
 				), 
 				/*array(
-					'name'=>'PRESENT_PROMOTION_DATE',
+					'name'=>'CURRENT_POST_JOIN_DATE',
 					'type'=>'raw',
 					'value'=>function ($data){ 
-							return date('d-m-Y', strtotime($data->PRESENT_PROMOTION_DATE));
+							return date('d-m-Y', strtotime($data->CURRENT_POST_JOIN_DATE));
 					}
 				),
 				array(
@@ -103,7 +103,7 @@ for($i=1; $i<=$EMPLOYEE_COUNT; $i++){
 					'header'=>'SERVICE YEAR',
 					'type'=>'raw',
 					'value'=>function ($data){ 
-							$date_1 = new DateTime($data->ORG_JOIN_DATE);
+							$date_1 = new DateTime($data->CONTROLLER_JOIN_DATE);
 							$date_2 = new DateTime(date('d-m-Y'));
 							$difference = $date_2->diff( $date_1 );
 							return (string)$difference->y;

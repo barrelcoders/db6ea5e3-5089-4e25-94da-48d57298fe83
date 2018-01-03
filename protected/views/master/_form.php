@@ -97,7 +97,32 @@
 			</p>
 		</div>
 	</div>
-
+	<div class="form-group row">
+		<?php echo $form->labelEx($model,'PAO_CODE', array('class'=>'col-sm-2 form-control-label')); ?>
+		<div class="col-sm-10">
+			<p class="form-control-static">
+				<?php echo $form->textField($model,'PAO_CODE',array('size'=>100,'maxlength'=>300, 'value'=>$model->PAO_CODE)); ?>
+			</p>
+		</div>
+	</div>
+	
+	<div class="form-group row">
+		<?php echo $form->labelEx($model,'DDO_CODE', array('class'=>'col-sm-2 form-control-label')); ?>
+		<div class="col-sm-10">
+			<p class="form-control-static">
+				<?php echo $form->textField($model,'DDO_CODE',array('size'=>100,'maxlength'=>300, 'value'=>$model->DDO_CODE)); ?>
+			</p>
+		</div>
+	</div>
+	<div class="form-group row">
+		<?php echo $form->labelEx($model,'CONTROLLER_CODE', array('class'=>'col-sm-2 form-control-label')); ?>
+		<div class="col-sm-10">
+			<p class="form-control-static">
+				<?php echo $form->textField($model,'CONTROLLER_CODE',array('size'=>100,'maxlength'=>300, 'value'=>$model->CONTROLLER_CODE)); ?>
+			</p>
+		</div>
+	</div>
+	
 	<div class="form-group row">
 		<?php echo $form->labelEx($model,'FINANCIAL_YEAR', array('class'=>'col-sm-2 form-control-label')); ?> 
 		<div class="col-sm-10">

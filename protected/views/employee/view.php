@@ -112,10 +112,10 @@
 			</div>
 		</div>
 		<div class="form-group row">
-			<?php echo $form->labelEx($model,'DOI', array('class'=>'col-sm-2 form-control-label')); ?>
+			<?php echo $form->labelEx($model,'NEXT_INCREMENT_DATE', array('class'=>'col-sm-2 form-control-label')); ?>
 			<div class="col-sm-10">
 				<p class="form-control-static">
-					<span><?php echo date('d-M-Y', strtotime($model->DOI));?></span>
+					<span><?php echo date('d-M-Y', strtotime($model->NEXT_INCREMENT_DATE));?></span>
 				</p>
 			</div>
 		</div>
@@ -150,34 +150,34 @@
 			</div>
 		</div>
 		<div class="form-group row">
-			<?php echo $form->labelEx($model,'ORG_JOIN_DATE', array('class'=>'col-sm-2 form-control-label')); ?>
+			<?php echo $form->labelEx($model,'CONTROLLER_JOIN_DATE', array('class'=>'col-sm-2 form-control-label')); ?>
 			<div class="col-sm-10">
 				<p class="form-control-static">
-					<span><?php echo date('d-M-Y', strtotime($model->ORG_JOIN_DATE));?></span>
+					<span><?php echo date('d-M-Y', strtotime($model->CONTROLLER_JOIN_DATE));?></span>
 				</p>
 			</div>
 		</div>
 		<div class="form-group row">
-			<?php echo $form->labelEx($model,'ORG_RETIRE_DATE', array('class'=>'col-sm-2 form-control-label')); ?>
+			<?php echo $form->labelEx($model,'GOVT_SERVICE_EXIT_DATE', array('class'=>'col-sm-2 form-control-label')); ?>
 			<div class="col-sm-10">
 				<p class="form-control-static">
-					<span><?php echo date('d-M-Y', strtotime($model->ORG_RETIRE_DATE));?></span>
+					<span><?php echo date('d-M-Y', strtotime($model->GOVT_SERVICE_EXIT_DATE));?></span>
 				</p>
 			</div>
 		</div>
 		<div class="form-group row">
-			<?php echo $form->labelEx($model,'DEPT_JOIN_DATE', array('class'=>'col-sm-2 form-control-label')); ?>
+			<?php echo $form->labelEx($model,'CURRENT_OFFICE_JOIN_DATE', array('class'=>'col-sm-2 form-control-label')); ?>
 			<div class="col-sm-10">
 				<p class="form-control-static">
-					<span><?php echo date('d-M-Y', strtotime($model->DEPT_JOIN_DATE));?></span>
+					<span><?php echo date('d-M-Y', strtotime($model->CURRENT_OFFICE_JOIN_DATE));?></span>
 				</p>
 			</div>
 		</div>
 		<div class="form-group row">
-			<?php echo $form->labelEx($model,'DEPT_RELIEF_DATE', array('class'=>'col-sm-2 form-control-label')); ?>
+			<?php echo $form->labelEx($model,'CURRENT_OFFICE_RELIEF_DATE', array('class'=>'col-sm-2 form-control-label')); ?>
 			<div class="col-sm-10">
 				<p class="form-control-static">
-					<span><?php echo date('d-M-Y', strtotime($model->DEPT_RELIEF_DATE));?></span>
+					<span><?php echo date('d-M-Y', strtotime($model->CURRENT_OFFICE_RELIEF_DATE));?></span>
 				</p>
 			</div>
 		</div>

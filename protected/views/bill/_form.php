@@ -83,11 +83,11 @@
 									}
 									if($employee->IS_TRANSFERRED == 1){
 										$class="TRANSFERRED";
-										$status="TRANSFERRED on ".date("d-m-Y", strtotime($employee->DEPT_RELIEF_DATE))." to ".$employee->TRANSFERED_TO;
+										$status="TRANSFERRED on ".date("d-m-Y", strtotime($employee->CURRENT_OFFICE_RELIEF_DATE))." to ".$employee->TRANSFERED_TO;
 									}
 									if($employee->IS_RETIRED == 1){
 										$class="RETIRED";
-										$status="RETIRED on ".date("d-m-Y", strtotime($employee->ORG_RETIRE_DATE));
+										$status="RETIRED on ".date("d-m-Y", strtotime($employee->GOVT_SERVICE_EXIT_DATE));
 									}
 									if($employee->IS_SUSPENDED == 1){
 										$class="SUSPENDED";
@@ -125,11 +125,11 @@
 									}
 									if($employee->IS_TRANSFERRED == 1){
 										$class="TRANSFERRED";
-										$status="TRANSFERRED on ".date("d-m-Y", strtotime($employee->DEPT_RELIEF_DATE))." to ".$employee->TRANSFERED_TO;
+										$status="TRANSFERRED on ".date("d-m-Y", strtotime($employee->CURRENT_OFFICE_RELIEF_DATE))." to ".$employee->TRANSFERED_TO;
 									}
 									if($employee->IS_RETIRED == 1){
 										$class="RETIRED";
-										$status="RETIRED on ".date("d-m-Y", strtotime($employee->ORG_RETIRE_DATE));
+										$status="RETIRED on ".date("d-m-Y", strtotime($employee->GOVT_SERVICE_EXIT_DATE));
 									}
 									if($employee->IS_SUSPENDED == 1){
 										$class="SUSPENDED";
@@ -166,11 +166,11 @@
 									}
 									if($employee->IS_TRANSFERRED == 1){
 										$class="TRANSFERRED";
-										$status="TRANSFERRED on ".date("d-m-Y", strtotime($employee->DEPT_RELIEF_DATE))." to ".$employee->TRANSFERED_TO;
+										$status="TRANSFERRED on ".date("d-m-Y", strtotime($employee->CURRENT_OFFICE_RELIEF_DATE))." to ".$employee->TRANSFERED_TO;
 									}
 									if($employee->IS_RETIRED == 1){
 										$class="RETIRED";
-										$status="RETIRED on ".date("d-m-Y", strtotime($employee->ORG_RETIRE_DATE));
+										$status="RETIRED on ".date("d-m-Y", strtotime($employee->GOVT_SERVICE_EXIT_DATE));
 									}
 									if($employee->IS_SUSPENDED == 1){
 										$class="SUSPENDED";
@@ -207,11 +207,11 @@
 									}
 									if($employee->IS_TRANSFERRED == 1){
 										$class="TRANSFERRED";
-										$status="TRANSFERRED on ".date("d-m-Y", strtotime($employee->DEPT_RELIEF_DATE))." to ".$employee->TRANSFERED_TO;
+										$status="TRANSFERRED on ".date("d-m-Y", strtotime($employee->CURRENT_OFFICE_RELIEF_DATE))." to ".$employee->TRANSFERED_TO;
 									}
 									if($employee->IS_RETIRED == 1){
 										$class="RETIRED";
-										$status="RETIRED on ".date("d-m-Y", strtotime($employee->ORG_RETIRE_DATE));
+										$status="RETIRED on ".date("d-m-Y", strtotime($employee->GOVT_SERVICE_EXIT_DATE));
 									}
 									if($employee->IS_SUSPENDED == 1){
 										$class="SUSPENDED";
@@ -249,11 +249,11 @@
 									}
 									if($employee->IS_TRANSFERRED == 1){
 										$class="TRANSFERRED";
-										$status="TRANSFERRED on ".date("d-m-Y", strtotime($employee->DEPT_RELIEF_DATE))." to ".$employee->TRANSFERED_TO;
+										$status="TRANSFERRED on ".date("d-m-Y", strtotime($employee->CURRENT_OFFICE_RELIEF_DATE))." to ".$employee->TRANSFERED_TO;
 									}
 									if($employee->IS_RETIRED == 1){
 										$class="RETIRED";
-										$status="RETIRED on ".date("d-m-Y", strtotime($employee->ORG_RETIRE_DATE));
+										$status="RETIRED on ".date("d-m-Y", strtotime($employee->GOVT_SERVICE_EXIT_DATE));
 									}
 									if($employee->IS_SUSPENDED == 1){
 										$class="SUSPENDED";
@@ -290,11 +290,11 @@
 									}
 									if($employee->IS_TRANSFERRED == 1){
 										$class="TRANSFERRED";
-										$status="TRANSFERRED on ".date("d-m-Y", strtotime($employee->DEPT_RELIEF_DATE))." to ".$employee->TRANSFERED_TO;
+										$status="TRANSFERRED on ".date("d-m-Y", strtotime($employee->CURRENT_OFFICE_RELIEF_DATE))." to ".$employee->TRANSFERED_TO;
 									}
 									if($employee->IS_RETIRED == 1){
 										$class="RETIRED";
-										$status="RETIRED on ".date("d-m-Y", strtotime($employee->ORG_RETIRE_DATE));
+										$status="RETIRED on ".date("d-m-Y", strtotime($employee->GOVT_SERVICE_EXIT_DATE));
 									}
 									if($employee->IS_SUSPENDED == 1){
 										$class="SUSPENDED";
@@ -331,11 +331,11 @@
 									}
 									if($employee->IS_TRANSFERRED == 1){
 										$class="TRANSFERRED";
-										$status="TRANSFERRED on ".date("d-m-Y", strtotime($employee->DEPT_RELIEF_DATE))." to ".$employee->TRANSFERED_TO;
+										$status="TRANSFERRED on ".date("d-m-Y", strtotime($employee->CURRENT_OFFICE_RELIEF_DATE))." to ".$employee->TRANSFERED_TO;
 									}
 									if($employee->IS_RETIRED == 1){
 										$class="RETIRED";
-										$status="RETIRED on ".date("d-m-Y", strtotime($employee->ORG_RETIRE_DATE));
+										$status="RETIRED on ".date("d-m-Y", strtotime($employee->GOVT_SERVICE_EXIT_DATE));
 									}
 									if($employee->IS_SUSPENDED == 1){
 										$class="SUSPENDED";
@@ -372,11 +372,11 @@
 									}
 									if($employee->IS_TRANSFERRED == 1){
 										$class="TRANSFERRED";
-										$status="TRANSFERRED on ".date("d-m-Y", strtotime($employee->DEPT_RELIEF_DATE))." to ".$employee->TRANSFERED_TO;
+										$status="TRANSFERRED on ".date("d-m-Y", strtotime($employee->CURRENT_OFFICE_RELIEF_DATE))." to ".$employee->TRANSFERED_TO;
 									}
 									if($employee->IS_RETIRED == 1){
 										$class="RETIRED";
-										$status="RETIRED on ".date("d-m-Y", strtotime($employee->ORG_RETIRE_DATE));
+										$status="RETIRED on ".date("d-m-Y", strtotime($employee->GOVT_SERVICE_EXIT_DATE));
 									}
 									if($employee->IS_SUSPENDED == 1){
 										$class="SUSPENDED";
@@ -413,11 +413,11 @@
 									}
 									if($employee->IS_TRANSFERRED == 1){
 										$class="TRANSFERRED";
-										$status="TRANSFERRED on ".date("d-m-Y", strtotime($employee->DEPT_RELIEF_DATE))." to ".$employee->TRANSFERED_TO;
+										$status="TRANSFERRED on ".date("d-m-Y", strtotime($employee->CURRENT_OFFICE_RELIEF_DATE))." to ".$employee->TRANSFERED_TO;
 									}
 									if($employee->IS_RETIRED == 1){
 										$class="RETIRED";
-										$status="RETIRED on ".date("d-m-Y", strtotime($employee->ORG_RETIRE_DATE));
+										$status="RETIRED on ".date("d-m-Y", strtotime($employee->GOVT_SERVICE_EXIT_DATE));
 									}
 									if($employee->IS_SUSPENDED == 1){
 										$class="SUSPENDED";
@@ -448,11 +448,11 @@
 									$status="";
 									if($employee->IS_TRANSFERRED == 1){
 										$class="TRANSFERRED";
-										$status="TRANSFERRED on ".date("d-m-Y", strtotime($employee->DEPT_RELIEF_DATE))." to ".$employee->TRANSFERED_TO;
+										$status="TRANSFERRED on ".date("d-m-Y", strtotime($employee->CURRENT_OFFICE_RELIEF_DATE))." to ".$employee->TRANSFERED_TO;
 									}
 									if($employee->IS_RETIRED == 1){
 										$class="RETIRED";
-										$status="RETIRED on ".date("d-m-Y", strtotime($employee->ORG_RETIRE_DATE));
+										$status="RETIRED on ".date("d-m-Y", strtotime($employee->GOVT_SERVICE_EXIT_DATE));
 									}
 									if($employee->IS_SUSPENDED == 1){
 										$class="SUSPENDED";
@@ -481,11 +481,11 @@
 									$status="";
 									if($employee->IS_TRANSFERRED == 1){
 										$class="TRANSFERRED";
-										$status="TRANSFERRED on ".date("d-m-Y", strtotime($employee->DEPT_RELIEF_DATE))." to ".$employee->TRANSFERED_TO;
+										$status="TRANSFERRED on ".date("d-m-Y", strtotime($employee->CURRENT_OFFICE_RELIEF_DATE))." to ".$employee->TRANSFERED_TO;
 									}
 									if($employee->IS_RETIRED == 1){
 										$class="RETIRED";
-										$status="RETIRED on ".date("d-m-Y", strtotime($employee->ORG_RETIRE_DATE));
+										$status="RETIRED on ".date("d-m-Y", strtotime($employee->GOVT_SERVICE_EXIT_DATE));
 									}
 									if($employee->IS_SUSPENDED == 1){
 										$class="SUSPENDED";
@@ -514,11 +514,11 @@
 									$status="";
 									if($employee->IS_TRANSFERRED == 1){
 										$class="TRANSFERRED";
-										$status="TRANSFERRED on ".date("d-m-Y", strtotime($employee->DEPT_RELIEF_DATE))." to ".$employee->TRANSFERED_TO;
+										$status="TRANSFERRED on ".date("d-m-Y", strtotime($employee->CURRENT_OFFICE_RELIEF_DATE))." to ".$employee->TRANSFERED_TO;
 									}
 									if($employee->IS_RETIRED == 1){
 										$class="RETIRED";
-										$status="RETIRED on ".date("d-m-Y", strtotime($employee->ORG_RETIRE_DATE));
+										$status="RETIRED on ".date("d-m-Y", strtotime($employee->GOVT_SERVICE_EXIT_DATE));
 									}
 									if($employee->IS_SUSPENDED == 1){
 										$class="SUSPENDED";
@@ -547,11 +547,11 @@
 									$status="";
 									if($employee->IS_TRANSFERRED == 1){
 										$class="TRANSFERRED";
-										$status="TRANSFERRED on ".date("d-m-Y", strtotime($employee->DEPT_RELIEF_DATE))." to ".$employee->TRANSFERED_TO;
+										$status="TRANSFERRED on ".date("d-m-Y", strtotime($employee->CURRENT_OFFICE_RELIEF_DATE))." to ".$employee->TRANSFERED_TO;
 									}
 									if($employee->IS_RETIRED == 1){
 										$class="RETIRED";
-										$status="RETIRED on ".date("d-m-Y", strtotime($employee->ORG_RETIRE_DATE));
+										$status="RETIRED on ".date("d-m-Y", strtotime($employee->GOVT_SERVICE_EXIT_DATE));
 									}
 									if($employee->IS_SUSPENDED == 1){
 										$class="SUSPENDED";
@@ -580,11 +580,11 @@
 									$status="";
 									if($employee->IS_TRANSFERRED == 1){
 										$class="TRANSFERRED";
-										$status="TRANSFERRED on ".date("d-m-Y", strtotime($employee->DEPT_RELIEF_DATE))." to ".$employee->TRANSFERED_TO;
+										$status="TRANSFERRED on ".date("d-m-Y", strtotime($employee->CURRENT_OFFICE_RELIEF_DATE))." to ".$employee->TRANSFERED_TO;
 									}
 									if($employee->IS_RETIRED == 1){
 										$class="RETIRED";
-										$status="RETIRED on ".date("d-m-Y", strtotime($employee->ORG_RETIRE_DATE));
+										$status="RETIRED on ".date("d-m-Y", strtotime($employee->GOVT_SERVICE_EXIT_DATE));
 									}
 									if($employee->IS_SUSPENDED == 1){
 										$class="SUSPENDED";
@@ -613,11 +613,11 @@
 									$status="";
 									if($employee->IS_TRANSFERRED == 1){
 										$class="TRANSFERRED";
-										$status="TRANSFERRED on ".date("d-m-Y", strtotime($employee->DEPT_RELIEF_DATE))." to ".$employee->TRANSFERED_TO;
+										$status="TRANSFERRED on ".date("d-m-Y", strtotime($employee->CURRENT_OFFICE_RELIEF_DATE))." to ".$employee->TRANSFERED_TO;
 									}
 									if($employee->IS_RETIRED == 1){
 										$class="RETIRED";
-										$status="RETIRED on ".date("d-m-Y", strtotime($employee->ORG_RETIRE_DATE));
+										$status="RETIRED on ".date("d-m-Y", strtotime($employee->GOVT_SERVICE_EXIT_DATE));
 									}
 									if($employee->IS_SUSPENDED == 1){
 										$class="SUSPENDED";
@@ -646,11 +646,11 @@
 									$status="";
 									if($employee->IS_TRANSFERRED == 1){
 										$class="TRANSFERRED";
-										$status="TRANSFERRED on ".date("d-m-Y", strtotime($employee->DEPT_RELIEF_DATE))." to ".$employee->TRANSFERED_TO;
+										$status="TRANSFERRED on ".date("d-m-Y", strtotime($employee->CURRENT_OFFICE_RELIEF_DATE))." to ".$employee->TRANSFERED_TO;
 									}
 									if($employee->IS_RETIRED == 1){
 										$class="RETIRED";
-										$status="RETIRED on ".date("d-m-Y", strtotime($employee->ORG_RETIRE_DATE));
+										$status="RETIRED on ".date("d-m-Y", strtotime($employee->GOVT_SERVICE_EXIT_DATE));
 									}
 									if($employee->IS_SUSPENDED == 1){
 										$class="SUSPENDED";
@@ -679,11 +679,11 @@
 									$status="";
 									if($employee->IS_TRANSFERRED == 1){
 										$class="TRANSFERRED";
-										$status="TRANSFERRED on ".date("d-m-Y", strtotime($employee->DEPT_RELIEF_DATE))." to ".$employee->TRANSFERED_TO;
+										$status="TRANSFERRED on ".date("d-m-Y", strtotime($employee->CURRENT_OFFICE_RELIEF_DATE))." to ".$employee->TRANSFERED_TO;
 									}
 									if($employee->IS_RETIRED == 1){
 										$class="RETIRED";
-										$status="RETIRED on ".date("d-m-Y", strtotime($employee->ORG_RETIRE_DATE));
+										$status="RETIRED on ".date("d-m-Y", strtotime($employee->GOVT_SERVICE_EXIT_DATE));
 									}
 									if($employee->IS_SUSPENDED == 1){
 										$class="SUSPENDED";
@@ -712,11 +712,11 @@
 										$status="";
 										if($employee->IS_TRANSFERRED == 1){
 											$class="TRANSFERRED";
-											$status="TRANSFERRED on ".date("d-m-Y", strtotime($employee->DEPT_RELIEF_DATE))." to ".$employee->TRANSFERED_TO;
+											$status="TRANSFERRED on ".date("d-m-Y", strtotime($employee->CURRENT_OFFICE_RELIEF_DATE))." to ".$employee->TRANSFERED_TO;
 										}
 										if($employee->IS_RETIRED == 1){
 											$class="RETIRED";
-											$status="RETIRED on ".date("d-m-Y", strtotime($employee->ORG_RETIRE_DATE));
+											$status="RETIRED on ".date("d-m-Y", strtotime($employee->GOVT_SERVICE_EXIT_DATE));
 										}
 										if($employee->IS_SUSPENDED == 1){
 											$class="SUSPENDED";

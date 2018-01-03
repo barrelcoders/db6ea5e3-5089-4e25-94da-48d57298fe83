@@ -30,7 +30,7 @@
 				<td style="text-align: center;"><?php echo $employee->CATEGORY;?></td>
 				<td style="text-align: center;"><?php echo Designations::model()->findByPK($employee->DESIGNATION_ID_FK)->ABBREVIATIONS;?></td>
 				<td style="text-align: center;">Yelahanka Service Tax Division</td>
-				<td style="text-align: center;"><?php echo date('d-m-Y', strtotime($employee->DEPT_JOIN_DATE));?></td>
+				<td style="text-align: center;"><?php echo date('d-m-Y', strtotime($employee->CURRENT_OFFICE_JOIN_DATE));?></td>
 				
 			</tr>
 		<?php $i++;  } ?>

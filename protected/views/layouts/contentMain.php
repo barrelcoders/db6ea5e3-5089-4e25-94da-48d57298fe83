@@ -114,6 +114,7 @@
 	            <ul>
 	                <li><a href="<?php echo Yii::app()->createUrl('Employee/create');?>"><span class="lbl">Create Employee</span></a></li>
 	                <li><a href="<?php echo Yii::app()->createUrl('Employee/admin');?>"><span class="lbl">Manage Employees</span></a></li>
+					<li><a href="<?php echo Yii::app()->createUrl('Employee/EISExport');?>" target="_blank"><span class="lbl">EIS Export</span></a></li>
 	                <li><a href="<?php echo Yii::app()->createUrl('Employee/generateTransferedLPC');?>"><span class="lbl">LPC (On Transfered)</span></a></li>
 	                <li><a href="<?php echo Yii::app()->createUrl('Employee/generateRetiredLPC');?>"><span class="lbl">LPC (On Retired)</span></a></li>
 				    <li><a href="<?php echo Yii::app()->createUrl('Employee/suspendEmployee');?>"><span class="lbl">Suspend Employee</span></a></li>

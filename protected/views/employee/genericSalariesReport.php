@@ -93,6 +93,9 @@
 		if(count($hra_slab) > 0){
 			array_push($conditions, "HRA_SLAB_ID_FK IN (".implode(",", $hra_slab).")");
 		}
+		if(count($posting) > 0){
+			array_push($conditions, "POSTING_ID_FK IN (".implode(",", $posting).")");
+		}
 		
 		$conditionString = implode(" AND ", $conditions);
 		

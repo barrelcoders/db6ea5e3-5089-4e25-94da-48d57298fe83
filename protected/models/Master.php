@@ -37,14 +37,16 @@ class Master extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('OFFICE_NAME, OFFICE_ADDRESS, DEPT_NAME, DEPT_HEAD_EMPLOYEE, DEPT_ADMIN_EMPLOYEE, OFFICE_NAME_HINDI, OFFICE_ADDRESS_HINDI, DEPT_NAME_HINDI', 'required'),
-			array('OFFICE_NAME, OFFICE_NAME_HINDI, HOO_OFFICE_NAME, HOO_OFFICE_NAME_HINDI', 'length', 'max'=>200),
+			array('OFFICE_NAME, OFFICE_ADDRESS, DEPT_NAME, DEPT_HEAD_EMPLOYEE, DEPT_ADMIN_EMPLOYEE, OFFICE_NAME_HINDI, OFFICE_ADDRESS_HINDI, 
+			DEPT_NAME_HINDI, PAO_CODE, DDO_CODE, CONTROLLER_CODE', 'required'),
+			array('OFFICE_NAME, OFFICE_NAME_HINDI, HOO_OFFICE_NAME, HOO_OFFICE_NAME_HINDI, PAO_CODE, DDO_CODE', 'length', 'max'=>200),
 			array('OFFICE_ADDRESS, OFFICE_ADDRESS_HINDI', 'length', 'max'=>500),
 			array('DEPT_NAME, DEPT_NAME_HINDI', 'length', 'max'=>100),
 			array('DEPT_HEAD_EMPLOYEE, DEPT_ADMIN_EMPLOYEE', 'length', 'max'=>10),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('ID, OFFICE_NAME, OFFICE_ADDRESS, DEPT_NAME, DEPT_HEAD_EMPLOYEE, DEPT_ADMIN_EMPLOYEE, OFFICE_NAME_HINDI, OFFICE_ADDRESS_HINDI, DEPT_NAME_HINDI', 'safe', 'on'=>'search'),
+			array('ID, OFFICE_NAME, OFFICE_ADDRESS, DEPT_NAME, DEPT_HEAD_EMPLOYEE, DEPT_ADMIN_EMPLOYEE, OFFICE_NAME_HINDI, OFFICE_ADDRESS_HINDI, 
+			DEPT_NAME_HINDI, PAO_CODE, DDO_CODE, CONTROLLER_CODE', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -78,7 +80,10 @@ class Master extends CActiveRecord
 			'DEPT_NAME_HINDI' => 'Department Name (Hindi)',
 			'HOO_OFFICE_NAME'=> 'Head of Office Name',
 			'HOO_OFFICE_NAME_HINDI'=> 'Head of Office Name (Hindi)',
-			'FINANCIAL_YEAR'=>'Current Financial Year'
+			'FINANCIAL_YEAR'=>'Current Financial Year',
+			'PAO_CODE'=>'PAO Code',
+			'DDO_CODE'=>'DDO Code',
+			'CONTROLLER_CODE'=>'Controller Code'
 		);
 	}
 
@@ -111,6 +116,8 @@ class Master extends CActiveRecord
 		$criteria->compare('DEPT_NAME_HINDI',$this->DEPT_NAME_HINDI,true);
 		$criteria->compare('HOO_OFFICE_NAME',$this->HOO_OFFICE_NAME,true);
 		$criteria->compare('HOO_OFFICE_NAME_HINDI',$this->HOO_OFFICE_NAME_HINDI,true);
+		$criteria->compare('CONTROLLER_CODE',$this->CONTROLLER_CODE,true);
+		
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
