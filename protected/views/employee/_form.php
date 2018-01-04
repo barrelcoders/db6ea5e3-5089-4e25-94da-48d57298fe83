@@ -11,6 +11,36 @@
 		$("#Employee_GOVT_SERVICE_EXIT_DATE").val(retire_date);
 	}
 	$(document).ready(function(){
+		<?php
+			if($model->FIRST_NAME == ''){
+		?>
+				var name = '<?php echo $model->NAME?>',
+					items = name.split(' ');
+				
+				if(items.length == 1){
+					$("#Employee_FIRST_NAME").val(items[0]);
+				}
+				else if(items.length == 2){
+					$("#Employee_FIRST_NAME").val(items[0]);
+					$("#Employee_LAST_NAME").val(items[1]);
+				}
+				else if(items.length == 3){
+					$("#Employee_FIRST_NAME").val(items[0]);
+					$("#Employee_MIDDLE_NAME").val(items[1]);
+					$("#Employee_LAST_NAME").val(items[2]);
+				}
+				else{
+					$("#Employee_FIRST_NAME").val(items[0]);
+					var remaining_name = [];
+					for(var i=1; i<=items.length-2; i++){
+						remaining_name.push(items[i]);
+					}
+					$("#Employee_MIDDLE_NAME").val(remaining_name.join(' '));
+					$("#Employee_LAST_NAME").val(items[items.length-1]);
+				}
+		<?php		
+			}
+		?>
 		$('#Employee_DOB').change(function(){
 			dob = moment($(this).val()), retire_date = "";
 			if(dob.date() == 1){
@@ -23,6 +53,15 @@
 			
 		});
 		
+		$("#Employee_PENSION_TYPE").change(function(){debugger;
+			var pension_type = $(this).val();
+			if(pension_type == "OPS"){
+				$("#gpf-sub-section").show();
+			}
+			else{
+				$("#gpf-sub-section").hide();
+			}
+		});
 	});
 	
 	function enablethisField(field){
@@ -215,6 +254,9 @@
 		.tab-content {
 			min-height: 1000px;
 		}
+		.eis-required-field{
+			color: #F00;
+		}
 	</style>
 	<?php 
 	$form=$this->beginWidget('CActiveForm', array(
@@ -274,7 +316,7 @@
 			<div role="tabpanel" class="tab-pane fade in active" id="tabs-1-tab-1">
 				<div class="col-sm-6">
 					<div class="form-group row">
-						<label class='col-sm-2 form-control-label'>Name</label>
+						<label class='col-sm-3 form-control-label'>Name</label>
 						<div class="col-sm-9">
 							<p class="form-control-static">
 								<span><?php echo $model->NAME;?></span>
@@ -282,7 +324,7 @@
 						</div>
 					</div>
 					<div class="form-group row">
-						<?php echo $form->labelEx($model,'SALUTATION_CODE', array('class'=>'col-sm-3 form-control-label')); ?>
+						<?php echo $form->labelEx($model,'SALUTATION_CODE', array('class'=>'col-sm-3 form-control-label eis-required-field')); ?>
 						<div class="col-sm-9">
 							<p class="form-control-static">
 								<select name="Employee[SALUTATION_CODE]" id="SALUTATION_CODE" onchange="setSalutationText(this)">
@@ -305,7 +347,7 @@
 						</div>
 					</div>
 					<div class="form-group row">
-						<?php echo $form->labelEx($model,'FIRST_NAME', array('class'=>'col-sm-3 form-control-label')); ?>
+						<?php echo $form->labelEx($model,'FIRST_NAME', array('class'=>'col-sm-3 form-control-label eis-required-field')); ?>
 						<div class="col-sm-9">
 							<p class="form-control-static">
 								<?php echo $form->textField($model,'FIRST_NAME',array('size'=>40,'maxlength'=>1000, 'value'=>$model->FIRST_NAME)); ?>
@@ -313,7 +355,7 @@
 						</div>
 					</div>
 					<div class="form-group row">
-						<?php echo $form->labelEx($model,'MIDDLE_NAME', array('class'=>'col-sm-3 form-control-label')); ?>
+						<?php echo $form->labelEx($model,'MIDDLE_NAME', array('class'=>'col-sm-3 form-control-label eis-required-field')); ?>
 						<div class="col-sm-9">
 							<p class="form-control-static">
 								<?php echo $form->textField($model,'MIDDLE_NAME',array('size'=>40,'maxlength'=>1000, 'value'=>$model->MIDDLE_NAME)); ?>
@@ -321,7 +363,7 @@
 						</div>
 					</div>
 					<div class="form-group row">
-						<?php echo $form->labelEx($model,'LAST_NAME', array('class'=>'col-sm-3 form-control-label')); ?>
+						<?php echo $form->labelEx($model,'LAST_NAME', array('class'=>'col-sm-3 form-control-label eis-required-field')); ?>
 						<div class="col-sm-9">
 							<p class="form-control-static">
 								<?php echo $form->textField($model,'LAST_NAME',array('size'=>40,'maxlength'=>1000, 'value'=>$model->LAST_NAME)); ?>
@@ -337,7 +379,7 @@
 						</div>
 					</div>
 					<div class="form-group row">
-						<?php echo $form->labelEx($model,'GENDER', array('class'=>'col-sm-3 form-control-label')); ?>
+						<?php echo $form->labelEx($model,'GENDER', array('class'=>'col-sm-3 form-control-label eis-required-field')); ?>
 						<div class="col-sm-9">
 							<p class="form-control-static">
 								<?php echo $form->dropDownList($model,'GENDER',array('M'=>'Male', 'F'=>'Female'), array('options'=>array($model->GENDER=>array('selected'=>true)))); ?>
@@ -345,7 +387,7 @@
 						</div>
 					</div>
 					<div class="form-group row">
-						<?php echo $form->labelEx($model,'CATEGORY', array('class'=>'col-sm-3 form-control-label')); ?>
+						<?php echo $form->labelEx($model,'CATEGORY', array('class'=>'col-sm-3 form-control-label eis-required-field')); ?>
 						<div class="col-sm-9">
 							<p class="form-control-static">
 								<?php echo $form->dropDownList($model,'CATEGORY',array(9=>'General', 8=>'OBC', 1=>'SC', 2=>'ST', ), array('options'=>array($model->CATEGORY=>array('selected'=>true)))); ?>
@@ -357,14 +399,6 @@
 						<div class="col-sm-9">
 							<p class="form-control-static">
 								<?php echo $form->textField($model,'PAN',array('size'=>45,'maxlength'=>45, 'value'=>$model->PAN)); ?>
-							</p>
-						</div>
-					</div>
-					<div class="form-group row">
-						<?php echo $form->labelEx($model,'FOLIO_NO', array('class'=>'col-sm-3 form-control-label')); ?>
-						<div class="col-sm-9">
-							<p class="form-control-static">
-								<?php echo $form->textField($model,'FOLIO_NO',array('size'=>10,'maxlength'=>100, 'value'=>$model->FOLIO_NO)); ?>
 							</p>
 						</div>
 					</div>
@@ -390,7 +424,7 @@
 							</p>
 						</div>
 					</div>
-					<div class="form-group row">
+					<!--<div class="form-group row">
 						<?php echo $form->labelEx($model,'GRADE_PAY_ID_FK', array('class'=>'col-sm-3 form-control-label')); ?>
 						<div class="col-sm-9">
 							<p class="form-control-static">
@@ -399,9 +433,9 @@
 							'disabled'=>Yii::app()->controller->action->id == 'update')); ?>
 							</p>
 						</div>
-					</div>
+					</div>-->
 					<div class="form-group row">
-						<?php echo $form->labelEx($model,'PAY_COMMISSION', array('class'=>'col-sm-3 form-control-label')); ?>
+						<?php echo $form->labelEx($model,'PAY_COMMISSION', array('class'=>'col-sm-3 form-control-label eis-required-field')); ?>
 						<div class="col-sm-9">
 							<p class="form-control-static">
 								<?php echo $form->dropDownList($model,'PAY_COMMISSION',array(
@@ -411,7 +445,7 @@
 						</div>
 					</div>
 					<div class="form-group row">
-						<?php echo $form->labelEx($model,'PAY_MATRIX_ID_FK', array('class'=>'col-sm-3 form-control-label')); ?>
+						<?php echo $form->labelEx($model,'PAY_MATRIX_ID_FK', array('class'=>'col-sm-3 form-control-label eis-required-field')); ?>
 						<div class="col-sm-9">
 							<p class="form-control-static">
 								<select name="Employee[PAY_MATRIX_ID_FK]" id="Employee_PAY_MATRIX_ID_FK">
@@ -445,7 +479,7 @@
 						</div>
 					</div>
 					<div class="form-group row">
-						<?php echo $form->labelEx($model,'CITY_CLASS_CODE', array('class'=>'col-sm-3 form-control-label')); ?>
+						<?php echo $form->labelEx($model,'CITY_CLASS_CODE', array('class'=>'col-sm-3 form-control-label eis-required-field')); ?>
 						<div class="col-sm-9">
 							<p class="form-control-static">
 								<?php echo $form->dropDownList($model,'CITY_CLASS_CODE',array('X'=>'CLASS X', 'Y'=>'CLASS Y', 'Z'=>'CLASS Z'), array('options'=>array($model->CITY_CLASS_CODE=>array('selected'=>true)))); ?>
@@ -453,7 +487,7 @@
 						</div>
 					</div>
 					<div class="form-group row">
-						<?php echo $form->labelEx($model,'POSTING_MODE_CODE', array('class'=>'col-sm-3 form-control-label')); ?>
+						<?php echo $form->labelEx($model,'POSTING_MODE_CODE', array('class'=>'col-sm-3 form-control-label eis-required-field')); ?>
 						<div class="col-sm-9">
 							<p class="form-control-static">
 								<?php echo $form->dropDownList($model,'POSTING_MODE_CODE',array(
@@ -481,6 +515,14 @@
 						</div>
 					</div>
 					<div class="form-group row">
+						<?php echo $form->labelEx($model,'FOLIO_NO', array('class'=>'col-sm-3 form-control-label')); ?>
+						<div class="col-sm-9">
+							<p class="form-control-static">
+								<?php echo $form->textField($model,'FOLIO_NO',array('size'=>10,'maxlength'=>100, 'value'=>$model->FOLIO_NO)); ?>
+							</p>
+						</div>
+					</div>
+					<div class="form-group row">
 						<label class='col-sm-3 form-control-label'></label>
 						<div class="col-sm-9">
 							<p class="form-control-static">
@@ -493,7 +535,7 @@
 			<div role="tabpanel" class="tab-pane fade" id="tabs-1-tab-2">
 				<div class="col-sm-6">
 					<div class="form-group row">
-						<?php echo $form->labelEx($model,'MICR', array('class'=>'col-sm-3 form-control-label')); ?>
+						<?php echo $form->labelEx($model,'MICR', array('class'=>'col-sm-3 form-control-label eis-required-field')); ?>
 						<div class="col-sm-9">
 							<p class="form-control-static">
 								<?php echo $form->textField($model,'MICR',array('size'=>45,'maxlength'=>45, 'value'=>$model->MICR)); ?>
@@ -501,7 +543,7 @@
 						</div>
 					</div>
 					<div class="form-group row">
-						<?php echo $form->labelEx($model,'ACCOUNT_NO', array('class'=>'col-sm-3 form-control-label')); ?>
+						<?php echo $form->labelEx($model,'ACCOUNT_NO', array('class'=>'col-sm-3 form-control-label eis-required-field')); ?>
 						<div class="col-sm-9">
 							<p class="form-control-static">
 								<?php echo $form->textField($model,'ACCOUNT_NO',array('size'=>45,'maxlength'=>45, 'value'=>$model->ACCOUNT_NO)); ?>
@@ -509,7 +551,7 @@
 						</div>
 					</div>
 					<div class="form-group row">
-						<?php echo $form->labelEx($model,'IFSC', array('class'=>'col-sm-3 form-control-label')); ?>
+						<?php echo $form->labelEx($model,'IFSC', array('class'=>'col-sm-3 form-control-label eis-required-field')); ?>
 						<div class="col-sm-9">
 							<p class="form-control-static">
 								<?php echo $form->textField($model,'IFSC',array('size'=>45,'maxlength'=>45, 'value'=>$model->IFSC)); ?>
@@ -527,27 +569,48 @@
 						</div>
 					</div>
 					<div class="form-group row">
-						<?php echo $form->labelEx($model,'PENSION_ACC_NO', array('class'=>'col-sm-3 form-control-label')); ?>
+						<?php echo $form->labelEx($model,'PENSION_ACC_NO', array('class'=>'col-sm-3 form-control-label eis-required-field')); ?>
 						<div class="col-sm-9">
 							<p class="form-control-static">
 								<?php echo $form->textField($model,'PENSION_ACC_NO',array('size'=>45,'maxlength'=>45, 'value'=>$model->PENSION_ACC_NO)); ?>
 							</p>
 						</div>
 					</div>
-					<div class="form-group row">
-						<?php echo $form->labelEx($model,'GPF_SUBSCRIPTION', array('class'=>'col-sm-3 form-control-label')); ?>
-						<div class="col-sm-9">
-							<p class="form-control-static">
-								<?php echo $form->textField($model,'GPF_SUBSCRIPTION',array('size'=>45,'maxlength'=>45, 'value'=>$model->GPF_SUBSCRIPTION)); ?>
-							</p>
-						</div>
-					</div>
+					<?php 
+						if(strtolower(Yii::app()->controller->action->id) == 'update'){
+							
+							if($model->PENSION_TYPE == 'OPS'){
+								?>
+								<div class="form-group row" id="gpf-sub-section">
+									<?php echo $form->labelEx($model,'GPF_SUBSCRIPTION', array('class'=>'col-sm-3 form-control-label eis-required-field')); ?>
+									<div class="col-sm-9">
+										<p class="form-control-static">
+											<?php echo $form->textField($model,'GPF_SUBSCRIPTION',array('size'=>45,'maxlength'=>45, 'value'=>$model->GPF_SUBSCRIPTION)); ?>
+										</p>
+									</div>
+								</div>
+								<?php
+							}
+						} else {
+							?>
+							<div class="form-group row" id="gpf-sub-section">
+								<?php echo $form->labelEx($model,'GPF_SUBSCRIPTION', array('class'=>'col-sm-3 form-control-label eis-required-field')); ?>
+								<div class="col-sm-9">
+									<p class="form-control-static">
+										<?php echo $form->textField($model,'GPF_SUBSCRIPTION',array('size'=>45,'maxlength'=>45, 'value'=>$model->GPF_SUBSCRIPTION)); ?>
+									</p>
+								</div>
+							</div>
+							<?php
+						}
+					?>
+					
 				</div>
 			</div><!--.tab-pane-->
 			<div role="tabpanel" class="tab-pane fade" id="tabs-1-tab-3">
 				<div class="col-sm-6">
 					<div class="form-group row">
-						<?php echo $form->labelEx($model,'DOB', array('class'=>'col-sm-3 form-control-label')); ?>
+						<?php echo $form->labelEx($model,'DOB', array('class'=>'col-sm-3 form-control-label eis-required-field')); ?>
 						<div class="col-sm-9">
 							<p class="form-control-static">
 								<input value="<?php echo ($model->DOB == "") ? "" : date('Y-m-d', strtotime($model->DOB))?>" id="Employee_DOB" name="Employee[DOB]" type="date">
@@ -555,7 +618,7 @@
 						</div>
 					</div>
 					<div class="form-group row">
-						<?php echo $form->labelEx($model,'PAY_WEF_DATE', array('class'=>'col-sm-3 form-control-label')); ?>
+						<?php echo $form->labelEx($model,'PAY_WEF_DATE', array('class'=>'col-sm-3 form-control-label eis-required-field')); ?>
 						<div class="col-sm-9">
 							<p class="form-control-static">
 								<input value="<?php echo ($model->PAY_WEF_DATE == "") ? "" : date('Y-m-d', strtotime($model->PAY_WEF_DATE))?>" id="Employee_PAY_WEF_DATE" name="Employee[PAY_WEF_DATE]" type="date">
@@ -563,7 +626,7 @@
 						</div>
 					</div>
 					<div class="form-group row">
-						<?php echo $form->labelEx($model,'NEXT_INCREMENT_DATE', array('class'=>'col-sm-3 form-control-label')); ?>
+						<?php echo $form->labelEx($model,'NEXT_INCREMENT_DATE', array('class'=>'col-sm-3 form-control-label eis-required-field')); ?>
 						<div class="col-sm-9">
 							<p class="form-control-static">
 								<input value="<?php echo ($model->NEXT_INCREMENT_DATE == "") ? "" : date('Y-m-d', strtotime($model->NEXT_INCREMENT_DATE))?>" id="Employee_NEXT_INCREMENT_DATE" name="Employee[NEXT_INCREMENT_DATE]" type="date">
@@ -571,7 +634,7 @@
 						</div>
 					</div>
 					<div class="form-group row">
-						<?php echo $form->labelEx($model,'GOVT_SERVICE_ENTRY_DATE', array('class'=>'col-sm-3 form-control-label')); ?>
+						<?php echo $form->labelEx($model,'GOVT_SERVICE_ENTRY_DATE', array('class'=>'col-sm-3 form-control-label eis-required-field')); ?>
 						<div class="col-sm-9">
 							<p class="form-control-static">
 								<input value="<?php echo ($model->GOVT_SERVICE_ENTRY_DATE == "") ? "" : date('Y-m-d', strtotime($model->GOVT_SERVICE_ENTRY_DATE))?>" id="GOVT_SERVICE_ENTRY_DATE" name="Employee[GOVT_SERVICE_ENTRY_DATE]" type="date">
@@ -580,7 +643,7 @@
 						</div>
 					</div>
 					<div class="form-group row">
-						<?php echo $form->labelEx($model,'CONTROLLER_JOIN_DATE', array('class'=>'col-sm-3 form-control-label')); ?>
+						<?php echo $form->labelEx($model,'CONTROLLER_JOIN_DATE', array('class'=>'col-sm-3 form-control-label eis-required-field')); ?>
 						<div class="col-sm-9">
 							<p class="form-control-static">
 								<input value="<?php echo ($model->CONTROLLER_JOIN_DATE == "") ? "" : date('Y-m-d', strtotime($model->CONTROLLER_JOIN_DATE))?>" id="Employee_CONTROLLER_JOIN_DATE" name="Employee[CONTROLLER_JOIN_DATE]" type="date">
@@ -589,7 +652,7 @@
 						</div>
 					</div>
 					<div class="form-group row">
-						<?php echo $form->labelEx($model,'CURRENT_OFFICE_JOIN_DATE', array('class'=>'col-sm-3 form-control-label')); ?>
+						<?php echo $form->labelEx($model,'CURRENT_OFFICE_JOIN_DATE', array('class'=>'col-sm-3 form-control-label eis-required-field')); ?>
 						<div class="col-sm-9">
 							<p class="form-control-static">
 								<input value="<?php echo ($model->CURRENT_OFFICE_JOIN_DATE == "") ? "" : date('Y-m-d', strtotime($model->CURRENT_OFFICE_JOIN_DATE))?>" id="Employee_CURRENT_OFFICE_JOIN_DATE" name="Employee[CURRENT_OFFICE_JOIN_DATE]" type="date">
@@ -600,7 +663,7 @@
 				</div>
 				<div class="col-sm-6">
 					<div class="form-group row">
-						<?php echo $form->labelEx($model,'CURRENT_POST_JOIN_DATE', array('class'=>'col-sm-3 form-control-label')); ?>
+						<?php echo $form->labelEx($model,'CURRENT_POST_JOIN_DATE', array('class'=>'col-sm-3 form-control-label eis-required-field')); ?>
 						<div class="col-sm-9">
 							<p class="form-control-static">
 								<input value="<?php echo ($model->CURRENT_POST_JOIN_DATE == "") ? "" : date('Y-m-d', strtotime($model->CURRENT_POST_JOIN_DATE))?>" id="Employee_CURRENT_POST_JOIN_DATE" name="Employee[CURRENT_POST_JOIN_DATE]" type="date">
@@ -645,7 +708,7 @@
 						</div>
 					</div>
 					<div class="form-group row">
-						<?php echo $form->labelEx($model,'CGEGIS_MEMBER_DATE', array('class'=>'col-sm-3 form-control-label')); ?>
+						<?php echo $form->labelEx($model,'CGEGIS_MEMBER_DATE', array('class'=>'col-sm-3 form-control-label eis-required-field')); ?>
 						<div class="col-sm-9">
 							<p class="form-control-static">
 								<input value="<?php echo ($model->CGEGIS_MEMBER_DATE == "") ? "" : date('Y-m-d', strtotime($model->CGEGIS_MEMBER_DATE))?>" id="Employee_CGEGIS_MEMBER_DATE" name="Employee[CGEGIS_MEMBER_DATE]" type="date">
@@ -813,7 +876,7 @@
 						<?php echo $form->labelEx($model,'IS_QUARTER_ALLOCATED', array('class'=>'col-sm-3 form-control-label')); ?>
 						<div class="col-sm-9">
 							<p class="form-control-static">
-								<?php echo $form->dropDownList($model,'IS_QUARTER_ALLOCATED',array(1=>'Yes', 0=>'No'), array('options'=>array($model->IS_QUARTER_ALLOCATED=>array('selected'=>true)))); ?>
+								<?php echo $form->dropDownList($model,'IS_QUARTER_ALLOCATED',array(0=>'No', 1=>'Yes'), array('options'=>array($model->IS_QUARTER_ALLOCATED=>array('selected'=>true)))); ?>
 							</p>
 						</div>
 					</div>
@@ -837,7 +900,7 @@
 						<?php echo $form->labelEx($model,'IS_PERMANENT', array('class'=>'col-sm-3 form-control-label')); ?>
 						<div class="col-sm-9">
 							<p class="form-control-static">
-								<?php echo $form->dropDownList($model,'IS_PERMANENT',array(1=>'Yes', 0=>'No'), array('options'=>array($model->IS_PERMANENT=>array('selected'=>true)))); ?>
+								<?php echo $form->dropDownList($model,'IS_PERMANENT',array(0=>'No', 1=>'Yes'), array('options'=>array($model->IS_PERMANENT=>array('selected'=>true)))); ?>
 							</p>
 						</div>
 					</div>
@@ -858,11 +921,11 @@
 						</div>
 					</div>
 					<div class="form-group row">
-						<?php echo $form->labelEx($model,'IS_EX_SERVICE', array('class'=>'col-sm-3 form-control-label')); ?>
+						<?php echo $form->labelEx($model,'IS_EX_SERVICE', array('class'=>'col-sm-3 form-control-label eis-required-field')); ?>
 						<div class="col-sm-9">
 							<p class="form-control-static">
 								<?php echo $form->dropDownList($model,'IS_EX_SERVICE',
-								array('Y'=>'Yes', 'N'=>'No'),
+								array('N'=>'No', 'Y'=>'Yes'),
 								array('options'=>array($model->IS_EX_SERVICE=>array('selected'=>true)))); ?>
 							</p>
 						</div>
@@ -898,17 +961,17 @@
 			<div role="tabpanel" class="tab-pane fade" id="tabs-1-tab-7">
 				<div class="col-sm-6">
 					<div class="form-group row">
-						<?php echo $form->labelEx($model,'IS_CGHS_CARD_HOLDER', array('class'=>'col-sm-3 form-control-label')); ?>
+						<?php echo $form->labelEx($model,'IS_CGHS_CARD_HOLDER', array('class'=>'col-sm-3 form-control-label eis-required-field')); ?>
 						<div class="col-sm-9">
 							<p class="form-control-static">
 								<?php echo $form->dropDownList($model,'IS_CGHS_CARD_HOLDER',
-								array('Y'=>'Yes', 'N'=>'No'),
+								array('N'=>'No', 'Y'=>'Yes'),
 								array('options'=>array($model->IS_CGHS_CARD_HOLDER=>array('selected'=>true)))); ?>
 							</p>
 						</div>
 					</div>
 					<div class="form-group row">
-						<?php echo $form->labelEx($model,'CGHS_CARD_NO', array('class'=>'col-sm-3 form-control-label')); ?>
+						<?php echo $form->labelEx($model,'CGHS_CARD_NO', array('class'=>'col-sm-3 form-control-label eis-required-field')); ?>
 						<div class="col-sm-9">
 							<p class="form-control-static">
 								<?php echo $form->textField($model,'CGHS_CARD_NO',array('size'=>40,'maxlength'=>100, 'value'=>$model->CGHS_CARD_NO)); ?>
@@ -918,7 +981,7 @@
 				</div>
 				<div class="col-sm-6">
 					<div class="form-group row">
-						<?php echo $form->labelEx($model,'CGEGIS_APPLICABLE_CODE', array('class'=>'col-sm-3 form-control-label')); ?>
+						<?php echo $form->labelEx($model,'CGEGIS_APPLICABLE_CODE', array('class'=>'col-sm-3 form-control-label eis-required-field')); ?>
 						<div class="col-sm-9">
 							<p class="form-control-static">
 								<?php echo $form->dropDownList($model,'CGEGIS_APPLICABLE_CODE',
@@ -928,7 +991,7 @@
 						</div>
 					</div>
 					<div class="form-group row">
-						<?php echo $form->labelEx($model,'CGEGIS_GROUP_CODE', array('class'=>'col-sm-3 form-control-label')); ?>
+						<?php echo $form->labelEx($model,'CGEGIS_GROUP_CODE', array('class'=>'col-sm-3 form-control-label eis-required-field')); ?>
 						<div class="col-sm-9">
 							<p class="form-control-static">
 								<?php echo $form->dropDownList($model,'CGEGIS_GROUP_CODE',
@@ -942,7 +1005,7 @@
 			<div role="tabpanel" class="tab-pane fade" id="tabs-1-tab-8">
 				<div class="col-sm-6">
 					<div class="form-group row">
-						<?php echo $form->labelEx($model,'EMPLOYEE_CODE_BY_EMPLOYER', array('class'=>'col-sm-3 form-control-label')); ?>
+						<?php echo $form->labelEx($model,'EMPLOYEE_CODE_BY_EMPLOYER', array('class'=>'col-sm-3 form-control-label eis-required-field')); ?>
 						<div class="col-sm-9">
 							<p class="form-control-static">
 								<?php echo $form->textField($model,'EMPLOYEE_CODE_BY_EMPLOYER',array('size'=>40,'maxlength'=>100, 'value'=>$model->EMPLOYEE_CODE_BY_EMPLOYER)); ?>
@@ -950,7 +1013,7 @@
 						</div>
 					</div>
 					<div class="form-group row">
-						<?php echo $form->labelEx($model,'MOBILE_NO', array('class'=>'col-sm-3 form-control-label')); ?>
+						<?php echo $form->labelEx($model,'MOBILE_NO', array('class'=>'col-sm-3 form-control-label eis-required-field')); ?>
 						<div class="col-sm-9">
 							<p class="form-control-static">
 								<?php echo $form->textField($model,'MOBILE_NO',array('size'=>40,'maxlength'=>100, 'value'=>$model->MOBILE_NO)); ?>
@@ -960,7 +1023,7 @@
 				</div>
 				<div class="col-sm-6">
 					<div class="form-group row">
-						<?php echo $form->labelEx($model,'AADHAR_NO', array('class'=>'col-sm-3 form-control-label')); ?>
+						<?php echo $form->labelEx($model,'AADHAR_NO', array('class'=>'col-sm-3 form-control-label eis-required-field')); ?>
 						<div class="col-sm-9">
 							<p class="form-control-static">
 								<?php echo $form->textField($model,'AADHAR_NO',array('size'=>40,'maxlength'=>100, 'value'=>$model->AADHAR_NO)); ?>
@@ -968,7 +1031,7 @@
 						</div>
 					</div>
 					<div class="form-group row">
-						<?php echo $form->labelEx($model,'EMAIL_ID', array('class'=>'col-sm-3 form-control-label')); ?>
+						<?php echo $form->labelEx($model,'EMAIL_ID', array('class'=>'col-sm-3 form-control-label eis-required-field')); ?>
 						<div class="col-sm-9">
 							<p class="form-control-static">
 								<?php echo $form->textField($model,'EMAIL_ID',array('size'=>40,'maxlength'=>100, 'value'=>$model->EMAIL_ID)); ?>
