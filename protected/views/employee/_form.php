@@ -177,31 +177,7 @@
 		});
 	}
 	
-	function delPLIRow(row){
-		var tableRow = $(row.parentNode.parentNode),
-			policyId = tableRow.find(".policy-id");
-		
-		var id = policyId.val();
-		
-		if(!confirm('Are you sure wants to delete this policy'))
-			return;
-		
-		$.post( '<?php echo Yii::app()->createUrl('Employee/DeletePLIPolicy')?>&id='+id, {}, function(result) {
-			if(result == 'SUCCESS'){
-				alert('Policy deleted successfully');
-				document.getElementById('PLITable').deleteRow(row.parentNode.parentNode.rowIndex);
-			}
-			else{
-				alert('Problem in deleting policy, Please try again later');
-			}
-		});
-	}
 	
-	function deleteLICRow(row)
-	{
-		var i=row.parentNode.parentNode.rowIndex;
-		document.getElementById('LICTable').deleteRow(i);
-	}
 
 
 	function insLICRow()

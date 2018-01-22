@@ -194,7 +194,17 @@
 								$matrix = PayMatrix::model()->findByPK($employee->PAY_MATRIX_ID_FK);
 								$matrix = $matrix->BASIC."(Level: ".$matrix->LEVEL." Index: ".$matrix->INDEX.")";
 							}
-							echo $matrix; ?></span>
+							echo $matrix; ?> W.E.F. 
+							<?php 
+								if (date('M', strtotime($employee->PAY_WEF_DATE)) == date('M') && date('Y', strtotime($employee->PAY_WEF_DATE)) == date('Y')){
+									?>
+										<span style='color: #F00;'><?php echo date('d M,Y', strtotime($employee->PAY_WEF_DATE));?></span>
+									<?php
+								}
+								else{
+									echo date('d M,Y', strtotime($employee->PAY_WEF_DATE));
+								}
+							?></span>
 						</td>
 						<td><b class="one-label">HRA SLAB: </b><span style="float: right;"><?php echo HRASlabs::model()->findByPK($employee->HRA_SLAB_ID_FK)->DESCRIPTION; ?></span></td>
 						<td><b class="one-label">Quarter Alloc.: </b><span style="float: right;"><?php echo ($employee->IS_QUARTER_ALLOCATED == 1) ? "YES" : "NO"; ?></span></td>
@@ -565,7 +575,7 @@
 	
 	$(document).ready(function(){
 		if(IS_BILL_PASSED){
-			$('input, textarea').prop('readonly', true);
+			$('input, textarea').not("#textSearch").prop('readonly', true);
 			$('select').prop('disabled', true);
 		}
 	});

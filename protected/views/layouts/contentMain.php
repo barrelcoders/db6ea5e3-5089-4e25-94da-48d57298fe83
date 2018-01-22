@@ -125,6 +125,16 @@
 			<li class="grey with-sub">
 	            <span>
 	                <i class="font-icon font-icon-dashboard"></i>
+	                <span class="lbl">Increment</span>
+	            </span>
+	            <ul>
+	                <li><a href="<?php echo Yii::app()->createUrl('Increment/create');?>"><span class="lbl">Add Increment</span></a></li>
+	                <li><a href="<?php echo Yii::app()->createUrl('Increment/admin');?>" ><span class="lbl">Manage Increment</span></a></li>
+	            </ul>
+	        </li>
+			<li class="grey with-sub">
+	            <span>
+	                <i class="font-icon font-icon-dashboard"></i>
 	                <span class="lbl">Monthly Reports</span>
 	            </span>
 	            <ul>

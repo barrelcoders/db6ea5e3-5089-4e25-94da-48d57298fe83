@@ -665,7 +665,7 @@
 	
 	$(document).ready(function(){
 		if(IS_BILL_PASSED){
-			$('input, textarea').prop('readonly', true);
+			$('input, textarea').not("#textSearch").prop('readonly', true);
 			$('select').prop('disabled', true);
 		}
 	});

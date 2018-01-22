@@ -29,10 +29,15 @@ class EmployeeController extends Controller
 		return array(
 			array('allow',  // allow all users to perform 'index' and 'view' actions
 				'actions'=>array('index','view','create','update','admin','delete','Generic', 'generateTransferedLPC', 'GenerateRetiredLPC', 'LPC', 'LICPolicyChange', 'PLIPolicyStatusChange',
-				'OPSSalaryBillEmployees', 'NPSSalaryBillEmployees', 'OtherBillEmployees', 'WagesBillEmployees'),
+				'OPSSalaryBillEmployees', 'NPSSalaryBillEmployees', 'OtherBillEmployees', 'WagesBillEmployees','GetEmployeeMatrix'),
 				'users'=>array('*'),
 			),
 		);
+	}
+	
+	public function actionGetEmployeeMatrix($id){
+		$model = Employee::model()->findByPK($id);
+		echo $model->PAY_MATRIX_ID_FK;exit;
 	}
 	
 	public function actionSetEmployeeMatrix(){
