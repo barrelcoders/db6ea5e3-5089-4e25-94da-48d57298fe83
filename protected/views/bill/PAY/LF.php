@@ -79,7 +79,7 @@
 		<?php if($model->IS_MULTIPLE_MONTH) {?>
 		<th class="small right-br"></th>
 		<?php } ?>
-		<th class="small-xx"><?php $LF = Yii::app()->db->createCommand("SELECT SUM(LF) as LF FROM tbl_salary_details WHERE BILL_ID_FK = $model->ID AND YEAR = $model->YEAR AND MONTH = $model->MONTH;")->queryRow()['LF']; echo $LF;?></th>
+		<th class="small-xx"><?php $LF = Yii::app()->db->createCommand("SELECT SUM(LF) as LF FROM tbl_salary_details WHERE BILL_ID_FK = $model->ID;")->queryRow()['LF']; echo $LF;?></th>
 	</tfoot>
 </table>
 

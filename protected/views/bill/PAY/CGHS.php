@@ -79,7 +79,7 @@
 		<?php if($model->IS_MULTIPLE_MONTH) {?>
 		<th class="small right-br"></th>
 		<?php } ?>
-		<th class="small-xx"><?php $CGHS = Yii::app()->db->createCommand("SELECT SUM(CGHS) as CGHS FROM tbl_salary_details WHERE BILL_ID_FK = $model->ID AND YEAR = $model->YEAR AND MONTH = $model->MONTH;")->queryRow()['CGHS']; echo $CGHS;?></th>
+		<th class="small-xx"><?php $CGHS = Yii::app()->db->createCommand("SELECT SUM(CGHS) as CGHS FROM tbl_salary_details WHERE BILL_ID_FK = $model->ID;")->queryRow()['CGHS']; echo $CGHS;?></th>
 	</tfoot>
 </table>
 

@@ -51,7 +51,7 @@
 									<td rowspan="<?php echo $total_months;?>" class="small right-br"><b><?php echo Employee::model()->findByPK($salary->EMPLOYEE_ID_FK)->NAME;?></b></td>
 									<td rowspan="<?php echo $total_months;?>" class="small right-br"><b><?php echo Designations::model()->findByPK(Employee::model()->findByPK($salary->EMPLOYEE_ID_FK)->DESIGNATION_ID_FK)->DESIGNATION;?></b></td>
 									<td class="small-xx  right-br"><?php echo $period['FORMAT']; ?></td>
-									<td class="small-xx"><?php echo $salary->BASIC; ?></td>
+									<td class="small-xx  right-br"><?php echo $salary->BASIC; ?></td>
 									<td class="small-xxx"><?php echo $salary->DA; ?></td>
 									<td class="small-xx"><?php echo $salary->CPF_TIER_I; ?></td>
 									<td class="small-xx"><?php echo $salary->CPF_TIER_I; ?></td>
@@ -62,7 +62,7 @@
 						else{
 							?>
 								<tr>
-									<td class="small-xx"><?php echo $period['FORMAT']; ?></td>
+									<td class="small-xx  right-br"><?php echo $period['FORMAT']; ?></td>
 									<td class="small-xx  right-br"><?php echo $salary->BASIC; ?></td>
 									<td class="small-xxx"><?php echo $salary->DA; ?></td>
 									<td class="small-xx"><?php echo $salary->CPF_TIER_I; ?></td>
@@ -100,14 +100,14 @@
 		<?php if($model->IS_MULTIPLE_MONTH) {?>
 		<th class="small right-br"></th>
 		<?php } ?>
-		<th class="small-xx right-br"><?php $BASIC = Yii::app()->db->createCommand("SELECT SUM(BASIC) as BASIC FROM tbl_salary_details WHERE BILL_ID_FK = $model->ID AND YEAR = $model->YEAR AND MONTH = $model->MONTH;")->queryRow()['BASIC'];echo $BASIC;?></th>
-		<th class="small-xxx"><?php echo Yii::app()->db->createCommand("SELECT SUM(DA) as DA FROM tbl_salary_details WHERE BILL_ID_FK = $model->ID AND YEAR = $model->YEAR AND MONTH = $model->MONTH;")->queryRow()['DA'];?></th>
-		<th class="small-xx"><?php echo Yii::app()->db->createCommand("SELECT SUM(CPF_TIER_I) as CPF_TIER_I FROM tbl_salary_details WHERE BILL_ID_FK = $model->ID AND YEAR = $model->YEAR AND MONTH = $model->MONTH;")->queryRow()['CPF_TIER_I'];?></th>
-		<th class="small-xx"><?php echo Yii::app()->db->createCommand("SELECT SUM(CPF_TIER_I) as CPF_TIER_I FROM tbl_salary_details WHERE BILL_ID_FK = $model->ID AND YEAR = $model->YEAR AND MONTH = $model->MONTH;")->queryRow()['CPF_TIER_I'];?></th>
-		<th class="small-xx right-br left-br"><?php echo Yii::app()->db->createCommand("SELECT SUM(CPF_TIER_I) as CPF_TIER_I FROM tbl_salary_details WHERE BILL_ID_FK = $model->ID AND YEAR = $model->YEAR AND MONTH = $model->MONTH;")->queryRow()['CPF_TIER_I'];?></th>
+		<th class="small-xx right-br"><?php $BASIC = Yii::app()->db->createCommand("SELECT SUM(BASIC) as BASIC FROM tbl_salary_details WHERE BILL_ID_FK = $model->ID;")->queryRow()['BASIC'];echo $BASIC;?></th>
+		<th class="small-xxx"><?php echo Yii::app()->db->createCommand("SELECT SUM(DA) as DA FROM tbl_salary_details WHERE BILL_ID_FK = $model->ID;")->queryRow()['DA'];?></th>
+		<th class="small-xx"><?php echo Yii::app()->db->createCommand("SELECT SUM(CPF_TIER_I) as CPF_TIER_I FROM tbl_salary_details WHERE BILL_ID_FK = $model->ID;")->queryRow()['CPF_TIER_I'];?></th>
+		<th class="small-xx"><?php echo Yii::app()->db->createCommand("SELECT SUM(CPF_TIER_I) as CPF_TIER_I FROM tbl_salary_details WHERE BILL_ID_FK = $model->ID;")->queryRow()['CPF_TIER_I'];?></th>
+		<th class="small-xx right-br left-br"><?php echo Yii::app()->db->createCommand("SELECT SUM(CPF_TIER_I) as CPF_TIER_I FROM tbl_salary_details WHERE BILL_ID_FK = $model->ID;")->queryRow()['CPF_TIER_I'];?></th>
 	</tfoot>
 </table>
-
+<!--
 <div style="width: 400px; margin: 0 auto; font-size: 20px; margin-top:100px;">
 	<?php $appropiations = Yii::app()->db->createCommand("SELECT * FROM tbl_appropiation_register WHERE BILL_NO = $model->ID")->queryRow(); ?>
 	<h4 style="text-decoration: underline;">Appropiation</h4>
@@ -115,7 +115,7 @@
 	<p><b>Bill Amount: </b>Rs. <?php echo $appropiations['BILL_AMOUNT'];?>/-</p>
 	<p><b>Expenditure Including Bill: </b>Rs. <?php echo $appropiations['EXPENDITURE_INC_BILL'];?>/-</p>
 	<p><b>Balance: </b>Rs. <?php echo $appropiations['BALANCE'];?>/-</p>
-</div>
+</div>-->
 
 
 <h4 style="text-align:center;margin-top: 50px;">(RUPEES NIL ONLY)</h4><br>

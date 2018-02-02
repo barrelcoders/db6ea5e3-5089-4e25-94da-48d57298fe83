@@ -80,7 +80,7 @@
 		<?php if($model->IS_MULTIPLE_MONTH) {?>
 		<th class="small right-br"></th>
 		<?php } ?>
-		<th class="small-xx"><?php $CCS = Yii::app()->db->createCommand("SELECT SUM(CCS) as CCS FROM tbl_salary_details WHERE BILL_ID_FK = $model->ID AND YEAR = $model->YEAR AND MONTH = $model->MONTH;")->queryRow()['CCS']; echo $CCS;?></th>
+		<th class="small-xx"><?php $CCS = Yii::app()->db->createCommand("SELECT SUM(CCS) as CCS FROM tbl_salary_details WHERE BILL_ID_FK = $model->ID;")->queryRow()['CCS']; echo $CCS;?></th>
 	</tfoot>
 </table>
 

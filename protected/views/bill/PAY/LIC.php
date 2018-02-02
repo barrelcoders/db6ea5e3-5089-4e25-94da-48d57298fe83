@@ -42,7 +42,7 @@
 									<td rowspan="<?php echo $total_months;?>" class="small-xxx right-br"><?php echo $i; ?></td>
 									<td rowspan="<?php echo $total_months;?>" class="small right-br"><b><?php echo Employee::model()->findByPK($salary->EMPLOYEE_ID_FK)->NAME;?></b></td>
 									<td rowspan="<?php echo $total_months;?>" class="small right-br"><b><?php echo Designations::model()->findByPK(Employee::model()->findByPK($salary->EMPLOYEE_ID_FK)->DESIGNATION_ID_FK)->DESIGNATION;?></b></td>
-									<td class="small-xx"><?php echo $period['FORMAT']; ?></td>
+									<td class="small-xx right-br"><?php echo $period['FORMAT']; ?></td>
 									<td class="small-xx"><?php echo $salary->LIC; ?></td>
 								</tr>
 							<?php
@@ -50,7 +50,7 @@
 						else{
 							?>
 								<tr>
-									<td class="small-xx"><?php echo $period['FORMAT']; ?></td>
+									<td class="small-xx right-br"><?php echo $period['FORMAT']; ?></td>
 									<td class="small-xx"><?php echo $salary->LIC; ?></td>
 								</tr>
 							<?php
@@ -79,7 +79,7 @@
 		<?php if($model->IS_MULTIPLE_MONTH) {?>
 		<th class="small right-br"></th>
 		<?php } ?>
-		<th class="small-xx"><?php $LIC = Yii::app()->db->createCommand("SELECT SUM(LIC) as LIC FROM tbl_salary_details WHERE BILL_ID_FK = $model->ID AND YEAR = $model->YEAR AND MONTH = $model->MONTH;")->queryRow()['LIC']; echo $LIC;?></th>
+		<th class="small-xx"><?php $LIC = Yii::app()->db->createCommand("SELECT SUM(LIC) as LIC FROM tbl_salary_details WHERE BILL_ID_FK = $model->ID;")->queryRow()['LIC']; echo $LIC;?></th>
 	</tfoot>
 </table>
 

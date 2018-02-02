@@ -53,7 +53,7 @@
 									<td rowspan="<?php echo $total_months;?>" class="small-xxx right-br"><?php echo $i; ?></td>
 									<td rowspan="<?php echo $total_months;?>" class="small right-br"><b><?php echo Employee::model()->findByPK($salary->EMPLOYEE_ID_FK)->NAME;?></b></td>
 									<td rowspan="<?php echo $total_months;?>" class="small right-br"><b><?php echo Designations::model()->findByPK(Employee::model()->findByPK($salary->EMPLOYEE_ID_FK)->DESIGNATION_ID_FK)->DESIGNATION;?></b></td>
-									<td class="small-xx"><?php echo $period['FORMAT']; ?></td>
+									<td class="small-xx right-br"><?php echo $period['FORMAT']; ?></td>
 									<td class="small-xx"><?php echo $salary->IT; ?></td>
 									<td class="small-xx"><?php echo $ONLY_IT; ?></td>
 									<td class="small-xx"><?php echo $ONLY_ECESS; ?></td>
@@ -64,7 +64,7 @@
 						else{
 							?>
 								<tr>
-									<td class="small-xx"><?php echo $period['FORMAT']; ?></td>
+									<td class="small-xx right-br"><?php echo $period['FORMAT']; ?></td>
 									<td class="small-xx"><?php echo $salary->IT; ?></td>
 									<td class="small-xx"><?php echo $ONLY_IT; ?></td>
 									<td class="small-xx"><?php echo $ONLY_ECESS; ?></td>
@@ -103,7 +103,7 @@
 		<?php if($model->IS_MULTIPLE_MONTH) {?>
 		<th class="small right-br"></th>
 		<?php } ?>
-		<th class="small-xx"><?php $IT = Yii::app()->db->createCommand("SELECT SUM(IT) as IT FROM tbl_salary_details WHERE BILL_ID_FK = $model->ID AND YEAR = $model->YEAR AND MONTH = $model->MONTH;")->queryRow()['IT']; echo $IT ;?></th>
+		<th class="small-xx"><?php $IT = Yii::app()->db->createCommand("SELECT SUM(IT) as IT FROM tbl_salary_details WHERE BILL_ID_FK = $model->ID;")->queryRow()['IT']; echo $IT ;?></th>
 		<th class="small-xx"><?php echo $TOTAL_ONLY_IT;?></th>
 		<th class="small-xx"><?php echo $TOTAL_ONLY_ECESS;?></th>
 		<th class="small-xx"><?php echo $TOTAL_ONLY_HECESS;?></th>

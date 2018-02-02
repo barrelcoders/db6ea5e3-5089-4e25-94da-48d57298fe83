@@ -40,7 +40,6 @@
 						<th class="small right-br">MONTH</th>
 						<?php } ?>
 						<th class="small-xx">PAY</th>
-						<th class="small-xx">GP</th>
 						<th class="small-xx">DA</th>
 						<th class="small-xx">GPFC</th>
 						<th class="small-xx">GPFR</th>
@@ -78,7 +77,6 @@
 										<td  rowspan="<?php echo $total_months;?>" class="small right-br"><b><?php echo Designations::model()->findByPK(Employee::model()->findByPK($salary->EMPLOYEE_ID_FK)->DESIGNATION_ID_FK)->DESIGNATION;?></b></td>
 										<td class="small-xx right-br"><?php echo $period['FORMAT']; ?></td>
 										<td class="small-xx"><?php echo $salary->BASIC; ?></td>
-										<td class="small-xx"><?php echo $salary->GP; ?></td>
 										<td class="small-xx"><?php echo $salary->DA; ?></td>
 										<td class="small-xx"><?php echo $salary->CPF_TIER_I; ?></td>
 										<td class="small-xx"><?php echo $salary->CPF_TIER_II; ?></td>
@@ -92,7 +90,6 @@
 									<tr>
 										<td class="small-xx right-br"><?php echo $period['FORMAT']; ?></td>
 										<td class="small-xx"><?php echo $salary->BASIC; ?></td>
-										<td class="small-xx"><?php echo $salary->GP; ?></td>
 										<td class="small-xx"><?php echo $salary->DA; ?></td>
 										<td class="small-xx"><?php echo $salary->CPF_TIER_I; ?></td>
 										<td class="small-xx"><?php echo $salary->CPF_TIER_II; ?></td>
@@ -109,7 +106,6 @@
 									<td class="small right-br"><b><?php echo Employee::model()->findByPK($salary->EMPLOYEE_ID_FK)->NAME;?></b></td>
 									<td class="small right-br"><b><?php echo Designations::model()->findByPK(Employee::model()->findByPK($salary->EMPLOYEE_ID_FK)->DESIGNATION_ID_FK)->DESIGNATION;?></b></td>
 									<td class="small-xx"><?php echo $salary->BASIC; ?></td>
-									<td class="small-xx"><?php echo $salary->GP; ?></td>
 									<td class="small-xx"><?php echo $salary->DA; ?></td>
 									<td class="small-xx"><?php echo $salary->CPF_TIER_I; ?></td>
 									<td class="small-xx"><?php echo $salary->CPF_TIER_II; ?></td>
@@ -132,13 +128,12 @@
 		<?php if($model->IS_MULTIPLE_MONTH) {?>
 		<th class="small right-br"></th>
 		<?php } ?>
-		<th class="small-xx"><?php echo Yii::app()->db->createCommand("SELECT SUM(BASIC) as BASIC FROM tbl_salary_details WHERE BILL_ID_FK = $model->ID AND YEAR = $model->YEAR AND MONTH = $model->MONTH;")->queryRow()['BASIC'];?></th>
-		<th class="small-xx"><?php echo Yii::app()->db->createCommand("SELECT SUM(GP) as GP FROM tbl_salary_details WHERE BILL_ID_FK = $model->ID AND YEAR = $model->YEAR AND MONTH = $model->MONTH;")->queryRow()['GP'];?></th>
-		<th class="small-xx"><?php echo Yii::app()->db->createCommand("SELECT SUM(DA) as DA FROM tbl_salary_details WHERE BILL_ID_FK = $model->ID AND YEAR = $model->YEAR AND MONTH = $model->MONTH;")->queryRow()['DA'];?></th>
+		<th class="small-xx"><?php echo Yii::app()->db->createCommand("SELECT SUM(BASIC) as BASIC FROM tbl_salary_details WHERE BILL_ID_FK = $model->ID;")->queryRow()['BASIC'];?></th>
+		<th class="small-xx"><?php echo Yii::app()->db->createCommand("SELECT SUM(DA) as DA FROM tbl_salary_details WHERE BILL_ID_FK = $model->ID;")->queryRow()['DA'];?></th>
 		<th class="small-xx">
 			<?php 		
-				$CPF_TIER_I = Yii::app()->db->createCommand("SELECT SUM(CPF_TIER_I) as CPF_TIER_I FROM tbl_salary_details WHERE BILL_ID_FK = $model->ID AND YEAR = $model->YEAR AND MONTH = $model->MONTH;")->queryRow()['CPF_TIER_I']; 
-				$CPF_TIER_II = Yii::app()->db->createCommand("SELECT SUM(CPF_TIER_II) as CPF_TIER_II FROM tbl_salary_details WHERE BILL_ID_FK = $model->ID AND YEAR = $model->YEAR AND MONTH = $model->MONTH;")->queryRow()['CPF_TIER_II']; 
+				$CPF_TIER_I = Yii::app()->db->createCommand("SELECT SUM(CPF_TIER_I) as CPF_TIER_I FROM tbl_salary_details WHERE BILL_ID_FK = $model->ID;")->queryRow()['CPF_TIER_I']; 
+				$CPF_TIER_II = Yii::app()->db->createCommand("SELECT SUM(CPF_TIER_II) as CPF_TIER_II FROM tbl_salary_details WHERE BILL_ID_FK = $model->ID;")->queryRow()['CPF_TIER_II']; 
 				
 				echo $CPF_TIER_I;
 			?>
