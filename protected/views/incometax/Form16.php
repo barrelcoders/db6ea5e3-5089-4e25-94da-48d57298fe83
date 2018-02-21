@@ -247,15 +247,19 @@
 		
 		
 		$bills = Bill::model()->findAll('PFMS_STATUS="Passed" AND FINANCIAL_YEAR_ID_FK='.$financialYear->ID.' AND IS_CEA_BILL=1');
+		$CEA_TOTAL_CURRENT_OFFICE = 0;
 		$CEA_TUITION_CURRENT_OFFICE = 0;
 		foreach($bills as $bill){
 			$BillEmployees = explode(",", BillEmployees::model()->find('BILL_ID='.$bill->ID)->EMPLOYEE_ID);
 			if(in_array($id, $BillEmployees)){
+				$CEA_TOTAL_CURRENT_OFFICE = Yii::app()->db->createCommand("SELECT SUM(CEA) AS TOTAL FROM tbl_salary_details WHERE EMPLOYEE_ID_FK=".$id." AND BILL_ID_FK=".$bill->ID)->queryRow()['TOTAL'];
 				$CEA_TUITION_CURRENT_OFFICE = Yii::app()->db->createCommand("SELECT SUM(CEA_TUITION) AS TOTAL FROM tbl_salary_details WHERE EMPLOYEE_ID_FK=".$id." AND BILL_ID_FK=".$bill->ID)->queryRow()['TOTAL'];
 			}
 		}
-		$CEA_TUITION_PREVIOUS_OFFICE = isset($investment->CEA_TUITION) ? $investment->CEA_TUITION : 0;
-		$TOTAL_CEA = $CEA_TUITION_CURRENT_OFFICE + $CEA_TUITION_PREVIOUS_OFFICE;
+		
+		$TOTAL_CEA = $CEA_TOTAL_CURRENT_OFFICE;
+		
+		
 		
 		//$bills = Bill::model()->findAll('PFMS_STATUS="Passed" AND FINANCIAL_YEAR_ID_FK='.$financialYear->ID.' AND (IS_LTC_ADVANCE_BILL=1 OR IS_LTC_CLAIM_BILL=1)');
 		//$LTC_HTC_CURRENT_OFFICE = 0;
@@ -370,14 +374,25 @@
 		
 		if($employee->PENSION_TYPE == "NPS"){
 			$NPS_UNDER_80CCD_1B = isset($investment->NPS_UNDER_80CCD_1B) ? $investment->NPS_UNDER_80CCD_1B : 0;
-			if($TOTAL_CPF_EMPLOYEE >= 50000){
-				$NPS_UNDER_80CCD_1B += 50000;
-				$CPF_AFTER_81CCD_1B = $TOTAL_CPF_EMPLOYEE - 50000;
+			$INVESTMENT_NEEDED_IN_80CCB = 0;
+			if($NPS_UNDER_80CCD_1B == 0){
+				$INVESTMENT_NEEDED_IN_80CCB = min(50000, $TOTAL_CPF_EMPLOYEE);
 			}
-			else{
-				$NPS_UNDER_80CCD_1B += $TOTAL_CPF_EMPLOYEE;
-				$CPF_AFTER_81CCD_1B = 0;
+			else if($NPS_UNDER_80CCD_1B > 0 && $NPS_UNDER_80CCD_1B < 50000) {
+				$INVESTMENT_NEEDED_IN_80CCB = (50000 - $NPS_UNDER_80CCD_1B);
 			}
+			else if($NPS_UNDER_80CCD_1B == 50000){
+				$INVESTMENT_NEEDED_IN_80CCB = 0;
+			}
+			
+			if($INVESTMENT_NEEDED_IN_80CCB > 0){
+				if($INVESTMENT_NEEDED_IN_80CCB > $TOTAL_CPF_EMPLOYEE){
+					$INVESTMENT_NEEDED_IN_80CCB = $TOTAL_CPF_EMPLOYEE;
+				}
+			}
+				
+			$NPS_UNDER_80CCD_1B += $INVESTMENT_NEEDED_IN_80CCB;
+			$CPF_AFTER_81CCD_1B = $TOTAL_CPF_EMPLOYEE - $INVESTMENT_NEEDED_IN_80CCB;
 		}
 		if($employee->PENSION_TYPE == "OPS"){
 			$NPS_UNDER_80CCD_1B = isset($investment->NPS_UNDER_80CCD_1B) ? $investment->NPS_UNDER_80CCD_1B : 0;
@@ -395,7 +410,11 @@
 		$LIC_FROM_INVESTMENTS = isset($investment->INSURANCE_LIC_OTHER) ? $investment->INSURANCE_LIC_OTHER : 0;
 		$INSURANCE_LIC_OTHER = $POSTAL_LIC_FROM_SALARY + $LIC_FROM_SALARY + $LIC_FROM_INVESTMENTS;
 		
-		$TUITION_FESS_EXEMPTION = isset($investment->TUITION_FESS_EXEMPTION) ? $investment->TUITION_FESS_EXEMPTION : 0;
+		$FESS_EXEMPTION = isset($investment->TUITION_FESS_EXEMPTION) ? $investment->TUITION_FESS_EXEMPTION : 0;
+		$CEA_TUITION_PREVIOUS_OFFICE = isset($investment->CEA_TUITION) ? $investment->CEA_TUITION : 0;
+		$TUITION_FESS_EXEMPTION = $CEA_TUITION_CURRENT_OFFICE + $CEA_TUITION_PREVIOUS_OFFICE + $FESS_EXEMPTION;
+		
+		
 		$PPF_NSC = isset($investment->PPF_NSC) ? $investment->PPF_NSC : 0;
 		
 		$ACTUAL_HOME_LOAN_PR = isset($investment->HOME_LOAN_PR) ? $investment->HOME_LOAN_PR : 0;
