@@ -318,7 +318,10 @@
 		$INCOME_AFTER_DEDUCTION = $GROSS_INCOME - $TOTAL_SALARIES[0]['PT'] - $TA_ALLOWED;
 		
 		$TOTAL_CGHS = $TOTAL_SALARIES[0]['CGHS'];
-		$MEDICAL_INSURANCE = isset($investment->MEDICAL_INSURANCE) ? min($investment->MEDICAL_INSURANCE,25000) : 0;
+		$MEDICAL_INSURANCE = isset($investment->MEDICAL_INSURANCE) ? $investment->MEDICAL_INSURANCE : 0;
+		if($MEDICAL_INSURANCE > 0){
+			$MEDICAL_INSURANCE = (($MEDICAL_INSURANCE + $TOTAL_CGHS) > 25000) ? (25000 - $TOTAL_CGHS) : $MEDICAL_INSURANCE;
+		}
 		$MEDICAL_INSURANCE_PARENTS = isset($investment->MEDICAL_INSURANCE_PARENTS) ? min($investment->MEDICAL_INSURANCE_PARENTS,25000) : 0;
 		$DONATION = isset($investment->DONATION) ? $investment->DONATION : 0;
 		$DISABILITY_MED_EXP = isset($investment->DISABILITY_MED_EXP) ? $investment->DISABILITY_MED_EXP : 0;
@@ -359,10 +362,12 @@
 		$HOME_LOAN_80_EE_REBATE = 0;
 		
 		if($HOME_LOAN_YEAR == "2013-14" || $HOME_LOAN_YEAR == "2014-15"){
-			$HOME_LOAN_80_EE_REBATE = ($HOME_LOAN_AMOUNT_FOR_80_EE_REBATE >=100000) ? 100000 : $HOME_LOAN_AMOUNT_FOR_80_EE_REBATE;
+			//$HOME_LOAN_80_EE_REBATE = ($HOME_LOAN_AMOUNT_FOR_80_EE_REBATE >=100000) ? 100000 : $HOME_LOAN_AMOUNT_FOR_80_EE_REBATE;
+			$HOME_LOAN_80_EE_REBATE = 0;
 		}
 		if($HOME_LOAN_YEAR == "2016-17" || $HOME_LOAN_YEAR == "2017-18" || $HOME_LOAN_YEAR == "2018-19"){
-			$HOME_LOAN_80_EE_REBATE = ($HOME_LOAN_AMOUNT_FOR_80_EE_REBATE >=50000) ? 50000 : $HOME_LOAN_AMOUNT_FOR_80_EE_REBATE;
+			//$HOME_LOAN_80_EE_REBATE = ($HOME_LOAN_AMOUNT_FOR_80_EE_REBATE >=50000) ? 50000 : $HOME_LOAN_AMOUNT_FOR_80_EE_REBATE;
+			$HOME_LOAN_80_EE_REBATE = ($HOME_LOAN_AMOUNT_FOR_80_EE_REBATE >=100000) ? 100000 : $HOME_LOAN_AMOUNT_FOR_80_EE_REBATE;
 		}
 		
 		//$HOME_LOAD_EXCESS_2013_14 = min((($HOME_LOAN_INT >= 250001) ? ($HOME_LOAN_INT - $MIN_HOME_LOAN_INT) : 0 ), 100000);
@@ -455,7 +460,7 @@
 		
 		$TAX_PAID_FROM_SALARY = $TOTAL_SALARIES[0]['IT'];
 		$TAX_REMAINING = $GROSS_TAX_PAYABLE - $TAX_PAID_FROM_SALARY;
-		$TAX_REMAINING_TEXT = (($GROSS_TAX_PAYABLE - $TAX_PAID_FROM_SALARY) < 0 ) ? "NET TAX REFUNDABLE":"NET TAX PAYABLE";
+		$TAX_REMAINING_TEXT = ($TAX_REMAINING < 0 ) ? "NET TAX REFUNDABLE":"NET TAX PAYABLE";
 		
 		$PAN_NUMBER = $employee->PAN;
 		
@@ -464,7 +469,7 @@
 			$IT_FOR_REMAINING_MONTHS = getNilParts($REMAINING_MONTHS);
 		}
 		else{
-			$REMAINING_MONTHS = ($REMAINING_MONTHS == 0) ? 1 : $REMAINING_MONTHS;
+			//$REMAINING_MONTHS = ($REMAINING_MONTHS == 0) ? 1 : $REMAINING_MONTHS;
 			$IT_FOR_REMAINING_MONTHS = getParts($TAX_REMAINING, $REMAINING_MONTHS);
 		}
 		
@@ -543,18 +548,30 @@ function getSalaryTotal($salaries){
 function remainingMonthsForIT($periods, $emp_id){
 	$count = 0;
 	
+	
 	foreach($periods as $period){
 		$MONTH = explode('-', $period)[0];
 		$YEAR = explode('-', $period)[1];
-		if(!SalaryDetails::model()->exists('EMPLOYEE_ID_FK='.$emp_id.' AND MONTH='.$MONTH.' AND YEAR='.$YEAR.' AND IS_SALARY_BILL=1') && !SupplementarySalaryDetails::model()->exists('EMPLOYEE_ID_FK='.$emp_id.' AND MONTH='.$MONTH.' AND YEAR='.$YEAR)){
-			$count++;
+		if(!SalaryDetails::model()->exists('EMPLOYEE_ID_FK='.$emp_id.' AND MONTH='.$MONTH.' AND YEAR='.$YEAR.' AND IS_SALARY_BILL=1') 
+			&& !SupplementarySalaryDetails::model()->exists('EMPLOYEE_ID_FK='.$emp_id.' AND MONTH='.$MONTH.' AND YEAR='.$YEAR)){
+				$salary = SalaryDetails::model()->find('EMPLOYEE_ID_FK='.$emp_id.' AND MONTH='.$MONTH.' AND YEAR='.$YEAR);
+				$bill = $salary ? Bill::model()->findByPK($salary->BILL_ID_FK) : null;
+				if($bill && $bill->IS_ARREAR_BILL == 0){
+					$count++;
+				}
 		}
 	}
 	return $count;
 }
 function getParts($tot, $n){
-	$values = array_fill( 0, $n-1, round( $tot/$n) );
-	$values[ $n-1 ] = round( $tot - array_sum( $values ),2 );
+	$values = array();
+	if($n != 0){
+		$values = array_fill( 0, $n-1, round( $tot/$n) );
+		$values[ $n-1 ] = round( $tot - array_sum( $values ),2 );
+	}
+	else{
+		$values[0] = $tot;
+	}
 	return $values;
 }
 function getNilParts($months){

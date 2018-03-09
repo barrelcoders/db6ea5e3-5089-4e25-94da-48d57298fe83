@@ -46,7 +46,8 @@ if(isset($_REQUEST['id']) && $_REQUEST['id']){
 						<li><a href="<?php echo Yii::app()->createUrl("Bill/SalaryDetails",array("id"=>$id))?>"><span class="tbl-row"><span class="tbl-cell tbl-cell-caption">Salary Details</span></span></a></li>
 						<li><a href="<?php echo Yii::app()->createUrl("Bill/SalaryDetailsTabular",array("id"=>$id))?>"><span class="tbl-row"><span class="tbl-cell tbl-cell-caption">Salary Details (Tabular)</span></span></a></li>
 						<li><a href="<?php echo Yii::app()->createUrl("Bill/PayBillValidate",array("id"=>$id))?>"><span class="tbl-row"><span class="tbl-cell tbl-cell-caption">Validate Calculations</span></span></a></li>
-						<li><a href="<?php echo Yii::app()->createUrl("Bill/PayBillChanges",array("id"=>$id))?>" target="_blank"><span class="tbl-row"><span class="tbl-cell tbl-cell-caption">Validate Changes w.r.t Previous Bills</span></span></a></li><hr>
+						<li><a href="<?php echo Yii::app()->createUrl("Bill/PayBillChanges",array("id"=>$id))?>" target="_blank"><span class="tbl-row"><span class="tbl-cell tbl-cell-caption">Validate Changes w.r.t Previous Bills</span></span></a></li>
+						<li><a href="TaxCalculate.html" target="_blank"><span class="tbl-row"><span class="tbl-cell tbl-cell-caption">IT Calculator</span></span></a></li><hr>
 						
 						<?php if($model->IS_NPS_PAY_BILL) {?>
 							<h4 style="padding-left:10px;">NILL BILL</h4>

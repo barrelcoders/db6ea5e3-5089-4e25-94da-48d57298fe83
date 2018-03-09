@@ -47,101 +47,56 @@
 			$EstdemployeesIds = array();
 			foreach($employees as $employee) array_push($EstdemployeesIds, $employee['ID']);
 		?>
-		<?php
-				$criteria=new CDbCriteria;
-				$criteria->condition = "MONTH(PASSED_DATE) >= ".$this->QuarterStart." AND MONTH(PASSED_DATE) <= ".$this->QuarterEnd;
-				$criteria->condition = "YEAR(PASSED_DATE)=".$this->Year;
-				$criteria->compare("PFMS_STATUS",'Passed');
-				$criteria->addInCondition("BILL_TYPE",array(1,2));
-				$bills = Bill::model()-> findAll($criteria);
+		<?php		
+				$bills = Yii::app()->db->createCommand("SELECT ID FROM tbl_bill WHERE MONTH(PASSED_DATE) >= ".$this->QuarterStart." AND MONTH(PASSED_DATE) <= ".$this->QuarterEnd." AND YEAR(PASSED_DATE)= ".$this->Year." AND BILL_TYPE IN (1,2) AND PFMS_STATUS='Passed'")->queryAll();
 				$QuraterlySalaryBillsArray = array();
 				foreach($bills as $bill)
-					array_push($QuraterlySalaryBillsArray, $bill->ID);
-					
-				$criteria=new CDbCriteria;
-				$criteria->condition = "MONTH(PASSED_DATE) >= ".$this->QuarterStart." AND MONTH(PASSED_DATE) <= ".$this->QuarterEnd;
-				$criteria->condition = "YEAR(PASSED_DATE)=".$this->Year;
-				$criteria->compare("PFMS_STATUS",'Passed');
-				$criteria->addInCondition("BILL_TYPE",array(8));
-				$bills = Bill::model()-> findAll($criteria);
+					array_push($QuraterlySalaryBillsArray, $bill['ID']);
+				
+				$bills = Yii::app()->db->createCommand("SELECT ID FROM tbl_bill WHERE MONTH(PASSED_DATE) >= ".$this->QuarterStart." AND MONTH(PASSED_DATE) <= ".$this->QuarterEnd." AND YEAR(PASSED_DATE)= ".$this->Year." AND BILL_TYPE = 8 AND PFMS_STATUS='Passed'")->queryAll();
 				$QuraterlyWagesBillsArray = array();
 				foreach($bills as $bill)
-					array_push($QuraterlyWagesBillsArray, $bill->ID);
+					array_push($QuraterlyWagesBillsArray, $bill['ID']);
 				
-				$criteria=new CDbCriteria;
-				$criteria->condition = "MONTH(PASSED_DATE) >= ".$this->QuarterStart." AND MONTH(PASSED_DATE) <= ".$this->QuarterEnd;
-				$criteria->condition = "YEAR(PASSED_DATE)=".$this->Year;
-				$criteria->compare("PFMS_STATUS",'Passed');
-				$criteria->addInCondition("BILL_TYPE",array(6));
-				$bills = Bill::model()-> findAll($criteria);
+				$bills = Yii::app()->db->createCommand("SELECT ID FROM tbl_bill WHERE MONTH(PASSED_DATE) >= ".$this->QuarterStart." AND MONTH(PASSED_DATE) <= ".$this->QuarterEnd." AND YEAR(PASSED_DATE)= ".$this->Year." AND BILL_TYPE = 6 AND PFMS_STATUS='Passed'")->queryAll();
 				$QuraterlyMedicalBillsArray = array();
 				foreach($bills as $bill)
-					array_push($QuraterlyMedicalBillsArray, $bill->ID);
+					array_push($QuraterlyMedicalBillsArray, $bill['ID']);
 					
-				$criteria=new CDbCriteria;
-				$criteria->condition = "MONTH(PASSED_DATE) >= ".$this->QuarterStart." AND MONTH(PASSED_DATE) <= ".$this->QuarterEnd;
-				$criteria->condition = "YEAR(PASSED_DATE)=".$this->Year;
-				$criteria->compare("PFMS_STATUS",'Passed');
-				$criteria->addInCondition("BILL_TYPE",array(4));
-				$bills = Bill::model()-> findAll($criteria);
+				$bills = Yii::app()->db->createCommand("SELECT ID FROM tbl_bill WHERE MONTH(PASSED_DATE) >= ".$this->QuarterStart." AND MONTH(PASSED_DATE) <= ".$this->QuarterEnd." AND YEAR(PASSED_DATE)= ".$this->Year." AND BILL_TYPE = 4 AND PFMS_STATUS='Passed'")->queryAll();
 				$QuraterlyDomesticTravalBillsArray = array();
 				foreach($bills as $bill)
-					array_push($QuraterlyDomesticTravalBillsArray, $bill->ID);
+					array_push($QuraterlyDomesticTravalBillsArray, $bill['ID']);
 					
-				$criteria=new CDbCriteria;
-				$criteria->condition = "MONTH(PASSED_DATE) >= ".$this->QuarterStart." AND MONTH(PASSED_DATE) <= ".$this->QuarterEnd;
-				$criteria->condition = "YEAR(PASSED_DATE)=".$this->Year;
-				$criteria->compare("PFMS_STATUS",'Passed');
-				$criteria->addInCondition("BILL_TYPE",array(5));
-				$bills = Bill::model()-> findAll($criteria);
+				$bills = Yii::app()->db->createCommand("SELECT ID FROM tbl_bill WHERE MONTH(PASSED_DATE) >= ".$this->QuarterStart." AND MONTH(PASSED_DATE) <= ".$this->QuarterEnd." AND YEAR(PASSED_DATE)= ".$this->Year." AND BILL_TYPE = 5 AND PFMS_STATUS='Passed'")->queryAll();
 				$QuraterlyOtherTravalBillsArray = array();
 				foreach($bills as $bill)
-					array_push($QuraterlyOtherTravalBillsArray, $bill->ID);
+					array_push($QuraterlyOtherTravalBillsArray, $bill['ID']);
 				
-				$criteria=new CDbCriteria;
-				$criteria->condition = "PASSED_DATE >= '".date('Y-m-d', strtotime($financialYear->START_DATE))."' AND PASSED_DATE <= '".date('Y-m-d', strtotime($financialYear->END_DATE))."'";
-				$criteria->compare("PFMS_STATUS",'Passed');
-				$criteria->addInCondition("BILL_TYPE",array(1,2));
-				$bills = Bill::model()-> findAll($criteria);
+				$bills = Yii::app()->db->createCommand("SELECT ID FROM tbl_bill WHERE PASSED_DATE >= '".date('Y-m-d', strtotime($financialYear->START_DATE))."' AND PASSED_DATE <= '".date("Y-m-t", strtotime($this->Year."-".$this->QuarterEnd."-01"))."' AND BILL_TYPE IN (1,2) AND PFMS_STATUS='Passed'")->queryAll();
 				$YearlySalaryBillsArray = array();
 				foreach($bills as $bill)
-					array_push($YearlySalaryBillsArray, $bill->ID);
+					array_push($YearlySalaryBillsArray, $bill['ID']);
 					
-				$criteria=new CDbCriteria;
-				$criteria->condition = "PASSED_DATE >= '".date('Y-m-d', strtotime($financialYear->START_DATE))."' AND PASSED_DATE <= '".date('Y-m-d', strtotime($financialYear->END_DATE))."'";
-				$criteria->compare("PFMS_STATUS",'Passed');
-				$criteria->addInCondition("BILL_TYPE",array(8));
-				$bills = Bill::model()-> findAll($criteria);
+				$bills = Yii::app()->db->createCommand("SELECT ID FROM tbl_bill WHERE PASSED_DATE >= '".date('Y-m-d', strtotime($financialYear->START_DATE))."' AND PASSED_DATE <= '".date("Y-m-t", strtotime($this->Year."-".$this->QuarterEnd."-01"))."' AND BILL_TYPE = 8 AND PFMS_STATUS='Passed'")->queryAll();
 				$YearlyWagesBillsArray = array();
 				foreach($bills as $bill)
-					array_push($YearlyWagesBillsArray, $bill->ID);
+					array_push($YearlyWagesBillsArray, $bill['ID']);
 				
-				$criteria=new CDbCriteria;
-				$criteria->condition = "PASSED_DATE >= '".date('Y-m-d', strtotime($financialYear->START_DATE))."' AND PASSED_DATE <= '".date('Y-m-d', strtotime($financialYear->END_DATE))."'";
-				$criteria->compare("PFMS_STATUS",'Passed');
-				$criteria->addInCondition("BILL_TYPE",array(6));
-				$bills = Bill::model()-> findAll($criteria);
+				$bills = Yii::app()->db->createCommand("SELECT ID FROM tbl_bill WHERE PASSED_DATE >= '".date('Y-m-d', strtotime($financialYear->START_DATE))."' AND PASSED_DATE <= '".date("Y-m-t", strtotime($this->Year."-".$this->QuarterEnd."-01"))."' AND BILL_TYPE = 6 AND PFMS_STATUS='Passed'")->queryAll();
 				$YearlyMedicalBillsArray = array();
 				foreach($bills as $bill)
-					array_push($YearlyMedicalBillsArray, $bill->ID);
+					array_push($YearlyMedicalBillsArray, $bill['ID']);
 					
-				$criteria=new CDbCriteria;
-				$criteria->condition = "PASSED_DATE >= '".date('Y-m-d', strtotime($financialYear->START_DATE))."' AND PASSED_DATE <= '".date('Y-m-d', strtotime($financialYear->END_DATE))."'";
-				$criteria->compare("PFMS_STATUS",'Passed');
-				$criteria->addInCondition("BILL_TYPE",array(4));
-				$bills = Bill::model()-> findAll($criteria);
+				$bills = Yii::app()->db->createCommand("SELECT ID FROM tbl_bill WHERE PASSED_DATE >= '".date('Y-m-d', strtotime($financialYear->START_DATE))."' AND PASSED_DATE <= '".date("Y-m-t", strtotime($this->Year."-".$this->QuarterEnd."-01"))."' AND BILL_TYPE = 4 AND PFMS_STATUS='Passed'")->queryAll();
 				$YearlyDomesticTravalBillsArray = array();
 				foreach($bills as $bill)
-					array_push($YearlyDomesticTravalBillsArray, $bill->ID);
+					array_push($YearlyDomesticTravalBillsArray, $bill['ID']);
 					
-				$criteria=new CDbCriteria;
-				$criteria->condition = "PASSED_DATE >= '".date('Y-m-d', strtotime($financialYear->START_DATE))."' AND PASSED_DATE <= '".date('Y-m-d', strtotime($financialYear->END_DATE))."'";
-				$criteria->compare("PFMS_STATUS",'Passed');
-				$criteria->addInCondition("BILL_TYPE",array(5));
-				$bills = Bill::model()-> findAll($criteria);
+				$bills = Yii::app()->db->createCommand("SELECT ID FROM tbl_bill WHERE PASSED_DATE >= '".date('Y-m-d', strtotime($financialYear->START_DATE))."' AND PASSED_DATE <= '".date("Y-m-t", strtotime($this->Year."-".$this->QuarterEnd."-01"))."' AND BILL_TYPE = 5 AND PFMS_STATUS='Passed'")->queryAll();
 				$YearlyOtherTravalBillsArray = array();
 				foreach($bills as $bill)
-					array_push($YearlyOtherTravalBillsArray, $bill->ID);
+					array_push($YearlyOtherTravalBillsArray, $bill['ID']);
 				
 		?>
 		<tr>
@@ -398,15 +353,26 @@
 		<tr>
 			<td>18</td>
 			<td colspan="2">WAGES</td>
-			<td><?php 							
-				$Q_WAGES = Yii::app()->db->createCommand("SELECT SUM(GROSS) AS GROSS FROM tbl_salary_details WHERE BILL_ID_FK IN (".implode(",", $QuraterlyWagesBillsArray).")")->queryRow();							
-				if(!isset($Q_WAGES['GROSS']))$Q_WAGES['GROSS'] = 0;
-				echo $Q_WAGES['GROSS'];
+			<td><?php 				
+				if(count($QuraterlyWagesBillsArray) > 0){
+					$Q_WAGES = Yii::app()->db->createCommand("SELECT SUM(GROSS) AS GROSS FROM tbl_salary_details WHERE BILL_ID_FK IN (".implode(",", $QuraterlyWagesBillsArray).")")->queryRow();							
+					if(!isset($Q_WAGES['GROSS']))$Q_WAGES['GROSS'] = 0;
+					echo $Q_WAGES['GROSS'];
+				}
+				else {
+					echo 0;
+				}
 			?></td>
-			<td><?php 							
-				$Y_WAGES = Yii::app()->db->createCommand("SELECT SUM(GROSS) AS GROSS FROM tbl_salary_details WHERE BILL_ID_FK IN (".implode(",", $YearlyWagesBillsArray).")")->queryRow();							
-				if(!isset($Y_WAGES['GROSS']))$Y_WAGES['GROSS'] = 0;
-				echo $Y_WAGES['GROSS'];
+			<td><?php 
+				if(count($YearlyWagesBillsArray) > 0){
+					$Y_WAGES = Yii::app()->db->createCommand("SELECT SUM(GROSS) AS GROSS FROM tbl_salary_details WHERE BILL_ID_FK IN (".implode(",", $YearlyWagesBillsArray).")")->queryRow();							
+					if(!isset($Y_WAGES['GROSS']))$Y_WAGES['GROSS'] = 0;
+					echo $Y_WAGES['GROSS'];
+				}
+				else {
+					echo 0;
+				}			
+				
 			?></td>
 		</tr>
 		<tr>
@@ -436,15 +402,26 @@
 		<tr>
 			<td>(a)</td>
 			<td colspan="2">(i) Domestic Travel Expenses (DTE)</td>
-			<td><?php 							
-				$Q_DTE = Yii::app()->db->createCommand("SELECT SUM(BILL_AMOUNT) AS BILL_AMOUNT FROM tbl_bill WHERE ID IN (".implode(",", $QuraterlyDomesticTravalBillsArray).") AND BILL_TYPE=4")->queryRow();							
-				$Q_DTE = $Q_DTE['BILL_AMOUNT'] ? $Q_DTE['BILL_AMOUNT'] : 0;
+			<td><?php 			
+				if(count($QuraterlyDomesticTravalBillsArray) > 0){
+					$Q_DTE = Yii::app()->db->createCommand("SELECT SUM(BILL_AMOUNT) AS BILL_AMOUNT FROM tbl_bill WHERE ID IN (".implode(",", $QuraterlyDomesticTravalBillsArray).") AND BILL_TYPE=4")->queryRow();							
+					$Q_DTE = $Q_DTE['BILL_AMOUNT'] ? $Q_DTE['BILL_AMOUNT'] : 0;
+				}
+				else{
+					$Q_DTE = 0;
+				}
 				echo $Q_DTE;
 			?></td>
 			<td><?php 							
-				$Y_DTE = Yii::app()->db->createCommand("SELECT SUM(BILL_AMOUNT) AS BILL_AMOUNT FROM tbl_bill WHERE ID IN (".implode(",", $QuraterlyDomesticTravalBillsArray).") AND BILL_TYPE=4")->queryRow();							
-				$Y_DTE = $Y_DTE['BILL_AMOUNT'] ? $Y_DTE['BILL_AMOUNT'] : 0;
+				if(count($YearlyDomesticTravalBillsArray) > 0){
+					$Y_DTE = Yii::app()->db->createCommand("SELECT SUM(BILL_AMOUNT) AS BILL_AMOUNT FROM tbl_bill WHERE ID IN (".implode(",", $YearlyDomesticTravalBillsArray).") AND BILL_TYPE=4")->queryRow();							
+					$Y_DTE = $Y_DTE['BILL_AMOUNT'] ? $Y_DTE['BILL_AMOUNT'] : 0;
+				}
+				else{
+					$Y_DTE = 0;
+				}
 				echo $Y_DTE;
+				
 			?></td>
 		</tr>
 		<tr>

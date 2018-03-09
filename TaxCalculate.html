@@ -1,0 +1,31 @@
+<body>
+	<style>
+		label{
+			display: inline-block;
+			width: 150px;
+		}
+	</style>
+	<label>IncomeTax<input type="text" id="itval" onkeyup="calculate();"></label><br>
+	<label>Tax Component<input type="text" id="taxcomp"></label><br>
+	<label>ECESS<input type="text" id="ecess"></label><br>
+	<label>HCESS<input type="text" id="hcess"></label><br>
+	<label>IT TOTAL By SUM<input type="text" id="total"></label><br>
+	<script>
+		window.onload = function(){
+		};
+		function calculate(){
+			var itval = document.getElementById('itval'),
+				taxcomp = document.getElementById('taxcomp'),
+				ecess = document.getElementById('ecess'),
+				hcess = document.getElementById('hcess'),
+				totalField = document.getElementById('total');
+			
+			taxcomp.value = Math.round((itval.value * 100)/103);
+			ecess.value = Math.round((itval.value * 2)/103);
+			hcess.value = Math.round((itval.value * 1)/103);
+			var total = parseInt(taxcomp.value) + parseInt(ecess.value) + parseInt(hcess.value);
+			totalField.value = total;
+			totalField.style.background = (total == itval.value)? '#0F0' : '#F00';
+		}
+	</script>
+</body>

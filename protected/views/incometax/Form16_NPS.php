@@ -201,7 +201,7 @@
 	</tr>
 	<tr class="no-border">
 		<td colspan="2" class="no-border"></td>
-		<td colspan="4" class="left-text">ii) 80-D (Medical Insurance)</td>
+		<td colspan="4" class="left-text">ii) 80-D (Medical Insurance - CGHS) up to Rs. 25000/- max.</td>
 		<td><?php echo $MEDICAL_INSURANCE;?></td>
 		<td class="no-border"></td>
 		<td colspan="3" class="left-text">Tuition Fee for exemption</td>

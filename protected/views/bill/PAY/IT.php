@@ -117,3 +117,6 @@
 	<p><?php echo Designations::model()->findByPK(Employee::model()->findByPK($master['DEPT_ADMIN_EMPLOYEE'])->DESIGNATION_ID_FK)->DESIGNATION;?></p>
 	<p><?php echo $master['DEPT_NAME']?></p>
 </div>
+<style>
+	table td:nth-child(4), table th:nth-child(4){ }
+</style>
