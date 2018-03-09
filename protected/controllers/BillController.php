@@ -29,7 +29,7 @@ class BillController extends Controller
 		return array(
 			array('allow',  // allow all users to perform 'index' and 'view' actions
 				'actions'=>array('index','view', 'GetSubType', 'create', 'update', 'admin','delete', 'OESanctionOrder', 'OEFVCBackPage', 'SalaryDetails',
-				'FontSheetInnerFirst', 'FontSheetInnerLast', 'CGHS', 'ChangeStatus'),
+				'FontSheetInnerFirst', 'FontSheetInnerLast', 'CGHS', 'ChangeStatus', 'SaveSalaryDetailAjax'),
 				'users'=>array('*'),
 			),
 		);
@@ -210,6 +210,39 @@ class BillController extends Controller
 		$this->render('PAY/SalaryDetailsTabular',array(
 			'model'=>$model,
 		));
+	}
+	
+	public function actionSaveSalaryDetailAjax(){
+		$bill_id = $_POST['BILL_ID_FK'];
+		$SalaryDetails = null;
+		if(SalaryDetails::model()->exists('BILL_ID_FK='.$_POST['BILL_ID_FK'].' AND EMPLOYEE_ID_FK='.$_POST['EMPLOYEE_ID_FK'].' AND MONTH='.$_POST['MONTH'].' AND YEAR='.$_POST['YEAR'])){
+			$SalaryDetails = SalaryDetails::model()->find('BILL_ID_FK='.$_POST['BILL_ID_FK'].' AND EMPLOYEE_ID_FK='.$_POST['EMPLOYEE_ID_FK'].' AND MONTH='.$_POST['MONTH'].' AND YEAR='.$_POST['YEAR']);
+		}
+		else{
+			$SalaryDetails = new SalaryDetails;
+		}
+		
+		$SalaryDetails->IS_SALARY_BILL = $_POST['IS_SALARY_BILL'];
+		$SalaryDetails->EMPLOYEE_ID_FK = $_POST['EMPLOYEE_ID_FK'];
+		$SalaryDetails->BILL_ID_FK = $_POST['BILL_ID_FK'];
+		$SalaryDetails->attributes = $_POST;
+		$SalaryDetails->GROSS = isset($_POST['GROSS']) ? $_POST['GROSS'] : 0;
+		$SalaryDetails->NET = isset($_POST['NET']) ? $_POST['NET'] : 0;
+		$SalaryDetails->DED = isset($_POST['DED']) ? $_POST['DED'] : 0;
+		$SalaryDetails->MONTH = $_POST['MONTH'];
+		$SalaryDetails->YEAR = $_POST['YEAR'];
+		$SalaryDetails->IS_HBA_RECOVERY = isset($_POST['IS_HBA_RECOVERY']) ? $_POST['IS_HBA_RECOVERY'] : 0;
+		$SalaryDetails->IS_MCA_RECOVERY = isset($_POST['IS_MCA_RECOVERY']) ? $_POST['IS_MCA_RECOVERY'] : 0;
+		$SalaryDetails->IS_FEST_RECOVERY = isset($_POST['IS_FEST_RECOVERY']) ? $_POST['IS_FEST_RECOVERY'] : 0;
+		$SalaryDetails->IS_CYCLE_RECOVERY = isset($_POST['IS_CYCLE_RECOVERY']) ? $_POST['IS_CYCLE_RECOVERY'] : 0;
+		$SalaryDetails->IS_FLOOD_RECOVERY = isset($_POST['IS_FLOOD_RECOVERY']) ? $_POST['IS_FLOOD_RECOVERY'] : 0;
+		$SalaryDetails->IS_COMP_RECOVERY = isset($_POST['IS_COMP_RECOVERY']) ? $_POST['IS_COMP_RECOVERY'] : 0;
+		if($SalaryDetails->save(false)){
+			echo json_encode(array("message"=>"SUCCESS"));exit;
+		}
+		else{
+			echo json_encode(array("message"=>"FAIL"));exit;
+		}
 	}
 	
 	public function SaveSalaryDetail($id){

@@ -109,6 +109,16 @@
 			<li class="grey with-sub">
 	            <span>
 	                <i class="font-icon font-icon-dashboard"></i>
+	                <span class="lbl">Pay Bill Tasks</span>
+	            </span>
+	            <ul>
+	                <li><a href="<?php echo Yii::app()->createUrl('PayBillTasks/create');?>"><span class="lbl">Create Task</span></a></li>
+	                <li><a href="<?php echo Yii::app()->createUrl('PayBillTasks/admin');?>"><span class="lbl">Manage Tasks</span></a></li>
+	            </ul>
+	        </li>
+			<li class="grey with-sub">
+	            <span>
+	                <i class="font-icon font-icon-dashboard"></i>
 	                <span class="lbl">Employees</span>
 	            </span>
 	            <ul>

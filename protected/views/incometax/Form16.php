@@ -1,7 +1,4 @@
 <link href="<?php echo Yii::app()->request->baseUrl; ?>/css/oneadmin.css" rel="stylesheet">
-<?php if($type == "Screen") { ?>
-<script type="text/javascript">window.onload = function() { window.print(); }</script>
-<?php } ?>
 <?php $master = Master::model()->findByPK(1); ?>
 <?php
 	
@@ -11,8 +8,7 @@
 	$financialYear = FinancialYears::model()->find('STATUS=1');
 	$StartYear = date('Y', strtotime($financialYear->START_DATE));
 	$EndYear = date('Y', strtotime($financialYear->END_DATE));
-	$CurrentFinancialYearPeriods = array('3-'.$StartYear,'4-'.$StartYear,'5-'.$StartYear,'6-'.$StartYear, '7-'.$StartYear, '8-'.$StartYear, '9-'.$StartYear, '10-'.$StartYear, '11-'.$StartYear, '12-'.$StartYear,
-								'1-'.$EndYear, '2-'.$EndYear);
+	$CurrentFinancialYearPeriods = array('3-'.$StartYear,'4-'.$StartYear,'5-'.$StartYear,'6-'.$StartYear, '7-'.$StartYear, '8-'.$StartYear, '9-'.$StartYear, '10-'.$StartYear, '11-'.$StartYear, '12-'.$StartYear,'1-'.$EndYear, '2-'.$EndYear);
 	$OTA_BILL_TYPE = 5;
 	$HONORIUM_BILL_TYPE = 12;
 	
@@ -33,6 +29,9 @@
 	$TAX_SLABS_IV_RATE = 30;
 	
 	$employeeIds = $list;
+	
+	$IS_AJAX_REQUEST = isset($_GET['ajax']) ? true : false;
+	
 ?>
 <style>
 	*{font-size: 10px;}
@@ -55,7 +54,7 @@
 		$TOTAL_SALARIES = array();
 		$DA_TA_ARREAR = 0;
 		$i=0;
-		foreach($periods as $period){
+		foreach($CurrentFinancialYearPeriods as $period){
 			$MONTH = explode('-', $period)[0];
 			$YEAR = explode('-', $period)[1];
 			if(SalaryDetails::model()->exists('EMPLOYEE_ID_FK='.$id.' AND MONTH='.$MONTH.' AND YEAR='.$YEAR.' AND IS_SALARY_BILL=1')){
@@ -464,7 +463,7 @@
 		
 		$PAN_NUMBER = $employee->PAN;
 		
-		$REMAINING_MONTHS = remainingMonthsForIT($periods, $id);
+		$REMAINING_MONTHS = remainingMonthsForIT($CurrentFinancialYearPeriods, $id);
 		if($TAX_REMAINING <= 0){
 			$IT_FOR_REMAINING_MONTHS = getNilParts($REMAINING_MONTHS);
 		}
@@ -484,7 +483,9 @@
 		$TAX_REMAINING = $GROSS_TAX_PAYABLE - $TAX_PAID_FROM_SALARY;
 		$TAX_REMAINING_TEXT = (($GROSS_TAX_PAYABLE - $TAX_PAID_FROM_SALARY) < 0 ) ? "NET TAX REFUNDABLE":"NET TAX PAYABLE";
 		
-		
+		if($IS_AJAX_REQUEST){
+			echo "[JSON]".json_encode($SALARIES)."[/JSON]";exit;
+		}
 		include ($employee->PENSION_TYPE == "OPS") ? "Form16_OPS.php" : "Form16_NPS.php";
 	}
 ?>
@@ -612,3 +613,6 @@ function ValidDATotalforHRACalculation($salaries){
 }
 
 ?>
+<?php if($type == "Screen") { ?>
+<script type="text/javascript">window.onload = function() { window.print(); }</script>
+<?php } ?>

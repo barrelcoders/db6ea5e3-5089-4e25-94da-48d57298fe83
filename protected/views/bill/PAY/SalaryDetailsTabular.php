@@ -654,6 +654,9 @@
 	#table-container{
 		overflow-x: scroll;
 	}
+	input[type=number]{
+		width: 75px;
+	}
 </style>
 <script type="text/javascript"> 
 	var IS_LTC_HTC_CLAIM_BILL = <?php echo ($bill->IS_LTC_CLAIM_BILL) ? 1 : 0;?>;

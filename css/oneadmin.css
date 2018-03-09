@@ -67,7 +67,7 @@ ul.tab {
 }
 
 /* Float the list items side by side */
-ul.tab li {float: left;width: 400px;text-align: center;}
+ul.tab li {float: left;width: 400px;text-align: center;position:relative;}
 
 /* Style the links inside the list items */
 ul.tab li a {
@@ -79,6 +79,12 @@ ul.tab li a {
     transition: 0.3s;
     font-size: 17px;
 	width: 100%;
+}
+
+ul.tab li a.save-salary{
+	position: absolute;
+    right: 0;
+    width: 50px;
 }
 
 /* Change background color of links on hover */

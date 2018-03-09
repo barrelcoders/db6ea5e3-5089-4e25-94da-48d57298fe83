@@ -77,6 +77,100 @@ $(document).ready(function(){
 	});
 	
 });
+
+function saveSalaryAjax(emp_id, month, year, bill_id, name, format){
+	var SALARY = {
+		'IS_SALARY_BILL': 1,
+		'EMPLOYEE_ID_FK': emp_id,
+		'MONTH': month,
+		'YEAR': year,
+		'BILL_ID_FK': bill_id,
+		'BASIC': $("#SAL-BASIC").val(),
+		'SP': $("#SAL-SP").val(),
+		'PP': $("#SAL-PP").val(),
+		'CCA': $("#SAL-CCA").val(),
+		'HRA': $("#SAL-HRA").val(),
+		'DA': $("#SAL-DA").val(),
+		'TA': $("#SAL-TA").val(),
+		'WA': $("#SAL-WA").val(),
+		'IT': $("#SAL-IT").val(),
+		'CGHS': $("#SAL-CGHS").val(),
+		'LF': $("#SAL-LF").val(),
+		'CGEGIS': $("#SAL-CGEGIS").val(),
+		'CPF_TIER_I': $("#SAL-CPF_TIER_I").val(),
+		'CPF_TIER_II': $("#SAL-CPF_TIER_II").val(),
+		'MISC': $("#SAL-MISC").val(),
+		'PLI': $("#SAL-PLI").val(),
+		'COURT_ATTACHMENT': $("#SAL-COURT_ATTACHMENT").val(),
+		'PT': $("#SAL-PT").val(),
+		'CCS': $("#SAL-CCS").val(),
+		'LIC': $("#SAL-LIC").val(),
+		'ASSOSC_SUB': $("#SAL-ASSOSC_SUB").val(),
+		'MAINT_JAYAMAHAL': $("#SAL-MAINT_JAYAMAHAL").val(),
+		'MAINT_MADIWALA': $("#SAL-MAINT_MADIWALA").val(),
+		'IS_HBA_RECOVERY': $("#SAL-IS_HBA_RECOVERY").val(),
+		'HBA_TOTAL': $("#SAL-HBA_TOTAL").val(),
+		'HBA_INST': $("#SAL-HBA_INST").val(),
+		'HBA_EMI': $("#SAL-HBA_EMI").val(),
+		'HBA_BAL': $("#SAL-HBA_BAL").val(),
+		'IS_MCA_RECOVERY': $("#SAL-IS_MCA_RECOVERY").val(),
+		'MCA_TOTAL': $("#SAL-MCA_TOTAL").val(),
+		'MCA_INST': $("#SAL-MCA_INST").val(),
+		'MCA_EMI': $("#SAL-MCA_EMI").val(),
+		'MCA_BAL': $("#SAL-MCA_BAL").val(),
+		'IS_COMP_RECOVERY': $("#SAL-IS_COMP_RECOVERY").val(),
+		'COMP_TOTAL': $("#SAL-COMP_TOTAL").val(),
+		'COMP_INST': $("#SAL-COMP_INST").val(),
+		'COMP_EMI': $("#SAL-COMP_EMI").val(),
+		'COMP_BAL': $("#SAL-COMP_BAL").val(),
+		'REMARKS': $("#SAL-REMARKS").val(),
+		'GROSS': $("#gross-components").val(),
+		'DED': $("#ded-components").val(),
+		'NET': $("#net-components").val(),
+		'OTHER_DED': $("#other-ded-components").val(),
+		'AMOUNT_BANK': $("#credit-component").val(),
+	};
+	
+	$.ajax({
+		  type: 'POST',
+		  url: SALARY_SAVE_URL,
+		  data: SALARY,
+		  dataType: "json",
+		  success: function(result) { 
+			if(result.message == "SUCCESS"){
+				alert('Salary of '+name+' for '+format+' has been saved successfully');
+			}
+			else{
+				alert('Problem saving salary, Please try again later');
+			}
+		  },
+		  fail: function(resultData) { 
+			alert('error');
+		  }
+	});
+}
+
+function getIncomeTaxAmount(emp_id, month, year, name, format){
+	
+	$.ajax({
+		  type: 'GET',
+		  url: SALARY_SAVE_URL,
+		  data: {'id': emp_id, 'ajax': true},
+		  dataType: "json",
+		  success: function(data) { debugger;
+			var salaries = JSON.parse(data);
+			for(var salary in salaries){
+				
+			}
+		  },
+		  fail: function(resultData) { 
+			 alert('Problem fetching the Income Tax value, Please try again later');
+		  }
+	});
+}
+function copyIncomeTaxValue(income_tax){
+	$('#SAL-IT').val(income_tax);
+}
 	
 function loadTabs (){ 
 	$("ul.tab li:first").trigger('click');
