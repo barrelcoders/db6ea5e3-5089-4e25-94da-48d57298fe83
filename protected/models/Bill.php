@@ -34,7 +34,7 @@ class Bill extends CActiveRecord
 	 * @return string the associated database table name
 	 */
 	 
-	public $OE_IT_DED, $OE_NET_AMOUNT;
+	public $OE_IT_DED, $OE_NET_AMOUNT, $CCS_FILE;
 	public function tableName()
 	{
 		return 'tbl_bill';

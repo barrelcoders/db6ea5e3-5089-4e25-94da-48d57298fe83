@@ -27,6 +27,8 @@
 	<link rel="stylesheet" href="<?php echo Yii::app()->request->baseUrl; ?>/css/lib/datatables-net/datatables.min.css">
 	<link rel="stylesheet" href="<?php echo Yii::app()->request->baseUrl; ?>/css/separate/vendor/datatables-net.min.css">
 	<link rel="stylesheet" href="<?php echo Yii::app()->request->baseUrl; ?>/css/main.css">
+	<link rel="stylesheet" href="<?php echo Yii::app()->request->baseUrl; ?>/css/lib/bootstrap-sweetalert/sweetalert.css">
+	<link rel="stylesheet" href="<?php echo Yii::app()->request->baseUrl; ?>/css/separate/vendor/sweet-alert-animations.min.css">
 	<script src="<?php echo Yii::app()->request->baseUrl; ?>/js/jquery-3.1.1.min.js"></script>
 	<script src="<?php echo Yii::app()->request->baseUrl; ?>/js/moment.min.js"></script>
 </head>
@@ -251,7 +253,7 @@
 <script type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/js/lib/jqueryui/jquery-ui.min.js"></script>
 <script type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/js/lib/lobipanel/lobipanel.min.js"></script>
 <script type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/js/lib/match-height/jquery.matchHeight.min.js"></script>
-
+<script src="<?php echo Yii::app()->request->baseUrl; ?>/js/lib/bootstrap-sweetalert/sweetalert.min.js"></script>
 <script>
 	$(document).ready(function() {
 		$('.panel').lobiPanel({

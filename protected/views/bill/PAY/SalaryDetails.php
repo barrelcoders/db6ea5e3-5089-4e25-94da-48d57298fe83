@@ -269,51 +269,54 @@
 						?>
 						<table class="table table-bordered table-hover" style="margin-bottom: 10px;">
 							<tr>
-								<td colspan="2">
+								<td colspan="1">
 									<b><?php echo $period['FORMAT']?></b>
 								</td>
-							<?php  if($bill->IS_SALARY_HEAD_PAY_BILL || $bill->IS_WAGES_HEAD_PAY_BILL || $bill->IS_ARREAR_BILL) { ?>	
+							<?php  if($bill->IS_SALARY_HEAD_PAY_BILL || $bill->IS_WAGES_HEAD_PAY_BILL) { ?>	
 								<td colspan="2">
-							<?php
-								$task = PayBillTasks::model()->find('EMPLOYEE_ID_FK='.$employee->ID.' AND MONTH='.$period['MONTH'].' AND YEAR = '.$period['YEAR']);
-								?>
-									<div class="alert alert-info alert-avatar alert-no-border alert-close alert-dismissible fade in" role="alert">
-										<div class="avatar-preview avatar-preview-32">
-											<img src="img/avatar-2-64.png" alt="">
-										</div>
-										<strong>PAY BILL task for <?php echo $employee->NAME;?> for <?php echo $period['FORMAT'];?></strong><br>
-										<p><?php echo (count($task) > 0) ? $task->TASK : "<span style='color: #f00'> Not Available </span>"; ?></p>
-									</div>
-								<?php
-							?>
-							</td>
-							<td colspan="2">
-								<?php
-									$URL = 'http://'.$_SERVER['SERVER_NAME'].Yii::app()->createUrl('IncomeTax/SelectEmployeesForForm16', array('id'=>$employee->ID, 'ajax'=>true));
-									$data = file_get_contents($URL);
-									$data = get_string_between($data, '[JSON]', '[/JSON]');
-									$SALARY_DATA = json_decode($data, true);
-									$IT = 0;
-									foreach($SALARY_DATA as $IT_DATA){
-										if($IT_DATA['MONTH'] == $period['MONTH'] && $IT_DATA['YEAR'] == $period['YEAR']){
-											$IT = $IT_DATA['IT'];
-											break;
-										}
-									}?>
-										<div class="alert alert-info alert-avatar alert-no-border alert-close alert-dismissible fade in" role="alert">
-											<div class="avatar-preview avatar-preview-32">
-												<img src="img/avatar-2-64.png" alt="">
-											</div>
-											<strong>Income Tax for <?php echo $employee->NAME;?> for <?php echo $period['FORMAT'];?></strong><br>
-											<p><a href="javascript:void(0);" onclick="copyIncomeTaxValue(<?php echo $IT; ?>);">Rs. <?php echo $IT; ?>/- </a>&nbsp;&nbsp;(Click to Copy)</p>
-										</div>
 									<?php
-								?>
-							</td>
-							<?php } ?>
-							<td colspan="2">
-								<b><a href="javascript:void(0);" class="btn btn-inline" style="float: right;" onclick="saveSalaryAjax(<?php echo $employee->ID;?>, <?php echo $period['MONTH'];?>, <?php echo $period['YEAR'];?>, <?php echo $bill->ID;?>, '<?php echo $employee->NAME;?>', '<?php echo $period['FORMAT'];?>');"><i class='fa fa-save'></i> SAVE</a></b>
-							</td>
+										$task = PayBillTasks::model()->find('EMPLOYEE_ID_FK='.$employee->ID.' AND MONTH='.$period['MONTH'].' AND YEAR = '.$period['YEAR']);
+										?>
+											<div class="alert alert-info alert-avatar alert-no-border alert-close alert-dismissible fade in" role="alert">
+												<div class="avatar-preview avatar-preview-32">
+													<img src="img/avatar-2-64.png" alt="">
+												</div>
+												<strong>PAY BILL task for <?php echo $employee->NAME;?> for <?php echo $period['FORMAT'];?></strong><br>
+												<p><?php echo (count($task) > 0) ? $task->TASK : "<span style='color: #f00'> Not Available </span>"; ?></p>
+											</div>
+										<?php
+									?>
+								</td>
+								<td colspan="2">
+									<?php
+										$URL = 'http://'.$_SERVER['SERVER_NAME'].Yii::app()->createUrl('IncomeTax/SelectEmployeesForForm16', array('id'=>$employee->ID, 'ajax'=>true));
+										$data = file_get_contents($URL);
+										$data = get_string_between($data, '[JSON]', '[/JSON]');
+										$SALARY_DATA = json_decode($data, true);
+										$IT = 0;
+										foreach($SALARY_DATA as $IT_DATA){
+											if($IT_DATA['MONTH'] == $period['MONTH'] && $IT_DATA['YEAR'] == $period['YEAR']){
+												$IT = $IT_DATA['IT'];
+												break;
+											}
+										}?>
+											<div class="alert alert-info alert-avatar alert-no-border alert-close alert-dismissible fade in" role="alert">
+												<div class="avatar-preview avatar-preview-32">
+													<img src="img/avatar-2-64.png" alt="">
+												</div>
+												<strong>Income Tax for <?php echo $employee->NAME;?> for <?php echo $period['FORMAT'];?></strong><br>
+												<p><a href="javascript:void(0);" onclick="copyIncomeTaxValue(<?php echo $IT; ?>);">Rs. <?php echo $IT; ?>/- </a>&nbsp;&nbsp;(Click to Copy)</p>
+											</div>
+										<?php
+									?>
+								</td>
+								<td>
+									<button class="btn btn-primary swal-btn-input">IT Calculator</button>
+								</td>
+								<?php } ?>
+								<td colspan="2">
+									<b><a href="javascript:void(0);" class="btn btn-inline" style="float: right;" onclick="saveSalaryAjax(<?php echo $employee->ID;?>, <?php echo $period['MONTH'];?>, <?php echo $period['YEAR'];?>, <?php echo $bill->ID;?>, '<?php echo $employee->NAME;?>', '<?php echo $period['FORMAT'];?>');"><i class='fa fa-save'></i> SAVE</a></b>
+								</td>
 							</tr>
 						</table>
 						<?php  if($bill->IS_SALARY_HEAD_PAY_BILL || $bill->IS_WAGES_HEAD_PAY_BILL || $bill->IS_ARREAR_BILL) { ?>
@@ -625,6 +628,16 @@
 			$('input, textarea').not("#textSearch").prop('readonly', true);
 			$('select').prop('disabled', true);
 		}
+	});
+	$('.swal-btn-input').click(function(e){
+		e.preventDefault();
+		swal({
+			title: "IT Calculator",
+			text: "<iframe style='width:300px;height:300px;border:none;' src='TaxCalculate.html'></iframe>",
+			html:true,
+			confirmButtonClass: "btn-error",
+			confirmButtonText: "Close"
+		});
 	});
 </script>	
 <script type="text/javascript" src="js/salary-details.js"></script>

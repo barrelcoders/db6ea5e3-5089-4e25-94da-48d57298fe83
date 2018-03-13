@@ -39,7 +39,7 @@ return array(
 			'class'=>'WebUser',
 		),
 		'Security'=>array('class'=>'Security'),
-
+		'yexcel' => array('class' => 'ext.yexcel.Yexcel'),
 		// uncomment the following to enable URLs in path-format
 		/*
 		'urlManager'=>array(

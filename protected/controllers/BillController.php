@@ -34,6 +34,174 @@ class BillController extends Controller
 			),
 		);
 	}
+	
+	public function is_exists($array, $key, $val) {
+		foreach ($array as $item)
+			if (isset($item[$key]) && $item[$key] == $val)
+				return true;
+		return false;
+	}
+
+	public function actionCSSImport($id)
+	{
+		$model = $this->loadModel($id);
+		$content = "";
+		if(isset($_POST['Bill']))
+		{
+			$UploadFile = CUploadedFile::getInstance($model, 'CSS_FILE');
+			$all_employees = Employee::model()->findAll("IS_TRANSFERRED = 0 AND IS_RETIRED = 0 AND IS_SUSPENDED = 0 AND IS_PERMANENT = 1 ORDER BY NAME");
+			if($UploadFile !== null){
+				$FileExt=$UploadFile->getExtensionName();
+				if(strtolower($FileExt)=="xls" || strtolower($FileExt)=="xlsx"){
+					$fileName = "ccs_files/".uniqid().".xlsx";
+					$FileNewName = Yii::getPathOfAlias("webroot")."/".$fileName;
+					$UploadFile->saveAs($FileNewName);
+					$sheet_array = Yii::app()->yexcel->readActiveSheet($FileNewName);
+					$dataArray = array();
+					foreach( $sheet_array as $row ) {
+						array_push($dataArray, array('NAME'=>$row['A'], 'AMOUNT'=>$row['B']));
+					}
+					
+					$records = array();
+					
+					foreach( $dataArray as $row ) {
+						$names = explode(' ', $row['NAME']);
+						$nameArray  = array();
+						foreach($names as $name){
+							if(strlen($name) > 2){
+								array_push($nameArray, $name);
+							}
+						}
+						
+						$fetched_records = array();
+						foreach($nameArray as $name){
+							$employees = Yii::app()->db->createCommand("SELECT ID, NAME, IS_TRANSFERRED, IS_RETIRED,
+							IS_SUSPENDED, IS_PERMANENT FROM tbl_employee WHERE NAME LIKE '%".ucwords($name)."%'")->queryAll();
+							foreach($employees as $employee){
+								if($employee){
+									if(!$this->is_exists($fetched_records, 'ID', $employee['ID'])){
+										if($employee['IS_TRANSFERRED']){
+											array_push($fetched_records, array('ID'=>$employee['ID'], 'RECORD_NAME'=>$employee['NAME'], 'AMOUNT'=> 0, 'STATUS'=>'TRANSFERRED'));
+										}
+										else if($employee['IS_RETIRED']){
+											array_push($fetched_records, array('ID'=>$employee['ID'], 'RECORD_NAME'=>$employee['NAME'], 'AMOUNT'=> 0, 'STATUS'=>'RETIRED'));
+										}
+										else if($employee['IS_SUSPENDED']){
+											array_push($fetched_records, array('ID'=>$employee['ID'], 'RECORD_NAME'=>$employee['NAME'], 'AMOUNT'=> 0, 'STATUS'=>'SUSPENDED'));
+										}
+										else if(!$employee['IS_PERMANENT']){
+											array_push($fetched_records, array('ID'=>$employee['ID'], 'RECORD_NAME'=>$employee['NAME'], 'AMOUNT'=> 0, 'STATUS'=>'TEMPORARY'));
+										}
+										else{
+											array_push($fetched_records, array('ID'=>$employee['ID'], 'RECORD_NAME'=>$employee['NAME'], 'AMOUNT'=> $row['AMOUNT'], 'STATUS'=>'FOUND'));
+										}
+									}
+								}
+								else{
+									array_push($fetched_records, array('ID'=>0, 'RECORD_NAME'=>null, 'AMOUNT'=>0, 'STATUS'=>'NOT FOUND'));
+								}
+							}
+						}
+						array_push($records, array('NAME'=>$row['NAME'], 'FETCH_RECORDS'=>$fetched_records));
+						
+					}
+					
+					//echo "<pre>";print_r($records);echo "</pre>";exit;
+					
+					$content .= "<table class='table table-bordered table-hover'><tr><th>S. No.</th><th>Name in CCS Sheet</th><th>Name in Records</th></tr>";
+					$i=1;
+					foreach( $records as $record ) {
+						$content .="<tr>";
+							$content .="<td style='vertical-align: top;'>";
+								$content .= $i;
+							$content .="</td>";
+							$content .="<td style='vertical-align: top;'>";
+								$content .= $record['NAME'];
+							$content .="</td>";
+							$content .="<td class='td-parent'>";
+								$content .="<table class='table table-bordered table-hover'>";
+									if(count($record['FETCH_RECORDS'])>0){
+										foreach($record['FETCH_RECORDS'] as $record_fetched ) {
+											$content .="<tr>";
+												$content .="<td>";
+													if($record_fetched['STATUS'] == 'FOUND'){
+														$content .= "<div>".$record_fetched['RECORD_NAME']."<br>";
+														$content .="<input type='hidden' name='Import[".$record_fetched['ID']."][EMPLOYEE_ID_FK]' value='".$record_fetched['ID']."'>";
+														$content .="<input type='text' name='Import[".$record_fetched['ID']."][CCS]' value='".$record_fetched['AMOUNT']."'>";
+														$content .="<button onclick='removeParent(this);' style='width: 25px;'><i class='fa fa-check'></i></button></div>";
+													}
+													else if($record_fetched['STATUS'] == 'TRANSFERRED' || $record_fetched['STATUS'] == 'RETIRED' || 
+													$record_fetched['STATUS'] == 'SUSPENDED' || $record_fetched['STATUS'] == 'TEMPORARY'){
+														$content .= "<div><span style='color: #f00;'>".$record_fetched['RECORD_NAME']." is ".$record_fetched['STATUS'].".</span><br><button onclick='removeParent(this);' style='width: 25px;'><i class='fa fa-check'></i></button></div>";
+													}
+													else if($record_fetched['STATUS'] == 'NOT FOUND'){
+														$content .= "<div>";
+														$content .="<input type='hidden' id='EMPLOYEE_ID_FK' name='Import[".$record_fetched['ID']."][EMPLOYEE_ID_FK]' value=''>";
+														$content .= "<select onchange='setCCSValue(this)'>";
+														foreach($all_employees as $emp){
+															$content .= "<option value='".$emp->ID."'>".$emp->NAME."</option>";
+														}
+														$content .= "</select><br>";
+														$content .="<input type='text' name='Import[".$record_fetched['ID']."][CCS]' value='".$record_fetched['AMOUNT']."'>";
+														$content .="</div>";
+													}
+												$content .="</td>";
+											$content .="</tr>";
+										}
+									}
+									else{
+										$content .="<tr>";
+											$content .="<td>";
+												$content .= "<div>";
+												$content .="<input type='hidden' name='' value=''>";
+												$content .= "<select onchange='setCCSValue(this)'>";
+												foreach($all_employees as $emp){
+													$content .= "<option value='".$emp->ID."'>".$emp->NAME."</option>";
+												}
+												$content .= "</select><br>";
+												$content .="<input type='text' name='' value='".$record_fetched['AMOUNT']."'>";
+												$content .="</div>";
+											$content .="</td>";
+										$content .="</tr>";	
+									}
+								$content .="</table>";	
+							$content .="</td>";
+						$content .="</tr>";
+						$i++;
+					}
+					$content .="</table><br><br><br>";
+					$content .="<input type='submit' value='Submit' class='btn btn-inline' onsubmit='return validateSubmit();' onclick='return validateSubmit();'/>";
+					
+				}
+				else{
+					echo "<script>alert('Select only allowed file extensions.');</script>";
+				}
+			}			
+		}
+
+		if(isset($_POST['Import']))
+		{
+			$employees = $_POST['Import'];
+			foreach($employees as $employee){
+				if($employee['CCS'] && $employee['EMPLOYEE_ID_FK']){
+					Yii::app()->db->createCommand("UPDATE tbl_salary_details SET CCS = ".$employee['CCS']." WHERE EMPLOYEE_ID_FK = ".$employee['EMPLOYEE_ID_FK']." AND BILL_ID_FK=".$model->ID.";")->execute();
+					Yii::app()->db->createCommand("UPDATE tbl_salary_details SET GROSS = (BASIC + HRA  + DA  + TA  + SP + PP) WHERE EMPLOYEE_ID_FK = ".$employee['EMPLOYEE_ID_FK']." AND BILL_ID_FK=".$model->ID.";")->execute();
+					Yii::app()->db->createCommand("UPDATE tbl_salary_details SET DED = (IT  + CGHS  + LF  + CGEGIS  + CPF_TIER_I  + CPF_TIER_II + MISC + PLI + COURT_ATTACHMENT + HBA_EMI + MCA_EMI + COMP_EMI) WHERE EMPLOYEE_ID_FK = ".$employee['EMPLOYEE_ID_FK']." AND BILL_ID_FK=".$model->ID.";")->execute();
+					Yii::app()->db->createCommand("UPDATE tbl_salary_details SET OTHER_DED = (LIC + CCS + ASSOSC_SUB + MAINT_JAYAMAHAL + MAINT_MADIWALA) WHERE EMPLOYEE_ID_FK = ".$employee['EMPLOYEE_ID_FK']." AND BILL_ID_FK=".$model->ID.";")->execute();
+					Yii::app()->db->createCommand("UPDATE tbl_salary_details SET NET = (GROSS - DED) WHERE EMPLOYEE_ID_FK = ".$employee['EMPLOYEE_ID_FK']." AND BILL_ID_FK=".$model->ID.";")->execute();
+					Yii::app()->db->createCommand("UPDATE tbl_salary_details SET AMOUNT_BANK = (GROSS - DED - OTHER_DED - PT) WHERE EMPLOYEE_ID_FK = ".$employee['EMPLOYEE_ID_FK']." AND BILL_ID_FK=".$model->ID.";")->execute();
+				}
+			}
+			
+			echo "<script>alert('Data uploaded Successfully');</script>";
+		}
+			
+		$this->render('ccs_import',array(
+			'model'=>$model,
+			'content'=>$content
+		));
+	}
+	
 	public function actionPaySlipSelectEmployee($Month, $Year, $id)
 	{
 		$this->layout='//layouts/contentLayout';
@@ -54,7 +222,6 @@ class BillController extends Controller
 			'model'=>$model,
 		));
 	}
-	
 	
 	public function actionSelectedPaySlipDetail()
 	{
