@@ -94,8 +94,20 @@ class MasterController extends Controller
 		if(isset($_POST['Master']))
 		{
 			$model->attributes=$_POST['Master'];
-			if($model->save())
+			if($model->save()){
+				$financial_year = $_POST['Master']['FINANCIAL_YEAR'];
+				$financial_years = FinancialYears::model()->findAll();
+				foreach($financial_years as $year){
+					if($financial_year == $year['ID']){
+						$year->STATUS = 1;
+					}
+					else{
+						$year->STATUS = 0;
+					}
+					$year->save(false);
+				}
 				$this->redirect(array('update','id'=>$model->ID));
+			}
 		}
 
 		$this->render('update',array(

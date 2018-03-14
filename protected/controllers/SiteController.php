@@ -93,6 +93,7 @@ class SiteController extends Controller
 			$model->attributes=$_POST['Users'];
 			if($model->validateLoginInputs() && $model->login()){
 				if(Yii::app()->user->TYPE == 'ADMINISTRATION'){
+					Yii::app()->session['FINANCIAL_YEAR'] = $_POST['Users']['FINANCIAL_YEAR'];
 					$this->redirect(Yii::app()->createUrl('Bill/admin'));
 				}
 				else {

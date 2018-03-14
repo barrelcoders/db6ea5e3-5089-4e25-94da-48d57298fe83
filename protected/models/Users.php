@@ -11,7 +11,7 @@
  */
 class Users extends CActiveRecord
 {
-	public $rememberMe, $_identity, $name, $CONFIRM_PWD;
+	public $rememberMe, $_identity, $name, $CONFIRM_PWD, $FINANCIAL_YEAR;
 	/**
 	 * @return string the associated database table name
 	 */

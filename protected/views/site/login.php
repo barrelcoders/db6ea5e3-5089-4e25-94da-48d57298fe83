@@ -29,6 +29,9 @@ $this->breadcrumbs=array(
 		</div>
 		<header class="sign-title">Sign In</header>
 		<div class="form-group">
+		   <?php echo $form->dropDownList($model,'FINANCIAL_YEAR',CHtml::listData(FinancialYears::model()->findAll(), 'ID', 'NAME'), array('class'=>'form-control')); ?>
+		</div>
+		<div class="form-group">
 		   <?php echo $form->textField($model,'USERNAME', array('class'=>'form-control', 'placeholder'=>'Username')); ?> 
 		</div>
 		<div class="form-group">

@@ -47,6 +47,7 @@ if(isset($_REQUEST['id']) && $_REQUEST['id']){
 						<li><a href="<?php echo Yii::app()->createUrl("Bill/SalaryDetailsTabular",array("id"=>$id))?>"><span class="tbl-row"><span class="tbl-cell tbl-cell-caption">Salary Details (Tabular)</span></span></a></li>
 						<li><a href="<?php echo Yii::app()->createUrl("Bill/PayBillValidate",array("id"=>$id))?>"><span class="tbl-row"><span class="tbl-cell tbl-cell-caption">Validate Calculations</span></span></a></li>
 						<li><a href="<?php echo Yii::app()->createUrl("Bill/PayBillChanges",array("id"=>$id))?>" target="_blank"><span class="tbl-row"><span class="tbl-cell tbl-cell-caption">Validate Changes w.r.t Previous Bills</span></span></a></li>
+						<li><a href="<?php echo Yii::app()->createUrl("Bill/PayBillTasks",array("id"=>$id))?>" ><span class="tbl-row"><span class="tbl-cell tbl-cell-caption">Pay Bill Tasks</span></span></a></li>
 						<li><a href="<?php echo Yii::app()->createUrl("Bill/CSSImport",array("id"=>$id))?>" ><span class="tbl-row"><span class="tbl-cell tbl-cell-caption">CCS Import</span></span></a></li>
 						
 						<hr>

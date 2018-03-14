@@ -38,8 +38,13 @@
 					<td colspan="5">
 						<a href="<?php echo Yii::app()->createUrl('bill/update', array('id'=>$bill->ID))?>"><?php echo $bill->BILL_TITLE; ?></a>
 					</td>
-					<td colspan="3">
+					<td colspan="2">
 						<span style="float: right;"><?php echo $bill->BILL_NO; ?></span>
+					</td>
+					<td colspan="1">
+						<form id="bill-form" action="<?php echo Yii::app()->createUrl('Bill/AllITToBeZero', array('id'=>$bill->ID))?>" method="post">
+							<input class="btn btn-inline" type="submit" value="IT = 0" onclick="return confirm('Are you sure for changing IT of all employees to be 0 ?');">
+						</form>
 					</td>
 				</tr>
 				<?php if($bill->IS_SALARY_HEAD_OTHER_BILL || $bill->IS_WAGES_HEAD_OTHER_BILL){ ?>

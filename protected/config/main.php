@@ -40,6 +40,9 @@ return array(
 		),
 		'Security'=>array('class'=>'Security'),
 		'yexcel' => array('class' => 'ext.yexcel.Yexcel'),
+		'session' => array (
+			'autoStart' => true,
+		),
 		// uncomment the following to enable URLs in path-format
 		/*
 		'urlManager'=>array(

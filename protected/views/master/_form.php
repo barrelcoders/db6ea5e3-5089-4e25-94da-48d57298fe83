@@ -127,9 +127,26 @@
 		<?php echo $form->labelEx($model,'FINANCIAL_YEAR', array('class'=>'col-sm-2 form-control-label')); ?> 
 		<div class="col-sm-10">
 			<p class="form-control-static">
-				<?php echo $form->dropDownList($model,'FINANCIAL_YEAR',CHtml::listData(FinancialYears::model()->findAll(), 'ID', 'NAME'), array(
-			'empty'=>array('0'=>'Select Financial Years'),
-			'options' => array("'".FinancialYears::model()->find('STATUS=1')->ID."'" => array('selected'=>true)))); ?>
+				<?php
+					$currentFY = FinancialYears::model()->find('STATUS=1')->ID;
+					$years = FinancialYears::model()->findAll();
+				?>
+				<select name="Master[FINANCIAL_YEAR]" id="Master_FINANCIAL_YEAR">
+					<?php 
+						foreach($years as $year){
+							if($year->ID == $currentFY){
+								?>
+									<option value="<?php echo $year->ID;?>" selected><?php echo $year->NAME;?></option>
+								<?php	
+							}
+							else{
+								?>
+									<option value="<?php echo $year->ID;?>"><?php echo $year->NAME;?></option>
+								<?php	
+							}
+						}
+					?>
+				</select>
 			</p>
 		</div>
 	</div>

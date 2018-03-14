@@ -35,7 +35,7 @@
 			<label class="col-sm-2 form-control-label"></label>
 			<div class="col-sm-10">
 				<p class="form-control-static">
-					<?php echo CHtml::submitButton('Submit', array('class'=>'btn btn-success')); ?>
+					<?php echo CHtml::submitButton('Submit', array('class'=>'btn btn-inline')); ?>
 				</p>
 			</div>
 		</div>
@@ -48,6 +48,7 @@
 <script>
 		
 	function removeParent(element){
+		calculateCCSTotal();
 		var current_content = "<div>"+$(element).parent('div').html()+"</div>",
 			parent = $(element).parents('.td-parent'),
 			parent_content = parent_content = parent.html();
@@ -68,16 +69,26 @@
 		$(element).next().next().attr('name', 'Import['+emp_id+'][CCS]');
 	}
 	function undoClick(){
+		calculateCCSTotal();
 		$(window.globalVar.parent).html(window.globalVar.parent_content);
 	}
-	function validateSubmit(){
-		$( ".td-parent table" ).each(function() {
-			if($(this).find('tr').length > 1){
+	function calculateCCSTotal(){
+		var total = 0;
+		$('#ccs-import-table .ccs-amount').each(function(){
+			total += parseInt($(this).val());
+		});
+		$('#ccs-total').val(total);
+	}
+	function validate() {
+		var result = true;
+		$( ".td-parent table" ).each(function(index, element) {
+			if($(element).find('tr').length > 1){
 				alert('Some employees have multiple entries. Please check');
+				result = false;
 				return false;
 			}
 		});
-		return true;
+		return result;
 	}
 </script>
 
