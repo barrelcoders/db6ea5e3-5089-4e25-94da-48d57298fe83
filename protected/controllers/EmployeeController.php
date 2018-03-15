@@ -65,6 +65,29 @@ class EmployeeController extends Controller
 			}	
 		}
 	}
+		
+	public function actionSetEISCode(){
+		if(isset($_POST['code']) && isset($_POST['emp_id'])){
+			$model = Employee::model()->findByPK($_POST['emp_id']);
+			$model->EIS_CODE = $_POST['code'];
+			if($model->save(false)){
+				echo "SUCCESS|".$model->EIS_CODE;exit;
+			}
+			else{
+				echo "ERROR";exit;
+			}	
+		}
+	}
+		
+	public function actionEmployeeCodeQuery(){
+		$employees = Employee::model()->findAll("(EIS_CODE <> '')");
+		foreach($employees as $employee){
+			echo "UPDATE tbl_employee SET EIS_CODE='".$employee->EIS_CODE."' WHERE ID=".$employee->ID." AND NAME='".$employee->NAME."';<br>";
+		
+		}
+		exit;
+	}
+	
 	public function actionSetFolio(){
 		if(isset($_POST['folio']) && isset($_POST['emp_id'])){
 			$model = Employee::model()->findByPK($_POST['emp_id']);

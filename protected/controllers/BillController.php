@@ -50,7 +50,7 @@ class BillController extends Controller
         $data = array();
         foreach($salaries as $salary){
             array_push($data, array('ID'=>$salary->EMPLOYEE_ID_FK, 
-                                    'NAME'=>Employee::model()->findByPK($salary->EMPLOYEE_ID_FK)->NAME, 'AMOUNT'=>$salary->LIC));
+                                    'NAME'=>Employee::model()->findByPK($salary->EMPLOYEE_ID_FK)->NAME, 'CODE'=>Employee::model()->findByPK($salary->EMPLOYEE_ID_FK)->EIS_CODE, 'AMOUNT'=>$salary->LIC));
         }
         
         echo json_encode($data);exit;
@@ -61,7 +61,7 @@ class BillController extends Controller
         $data = array();
         foreach($salaries as $salary){
             array_push($data, array('ID'=>$salary->EMPLOYEE_ID_FK, 
-                                    'NAME'=>Employee::model()->findByPK($salary->EMPLOYEE_ID_FK)->NAME, 'AMOUNT'=>$salary->CCS));
+                                    'NAME'=>Employee::model()->findByPK($salary->EMPLOYEE_ID_FK)->NAME, 'CODE'=>Employee::model()->findByPK($salary->EMPLOYEE_ID_FK)->EIS_CODE, 'AMOUNT'=>$salary->CCS));
         }
         
         echo json_encode($data);exit;
@@ -72,7 +72,7 @@ class BillController extends Controller
         $data = array();
         foreach($salaries as $salary){
             array_push($data, array('ID'=>$salary->EMPLOYEE_ID_FK, 
-                                    'NAME'=>Employee::model()->findByPK($salary->EMPLOYEE_ID_FK)->NAME, 'AMOUNT'=>$salary->PT));
+                                    'NAME'=>Employee::model()->findByPK($salary->EMPLOYEE_ID_FK)->NAME, 'CODE'=>Employee::model()->findByPK($salary->EMPLOYEE_ID_FK)->EIS_CODE, 'AMOUNT'=>$salary->PT));
         }
         
         echo json_encode($data);exit;
@@ -83,7 +83,7 @@ class BillController extends Controller
         $data = array();
         foreach($salaries as $salary){
             array_push($data, array('ID'=>$salary->EMPLOYEE_ID_FK, 
-                                    'NAME'=>Employee::model()->findByPK($salary->EMPLOYEE_ID_FK)->NAME, 'AMOUNT'=>$salary->COURT_ATTACHMENT));
+                                    'NAME'=>Employee::model()->findByPK($salary->EMPLOYEE_ID_FK)->NAME, 'CODE'=>Employee::model()->findByPK($salary->EMPLOYEE_ID_FK)->EIS_CODE, 'AMOUNT'=>$salary->COURT_ATTACHMENT));
         }
         
         echo json_encode($data);exit;
@@ -94,7 +94,7 @@ class BillController extends Controller
         $data = array();
         foreach($salaries as $salary){
             array_push($data, array('ID'=>$salary->EMPLOYEE_ID_FK, 
-                                    'NAME'=>Employee::model()->findByPK($salary->EMPLOYEE_ID_FK)->NAME, 'AMOUNT'=>$salary->IT));
+                                    'NAME'=>Employee::model()->findByPK($salary->EMPLOYEE_ID_FK)->NAME, 'CODE'=>Employee::model()->findByPK($salary->EMPLOYEE_ID_FK)->EIS_CODE, 'AMOUNT'=>$salary->IT));
         }
         
         echo json_encode($data);exit;

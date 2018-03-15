@@ -996,6 +996,14 @@
 							</p>
 						</div>
 					</div>
+					<div class="form-group row">
+						<?php echo $form->labelEx($model,'EIS_CODE', array('class'=>'col-sm-3 form-control-label eis-required-field')); ?>
+						<div class="col-sm-9">
+							<p class="form-control-static">
+								<?php echo $form->textField($model,'EIS_CODE',array('size'=>40,'maxlength'=>100, 'value'=>$model->EIS_CODE)); ?>
+							</p>
+						</div>
+					</div>
 				</div>
 				<div class="col-sm-6">
 					<div class="form-group row">

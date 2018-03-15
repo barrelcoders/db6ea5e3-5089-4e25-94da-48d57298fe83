@@ -54,7 +54,24 @@ for($i=1; $i<=$EMPLOYEE_COUNT; $i++){
 						return $data->NAME."<br><span style='color:#f00;font-size:10px;'>".$status."</span>";
 					},
 				),
-				'NAME_HINDI',
+				
+				
+				array(
+					'header'=>'EIS Code',
+					'name'=>'EIS_CODE',
+					'type'=>'raw',
+					'value'=>function ($data){ 
+						$eis_code_text = "";
+						if($data->EIS_CODE == ""){
+							$eis_code_text = "<input type='hidden' value='".$data->ID."'><input type='text' class='txtEISCode'/>" ;
+						}
+						else{
+							$eis_code_text = $data->EIS_CODE;
+						}
+						return $eis_code_text;
+					}
+				),
+				
 				array(
 					'header'=>'DOB',
 					'name'=>'DOB',
@@ -266,6 +283,20 @@ $(document).ready(function(){
 				alert('Error updating Posting, Please try again later');
 			}
 		});
+	});	
+	$('.txtEISCode').keyup(function(e){
+		if(e.which == 13) {		
+			var element = $(this), code = element.val(), emp_id = element.prev().val();
+			$.post('<?php echo Yii::app()->createUrl('Employee/SetEISCode')?>', { 'code': code, 'emp_id': emp_id}, function(result) {
+				var data = result.split("|");
+				if(data[0] == 'SUCCESS'){
+					element.parent().html(data[1]);
+				}
+				else{
+					alert('Error updating Posting, Please try again later');
+				}
+			});
+		}
 	});	
 	$('.txtFolio').keyup(function(e){
 		if(e.which == 13) {			
