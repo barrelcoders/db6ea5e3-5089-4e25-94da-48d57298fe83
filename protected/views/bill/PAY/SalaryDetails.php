@@ -42,9 +42,11 @@
 						<span style="float: right;"><?php echo $bill->BILL_NO; ?></span>
 					</td>
 					<td colspan="1">
+						<?php  if($bill->IS_SALARY_HEAD_PAY_BILL || $bill->IS_WAGES_HEAD_PAY_BILL) { ?>	
 						<form id="bill-form" action="<?php echo Yii::app()->createUrl('Bill/AllITToBeZero', array('id'=>$bill->ID))?>" method="post">
 							<input class="btn btn-inline" type="submit" value="IT = 0" onclick="return confirm('Are you sure for changing IT of all employees to be 0 ?');">
 						</form>
+						<?php } ?>
 					</td>
 				</tr>
 				<?php if($bill->IS_SALARY_HEAD_OTHER_BILL || $bill->IS_WAGES_HEAD_OTHER_BILL){ ?>
@@ -315,12 +317,12 @@
 										<?php
 									?>
 								</td>
-								<td>
-									<button class="btn btn-primary swal-btn-input">IT Calculator</button>
+								<td colspan="2">
+									<b><a href="javascript:void(0);" class="btn btn-inline" style="float: right;" onclick="saveSalaryAjax(<?php echo $employee->ID;?>, <?php echo $period['MONTH'];?>, <?php echo $period['YEAR'];?>, <?php echo $bill->ID;?>, '<?php echo $employee->NAME;?>', '<?php echo $period['FORMAT'];?>', '<?php echo $employee->ID?>');"><i class='fa fa-save'></i> SAVE</a></b>
 								</td>
 								<?php } ?>
-								<td colspan="2">
-									<b><a href="javascript:void(0);" class="btn btn-inline" style="float: right;" onclick="saveSalaryAjax(<?php echo $employee->ID;?>, <?php echo $period['MONTH'];?>, <?php echo $period['YEAR'];?>, <?php echo $bill->ID;?>, '<?php echo $employee->NAME;?>', '<?php echo $period['FORMAT'];?>');"><i class='fa fa-save'></i> SAVE</a></b>
+								<td>
+									<button class="btn btn-primary swal-btn-input">IT Calculator</button>
 								</td>
 							</tr>
 						</table>

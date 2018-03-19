@@ -69,28 +69,64 @@ class PayBillTasksController extends Controller
 
 		if(isset($_POST['PayBillTasks']))
 		{
-			$start    = (new DateTime($_POST['PayBillTasks']['START_YEAR']."-".$_POST['PayBillTasks']['START_MONTH']."-01"));
-			$end      = (new DateTime($_POST['PayBillTasks']['END_YEAR']."-".$_POST['PayBillTasks']['END_MONTH']."-01"));
-			$interval = DateInterval::createFromDateString('1 month');
-			$period   = new DatePeriod($start, $interval, $end);
-			$PERIODS = array();
-			foreach ($period as $dt) {
-				array_push($PERIODS, array('MONTH'=>$dt->format("m"), 'YEAR'=>$dt->format("Y")));
-			}
-			array_push($PERIODS, array('MONTH'=>$_POST['PayBillTasks']['END_MONTH'], 'YEAR'=>$_POST['PayBillTasks']['END_YEAR']));
 			
-			foreach($PERIODS as $period){
-				$model=new PayBillTasks;
-				$month = $period['MONTH'];
-				$year = $period['YEAR'];
-				$model->MONTH = $month;
-				$model->YEAR = $year;
-				$model->TASK = $_POST['PayBillTasks']['TASK'];
-				$model->EMPLOYEE_ID_FK = $_POST['PayBillTasks']['EMPLOYEE_ID_FK'];
-				if($model->save(false)){
-					echo "<script>alert('A task of ".Employee::model()->findByPk($_POST['PayBillTasks']['EMPLOYEE_ID_FK'])->NAME." for ".date('M-Y', strtotime($year.'-'.$month.'-01'))." saved successfully ');</script>";
+			if(isset($_POST['PayBillTasks']['IS_MULTIPLE_MONTH'])){
+				$start    = (new DateTime($_POST['PayBillTasks']['START_YEAR']."-".$_POST['PayBillTasks']['START_MONTH']."-01"));
+				$end      = (new DateTime($_POST['PayBillTasks']['END_YEAR']."-".$_POST['PayBillTasks']['END_MONTH']."-01"));
+				$interval = DateInterval::createFromDateString('1 month');
+				$period   = new DatePeriod($start, $interval, $end);
+				$PERIODS = array();
+				foreach ($period as $dt) {
+					array_push($PERIODS, array('MONTH'=>$dt->format("m"), 'YEAR'=>$dt->format("Y")));
+				}
+				array_push($PERIODS, array('MONTH'=>$_POST['PayBillTasks']['END_MONTH'], 'YEAR'=>$_POST['PayBillTasks']['END_YEAR']));
+				
+				foreach($PERIODS as $period){
+					$model=new PayBillTasks;
+					$month = $period['MONTH'];
+					$year = $period['YEAR'];
+					$model->MONTH = $month;
+					$model->YEAR = $year;
+					$model->TASK = $_POST['PayBillTasks']['TASK'];
+					$model->EMPLOYEE_ID_FK = $_POST['PayBillTasks']['EMPLOYEE_ID_FK'];
+					$model->FINANCIAL_YEAR_ID_FK = isset(Yii::app()->session['FINANCIAL_YEAR']) ? Yii::app()->session['FINANCIAL_YEAR'] : 
+											FinancialYears::model()->find('STATUS=1')->ID;						
+					if(PayBillTasks::model()->exists('EMPLOYEE_ID_FK='.$_POST['PayBillTasks']['EMPLOYEE_ID_FK'].' AND MONTH='.$month.' AND YEAR='.$year)){
+						echo "<script>alert('A task of ".Employee::model()->findByPk($_POST['PayBillTasks']['EMPLOYEE_ID_FK'])->NAME." for ".date('M-Y', strtotime($year.'-'.$month.'-01'))." has already been created. Try edit that task instead. ');</script>";
+					}
+					else{
+						if($model->save(false)){
+							echo "<script>alert('A task of ".Employee::model()->findByPk($_POST['PayBillTasks']['EMPLOYEE_ID_FK'])->NAME." for ".date('M-Y', strtotime($year.'-'.$month.'-01'))." saved successfully ');</script>";
+						}
+					}
 				}
 			}
+			else{
+				$PERIODS = array();
+				array_push($PERIODS, array('MONTH'=>$_POST['PayBillTasks']['START_MONTH'], 'YEAR'=>$_POST['PayBillTasks']['START_YEAR']));
+				
+				foreach($PERIODS as $period){
+					$model=new PayBillTasks;
+					$month = $period['MONTH'];
+					$year = $period['YEAR'];
+					$model->MONTH = $month;
+					$model->YEAR = $year;
+					$model->TASK = $_POST['PayBillTasks']['TASK'];
+					$model->EMPLOYEE_ID_FK = $_POST['PayBillTasks']['EMPLOYEE_ID_FK'];
+					$model->FINANCIAL_YEAR_ID_FK = isset(Yii::app()->session['FINANCIAL_YEAR']) ? Yii::app()->session['FINANCIAL_YEAR'] : 
+											FinancialYears::model()->find('STATUS=1')->ID;
+											
+					if(PayBillTasks::model()->exists('EMPLOYEE_ID_FK='.$_POST['PayBillTasks']['EMPLOYEE_ID_FK'].' AND MONTH='.$month.' AND YEAR='.$year)){
+						echo "<script>alert('A task of ".Employee::model()->findByPk($_POST['PayBillTasks']['EMPLOYEE_ID_FK'])->NAME." for ".date('M-Y', strtotime($year.'-'.$month.'-01'))." has already been created. Try edit that task instead. ');</script>";
+					}
+					else{
+						if($model->save(false)){
+							echo "<script>alert('A task of ".Employee::model()->findByPk($_POST['PayBillTasks']['EMPLOYEE_ID_FK'])->NAME." for ".date('M-Y', strtotime($year.'-'.$month.'-01'))." saved successfully ');</script>";
+						}
+					}
+				}
+			}
+			
 		}
 
 		$this->render('create',array(

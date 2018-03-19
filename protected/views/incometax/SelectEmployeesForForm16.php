@@ -3,7 +3,10 @@
 		<div class="tbl">
 			<div class="tbl-row">
 				<div class="tbl-cell">
-					<h2>Pay Slip</h2>
+					<h2>Form-16 for <?php 
+					$id = isset(Yii::app()->session['FINANCIAL_YEAR']) ? Yii::app()->session['FINANCIAL_YEAR'] : 
+											FinancialYears::model()->find('STATUS=1')->ID;
+					echo FinancialYears::model()->findbyPK($id)->NAME ?></h2>
 				</div>
 			</div>
 		</div>

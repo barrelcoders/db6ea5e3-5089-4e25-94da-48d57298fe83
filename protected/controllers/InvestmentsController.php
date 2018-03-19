@@ -101,7 +101,9 @@ class InvestmentsController extends Controller
 	 */
 	public function actionUpdate($id)
 	{
-		$model=Investments::model()->find('FINANCIAL_YEAR_ID_FK='.FinancialYears::model()->find("STATUS=1")->ID.' AND EMPLOYEE_ID='.$id);
+		$financial_year = isset(Yii::app()->session['FINANCIAL_YEAR']) ? Yii::app()->session['FINANCIAL_YEAR'] : 
+											FinancialYears::model()->find('STATUS=1')->ID;
+		$model=Investments::model()->find('FINANCIAL_YEAR_ID_FK='.$financial_year.' AND EMPLOYEE_ID='.$id);
 		
 		if(!$model){
 			$model=new Investments;
@@ -115,7 +117,8 @@ class InvestmentsController extends Controller
 		{
 			$model->attributes = $_POST['Investments'];
 			$model->EMPLOYEE_ID = $id;
-			$model->FINANCIAL_YEAR_ID_FK = FinancialYears::model()->find("STATUS=1")->ID;
+			$model->FINANCIAL_YEAR_ID_FK = isset(Yii::app()->session['FINANCIAL_YEAR']) ? Yii::app()->session['FINANCIAL_YEAR'] : 
+											FinancialYears::model()->find('STATUS=1')->ID;
 			if($model->save(false)){
 				$arrears = $_POST['Employee']['ARREAR'];
 				foreach($arrears as $arrear){

@@ -21,7 +21,10 @@ $this->menu=array(
 		<div class="tbl">
 			<div class="tbl-row">
 				<div class="tbl-cell">
-					<h2>Investments for <?php echo FinancialYears::model()->find("STATUS=1")->NAME ?></h2>
+					<h2>Investments for <?php 
+					$id = isset(Yii::app()->session['FINANCIAL_YEAR']) ? Yii::app()->session['FINANCIAL_YEAR'] : 
+											FinancialYears::model()->find('STATUS=1')->ID;
+					echo FinancialYears::model()->findbyPK($id)->NAME ?></h2>
 					<div class="subtitle" style="text-align: right;">
 						<a href="<?php echo Yii::app()->createUrl('Employee/admin')?>" style="font-size: 15px;">Employees</a>
 						<a href="<?php echo Yii::app()->createUrl('Investments/showInvestments')?>" style="float: left;font-size: 15px;">Back</a>

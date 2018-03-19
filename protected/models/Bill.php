@@ -314,7 +314,8 @@ class Bill extends CActiveRecord
 		$criteria->compare('IS_SALARY_BILL',$this->IS_SALARY_BILL,true);
 		$criteria->compare('CLAIM_GROSS_AMOUNT',$this->CLAIM_GROSS_AMOUNT,true);
 		$criteria->compare('CLAIM_ADVANCE_AMOUNT',$this->CLAIM_ADVANCE_AMOUNT,true);
-		$criteria->compare('FINANCIAL_YEAR_ID_FK',isset(Yii::app()->session['FINANCIAL_YEAR']) ? Yii::app()->session['FINANCIAL_YEAR'] : 1,true);
+		$criteria->compare('FINANCIAL_YEAR_ID_FK',isset(Yii::app()->session['FINANCIAL_YEAR']) ? Yii::app()->session['FINANCIAL_YEAR'] :
+											FinancialYears::model()->find('STATUS=1')->ID,true);
 		
 		$criteria->order = 'CREATION_DATE DESC';
 		

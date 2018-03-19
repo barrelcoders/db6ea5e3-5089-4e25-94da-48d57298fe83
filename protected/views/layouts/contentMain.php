@@ -130,8 +130,13 @@
 	                <li><a href="<?php echo Yii::app()->createUrl('Employee/generateTransferedLPC');?>"><span class="lbl">LPC (On Transfered)</span></a></li>
 	                <li><a href="<?php echo Yii::app()->createUrl('Employee/generateRetiredLPC');?>"><span class="lbl">LPC (On Retired)</span></a></li>
 				    <li><a href="<?php echo Yii::app()->createUrl('Employee/suspendEmployee');?>"><span class="lbl">Suspend Employee</span></a></li>
-	            	<li><a href="<?php echo Yii::app()->createUrl('Investments/showInvestments');?>" ><span class="lbl">Investments (<?php echo FinancialYears::model()->find('STATUS=1')->NAME; ?>)</span></a></li>
-	                <li><a href="<?php echo Yii::app()->createUrl('IncomeTax/SelectEmployeesForForm16');?>" ><span class="lbl">Pro. Form-16 (<?php echo FinancialYears::model()->find('STATUS=1')->NAME; ?>)</span></a></li>
+	            	<li><a href="<?php echo Yii::app()->createUrl('Investments/showInvestments');?>" ><span class="lbl">Investments (
+					<?php 
+					$id = isset(Yii::app()->session['FINANCIAL_YEAR']) ? Yii::app()->session['FINANCIAL_YEAR'] : 
+											FinancialYears::model()->find('STATUS=1')->ID;
+					echo FinancialYears::model()->findbyPK($id)->NAME; ?>)</span></a></li>
+	                <li><a href="<?php echo Yii::app()->createUrl('IncomeTax/SelectEmployeesForForm16');?>" ><span class="lbl">Pro. Form-16 (
+					<?php echo FinancialYears::model()->findbyPK($id)->NAME; ?>)</span></a></li>
 	            </ul>
 	        </li>
 			<li class="grey with-sub">

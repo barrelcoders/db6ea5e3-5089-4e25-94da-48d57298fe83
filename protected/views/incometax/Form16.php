@@ -3,7 +3,6 @@
 <?php
 	
 	$monthName = array('1'=>'JAN', '2'=>'FEB', '3'=>'MAR', '4'=>'APR', '5'=>'MAY', '6'=>'JUN', '7'=>'JUL', '8'=>'AUG', '9'=>'SEP', '10'=>'OCT', '11'=>'NOV', '12'=>'DEC');
-	$periods = array('3-2017','4-2017','5-2017','6-2017','7-2017','8-2017','9-2017','10-2017','11-2017', '12-2017','1-2018', '2-2018');
 	$master = Master::model()->findByPK(1);
 	$financialYear = FinancialYears::model()->find('STATUS=1');
 	$StartYear = date('Y', strtotime($financialYear->START_DATE));
@@ -464,6 +463,7 @@
 		$PAN_NUMBER = $employee->PAN;
 		
 		$REMAINING_MONTHS = remainingMonthsForIT($CurrentFinancialYearPeriods, $id);
+		
 		if($TAX_REMAINING <= 0){
 			$IT_FOR_REMAINING_MONTHS = getNilParts($REMAINING_MONTHS);
 		}
@@ -548,18 +548,31 @@ function getSalaryTotal($salaries){
 }
 function remainingMonthsForIT($periods, $emp_id){
 	$count = 0;
-	
-	
 	foreach($periods as $period){
 		$MONTH = explode('-', $period)[0];
 		$YEAR = explode('-', $period)[1];
 		if(!SalaryDetails::model()->exists('EMPLOYEE_ID_FK='.$emp_id.' AND MONTH='.$MONTH.' AND YEAR='.$YEAR.' AND IS_SALARY_BILL=1') 
 			&& !SupplementarySalaryDetails::model()->exists('EMPLOYEE_ID_FK='.$emp_id.' AND MONTH='.$MONTH.' AND YEAR='.$YEAR)){
-				$salary = SalaryDetails::model()->find('EMPLOYEE_ID_FK='.$emp_id.' AND MONTH='.$MONTH.' AND YEAR='.$YEAR);
-				$bill = $salary ? Bill::model()->findByPK($salary->BILL_ID_FK) : null;
-				if($bill && $bill->IS_ARREAR_BILL == 0){
+				$salaries = SalaryDetails::model()->findAll('EMPLOYEE_ID_FK='.$emp_id.' AND MONTH='.$MONTH.' AND YEAR='.$YEAR);
+				if($salaries){
+					foreach($salaries as $salary){
+						if($salary){
+							$bill = Bill::model()->findByPK($salary->BILL_ID_FK);
+							if($bill->IS_ARREAR_BILL == 0){ 
+								$count++;
+							}
+						}
+					}
+				}
+				else{
 					$count++;
 				}
+		}
+		else if(SalaryDetails::model()->exists('EMPLOYEE_ID_FK='.$emp_id.' AND MONTH='.$MONTH.' AND YEAR='.$YEAR.' AND IS_SALARY_BILL=1')){
+			$salarý = SalaryDetails::model()->find('EMPLOYEE_ID_FK='.$emp_id.' AND MONTH='.$MONTH.' AND YEAR='.$YEAR.' AND IS_SALARY_BILL=1');
+			if($salarý->IT == 0){
+				$count++;
+			}
 		}
 	}
 	return $count;
@@ -614,5 +627,5 @@ function ValidDATotalforHRACalculation($salaries){
 
 ?>
 <?php if($type == "Screen") { ?>
-<script type="text/javascript">window.onload = function() { window.print(); }</script>
+<script type="text/javascript">//window.onload = function() { window.print(); }</script>
 <?php } ?>

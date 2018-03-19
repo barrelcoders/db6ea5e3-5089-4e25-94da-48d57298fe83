@@ -94,7 +94,7 @@ class BillController extends Controller
         $data = array();
         foreach($salaries as $salary){
             array_push($data, array('ID'=>$salary->EMPLOYEE_ID_FK, 
-                                    'NAME'=>Employee::model()->findByPK($salary->EMPLOYEE_ID_FK)->NAME, 'CODE'=>Employee::model()->findByPK($salary->EMPLOYEE_ID_FK)->EIS_CODE, 'AMOUNT'=>$salary->IT));
+                                    'NAME'=>Employee::model()->findByPK($salary->EMPLOYEE_ID_FK)->NAME, 'CODE'=>Employee::model()->findByPK($salary->EMPLOYEE_ID_FK)->EIS_CODE, 'AMOUNT'=>round(($salary->IT * 100)/103)));
         }
         
         echo json_encode($data);exit;
@@ -247,7 +247,7 @@ class BillController extends Controller
 		if(isset($_POST['Import']))
 		{
 			$employees = $_POST['Import'];
-			$this->AllCCSToBeZero();
+			$this->AllCCSToBeZero($model->ID);
 			foreach($employees as $employee){
 				if($employee['CCS'] && $employee['EMPLOYEE_ID_FK']){
 					Yii::app()->db->createCommand("UPDATE tbl_salary_details SET CCS = ".$employee['CCS']." WHERE EMPLOYEE_ID_FK = ".$employee['EMPLOYEE_ID_FK']." AND BILL_ID_FK=".$model->ID.";")->execute();
@@ -286,6 +286,7 @@ class BillController extends Controller
 	public function actionAllITToBeZero($id)
 	{
 		$salaries = SalaryDetails::model()->findAll('BILL_ID_FK='.$id);
+		
 		foreach($salaries as $salary){
 			$emp_id =  $salary->EMPLOYEE_ID_FK;
 			Yii::app()->db->createCommand("UPDATE tbl_salary_details SET IT = 0 WHERE EMPLOYEE_ID_FK = ".$emp_id." AND BILL_ID_FK=".$id.";")->execute();
@@ -294,11 +295,57 @@ class BillController extends Controller
 			Yii::app()->db->createCommand("UPDATE tbl_salary_details SET OTHER_DED = (LIC + CCS + ASSOSC_SUB + MAINT_JAYAMAHAL + MAINT_MADIWALA) WHERE EMPLOYEE_ID_FK = ".$emp_id." AND BILL_ID_FK=".$id.";")->execute();
 			Yii::app()->db->createCommand("UPDATE tbl_salary_details SET NET = (GROSS - DED) WHERE EMPLOYEE_ID_FK = ".$emp_id." AND BILL_ID_FK=".$id.";")->execute();
 			Yii::app()->db->createCommand("UPDATE tbl_salary_details SET AMOUNT_BANK = (GROSS - DED - OTHER_DED - PT) WHERE EMPLOYEE_ID_FK = ".$emp_id." AND BILL_ID_FK=".$id.";")->execute();
-			
-			$this->redirect(array('Bill/SalaryDetails', 'id'=>$id));
 		
 		}
+		$this->redirect(array('Bill/SalaryDetails', 'id'=>$id));
 	}
+	
+	
+	public function actionNPSDATAIncrese($id)
+	{
+		$model = $this->loadModel($id);
+		if($model->IS_NPS_PAY_BILL){
+			$salaries = SalaryDetails::model()->findAll('BILL_ID_FK='.$id);
+			foreach($salaries as $salary){
+				$emp_id =  $salary->EMPLOYEE_ID_FK;
+				Yii::app()->db->createCommand("UPDATE tbl_salary_details SET DA = ROUND(BASIC*0.07), CPF_TIER_I = ROUND((BASIC + ROUND(BASIC*0.07))*0.1) WHERE EMPLOYEE_ID_FK = ".$emp_id." AND BILL_ID_FK=".$id.";")->execute();
+				Yii::app()->db->createCommand("UPDATE tbl_salary_details SET TA = ROUND((TA * 107)/105)  WHERE EMPLOYEE_ID_FK = ".$emp_id." AND BILL_ID_FK=".$id." AND TA != 0;")->execute();
+				Yii::app()->db->createCommand("UPDATE tbl_salary_details SET GROSS = (BASIC + HRA  + DA  + TA  + SP + PP) WHERE EMPLOYEE_ID_FK = ".$emp_id." AND BILL_ID_FK=".$id.";")->execute();
+				Yii::app()->db->createCommand("UPDATE tbl_salary_details SET DED = (IT  + CGHS  + LF  + CGEGIS  + CPF_TIER_I  + CPF_TIER_II + MISC + PLI + COURT_ATTACHMENT + HBA_EMI + MCA_EMI + COMP_EMI) WHERE EMPLOYEE_ID_FK = ".$emp_id." AND BILL_ID_FK=".$id.";")->execute();
+				Yii::app()->db->createCommand("UPDATE tbl_salary_details SET OTHER_DED = (LIC + CCS + ASSOSC_SUB + MAINT_JAYAMAHAL + MAINT_MADIWALA) WHERE EMPLOYEE_ID_FK = ".$emp_id." AND BILL_ID_FK=".$id.";")->execute();
+				Yii::app()->db->createCommand("UPDATE tbl_salary_details SET NET = (GROSS - DED) WHERE EMPLOYEE_ID_FK = ".$emp_id." AND BILL_ID_FK=".$id.";")->execute();
+				Yii::app()->db->createCommand("UPDATE tbl_salary_details SET AMOUNT_BANK = (GROSS - DED - OTHER_DED - PT) WHERE EMPLOYEE_ID_FK = ".$emp_id." AND BILL_ID_FK=".$id.";")->execute();
+			}
+			echo "DA Increase applied Successfully";exit;
+		}
+		else{
+			echo "This is not NPS Pay Bill";exit;
+		}
+	}
+	
+	
+	public function actionOPSDATAIncrese($id)
+	{
+		$model = $this->loadModel($id);
+		if($model->IS_OPS_PAY_BILL){
+			$salaries = SalaryDetails::model()->findAll('BILL_ID_FK='.$id);
+			foreach($salaries as $salary){
+				$emp_id =  $salary->EMPLOYEE_ID_FK;
+				Yii::app()->db->createCommand("UPDATE tbl_salary_details SET DA = ROUND(BASIC*0.07) WHERE EMPLOYEE_ID_FK = ".$emp_id." AND BILL_ID_FK=".$id.";")->execute();
+				Yii::app()->db->createCommand("UPDATE tbl_salary_details SET TA = ROUND((TA * 107)/105) WHERE EMPLOYEE_ID_FK = ".$emp_id." AND BILL_ID_FK=".$id." AND TA != 0;")->execute();
+				Yii::app()->db->createCommand("UPDATE tbl_salary_details SET GROSS = (BASIC + HRA  + DA  + TA  + SP + PP) WHERE EMPLOYEE_ID_FK = ".$emp_id." AND BILL_ID_FK=".$id.";")->execute();
+				Yii::app()->db->createCommand("UPDATE tbl_salary_details SET DED = (IT  + CGHS  + LF  + CGEGIS  + CPF_TIER_I  + CPF_TIER_II + MISC + PLI + COURT_ATTACHMENT + HBA_EMI + MCA_EMI + COMP_EMI) WHERE EMPLOYEE_ID_FK = ".$emp_id." AND BILL_ID_FK=".$id.";")->execute();
+				Yii::app()->db->createCommand("UPDATE tbl_salary_details SET OTHER_DED = (LIC + CCS + ASSOSC_SUB + MAINT_JAYAMAHAL + MAINT_MADIWALA) WHERE EMPLOYEE_ID_FK = ".$emp_id." AND BILL_ID_FK=".$id.";")->execute();
+				Yii::app()->db->createCommand("UPDATE tbl_salary_details SET NET = (GROSS - DED) WHERE EMPLOYEE_ID_FK = ".$emp_id." AND BILL_ID_FK=".$id.";")->execute();
+				Yii::app()->db->createCommand("UPDATE tbl_salary_details SET AMOUNT_BANK = (GROSS - DED - OTHER_DED - PT) WHERE EMPLOYEE_ID_FK = ".$emp_id." AND BILL_ID_FK=".$id.";")->execute();
+			}
+			echo "DA Increase applied Successfully";exit;
+		}
+		else{
+			echo "This is not OPS Pay Bill";exit;
+		}
+	}
+	
 	public function actionPaySlipSelectEmployee($Month, $Year, $id)
 	{
 		$this->layout='//layouts/contentLayout';
@@ -664,9 +711,11 @@ class BillController extends Controller
 		$model=new Bill;
 		if(isset($_POST['Bill']))
 		{
+			//echo Yii::app()->session['FINANCIAL_YEAR'];exit;
 			//echo "<pre>";print_r($_POST['Bill']);echo "</pre>";exit;
 			$model->attributes=$_POST['Bill'];
-			$model->FINANCIAL_YEAR_ID_FK=FinancialYears::model()->find('STATUS=1')->ID;
+			$model->FINANCIAL_YEAR_ID_FK = isset(Yii::app()->session['FINANCIAL_YEAR']) ? Yii::app()->session['FINANCIAL_YEAR'] : 
+											FinancialYears::model()->find('STATUS=1')->ID;
 
 			if(isset($_POST['Bill']['CONNECTED_LTC_ADVANCE_BILL'])){
 				$model->RELATED_BILL_ID = $_POST['Bill']['CONNECTED_LTC_ADVANCE_BILL'];
@@ -997,13 +1046,17 @@ class BillController extends Controller
 		$model = $this->loadModel($id);
 		$month = $model->MONTH;
 		$year = $model->YEAR;
-		$tasks = PayBillTasks::model()->findAll('MONTH='.$month.' AND YEAR='.$year);
 		$paybill_tasks = array();
 		
-		foreach($tasks as $task){
-			$employee = Employee::model()->findByPk($task['EMPLOYEE_ID_FK']);
-			$message = "<b style='font-weight: bold;'>".$employee->NAME.", ".Designations::model()->findByPk($employee->DESIGNATION_ID_FK)->DESIGNATION. "</b>: ".$task->TASK;
-			array_push($paybill_tasks, $message);
+		$salaries = SalaryDetails::model()->findAll('BILL_ID_FK='.$id);
+		
+		foreach($salaries as $salary){
+			$task = PayBillTasks::model()->find('EMPLOYEE_ID_FK='.$salary->EMPLOYEE_ID_FK.' AND MONTH='.$month.' AND YEAR='.$year);
+			if($task){
+				$employee = Employee::model()->findByPK($salary->EMPLOYEE_ID_FK);
+				$message = "<b style='font-weight: bold;'>".$employee->NAME.", ".Designations::model()->findByPk($employee->DESIGNATION_ID_FK)->DESIGNATION. "</b>: ".$task->TASK;
+				array_push($paybill_tasks, $message);
+			}
 			
 		}
 		

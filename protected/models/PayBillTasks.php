@@ -29,12 +29,12 @@ class PayBillTasks extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('EMPLOYEE_ID_FK, MONTH, YEAR, TASK', 'required'),
-			array('EMPLOYEE_ID_FK, MONTH, YEAR', 'length', 'max'=>10),
+			array('EMPLOYEE_ID_FK, MONTH, YEAR, TASK, FINANCIAL_YEAR_ID_FK', 'required'),
+			array('EMPLOYEE_ID_FK, MONTH, YEAR, FINANCIAL_YEAR_ID_FK', 'length', 'max'=>10),
 			array('TASK', 'length', 'max'=>500),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('ID, EMPLOYEE_ID_FK, MONTH, YEAR, TASK', 'safe', 'on'=>'search'),
+			array('ID, EMPLOYEE_ID_FK, MONTH, YEAR, TASK, FINANCIAL_YEAR_ID_FK', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -56,10 +56,11 @@ class PayBillTasks extends CActiveRecord
 	{
 		return array(
 			'ID' => 'ID',
-			'EMPLOYEE_ID_FK' => 'Employee Id Fk',
+			'EMPLOYEE_ID_FK' => 'Employee Id',
 			'MONTH' => 'Month',
 			'YEAR' => 'Year',
 			'TASK' => 'Task',
+			'FINANCIAL_YEAR_ID_FK' => 'Financial Year',
 		);
 	}
 
@@ -86,6 +87,8 @@ class PayBillTasks extends CActiveRecord
 		$criteria->compare('MONTH',$this->MONTH,true);
 		$criteria->compare('YEAR',$this->YEAR,true);
 		$criteria->compare('TASK',$this->TASK,true);
+		$criteria->compare('FINANCIAL_YEAR_ID_FK',isset(Yii::app()->session['FINANCIAL_YEAR']) ? Yii::app()->session['FINANCIAL_YEAR'] : 
+											FinancialYears::model()->find('STATUS=1')->ID,true);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,

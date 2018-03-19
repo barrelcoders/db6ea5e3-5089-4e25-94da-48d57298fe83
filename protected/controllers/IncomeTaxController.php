@@ -80,7 +80,7 @@ class IncomeTaxController extends Controller
 		
 		if($type == "Screen"){
 			if($pension == "NPS"){
-				$employees = Employee::model()->findAll(array('condition'=>'PENSION_TYPE="NPS"', 'order'=>'DESIGNATION_ID_FK DESC'));
+				$employees = Employee::model()->findAll(array('condition'=>'PENSION_TYPE="NPS" AND IS_RETIRED = 0', 'order'=>'DESIGNATION_ID_FK DESC'));
 				foreach($employees as $employee){
 					array_push($list, $employee->ID);
 				}
@@ -90,7 +90,7 @@ class IncomeTaxController extends Controller
 				));
 			}
 			else if($pension == "OPS"){
-				$employees = Employee::model()->findAll(array('condition'=>'PENSION_TYPE="OPS"', 'order'=>'DESIGNATION_ID_FK DESC'));
+				$employees = Employee::model()->findAll(array('condition'=>'PENSION_TYPE="OPS" AND IS_RETIRED = 0', 'order'=>'DESIGNATION_ID_FK DESC'));
 				foreach($employees as $employee){
 					array_push($list, $employee->ID);
 				}
