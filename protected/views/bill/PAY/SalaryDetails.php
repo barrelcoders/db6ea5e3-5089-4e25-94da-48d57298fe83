@@ -1,4 +1,5 @@
 <link href="<?php echo Yii::app()->request->baseUrl; ?>/css/oneadmin.css" rel="stylesheet">
+<script type="text/javascript" src="js/salary-details.js"></script>
 <div class="container-fluid">
 	<div id="form-16-panel" style="display:none;">
 		<section class="box-typical box-typical-padding">
@@ -295,27 +296,36 @@
 									?>
 								</td>
 								<td colspan="2">
-									<?php
+									<?php 
 										$URL = 'http://'.$_SERVER['SERVER_NAME'].Yii::app()->createUrl('IncomeTax/SelectEmployeesForForm16', array('id'=>$employee->ID, 'ajax'=>true));
-										$data = file_get_contents($URL);
-										$data = get_string_between($data, '[JSON]', '[/JSON]');
-										$SALARY_DATA = json_decode($data, true);
-										$IT = 0;
-										foreach($SALARY_DATA as $IT_DATA){
-											if($IT_DATA['MONTH'] == $period['MONTH'] && $IT_DATA['YEAR'] == $period['YEAR']){
-												$IT = $IT_DATA['IT'];
-												break;
-											}
-										}?>
-											<div class="alert alert-info alert-avatar alert-no-border alert-close alert-dismissible fade in" role="alert">
-												<div class="avatar-preview avatar-preview-32">
-													<img src="img/avatar-2-64.png" alt="">
-												</div>
-												<strong>Income Tax for <?php echo $employee->NAME;?> for <?php echo $period['FORMAT'];?></strong><br>
-												<p><a href="javascript:void(0);" onclick="copyIncomeTaxValue(<?php echo $IT; ?>);">Rs. <?php echo $IT; ?>/- </a>&nbsp;&nbsp;(Click to Copy)</p>
-											</div>
-										<?php
 									?>
+									<script>
+										$.get('<?php echo $URL;?>', function( data ) {
+											var period_month = '<?php echo $period['MONTH'];?>',
+												period_year = <?php echo $period['YEAR'];?>,
+												emp_id = <?php echo $employee->ID;?>,
+												it_value = 0;
+											
+											setTimeout(function(){
+												$('#it-div-'+emp_id).html(it_value);
+												data = JSON.parse(data.substring(data.lastIndexOf("[JSON]")+6,data.lastIndexOf("[/JSON]")));
+												for(var i=0; i<data.length; i++){
+													if(data[i]['MONTH'] == period_month && data[i]['YEAR'] == period_year){
+														it_value = data[i]['IT'];
+													}
+												}
+												$('#it-div-'+emp_id).html(it_value);
+												
+											}(data, period_month, period_year, emp_id, it_value), 2000)
+										});
+									</script>
+									<div class="alert alert-info alert-avatar alert-no-border alert-close alert-dismissible fade in" role="alert">
+										<div class="avatar-preview avatar-preview-32">
+											<img src="img/avatar-2-64.png" alt="">
+										</div>
+										<strong>Income Tax for <?php echo $employee->NAME;?> for <?php echo $period['FORMAT'];?></strong><br>
+										<p><a href="javascript:void(0);" onclick="copyIncomeTaxValue(<?php echo $employee->ID;?>);">Rs. <span id='it-div-<?php echo $employee->ID;?>'></span>/- </a>&nbsp;&nbsp;(Click to Copy)</p>
+									</div>
 								</td>
 								<td colspan="2">
 									<b><a href="javascript:void(0);" class="btn btn-inline" style="float: right;" onclick="saveSalaryAjax(<?php echo $employee->ID;?>, <?php echo $period['MONTH'];?>, <?php echo $period['YEAR'];?>, <?php echo $bill->ID;?>, '<?php echo $employee->NAME;?>', '<?php echo $period['FORMAT'];?>', '<?php echo $employee->ID?>');"><i class='fa fa-save'></i> SAVE</a></b>
@@ -647,7 +657,6 @@
 		});
 	});
 </script>	
-<script type="text/javascript" src="js/salary-details.js"></script>
 <?php
 	function get_string_between($string, $start, $end){
 		$string = ' ' . $string;

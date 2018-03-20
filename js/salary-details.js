@@ -169,8 +169,8 @@ function getIncomeTaxAmount(emp_id, month, year, name, format){
 		  }
 	});
 }
-function copyIncomeTaxValue(income_tax){
-	$('#SAL-IT').val(income_tax);
+function copyIncomeTaxValue(emp_id){
+	$('div.tabcontent#'+emp_id).find('#SAL-IT').val($('#it-div-'+emp_id).html());
 }
 	
 function loadTabs (){ 
