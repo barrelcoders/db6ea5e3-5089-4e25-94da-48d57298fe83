@@ -34,6 +34,11 @@ class BillController extends Controller
 			),
 		);
 	}
+	public function actionTaxCalculate()
+	{
+		$this->layout = '//layouts/column1';
+        $this->render('TaxCalculate');
+    }
 	public function actionPayBillListByMonthAndYear($month, $year)
 	{
         $bills = Bill::model()->findAll('MONTH='.$month.' AND YEAR='.$year.' AND IS_SALARY_BILL=1');
@@ -112,10 +117,15 @@ class BillController extends Controller
 		//echo "hi";exit;
 		$model = $this->loadModel($id);
 		$content = "";
+		$all_employees = Employee::model()->findAll("IS_TRANSFERRED = 0 AND IS_RETIRED = 0 AND IS_SUSPENDED = 0 AND IS_PERMANENT = 1 ORDER BY NAME");
+		$allEmployeesContent = "<select onchange='setCCSValueForNotFound(this)'>";
+		foreach($all_employees as $emp){
+			$allEmployeesContent .= "<option value='".$emp->ID."'>".$emp->NAME."</option>";
+		}
+		$allEmployeesContent .="</select>";
 		if(isset($_POST['Bill']))
 		{
 			$UploadFile = CUploadedFile::getInstance($model, 'CSS_FILE');
-			$all_employees = Employee::model()->findAll("IS_TRANSFERRED = 0 AND IS_RETIRED = 0 AND IS_SUSPENDED = 0 AND IS_PERMANENT = 1 ORDER BY NAME");
 			if($UploadFile !== null){
 				$FileExt=$UploadFile->getExtensionName();
 				if(strtolower($FileExt)=="xls" || strtolower($FileExt)=="xlsx"){
@@ -194,20 +204,19 @@ class BillController extends Controller
 														$content .= "<div>".$record_fetched['RECORD_NAME']."<br>";
 														$content .="<input type='hidden' name='Import[".$record_fetched['ID']."][EMPLOYEE_ID_FK]' value='".$record_fetched['ID']."'>";
 														$content .="<input type='text' class='ccs-amount' name='Import[".$record_fetched['ID']."][CCS]' value='".$record_fetched['AMOUNT']."'>";
-														$content .="<button onclick='removeParent(this);' style='width: 25px;'><i class='fa fa-check'></i></button></div>";
+														$content .="<span style='display:none;'>";
+														$content .= $allEmployeesContent."<br>";
+														$content .="</span>";
+														$content .="<button type='button' class='not-found-btn' style='width: 25px;'><i class='fa fa-user'></i></button><button type='button' onclick='removeParent(this);' style='width: 25px;'><i class='fa fa-check'></i></button></div>";
 													}
 													else if($record_fetched['STATUS'] == 'TRANSFERRED' || $record_fetched['STATUS'] == 'RETIRED' || 
 													$record_fetched['STATUS'] == 'SUSPENDED' || $record_fetched['STATUS'] == 'TEMPORARY'){
-														$content .= "<div><span style='color: #f00;'>".$record_fetched['RECORD_NAME']." is ".$record_fetched['STATUS'].".</span><br><button onclick='removeParent(this);' style='width: 25px;'><i class='fa fa-check'></i></button></div>";
+														$content .= "<div><span style='color: #f00;'>".$record_fetched['RECORD_NAME']." is ".$record_fetched['STATUS'].".</span><br><button type='button' onclick='removeParent(this);' style='width: 25px;'><i class='fa fa-check'></i></button></div>";
 													}
 													else if($record_fetched['STATUS'] == 'NOT FOUND'){
 														$content .= "<div>";
 														$content .="<input type='hidden' id='EMPLOYEE_ID_FK' name='Import[".$record_fetched['ID']."][EMPLOYEE_ID_FK]' value=''>";
-														$content .= "<select onchange='setCCSValue(this)'>";
-														foreach($all_employees as $emp){
-															$content .= "<option value='".$emp->ID."'>".$emp->NAME."</option>";
-														}
-														$content .= "</select><br>";
+														$content .= $allEmployeesContent."<br>";
 														$content .="<input type='text' class='ccs-amount' name='Import[".$record_fetched['ID']."][CCS]' value='".$record_fetched['AMOUNT']."'>";
 														$content .="</div>";
 													}
@@ -245,7 +254,7 @@ class BillController extends Controller
 		}
 
 		if(isset($_POST['Import']))
-		{
+		{	echo "hi";exit;
 			$employees = $_POST['Import'];
 			$this->AllCCSToBeZero($model->ID);
 			foreach($employees as $employee){
@@ -1007,7 +1016,19 @@ class BillController extends Controller
 	public function actionPayBillValidate($id){
 		$model = $this->loadModel($id);
 		$this->amountInWords = $this->amountToWord($model->BILL_AMOUNT);
-		$this->render('PAY/PayBillValidate',array('model'=>$model,));
+		
+		if(isset($_POST['Employee'])){
+			$employee_ids = $_POST['Employee']['ID'];
+			foreach($employee_ids as $emp_id){
+				$id = $model->ID;
+				Yii::app()->db->createCommand("UPDATE tbl_salary_details SET GROSS = (BASIC + HRA  + DA  + TA  + SP + PP) WHERE EMPLOYEE_ID_FK = ".$emp_id." AND BILL_ID_FK=".$id.";")->execute();
+				Yii::app()->db->createCommand("UPDATE tbl_salary_details SET DED = (IT  + CGHS  + LF  + CGEGIS  + CPF_TIER_I  + CPF_TIER_II + MISC + PLI + COURT_ATTACHMENT + HBA_EMI + MCA_EMI + COMP_EMI) WHERE EMPLOYEE_ID_FK = ".$emp_id." AND BILL_ID_FK=".$id.";")->execute();
+				Yii::app()->db->createCommand("UPDATE tbl_salary_details SET OTHER_DED = (LIC + CCS + ASSOSC_SUB + MAINT_JAYAMAHAL + MAINT_MADIWALA) WHERE EMPLOYEE_ID_FK = ".$emp_id." AND BILL_ID_FK=".$id.";")->execute();
+				Yii::app()->db->createCommand("UPDATE tbl_salary_details SET NET = (GROSS - DED) WHERE EMPLOYEE_ID_FK = ".$emp_id." AND BILL_ID_FK=".$id.";")->execute();
+				Yii::app()->db->createCommand("UPDATE tbl_salary_details SET AMOUNT_BANK = (GROSS - DED - OTHER_DED - PT) WHERE EMPLOYEE_ID_FK = ".$emp_id." AND BILL_ID_FK=".$id.";")->execute();
+			}
+		}
+		$this->render('PAY/PayBillValidate',array('model'=>$model));
 	}
 	
 	

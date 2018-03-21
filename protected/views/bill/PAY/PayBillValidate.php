@@ -1,8 +1,12 @@
 <link href="<?php echo Yii::app()->request->baseUrl; ?>/css/oneadmin.css" rel="stylesheet">
+<form method="post" action="<?php echo Yii::app()->createUrl('bill/PayBillValidate', array('id'=>$model->ID))?>">
 <table class="table table-bordered table-hover" style="margin-bottom: 10px;">
 	<tr>
-		<td colspan="5">
+		<td colspan="3">
 			<a href="<?php echo Yii::app()->createUrl('bill/update', array('id'=>$model->ID))?>"><?php echo $model->BILL_TITLE; ?></a>
+		</td>
+		<td colspan="2">
+			<input type="submit" class="btn btn-inline" value="Auto Validate"/>
 		</td>
 		<td colspan="3">
 			<span style="float: right;"><?php echo $model->BILL_NO; ?></span>
@@ -10,7 +14,7 @@
 	</tr>
 </table>
 			<?php
-	$salaries = Yii::app()->db->createCommand("SELECT b.NAME AS NAME,
+	$salaries = Yii::app()->db->createCommand("SELECT b.ID AS ID, b.NAME AS NAME,
 (a.BASIC  + a.HRA  + a.DA  + a.TA  + a.SP  + a.PP) AS ACTUAL_GROSS ,
 a.GROSS AS BILL_GROSS,
 (a.IT  + a.CGHS  + a.LF  + a.CGEGIS  + a.CPF_TIER_I  + a.CPF_TIER_II + a.MISC + a.PLI + a.COURT_ATTACHMENT + a.HBA_EMI + a.MCA_EMI + a.COMP_EMI) AS ACTUAL_DED,
@@ -30,6 +34,7 @@ WHERE a.EMPLOYEE_ID_FK = b.ID AND a.BILL_ID_FK=".$model->ID." AND
 (a.GROSS-a.DED-a.OTHER_DED-a.PT) != a.AMOUNT_BANK )")->queryAll();
 ?>
 
+
  <table class="table table-bordered table-hover" style="margin-bottom: 10px;">
 	<tr>
 		<th>NAME</th>
@@ -46,7 +51,7 @@ WHERE a.EMPLOYEE_ID_FK = b.ID AND a.BILL_ID_FK=".$model->ID." AND
 	</tr>
 	<?php foreach($salaries as $salary){?>
 	<tr>
-		<td><?php echo $salary['NAME'];?></td>
+		<td><input type="hidden" value="<?php echo $salary['ID'];?>" name="Employee[ID][]"/><?php echo $salary['NAME'];?></td>
 		<td><?php echo $salary['ACTUAL_GROSS'];?></td>
 		<td><?php echo $salary['BILL_GROSS'];?></td>
 		<td><?php echo $salary['ACTUAL_DED'];?></td>
@@ -60,3 +65,4 @@ WHERE a.EMPLOYEE_ID_FK = b.ID AND a.BILL_ID_FK=".$model->ID." AND
 	</tr>
 	<?php } ?>
 	</table>
+</form>

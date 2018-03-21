@@ -27,9 +27,16 @@
 		<p>(a) Deductions/recoveries adjustable in the books  <br> of Payand Accocunts Officer.</p><br><br>
 		<p><span style="font-weight: bold;font-size: 11px;">0021</span> <span style="font-weight: bold;font-size: 11px;"> TAXES ON INCOME	</span></p>
 		<?php $IT = Yii::app()->db->createCommand("SELECT SUM(IT) as IT FROM tbl_salary_details WHERE BILL_ID_FK = $model->ID;")->queryRow()['IT'];?>
+		<?php if(Yii::app()->session['FINANCIAL_YEAR'] == 1){ ?>
 		<p><span style="font-weight: bold;font-size: 11px;">OTHER THAN CORPN. TAX</span><span style="font-size: 11px;float: right;margin-right: 10px;display: inline-block;width: 50%;">Income Tax:<span style="float: right;font-style: italic;">Rs.<?php echo round(($IT / 103) * 100);?></span></span></p>
 		<p><span style="font-size: 11px;float: right;margin-right: 10px;display: inline-block;width: 50%;">	CESS:<span style="float: right;font-style: italic;">Rs.<?php echo round(($IT / 103) * 2);?></span></span></p>
 		<p><span style="font-size: 11px;float: right;margin-right: 10px;display: inline-block;width: 50%;">	Higher Edn. Cess:<span style="float: right;font-style: italic;">Rs.<?php echo round(($IT / 103) * 1);?></span></span></p>
+		<?php } else {?>
+		<p><span style="font-weight: bold;font-size: 11px;">OTHER THAN CORPN. TAX</span><span style="font-size: 11px;float: right;margin-right: 10px;display: inline-block;width: 50%;">Income Tax:<span style="float: right;font-style: italic;">Rs.<?php echo round(($IT / 104) * 100);?></span></span></p>
+		<p><span style="font-size: 11px;float: right;margin-right: 10px;display: inline-block;width: 50%;">	CESS:<span style="float: right;font-style: italic;">Rs.<?php echo round(($IT / 104) * 2);?></span></span></p>
+		<p><span style="font-size: 11px;float: right;margin-right: 10px;display: inline-block;width: 50%;">	Higher Edn. Cess:<span style="float: right;font-style: italic;">Rs.<?php echo round(($IT / 104) * 2);?></span></span></p>
+		<?php } ?>
+		
 		<p><span style="font-size: 12px;float: right;margin-right: 10px;display: inline-block;width: 50%;">	<span style="float: right;font-style: italic;font-weight: bold;">Rs.<?php echo $IT;?></span></span></p>
 		<p><span style="font-weight: bold;font-size: 11px;">0049 INTEREST RECEIPTS</span><span style="float: right;margin-right: 10px;font-style: italic;"></span></p>
 		<p>(i) Interest on House Building <span style="float: right;font-weight: bold;margin-right: 10px;">Rs.<?php $HBA_INTEREST = Yii::app()->db->createCommand("SELECT SUM(HBA_EMI) as HBA_EMI FROM tbl_salary_details WHERE BILL_ID_FK = $model->ID AND IS_HBA_RECOVERY=1;")->queryRow()['HBA_EMI']; echo $HBA_INTEREST;?></span></p><br>

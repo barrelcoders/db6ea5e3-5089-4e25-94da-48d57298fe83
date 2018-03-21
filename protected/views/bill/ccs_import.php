@@ -46,7 +46,14 @@
 	</div>
 </div>
 <script>
-		
+	$(document).ready(function(){
+		$('.not-found-btn').click(function(event){
+			event.stopPropagation();
+			event.preventDefault();
+			$(this).prev().toggle();
+			return false;
+		});
+	});
 	function removeParent(element){
 		calculateCCSTotal();
 		var current_content = "<div>"+$(element).parent('div').html()+"</div>",
@@ -67,6 +74,12 @@
 		$(element).prev().val(emp_id);
 		$(element).prev().attr('name', 'Import['+emp_id+'][EMPLOYEE_ID_FK]');
 		$(element).next().next().attr('name', 'Import['+emp_id+'][CCS]');
+	}
+	function setCCSValueForNotFound(element){
+		var emp_id = $(element).val();
+		$(element).parent().prev().prev().val(emp_id);
+		$(element).parent().prev().prev().attr('name', 'Import['+emp_id+'][EMPLOYEE_ID_FK]');
+		$(element).parent().prev().attr('name', 'Import['+emp_id+'][CCS]');
 	}
 	function undoClick(){
 		calculateCCSTotal();

@@ -360,7 +360,11 @@
 		<td class="no-border">5%</td>
 		<td colspan="2"><?php echo $SECOND_SLAB_TAX;?></td>
 		<td class="no-border"></td>
+		<?php if(Yii::app()->session['FINANCIAL_YEAR'] == 1){ ?>
 		<td colspan="3" class="left-text">3%  Education Cess</td>
+		<?php } else {?>
+		<td colspan="3" class="left-text">4%  Education Cess</td>
+		<?php } ?>
 		<td><?php echo $TOTAL_TAX_AFTER_REBATE_WITH_CESS;?></td>
 	</tr>
 	<tr class="no-border">

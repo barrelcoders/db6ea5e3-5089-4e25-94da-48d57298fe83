@@ -42,9 +42,17 @@
 				$j=1;
 				foreach($periods as $period){
 					$salary = SalaryDetails::model()->find("t.EMPLOYEE_ID_FK=".$employee->EMPLOYEE_ID_FK." AND t.BILL_ID_FK=".$model->ID." AND t.MONTH=".$period['MONTH']." AND t.YEAR=".$period['YEAR']);
-					$ONLY_IT = round(($salary->IT / 103) * 100);
-					$ONLY_ECESS = round(($salary->IT / 103) * 2);
-					$ONLY_HECESS = round(($salary->IT / 103) * 1);
+					if(Yii::app()->session['FINANCIAL_YEAR'] == 1){
+						$ONLY_IT = round(($salary->IT / 103) * 100);
+						$ONLY_ECESS = round(($salary->IT / 103) * 2);
+						$ONLY_HECESS = round(($salary->IT / 103) * 1);
+					}
+					else{
+						$ONLY_IT = round(($salary->IT / 104) * 100);
+						$ONLY_ECESS = round(($salary->IT / 104) * 2);
+						$ONLY_HECESS = round(($salary->IT / 104) * 2);
+					}
+					
 					
 					if($model->IS_MULTIPLE_MONTH) { 
 						if($j==1){

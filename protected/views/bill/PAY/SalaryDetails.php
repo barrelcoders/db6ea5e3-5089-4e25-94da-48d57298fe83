@@ -650,7 +650,7 @@
 		e.preventDefault();
 		swal({
 			title: "IT Calculator",
-			text: "<iframe style='width:300px;height:300px;border:none;' src='TaxCalculate.html'></iframe>",
+			text: "<iframe style='width:300px;height:300px;border:none;' src='<?php echo Yii::app()->createUrl('Bill/TaxCalculate')?>'></iframe>",
 			html:true,
 			confirmButtonClass: "btn-error",
 			confirmButtonText: "Close"
