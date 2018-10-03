@@ -25,7 +25,6 @@
 	for($i=$StartIndex; $i<=$EndIndex;$i++){
 		array_push($periods, $CurrentFinancialYearPeriods[$i]);
 	}
-	
 	$js_array = json_encode($periods);
 	$monthNames = array('JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN', 'JUL', 'AUG', 'SEP', 'OCT', 'NOV', 'DEC');
 	$year = 2017;

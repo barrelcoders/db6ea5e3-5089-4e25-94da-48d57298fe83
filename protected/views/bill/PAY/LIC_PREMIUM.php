@@ -10,7 +10,8 @@
 <h3 style="text-transform: uppercase;text-align: center">LIC PREMIUM RECOVERED FROM THE PAY OF THE OFFICERS /STAFF FOR THE MONTH OF <?php echo $monthName[$model->MONTH]."-".$model->YEAR; ?></h3>
 <br>
 <p style="text-align: right">BRANCH CODE: 614</p>
-<p style="text-align: right">P.A. Code No.: 0533261 </p>
+<p style="text-align: right">P.A. Code No.: 0501661 </p>
+<p style="text-align: right">Sub Code No.: 000003 </p>
 <br>
 <table class="one-table small">
 	<thead>

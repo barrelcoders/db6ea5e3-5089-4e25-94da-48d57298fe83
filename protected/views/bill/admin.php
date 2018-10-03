@@ -91,6 +91,14 @@ table.table.table-bordered.table-hover{font-size: 14px;}
 				),
 
 				array(
+					'name'=>'PASSED_DATE',
+					'type'=>'raw',
+					'id' => 'PASSED_DATE',
+					'value'=>function($data){
+						return date('d-M-Y', strtotime($data->PASSED_DATE));
+					}
+				),
+				array(
 					'header'=>'BILL TYPE',
 					'name'=>'BILL_TYPE',
 					'type'=>'raw',

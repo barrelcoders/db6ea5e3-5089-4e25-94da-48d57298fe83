@@ -8,7 +8,8 @@
 )); ?>
 <div class="row">
 	<div class="col-sm-12">
-		<h3><?php echo Employee::model()->findByPK($id)->NAME.", ".Designations::model()->findByPK(Employee::model()->findByPK($id)->DESIGNATION_ID_FK)->DESIGNATION; ?></h3>
+		<h3><?php 
+		echo Employee::model()->findByPK($id)->NAME.", ".Designations::model()->findByPK(Employee::model()->findByPK($id)->DESIGNATION_ID_FK)->DESIGNATION; ?></h3>
 		<?php echo CHtml::submitButton('Save', array('class'=>'btn btn-inline')); ?>
 	</div>
 	<div class="col-sm-12">

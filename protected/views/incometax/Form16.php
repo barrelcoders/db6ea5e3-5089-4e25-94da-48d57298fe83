@@ -4,7 +4,7 @@
 	
 	$monthName = array('1'=>'JAN', '2'=>'FEB', '3'=>'MAR', '4'=>'APR', '5'=>'MAY', '6'=>'JUN', '7'=>'JUL', '8'=>'AUG', '9'=>'SEP', '10'=>'OCT', '11'=>'NOV', '12'=>'DEC');
 	$master = Master::model()->findByPK(1);
-	$financialYear = FinancialYears::model()->find('STATUS=1');
+	$financialYear = FinancialYears::model()->findByPk(Yii::app()->session['FINANCIAL_YEAR']);
 	$StartYear = date('Y', strtotime($financialYear->START_DATE));
 	$EndYear = date('Y', strtotime($financialYear->END_DATE));
 	$CurrentFinancialYearPeriods = array('3-'.$StartYear,'4-'.$StartYear,'5-'.$StartYear,'6-'.$StartYear, '7-'.$StartYear, '8-'.$StartYear, '9-'.$StartYear, '10-'.$StartYear, '11-'.$StartYear, '12-'.$StartYear,'1-'.$EndYear, '2-'.$EndYear);
@@ -53,64 +53,52 @@
 		$TOTAL_SALARIES = array();
 		$DA_TA_ARREAR = 0;
 		$i=0;
+		$j=0;
+		$k=0;
+		$JoinZeroSalaryIndex = -1;
+		$JoinSalaryCreditPeriod = isset($employee->CURRENT_OFFICE_JOIN_DATE) ? 
+				date('n-Y', strtotime($employee->CURRENT_OFFICE_JOIN_DATE)) : '';
+				
+		$ExitZeroSalaryIndex = -1;
+		$ExitSalaryCreditPeriod = isset($employee->CURRENT_OFFICE_RELIEF_DATE) ? 
+				date('n-Y', strtotime($employee->CURRENT_OFFICE_RELIEF_DATE)) : '';
+		
+		if($JoinSalaryCreditPeriod){
+			foreach($CurrentFinancialYearPeriods as $period){
+				if($JoinSalaryCreditPeriod == $period){
+					$JoinZeroSalaryIndex = $k - 1;
+				}
+				else{
+					$k++;
+				}
+			}
+		}
+		
+		
+		
+		
+		if($ExitSalaryCreditPeriod){
+			foreach($CurrentFinancialYearPeriods as $period){
+				if($ExitSalaryCreditPeriod == $period){
+					$ExitZeroSalaryIndex = $j + 1;
+				}
+				else{
+					$j++;
+				}
+			}
+		}
+		
+		if($ExitZeroSalaryIndex <= -1){
+			$ExitZeroSalaryIndex = 12;
+		}
+		
+		//echo $JoinZeroSalaryIndex." | ".$ExitZeroSalaryIndex;exit;
 		foreach($CurrentFinancialYearPeriods as $period){
 			$MONTH = explode('-', $period)[0];
 			$YEAR = explode('-', $period)[1];
-			if(SalaryDetails::model()->exists('EMPLOYEE_ID_FK='.$id.' AND MONTH='.$MONTH.' AND YEAR='.$YEAR.' AND IS_SALARY_BILL=1')){
-				$salary = SalaryDetails::model()->find('EMPLOYEE_ID_FK='.$id.' AND MONTH='.$MONTH.' AND YEAR='.$YEAR.' AND IS_SALARY_BILL=1');
-				array_push($SALARIES, array(
-					'MONTH'=>$MONTH,
-					'YEAR'=>$YEAR,
-					'PERIOD'=>$monthName[$salary->MONTH].'-'.$salary->YEAR,
-					'BASIC'=>$salary->BASIC,
-					'PP_SP'=>($salary->PP+$salary->SP),
-					'TA'=>$salary->TA,
-					'HRA'=>$salary->HRA,
-					'DA'=>$salary->DA,
-					'TOTAL'=>($salary->BASIC+$salary->PP+$salary->SP+$salary->TA+$salary->HRA+$salary->DA),
-					'CGEGIS'=>$salary->CGEGIS,
-					'CGHS'=>$salary->CGHS,
-					'CPF'=>($salary->CPF_TIER_I),
-					'PT'=>$salary->PT,
-					'IT'=>$salary->IT,
-					'PLI'=>$salary->PLI,
-					'LIC'=>$salary->LIC,
-					'MISC'=>$salary->MISC,
-					'TYPE'=>'SALARY'
-				));
-			}
-			else if(SupplementarySalaryDetails::model()->exists('EMPLOYEE_ID_FK='.$id.' AND MONTH='.$MONTH.' AND YEAR='.$YEAR)){
-				$salary = SupplementarySalaryDetails::model()->find('EMPLOYEE_ID_FK='.$id.' AND MONTH='.$MONTH.' AND YEAR='.$YEAR);
-				array_push($SALARIES, array(
-					'MONTH'=>$MONTH,
-					'YEAR'=>$YEAR,
-					'PERIOD'=>$monthName[$salary->MONTH].'-'.$salary->YEAR,
-					'BASIC'=>$salary->BASIC,
-					'PP_SP'=>($salary->PP+$salary->SP),
-					'TA'=>$salary->TA,
-					'HRA'=>$salary->HRA,
-					'DA'=>$salary->DA,
-					'TOTAL'=>($salary->BASIC+$salary->PP+$salary->SP+$salary->TA+$salary->HRA+$salary->DA),
-					'CGEGIS'=>$salary->CGEGIS,
-					'CGHS'=>$salary->CGHS,
-					'CPF'=>($salary->CPF_TIER_I),
-					'PT'=>$salary->PT,
-					'IT'=>$salary->IT,
-					'PLI'=>$salary->PLI,
-					'LIC'=>$salary->LIC,
-					'MISC'=>$salary->MISC,
-					'TYPE'=>'SALARY'
-				));
-			}
-			else if(findLastMonthSalary($SALARIES, $i)){
-				$salary = findLastMonthSalary($SALARIES, $i);
-				$salary['MONTH'] = $MONTH;
-				$salary['YEAR'] = $YEAR;
-				$salary['PERIOD'] = $monthName[$MONTH].'-'.$YEAR;
-				$salary['IT'] = 0;
-				array_push($SALARIES, $salary);
-			}
-			else{
+			
+			
+			if($i <= $JoinZeroSalaryIndex || $i >= $ExitZeroSalaryIndex){
 				array_push($SALARIES, array(
 					'MONTH'=>$MONTH,
 					'YEAR'=>$YEAR,
@@ -132,7 +120,85 @@
 					'TYPE'=>'SALARY'
 				));
 			}
-			
+			else{
+				if(SalaryDetails::model()->exists('EMPLOYEE_ID_FK='.$id.' AND MONTH='.$MONTH.' AND YEAR='.$YEAR.' AND IS_SALARY_BILL=1')){
+					$salary = SalaryDetails::model()->find('EMPLOYEE_ID_FK='.$id.' AND MONTH='.$MONTH.' AND YEAR='.$YEAR.' AND IS_SALARY_BILL=1');
+					array_push($SALARIES, array(
+						'MONTH'=>$MONTH,
+						'YEAR'=>$YEAR,
+						'PERIOD'=>$monthName[$salary->MONTH].'-'.$salary->YEAR,
+						'BASIC'=>$salary->BASIC,
+						'PP_SP'=>($salary->PP+$salary->SP),
+						'TA'=>$salary->TA,
+						'HRA'=>$salary->HRA,
+						'DA'=>$salary->DA,
+						'TOTAL'=>($salary->BASIC+$salary->PP+$salary->SP+$salary->TA+$salary->HRA+$salary->DA),
+						'CGEGIS'=>$salary->CGEGIS,
+						'CGHS'=>$salary->CGHS,
+						'CPF'=>($salary->CPF_TIER_I),
+						'PT'=>$salary->PT,
+						'IT'=>$salary->IT,
+						'PLI'=>$salary->PLI,
+						'LIC'=>$salary->LIC,
+						'MISC'=>$salary->MISC,
+						'TYPE'=>'SALARY'
+					));
+				}
+				else if(SupplementarySalaryDetails::model()->exists('EMPLOYEE_ID_FK='.$id.' AND MONTH='.$MONTH.' AND YEAR='.$YEAR)){
+					$salary = SupplementarySalaryDetails::model()->find('EMPLOYEE_ID_FK='.$id.' AND MONTH='.$MONTH.' AND YEAR='.$YEAR);
+					array_push($SALARIES, array(
+						'MONTH'=>$MONTH,
+						'YEAR'=>$YEAR,
+						'PERIOD'=>$monthName[$salary->MONTH].'-'.$salary->YEAR,
+						'BASIC'=>$salary->BASIC,
+						'PP_SP'=>($salary->PP+$salary->SP),
+						'TA'=>$salary->TA,
+						'HRA'=>$salary->HRA,
+						'DA'=>$salary->DA,
+						'TOTAL'=>($salary->BASIC+$salary->PP+$salary->SP+$salary->TA+$salary->HRA+$salary->DA),
+						'CGEGIS'=>$salary->CGEGIS,
+						'CGHS'=>$salary->CGHS,
+						'CPF'=>($salary->CPF_TIER_I),
+						'PT'=>$salary->PT,
+						'IT'=>$salary->IT,
+						'PLI'=>$salary->PLI,
+						'LIC'=>$salary->LIC,
+						'MISC'=>$salary->MISC,
+						'TYPE'=>'SALARY'
+					));
+				}
+				else if(findLastMonthSalary($SALARIES, $i)){
+					$salary = findLastMonthSalary($SALARIES, $i);
+					$salary['MONTH'] = $MONTH;
+					$salary['YEAR'] = $YEAR;
+					$salary['PERIOD'] = $monthName[$MONTH].'-'.$YEAR;
+					$salary['IT'] = 0;
+					array_push($SALARIES, $salary);
+				}
+				else{
+					array_push($SALARIES, array(
+						'MONTH'=>$MONTH,
+						'YEAR'=>$YEAR,
+						'PERIOD'=>$monthName[$MONTH].'-'.$YEAR,
+						'BASIC'=>0,
+						'PP_SP'=>0,
+						'TA'=>0,
+						'HRA'=>0,
+						'DA'=>0,
+						'TOTAL'=>0,
+						'CGEGIS'=>0,
+						'CGHS'=>0,
+						'CPF'=>0,
+						'PT'=>0,
+						'IT'=>0,
+						'PLI'=>0,
+						'LIC'=>0,
+						'MISC'=>0,
+						'TYPE'=>'SALARY'
+					));
+				}
+				
+			}
 			$bills = Bill::model()->findAll('PFMS_STATUS="Passed" AND MONTH='.$MONTH.' AND YEAR='.$YEAR.' AND IS_ARREAR_BILL=1');
 			$arr_bills = array(); foreach($bills as $bill) array_push($arr_bills, $bill->ID);
 			if(count($arr_bills) > 0){
@@ -187,7 +253,6 @@
 			
 			$i++;
 		}
-		
 		$TOTAL_SALARIES = getSalaryTotal($SALARIES);
 		
 		$bills = Bill::model()->findAll('PFMS_STATUS="Passed" AND FINANCIAL_YEAR_ID_FK='.$financialYear->ID.' AND IS_DA_ARREAR_BILL=1');
@@ -312,7 +377,7 @@
 		}
 		
 		
-		$TA_ALLOWED = min($TOTAL_SALARIES[0]['TA'], 19200);
+		$TA_ALLOWED = min($TOTAL_SALARIES[0]['TA'], (getTotalTAMonths($SALARIES) * 1600));
 		$INCOME_AFTER_DEDUCTION = $GROSS_INCOME - $TOTAL_SALARIES[0]['PT'] - $TA_ALLOWED;
 		
 		$TOTAL_CGHS = $TOTAL_SALARIES[0]['CGHS'];
@@ -364,8 +429,8 @@
 			$HOME_LOAN_80_EE_REBATE = 0;
 		}
 		if($HOME_LOAN_YEAR == "2016-17" || $HOME_LOAN_YEAR == "2017-18" || $HOME_LOAN_YEAR == "2018-19"){
-			//$HOME_LOAN_80_EE_REBATE = ($HOME_LOAN_AMOUNT_FOR_80_EE_REBATE >=50000) ? 50000 : $HOME_LOAN_AMOUNT_FOR_80_EE_REBATE;
-			$HOME_LOAN_80_EE_REBATE = ($HOME_LOAN_AMOUNT_FOR_80_EE_REBATE >=100000) ? 100000 : $HOME_LOAN_AMOUNT_FOR_80_EE_REBATE;
+			$HOME_LOAN_80_EE_REBATE = ($HOME_LOAN_AMOUNT_FOR_80_EE_REBATE >=50000) ? 50000 : $HOME_LOAN_AMOUNT_FOR_80_EE_REBATE;
+			//$HOME_LOAN_80_EE_REBATE = ($HOME_LOAN_AMOUNT_FOR_80_EE_REBATE >=100000) ? 100000 : $HOME_LOAN_AMOUNT_FOR_80_EE_REBATE;
 		}
 		
 		//$HOME_LOAD_EXCESS_2013_14 = min((($HOME_LOAN_INT >= 250001) ? ($HOME_LOAN_INT - $MIN_HOME_LOAN_INT) : 0 ), 100000);
@@ -444,7 +509,7 @@
 		$THIRD_SLAB_INCOME = MIN((($TOTAL_TAXABLE_INCOME_ROUNDED>=$TAX_SLABS_III_MIN) ? ($TOTAL_TAXABLE_INCOME_ROUNDED - $TAX_SLABS_III_MIN) : 0 ), $TAX_SLABS_III_MIN);
 		$THIRD_SLAB_TAX = round(($THIRD_SLAB_INCOME *  $TAX_SLABS_III_RATE )/100);
 		
-		$FOURTH_SLAB_INCOME = MIN((($TOTAL_TAXABLE_INCOME_ROUNDED>=$TAX_SLABS_IV_MIN) ? ($TOTAL_TAXABLE_INCOME_ROUNDED - $TAX_SLABS_IV_MIN) : 0 ), $TAX_SLABS_IV_MIN);
+		$FOURTH_SLAB_INCOME = ($TOTAL_TAXABLE_INCOME_ROUNDED>=$TAX_SLABS_IV_MIN) ? ($TOTAL_TAXABLE_INCOME_ROUNDED - $TAX_SLABS_IV_MIN) : 0;
 		$FOURTH_SLAB_TAX = round(($FOURTH_SLAB_INCOME *  $TAX_SLABS_IV_RATE )/100);
 		
 		$TOTAL_SLAB_INCOME = $FIRST_SLAB_INCOME + $SECOND_SLAB_INCOME + $THIRD_SLAB_INCOME + $FOURTH_SLAB_INCOME;
@@ -467,8 +532,8 @@
 		
 		$PAN_NUMBER = $employee->PAN;
 		
-		$REMAINING_MONTHS = remainingMonthsForIT($CurrentFinancialYearPeriods, $id);
-		
+		//$REMAINING_MONTHS = remainingMonthsForIT($CurrentFinancialYearPeriods, $id);
+		$REMAINING_MONTHS = remainingMonthsForIT($CurrentFinancialYearPeriods, $ExitZeroSalaryIndex);
 		if($TAX_REMAINING <= 0){
 			$IT_FOR_REMAINING_MONTHS = getNilParts($REMAINING_MONTHS);
 		}
@@ -478,11 +543,13 @@
 		}
 		
 		for($i=(count($SALARIES) - $REMAINING_MONTHS),$j=0; $i<count($SALARIES); $i++){
-			$SALARIES[$i]['IT'] = $IT_FOR_REMAINING_MONTHS[$j];
+			if($SALARIES[$i]['BASIC'] != 0){
+				$SALARIES[$i]['IT'] = $IT_FOR_REMAINING_MONTHS[$j];
+			}
 			$j++;
 		}
 		
-		
+		//echo "<pre>";print_r($IT_FOR_REMAINING_MONTHS);echo "</pre>";exit;
 		$TOTAL_SALARIES = getSalaryTotal($SALARIES);
 		$TAX_PAID_FROM_SALARY = $TOTAL_SALARIES[0]['IT'];
 		$TAX_REMAINING = $GROSS_TAX_PAYABLE - $TAX_PAID_FROM_SALARY;
@@ -496,6 +563,16 @@
 ?>
 </table>
 <?php
+
+function getTotalTAMonths($salaries){
+	$total = 0;
+	for($i=0;$i<=count($salaries)-1;$i++){
+		if($salaries[$i]['TA'] != 0 && $salaries[$i]['TYPE']=='SALARY'){
+			$total++;
+		}
+	}
+	return $total;
+}
 function getSalaryTotal($salaries){
 	$total = array();
 	$BASIC = 0;
@@ -551,36 +628,30 @@ function getSalaryTotal($salaries){
 	
 	return $total;
 }
-function remainingMonthsForIT($periods, $emp_id){
-	$count = 0;
-	foreach($periods as $period){
+//function remainingMonthsForIT($periods, $emp_id, $lastSalaryIndex){
+function remainingMonthsForIT($periods, $lastSalaryIndex){
+	//$count = 0;
+	//$SalaryFoundForMonths = 0;
+	/*foreach($periods as $period){
 		$MONTH = explode('-', $period)[0];
 		$YEAR = explode('-', $period)[1];
-		if(!SalaryDetails::model()->exists('EMPLOYEE_ID_FK='.$emp_id.' AND MONTH='.$MONTH.' AND YEAR='.$YEAR.' AND IS_SALARY_BILL=1') 
-			&& !SupplementarySalaryDetails::model()->exists('EMPLOYEE_ID_FK='.$emp_id.' AND MONTH='.$MONTH.' AND YEAR='.$YEAR)){
-				$salaries = SalaryDetails::model()->findAll('EMPLOYEE_ID_FK='.$emp_id.' AND MONTH='.$MONTH.' AND YEAR='.$YEAR);
-				if($salaries){
-					foreach($salaries as $salary){
-						if($salary){
-							$bill = Bill::model()->findByPK($salary->BILL_ID_FK);
-							if($bill->IS_ARREAR_BILL == 0){ 
-								$count++;
-							}
-						}
-					}
-				}
-				else{
-					$count++;
-				}
+		if(SalaryDetails::model()->exists('EMPLOYEE_ID_FK='.$emp_id.' AND MONTH='.$MONTH.' AND YEAR='.$YEAR.' AND IS_SALARY_BILL=1') ||
+			SupplementarySalaryDetails::model()->exists('EMPLOYEE_ID_FK='.$emp_id.' AND MONTH='.$MONTH.' AND YEAR='.$YEAR)){
+			$SalaryFoundForMonths++;
 		}
-		else if(SalaryDetails::model()->exists('EMPLOYEE_ID_FK='.$emp_id.' AND MONTH='.$MONTH.' AND YEAR='.$YEAR.' AND IS_SALARY_BILL=1')){
-			$salarý = SalaryDetails::model()->find('EMPLOYEE_ID_FK='.$emp_id.' AND MONTH='.$MONTH.' AND YEAR='.$YEAR.' AND IS_SALARY_BILL=1');
-			if($salarý->IT == 0){
-				$count++;
-			}
-		}
+		$count = $totalMonths - $SalaryFoundForMonths;
+	}*/
+	
+	$totalMonths = count($periods);
+	$remainingMonths = (($totalMonths - 1) - $lastSalaryIndex);
+	
+	if($remainingMonths < 0){
+		$remainingMonths = 0;
 	}
-	return $count;
+	
+	return $remainingMonths;
+	
+	//return $count;
 }
 function getParts($tot, $n){
 	$values = array();

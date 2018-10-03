@@ -211,8 +211,8 @@
 	<table style="border: 1px solid #FFF;border-spacing:0px;">
 		<tr>
 			<td style="width:300px;">LIC OF INDIA</td>
-			<td style="width:100px;text-align:center;">ICIC0000002</td>
-			<td style="width:300px;text-align:center;">000205026405</td>
+			<td style="width:100px;text-align:center;">UTIB0001028</td>
+			<td style="width:300px;text-align:center;">917020077347447</td>
 			<td style="width:200px;">Rs. <?php echo Yii::app()->db->createCommand("SELECT SUM(LIC) as LIC FROM tbl_salary_details WHERE BILL_ID_FK = $model->ID;")->queryRow()['LIC'];?>/-</td>
 		</tr>
 		<tr>

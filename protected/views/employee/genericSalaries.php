@@ -104,7 +104,8 @@ $this->menu=array(
 					</div>
 					<ul class="col-sm-12 list closed">
 					<?php 
-						$Employees = Employee::model()->findAllByAttributes(array('IS_PERMANENT'=>1));
+						//$Employees = Employee::model()->findAllByAttributes(array('IS_PERMANENT'=>1));
+						$Employees = Employee::model()->findAll();
 						foreach($Employees as $employee){
 							$class="";
 							$status="";

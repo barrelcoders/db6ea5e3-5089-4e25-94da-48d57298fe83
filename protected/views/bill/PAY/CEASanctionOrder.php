@@ -12,7 +12,7 @@
 	</div>
 </div>
 <div style="clear:both; height: 20px;position: relative; font-weight: bold;">
-	<span class="left"><b>सी.सं./File No.<?php echo $model->FILE_NO;?></b></span>
+	<span class="left"><b>सी.सं./File No.<?php //$echo model->FILE_NO;?>II/2/2018 Accts B-North</b></span>
 	<span style="position: absolute;left: 50%;margin-left: -50px; font-weight: bold;"><b><?php echo $model->CER_NO;?></b></span>
 	<span style="position: absolute; right: 0;"><b>दिनांक/Date: <?php echo date('d/m/Y', strtotime($model->CREATION_DATE));?></b></span>
 </div>
@@ -26,7 +26,7 @@
 </div><br>
 <br>
 <p style="margin-bottom: 4px;">
-	As per the provisions contained vide O.M. No. 12011/03/2008 (Allowance) dated 2nd September 2008 of the Depratment of Personal and Training received under letter Government of India, Ministry of Personal, Public Grievance and Pensions, the 
+	As per the provisions contained vide O.M. No. A-27012/02/2017-ES(AL) dated 16th August 2017 of the Depratment of Personal and Training received under letter Government of India, Ministry of Personal, Public Grievance and Pensions, the 
 	<?php echo $master->OFFICE_NAME;?> is pleased to sanction Re-imbursement of Children Education Allowance to the following Officer.
 </p>
 <br>

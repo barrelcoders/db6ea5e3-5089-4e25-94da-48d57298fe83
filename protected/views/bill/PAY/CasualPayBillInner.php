@@ -45,6 +45,7 @@
 	<tbody>
 		<?php 
 			foreach ($employeesInSalary as $employee) {
+			
 				$j=1;
 				foreach($periods as $period){
 					$salary = SalaryDetails::model()->find("t.EMPLOYEE_ID_FK=".$employee->EMPLOYEE_ID_FK." AND t.BILL_ID_FK=".$model->ID." AND t.MONTH=".$period['MONTH']." AND t.YEAR=".$period['YEAR']);

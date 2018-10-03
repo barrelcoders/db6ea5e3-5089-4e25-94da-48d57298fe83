@@ -98,8 +98,14 @@ class BillController extends Controller
         $salaries = SalaryDetails::model()->findAll('BILL_ID_FK='.$id);
         $data = array();
         foreach($salaries as $salary){
-            array_push($data, array('ID'=>$salary->EMPLOYEE_ID_FK, 
+			if(Yii::app()->session['FINANCIAL_YEAR'] == 1){
+				array_push($data, array('ID'=>$salary->EMPLOYEE_ID_FK, 
                                     'NAME'=>Employee::model()->findByPK($salary->EMPLOYEE_ID_FK)->NAME, 'CODE'=>Employee::model()->findByPK($salary->EMPLOYEE_ID_FK)->EIS_CODE, 'AMOUNT'=>round(($salary->IT * 100)/103)));
+			}
+            else{
+				array_push($data, array('ID'=>$salary->EMPLOYEE_ID_FK, 
+                                    'NAME'=>Employee::model()->findByPK($salary->EMPLOYEE_ID_FK)->NAME, 'CODE'=>Employee::model()->findByPK($salary->EMPLOYEE_ID_FK)->EIS_CODE, 'AMOUNT'=>round(($salary->IT * 100)/104)));
+			}
         }
         
         echo json_encode($data);exit;

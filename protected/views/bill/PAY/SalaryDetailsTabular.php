@@ -205,7 +205,7 @@
 			}
 			if($bill->IS_SALARY_HEAD_OTHER_BILL || $bill->IS_WAGES_HEAD_OTHER_BILL){ 
 				$BillEmployees = explode(",", BillEmployees::model()->findByAttributes(array('BILL_ID'=>$model->ID))->EMPLOYEE_ID);
-				$employees = Employee::model()->ByDesignation()->findAllByAttributes(array('ID'=>$BillEmployees));
+				$employees = Employee::model()->ByName()->findAllByAttributes(array('ID'=>$BillEmployees));
 				$DATA_URL = Yii::app()->createUrl('Employee/BillEmployees', array('BILL_ID'=>$model->ID));
 				?>
 				<input type="hidden" name="SalaryDetails[IS_SALARY_BILL]" value="0"/>

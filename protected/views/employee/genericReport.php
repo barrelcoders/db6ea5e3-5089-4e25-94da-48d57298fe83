@@ -78,7 +78,8 @@
 				if($employee[$value] !='') {
 					
 					if($value == 'DESIGNATION_ID_FK'){
-						echo ($employee[$value] == 0) ? "": Designations::model()->findByPK($employee[$value])->DESIGNATION."<br/>".Designations::model()->findByPK($employee[$value])->DESIGNATION_HINDI;
+						echo ($employee[$value] == 0) ? "": Designations::model()->findByPK($employee[$value])->DESIGNATION;
+						//."<br/>".Designations::model()->findByPK($employee[$value])->DESIGNATION_HINDI;
 					}
 					else if($value == 'PAY_MATRIX_ID_FK'){
 						$matrix = "";
@@ -91,7 +92,8 @@
 						echo ($employee[$value] == 0) ? "": Groups::model()->findByPK($employee[$value])->GROUP_NAME;
 					}
 					else if($value == 'NAME'){
-						echo $employee['NAME']."<br>".$employee['NAME_HINDI'];
+						echo $employee['NAME'];
+						//."<br>".$employee['NAME_HINDI'];
 					}
 					else if($value == 'DOB'){
 						echo ($employee[$value] == "") ? "": date('d-m-Y', strtotime($employee['DOB']));
@@ -110,6 +112,9 @@
 					}
 					else if($value == 'CURRENT_POST_JOIN_DATE'){
 						echo ($employee[$value] == "") ? "": date('d-m-Y', strtotime($employee['CURRENT_POST_JOIN_DATE']));
+					}
+					else if($value == 'GOVT_SERVICE_ENTRY_DATE'){
+						echo ($employee[$value] == "") ? "": date('d-m-Y', strtotime($employee['GOVT_SERVICE_ENTRY_DATE']));
 					}
 					else{
 						echo $employee[$value];

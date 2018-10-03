@@ -11,7 +11,7 @@
 			<th class="small-xxx right-br">S.No.</th>
 			<th class="small right-br">NAME</th>
 			<th class="small right-br">DESIGNATION</th>
-			<th class="small-xx right-br">Uniform Allowance</th>
+			<th class="small-xx right-br">Dress Allowance</th>
 			<th class="small-xx">GROSS</th>
 			<th class="small-xx right-br left-br">DEDUCTION</th>
 			<th class="small-xx right-br">NET</th>

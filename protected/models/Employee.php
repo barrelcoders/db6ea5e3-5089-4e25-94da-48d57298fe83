@@ -196,6 +196,7 @@ class Employee extends CActiveRecord
 	public function scopes() {
 		return array(
 			'ByDesignation' => array('order' => 'DESIGNATION_ID_FK DESC'),
+			'ByName' => array('order' => 'NAME'),
 		);
 	}
 	

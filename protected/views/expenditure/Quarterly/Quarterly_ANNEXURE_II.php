@@ -27,7 +27,7 @@
 						'11'=>'नवंबर',
 						'12'=>'दिसंबर');
 ?><?php $master = Master::model()->findByPK(1); 
-			$financialYear = FinancialYears::model()->find('STATUS=1');?>
+			$financialYear = FinancialYears::model()->findByPk(Yii::app()->session['FINANCIAL_YEAR']);?>
 <p style="font-size: 15px;text-align: center;font-weight: bold;">III	वेतन एवं अन्य भत्तों पर खर्च/EXPENDITURE ON PAY AND VARIOUS ALLOWANCES 	</p>
 <span style="font-size: 15px;font-weight: bold;"></span>
 <br><br>
@@ -107,7 +107,7 @@
 				if(!isset($salary['BASIC']))$salary['BASIC'] = 0;
 				echo $salary['BASIC'];
 			?></td>
-			<td><?php 							
+			<td><?php
 				$salary = Yii::app()->db->createCommand("SELECT SUM(BASIC) AS BASIC FROM tbl_salary_details WHERE BILL_ID_FK IN (".implode(",", $YearlySalaryBillsArray).") AND  EMPLOYEE_ID_FK IN (".implode(",", $OfficersEmployeesIds).")")->queryRow();							
 				if(!isset($salary['BASIC']))$salary['BASIC'] = 0;
 				echo $salary['BASIC'];

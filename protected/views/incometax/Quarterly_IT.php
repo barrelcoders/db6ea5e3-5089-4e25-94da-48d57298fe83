@@ -7,7 +7,7 @@
 	$monthNameHindi = array('1'=>'?????', '2'=>'??????', '3'=>'?????', '4'=>'??????', '5'=>'??', '6'=>'???', '7'=>'?????', '8'=>'?????', '9'=>'??????', '10'=>'???????', '11'=>'?????', '12'=>'??????'); 
 	$master = Master::model()->findByPK(1);
 	$months = array($startMonth, $startMonth + 1, $endMonth);
-	$financialYear = FinancialYears::model()->find('STATUS=1'); 
+	$financialYear = FinancialYears::model()->findByPk(Yii::app()->session['FINANCIAL_YEAR']); 
 	$employees = Employee::model()->findAll(array('order'=>'DESIGNATION_ID_FK DESC'));
 	$I_GROSS_TOTAL = 0;
 	$II_GROSS_TOTAL = 0;
@@ -75,14 +75,15 @@
 				<td><?php echo Designations::model()->findByPK($employee->DESIGNATION_ID_FK)->DESIGNATION;?></td>
 				<td><?php echo $employee->PAN;?></td>
 				<?php 
-					$billsArray = array();
-					$bills = Bill::model()->findAll('MONTH(PASSED_DATE) = '.$months[0].' AND YEAR(PASSED_DATE) = '.$Year.' AND PFMS_STATUS="Passed"');
-					foreach($bills as $bill) array_push($billsArray, $bill->ID);
-				
-					if(count($billsArray) > 0){
-						$firstMonthSalary = Yii::app()->db->createCommand("SELECT SUM(BASIC) AS BASIC, SUM(IT) AS IT FROM tbl_salary_details WHERE BILL_ID_FK IN (".implode(",", $billsArray).") 
-						AND IS_SALARY_BILL = 1 AND EMPLOYEE_ID_FK = ".$employee->ID)->queryRow();
-							
+					$firstbillsArray = array();
+					$firstMonthbills = Bill::model()->findAll('MONTH(PASSED_DATE) = '.$months[0].' AND YEAR(PASSED_DATE) = '.$Year.' AND PFMS_STATUS="Passed" AND (IS_ARREAR_BILL = 1 OR 
+IS_CEA_BILL = 1 OR IS_BONUS_BILL = 1 OR IS_EL_ENCASHMENT_BILL = 1 OR IS_RECOVERY_BILL = 1 OR IS_DA_ARREAR_BILL = 1 OR IS_SALARY_BILL = 1)');
+					foreach($firstMonthbills as $bill) array_push($firstbillsArray, $bill->ID);
+					
+					if(count($firstbillsArray) > 0){
+						$firstMonthSalary = Yii::app()->db->createCommand("SELECT SUM(BASIC) AS BASIC, SUM(IT) AS IT FROM tbl_salary_details WHERE BILL_ID_FK IN (".implode(",", $firstbillsArray).") 
+						AND EMPLOYEE_ID_FK = ".$employee->ID)->queryRow();
+						
 					}
 					else{
 						$firstMonthSalary = null;
@@ -108,14 +109,16 @@
 				}
 				?>
 				<?php 
-					$billsArray = array();
-					$bills = Bill::model()->findAll('MONTH(PASSED_DATE) = '.$months[1].' AND YEAR(PASSED_DATE) = '.$Year.' AND PFMS_STATUS="Passed"');
-					foreach($bills as $bill) array_push($billsArray, $bill->ID);
+					$secondbillsArray = array();
+					$secondMonthBills = Bill::model()->findAll('MONTH(PASSED_DATE) = '.$months[1].' AND YEAR(PASSED_DATE) = '.$Year.' AND PFMS_STATUS="Passed" AND (IS_ARREAR_BILL = 1 OR 
+IS_CEA_BILL = 1 OR IS_BONUS_BILL = 1 OR IS_EL_ENCASHMENT_BILL = 1 OR IS_RECOVERY_BILL = 1 OR IS_DA_ARREAR_BILL = 1 OR IS_SALARY_BILL = 1)');
+					foreach($secondMonthBills as $bill) array_push($secondbillsArray, $bill->ID);
 				
-					if(count($billsArray) > 0){
-						$secondMonthSalary = Yii::app()->db->createCommand("SELECT SUM(BASIC) AS BASIC, SUM(IT) AS IT FROM tbl_salary_details WHERE BILL_ID_FK IN (".implode(",", $billsArray).") 
-						AND IS_SALARY_BILL = 1 AND EMPLOYEE_ID_FK = ".$employee->ID)->queryRow();
-							
+					
+					if(count($secondbillsArray) > 0){
+						$secondMonthSalary = Yii::app()->db->createCommand("SELECT SUM(BASIC) AS BASIC, SUM(IT) AS IT FROM tbl_salary_details WHERE BILL_ID_FK IN (".implode(",", $secondbillsArray).") 
+						AND EMPLOYEE_ID_FK = ".$employee->ID)->queryRow();
+						
 					}
 					else{
 						$secondMonthSalary = null;
@@ -140,13 +143,14 @@
 				}
 				?>
 				<?php 
-					$billsArray = array();
-					$bills = Bill::model()->findAll('MONTH(PASSED_DATE) = '.$months[2].' AND YEAR(PASSED_DATE) = '.$Year.' AND PFMS_STATUS="Passed"');
-					foreach($bills as $bill) array_push($billsArray, $bill->ID);
+					$thirdbillsArray = array();
+					$thirdMonthbills = Bill::model()->findAll('MONTH(PASSED_DATE) = '.$months[2].' AND YEAR(PASSED_DATE) = '.$Year.' AND PFMS_STATUS="Passed" AND (IS_ARREAR_BILL = 1 OR 
+IS_CEA_BILL = 1 OR IS_BONUS_BILL = 1 OR IS_EL_ENCASHMENT_BILL = 1 OR IS_RECOVERY_BILL = 1 OR IS_DA_ARREAR_BILL = 1 OR IS_SALARY_BILL = 1)');
+					foreach($thirdMonthbills as $bill) array_push($thirdbillsArray, $bill->ID);
 				
-					if(count($billsArray) > 0){
-						$thirdMonthSalary = Yii::app()->db->createCommand("SELECT SUM(BASIC) AS BASIC, SUM(IT) AS IT FROM tbl_salary_details WHERE BILL_ID_FK IN (".implode(",", $billsArray).") 
-						AND IS_SALARY_BILL = 1 AND EMPLOYEE_ID_FK = ".$employee->ID)->queryRow();
+					if(count($thirdbillsArray) > 0){
+						$thirdMonthSalary = Yii::app()->db->createCommand("SELECT SUM(BASIC) AS BASIC, SUM(IT) AS IT FROM tbl_salary_details WHERE BILL_ID_FK IN (".implode(",", $thirdbillsArray).") 
+						AND EMPLOYEE_ID_FK = ".$employee->ID)->queryRow();
 							
 					}
 					else{

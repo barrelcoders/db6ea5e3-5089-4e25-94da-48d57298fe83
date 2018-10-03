@@ -13,7 +13,7 @@ $monthName = array('1'=>'January', '2'=>'February', '3'=>'March', '4'=>'April', 
 <p style="font-weight: bold;text-align: center;font-size: 15px;">MEDICAL CHARGES REIMBURSEMENT BILL</p>
 <br>
 <br>
-<p style="font-weight: bold;text-align: center;font-size: 15px;"><b><span style="font-weight: bold;">Bill No: </span><span style="text-decoration:underline;"><?php echo $model->BILL_NO;?></span></b></p>
+<p style="font-weight: bold;text-align: center;font-size: 15px;"><b><span style="font-weight: bold;">Bill No: </span><span style="text-decoration:underline;"><?php echo $model->BILL_NO;?>(<?php echo $model->PFMS_BILL_NO;?>)</span></b></p>
 <br><br>
 <p style="font-weight: bold;text-align: left;font-size: 12px;">Ministry/Department/Office of<br><span style="text-decoration: underline;"><?php echo $master->DEPT_NAME; ?></span></p> 
 <br><p style="font-weight: bold;text-align: left;font-size: 12px;">for the month year <span style="text-decoration: underline"><?php echo $monthName[$model->MONTH]."-".$model->YEAR;?></span></p>
